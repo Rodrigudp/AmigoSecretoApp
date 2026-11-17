@@ -11,6 +11,7 @@ Nenhum deles bloqueia o time: os agentes usam o marcador `A PREENCHER PELO RODRI
 | PEN-04 | Cadastro do domínio como mídia no Programa de Afiliados do Mercado Livre | Links de afiliado do ML | LST-03 | A PREENCHER PELO RODRIGO |
 | PEN-05 | Chaves do Supabase (anon, service role) e senha do banco em `.env.local` e na Vercel; `supabase login` na CLI | SETUP-03, SETUP-04 | SETUP-04 | A PREENCHER PELO RODRIGO |
 | PEN-06 | Confirmar o código de verificação por e-mail da Vercel (primeiro deploy) | Deploy e previews | SETUP-03 | A PREENCHER PELO RODRIGO |
+| PEN-07 | Instalar Docker Desktop ou Podman no Windows para `supabase start` local | Validação local opcional (CI valida com Docker) | SETUP-04 | Opcional — não bloqueia (validação via CI) |
 
 ## Decisões já tomadas (17/11/2026)
 - Domínio provisório em tudo (prévia, política de privacidade, links): `https://amigo-secreto-app.vercel.app`. Domínio próprio fica para depois.

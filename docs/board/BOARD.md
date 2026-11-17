@@ -23,34 +23,33 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-1 · Fundação (18–19/11)
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar (It-1)
-- SETUP-04 · Supabase local + .env.example · OPS → SEC · 1 pt · 18/11 — liberado por SETUP-01
+- SETUP-03 · CI + preview Vercel · OPS → QA · 2 pts · 18/11
 
 ## ⏳ Aguardando dependência (It-1)
-- SETUP-03 · CI + preview Vercel · OPS → QA · 2 pts · 18/11 — liberado após SETUP-04 (WIP OPS); projeto Vercel `amigo-secreto-app` importado; preview depende de PEN-06
-- SEC-01 · Utilitário de tokens · SEC → BE · 1 pt · 19/11 — ⛔ bloqueado: SETUP-02 pendente
-- DOM-01 · drawPairs (domínio do sorteio) · SRT → QA · 2 pts · 19/11 — ⛔ bloqueado: SETUP-02 pendente
 - QA-02 · Teste de propriedade do sorteio · QA → SRT · 1 pt · 19/11 — ⛔ bloqueado: DOM-01 pendente
 
 ## 🔨 Em andamento
-- SETUP-02 · Estrutura de pastas + Result + env · BE → ORQ · 1 pt · 18/11 — liberado pelo ORQ 17/11; branch `chore/SETUP-02-folders-result-env`
-- UX-01 · Design system mínimo · FE → ORQ · 2 pts · 19/11 — liberado pelo ORQ 17/11 (spec em `docs/features/design-system.md`); branch `feat/UX-01-design-system`
-- MON-01 · Páginas para aprovação do AdSense (adiantado: a aprovação demora) · MON → SEC · 2 pts · 19/11 — revisão 2 aprovada pela Segurança; ⏳ aguarda dados do Rodrigo (domínio, e-mail, controlador, ID AdSense) escalados pelo Orquestrador
+- SEC-01 · Utilitário de tokens · SEC → BE · 1 pt · 19/11 — liberado pelo ORQ 17/11 (SETUP-02 mergeado); worktree `feat/SEC-01-tokens`
+- DOM-01 · drawPairs (domínio do sorteio) · SRT → QA · 2 pts · 19/11 — commit 0e83547 na worktree, checks locais verdes e cobertura 100%; aguarda push por ORQ para abrir PR
 
 ## 👀 Em revisão
-- DB-01 · Migrations iniciais · DB → SEC · 3 pts · 19/11 — SQL escrito; ⏳ validar (aplicar/reverter) e gerar types.ts quando SETUP-04 subir o Supabase local
-- DB-02 · RLS + constraints · DB → SEC · 2 pts · 19/11 — SQL + teste escritos (`supabase/tests/`); ⏳ executar quando SETUP-04 subir o Supabase local
+- SETUP-04 · Supabase local + .env.example · OPS → SEC · 1 pt · 18/11 — PR #3 aberto; config.toml e .env.example prontos; ⚠️ supabase start local bloqueado por ausência de Docker Desktop
 - LST-01 · Especificação da lista + termos de afiliados · LST → MON · 1 pt · 19/11 — `docs/features/lista-desejos.md` escrito; ✅ MON aprovado 17/11; ✅ D3 = lista editável após o sorteio, remoção física, evento sem `store` (ORQ 17/11); ⏳ revisão SEC (URL/redirect); ⛔ D1: Rodrigo cadastrar o domínio como mídia no ML
 
 ## 🧪 Em teste (QA)
-_(vazio)_
+- DB-01 · Migrations iniciais · DB → SEC · 3 pts · 19/11 — ✅ SEC aprovado; mergeado (PR #5, fd05b22; SQL já na main desde 5b8e419); types.ts manual; ⏳ job db do CI aplicar/reverter e regerar types
+- DB-02 · RLS + constraints · DB → SEC · 2 pts · 19/11 — ✅ SEC aprovado; mergeado (PR #5, fd05b22); validado em PGlite; ⏳ execução final no job db do CI (SETUP-03)
 
 ## 🏁 Pronto
+- SETUP-02 · Estrutura de pastas + Result + env · BE → ORQ · 1 pt · 18/11 — ✅ aprovado ORQ e mergeado (PR #4, squash ac25daf); verificado combinado com a main: lint, typecheck, 33 testes, build
+- UX-01 · Design system mínimo · FE → ORQ · 2 pts · 19/11 — ✅ aprovado ORQ 17/11 e mergeado (PR #2, squash e0ab45a): lint/typecheck/test 25/build verdes conferidos; /dev/ui = 404 em produção; prints em docs/features/design-system-prints/
 - SETUP-01 · Repositório Next.js + ferramentas de qualidade · OPS → ORQ · 2 pts · 18/11 — ✅ aprovado ORQ 17/11: lint/typecheck/test/build verdes conferidos, complexity ≤ 10, strict, sem `.env` versionado; main = d82a1c7
 - GRP-01 · Especificação de grupos · GRP → ORQ · 1 pt · 19/11 — ✅ reaprovado ORQ 17/11 após ajustes (`docs/features/grupos.md`); commit pendente até SETUP-01
 - PAR-01 · Especificação de participantes · PAR → ORQ · 1 pt · 19/11 — ✅ reaprovado ORQ 17/11 após ajustes (`docs/features/participantes.md`); commit pendente até SETUP-01
 - SRT-01 · Especificação do sorteio · SRT → ORQ · 1 pt · 19/11 — ✅ aprovado ORQ 17/11 (`docs/features/sorteio.md`); commit pendente até existir o repositório (SETUP-01)
 - SEC-02 · Modelo de ameaças STRIDE inicial · SEC → ORQ · 1 pt · 18/11 — ✅ aprovado ORQ 17/11 (`docs/arquitetura/AMEACAS.md`); follow-up ADR-004 no It-2; commit pendente até SETUP-01
 - QA-01 · Plano de testes com rastreabilidade · QA → ORQ · 2 pts · 18/11 — ✅ aprovado ORQ 17/11 (`docs/processo/PLANO_DE_TESTES.md`); 6 adições não bloqueantes incluídas; commit pendente até SETUP-01
+- MON-01 · Páginas para aprovação do AdSense · MON → SEC · 2 pts · 19/11 — ✅ Segurança aprovou revisão 2 (condicionada aos marcadores); ✅ ORQ liberou para Pronto 17/11; PR #1 `docs/MON-01-paginas-adsense` aguarda merge; marcadores `A PREENCHER PELO RODRIGO` em PEN-01..03
 
 ## 🚀 Em produção
 _(vazio)_
@@ -73,20 +72,26 @@ _(vazio)_
 | Feature Monetização | MON-01 | 2 |
 
 ## Log diário (cada agente adiciona 1 linha por dia: data · agente · ontem · hoje · impedimentos)
-- 2026-11-17 · DevOps & Manutenção · SETUP-01 concluído (Next.js, TS strict, ESLint, Vitest, Playwright, Husky, commit 5b8e419 em main); liberados SETUP-02, SETUP-04 e UX-01 · Iniciar parte local de SETUP-04 (supabase start e .env.example) · nenhum
+- 2026-11-17 · DevOps & Manutenção · SETUP-04 entregue via PR #3 (config.toml, .env.example sem segredos, docs); impedimento: supabase start local depende de Docker Desktop a ser instalado pelo Rodrigo · iniciar SETUP-03 (GitHub Actions CI) · supabase local bloqueado até Rodrigo instalar Docker Desktop
 - 2026-11-17 · Orquestrador · Backlog e kanban criados · iniciar It-1 em 18/11 · nenhum
 - 2026-11-17 · Orquestrador · Revisões: SRT-01 ✅, QA-01 ✅ (com adições), PAR-01 🔁 ajustes · revisar SEC-02; acompanhar SETUP-01 e liberar SETUP-02/UX-01 · aguardando Rodrigo: ID AdSense, e-mail de contato, afiliado ML, alinhar RF11/RN05 no REQUISITOS.md
 - 2026-11-17 · Orquestrador · CONTRATOS.md (SETUP-02) aprovado com decisões; GRP-01 🔁 ajustes; decisões: lista editável após sorteio (D3=não), exclusão física de desejos, exchange_date = date, evento invite_opened · aguardar SETUP-01 · confirmação da Segurança sobre idempotência do create-group
 - 2026-11-17 · Orquestrador · Regra de autonomia enviada aos 11 agentes; DevOps fará git init + push para github.com/Rodrigudp/AmigoSecretoApp após SETUP-01 verde; decisões: GRP-01 ✅, wish_items.store aprovado, affiliate_click sem store, events.group_id ON DELETE SET NULL · liberar SETUP-02/UX-01 após SETUP-01 · escalado ao Rodrigo: domínio, e-mail de contato, nome do controlador, ID AdSense, domínio no ML, RF11/RN05 no REQUISITOS.md
 - 2026-11-17 · Orquestrador · SETUP-01 ✅ (verificado localmente); SETUP-02 → BE e UX-01 → FE liberados; OPS segue SETUP-04 e depois SETUP-03; decisões do PO: domínio provisório amigo-secreto-app.vercel.app, RF11/RN05/RF12/RF13 pós-MVP (REQUISITOS.md alinhado); pendências do Rodrigo em PENDENCIAS_RODRIGO.md, ninguém bloqueado · revisar PRs de SETUP-02/UX-01 · nenhum
+- 2026-11-17 · Orquestrador · Regra de git: pasta principal sempre em main; cada cartão com código usa worktree em C:\Users\Smart\amigo-secreto-wt\<ITEM>; BOARD/PENDENCIAS commitados pelo ORQ direto na main (docs operacionais) · — · nenhum
+- 2026-11-17 · Orquestrador · UX-01 revisado e mergeado (PR #2) · revisar SETUP-02 · nenhum
+- 2026-11-17 · Orquestrador · Decisão: sem Docker no host → banco validado no CI (job db do SETUP-03 com Supabase CLI); PEN-07 opcional; PR #3 (SETUP-04) com 3 ajustes pedidos e revisão da SEC; DB-01/02 já validados em PGlite pelo DB, PR único via worktree · revisar SETUP-02 e SETUP-03 · nenhum
+- 2026-11-17 · Orquestrador · PR #4 (SETUP-02) e PR #5 (DB-01/02) mergeados após teste combinado; PR #3 (SETUP-04) aprovado SEC+ORQ, aguarda rebase (conflito README); bug: typecheck exige next typegen → corrigir no SETUP-03; SEC-01 e DOM-01 liberados · revisar SETUP-03 · nenhum
 - 2026-11-17 · Monetização · MON-01 iniciado (textos das páginas e plano de eventos) · escrever docs/features e pedir revisão da Segurança · pendente: ID do editor AdSense (pub-…) e e-mail de contato do Rodrigo
+- 2026-11-17 · Monetização · MON-01 → Pronto (Segurança r2 aprovada; ORQ liberou com marcadores PEN-01..03) · PR #1 `docs/MON-01-paginas-adsense` aguarda merge · impedimento: dados do Rodrigo (PEN-01..03), sem bloquear o merge
 - 2026-11-17 · Banco de Dados · — · DB-01 e DB-02 escritos (migrations, rollback, teste SQL); revisão pedida à Segurança · impedimento: sem Supabase local (SETUP-04) para validar
 - 2026-11-18 · Participantes · PAR-01 ajustado conforme revisão (cookie por grupo, mensagens SRT-01, RN07, organizador entra pelo convite) · aguardar reaprovação do Orquestrador · nenhum
 - 2026-11-17 · Front-end · — · UX-01: spec do design system escrita (tokens com contraste AA, componentes, wireframes das 6 telas); componentes após SETUP-01 · impedimento: SETUP-01
-- 2026-11-17 · Sorteio · — · SRT-01 entregue e movido para revisão · DOM-01 aguarda SETUP-02
+- 2026-11-17 · Front-end · UX-01 spec · UX-01 implementado (Button, Input, Card, tokens) e PR #2 aberto; pedir revisão ao ORQ · nenhum
+- 2026-11-17 · Sorteio · SRT-01 aprovado pelo ORQ · DOM-01 implementado e validado na worktree (45 testes, cobertura 100%) · aguarda push por ORQ
 - 2026-11-17 · Lista de desejos · — · LST-01: spec escrita e revisada pela Monetização (✅ 17/11; D2 = beacon; ML fora da receita do lançamento); ✅ decisões do ORQ aplicadas (D3 = lista editável após o sorteio, remoção física, `affiliate_click` sem `store`, auth do beacon no ADR-004); ⏳ revisão SEC · impedimento: Rodrigo cadastrar o domínio como mídia no Programa de Afiliados do ML (D1)
 
 - 2026-11-17 · QA · — · QA-01 elaborado e revisão solicitada · impedimentos: revisão 4/4, repositório Git e DOM-01 pendentes
 - 2026-11-17 · Segurança & LGPD · — · Revisões de MON-01 (r1 reprovada, r2 aprovada) e DB-01/DB-02 (ajustes enviados ao Banco); SEC-02 concluído em `docs/arquitetura/AMEACAS.md` (movido p/ Em revisão) · SEC-01 aguarda SETUP-02
 - 2026-11-17 · Feature Grupos · — · GRP-01: ajustes da revisão aplicados em docs/features/grupos.md (CONTRATOS.md, idempotência requestId, mensagens unificadas, organizador pelo convite); cartão movido p/ Em revisão · nenhum
-- 2026-11-17 · Back-end · — · Redigi os contratos do MVP para revisão do Orquestrador · SETUP-02 aguarda liberação após SETUP-01
+- 2026-11-17 · Back-end · Contratos aprovados e já na main · SETUP-02: PR #4 aberto com ports, Result, env e testes locais verdes · aguarda vaga em revisão e revisão ORQ

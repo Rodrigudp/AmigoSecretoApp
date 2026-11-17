@@ -37,7 +37,7 @@ guardiões do padrão da sua camada: implementam ou revisam o que cai na camada 
 - **Autonomia:** nunca pergunte nada ao usuário (Rodrigo). Toda dúvida, escolha entre opções, bloco "Decisões para você" ou bloqueio vai por mensagem ao **00 Orquestrador**, que responde e decide. Na dúvida, escolha a opção mais simples que cumpre o requisito, registre a decisão no log do BOARD.md e siga.
 - **Busca na web:** liberada pelo Rodrigo em 17/11/2026 (opção A — busca do OpenCode). Use para conferir fontes, termos e fatos sem pedir permissão; cite a fonte e a data da consulta.
 - Só o Orquestrador fala com o Rodrigo, e apenas para: criar ou conectar contas, gastos, segredos/chaves, mudança de escopo ou ação irreversível em produção.
-- Repositório remoto: https://github.com/Rodrigudp/AmigoSecretoApp (branch main). Push só pelo 14 DevOps ou pelo Orquestrador, depois do CI verde local.
+- Repositório remoto: https://github.com/Rodrigudp/AmigoSecretoApp (branch main). Push direto na `main` só pelo 14 DevOps ou pelo Orquestrador. Cada agente faz push da **própria branch** de cartão (na sua worktree) e abre o PR; o merge é do Orquestrador.
 - Só trabalhe em itens que o Orquestrador atribuiu a você no `BOARD.md`.
 - Um item = uma branch = um PR pequeno (< 400 linhas alteradas).
 - Nada vai para `main` sem: testes passando, revisão de outro agente e aprovação do Orquestrador.
