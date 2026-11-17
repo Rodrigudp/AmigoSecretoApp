@@ -87,6 +87,8 @@ A carga é dividida entre as assinaturas (Claude, ChatGPT, Gemini) e modelos gra
 | 21 Feature Participantes | Gratuito | OpenCode GLM-5.3-Flash Free | Baixo |
 | 22 Feature Lista de desejos | Gratuito | OpenCode DeepSeek V4.1 Flash Free | Baixo |
 
+Reserva automática (Cursor), quando o modelo principal bate no limite de uso: nível Alto → `gpt-5.6-sol` e depois `deepseek-v41-flash`; Médio → `gpt-5.6-terra` e depois `deepseek-v41-flash`; Básico/Gratuito → `deepseek-v41-flash`. O agente volta ao modelo principal quando o limite passa.
+
 Escalonamento: se um agente básico ou gratuito errar duas vezes no mesmo cartão, o Orquestrador passa o cartão
 para o agente de camada correspondente (modelo mais forte) ou sobe o esforço temporariamente.
 
