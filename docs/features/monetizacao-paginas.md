@@ -1,15 +1,15 @@
 # Páginas exigidas para aprovação do AdSense (MON-01)
 
-Status: **revisão 2 — ajustes da Segurança & LGPD (15) aplicados; aguardando nova revisão.**
-Revisão 1: reprovada em 17/11 (ajustes obrigatórios). Requisito: RNF05 (privacidade).
+Status: **aguardando dados do Rodrigo para publicar.** Revisão 2 aprovada pela Segurança & LGPD (15).
+Revisão 1 reprovada em 17/11 (ajustes aplicados). Requisito: RNF05 (privacidade).
 Conteúdo em português claro. Os textos entram em código só depois do SETUP-01.
 
-Itens para preencher antes de publicar (não inventar):
-- `[DOMÍNIO]` — endereço público do site.
-- `[E-MAIL DE CONTATO]` — e-mail que o Rodrigo quer expor. Não usar e-mail pessoal sem autorização.
-- `[EDITOR AdSense]` — ID `pub-…` da conta AdSense (vai no `ads.txt` e na variável de ambiente, nunca no código).
-- `[DATA]` — data da última atualização.
-- `[RETENÇÃO DOS EVENTOS]` — decisão com o Banco de Dados (ver `monetizacao.md` §2).
+Placeholders (não inventar valores; o Orquestrador escalou ao Rodrigo):
+- `{{DOMAIN}}` — endereço público do site.
+- `{{CONTACT_EMAIL}}` — e-mail de contato que o Rodrigo quer expor. Não usar e-mail pessoal sem autorização.
+- `{{CONTROLLER_NAME}}` — nome do controlador dos dados.
+- `{{ADSENSE_PUBLISHER_ID}}` — ID `pub-…` da conta AdSense (vai no `ads.txt` e na variável de ambiente, nunca no código).
+- `{{PUBLICATION_DATE}}` — data de publicação das páginas (usada como "última atualização").
 
 ---
 
@@ -33,11 +33,11 @@ sem custo extra para você.
 
 **Política de privacidade do Amigo Secreto**
 
-Última atualização: `[DATA]`
+Última atualização: `{{PUBLICATION_DATE}}`
 
 **Quem é o responsável pelos dados**
 
-Controlador: `[NOME DO RESPONSÁVEL]`. Contato: `[E-MAIL DE CONTATO]`.
+Controlador: `{{CONTROLLER_NAME}}`. Contato: `{{CONTACT_EMAIL}}`.
 
 **Quais dados coletamos**
 
@@ -81,8 +81,9 @@ Alguns links de produtos são links de afiliado. Ao clicar, a loja registra o cl
 
 **Por quanto tempo guardamos**
 
-- Os dados do grupo são apagados 60 dias após a data da troca.
-- Registros técnicos anônimos: `[RETENÇÃO DOS EVENTOS]`.
+- Os dados do grupo, incluindo nomes e listas de desejos, são apagados 60 dias após a data da troca.
+- Depois disso, ficam apenas contadores anônimos do histórico (por grupo e tipo de ação, como "grupo criado" ou "sorteio feito").
+  Esses contadores não contêm nome, lista de desejos nem qualquer identificador de pessoa, por isso não são apagados junto com o grupo.
 
 **Seus direitos (LGPD)**
 
@@ -90,7 +91,7 @@ Você pode pedir acesso, correção, exclusão ou revogação do consentimento a
 
 - **Sem e-mail e sem login:** para editar a sua lista de desejos, use o seu link pessoal. Para sair ou ser removido de um grupo,
   peça ao organizador antes do sorteio. Não enviamos links secretos por e-mail.
-- **Pedidos pelo contato:** escreva para `[E-MAIL DE CONTATO]`. Respondemos em até 15 dias.
+- **Pedidos pelo contato:** escreva para `{{CONTACT_EMAIL}}`. Respondemos em até 15 dias.
 
 ---
 
@@ -98,7 +99,7 @@ Você pode pedir acesso, correção, exclusão ou revogação do consentimento a
 
 **Termos de uso do Amigo Secreto**
 
-Última atualização: `[DATA]`
+Última atualização: `{{PUBLICATION_DATE}}`
 
 1. **Uso.** O site serve para organizar trocas de presentes entre pessoas que se conhecem. É gratuito.
 2. **Idade.** O uso do site é permitido a partir de 18 anos. Pessoas menores de idade só podem usar o site com supervisão
@@ -117,7 +118,7 @@ Você pode pedir acesso, correção, exclusão ou revogação do consentimento a
 
 **Fale com a gente**
 
-Dúvidas e sugestões: escreva para `[E-MAIL DE CONTATO]`. Respondemos em até 5 dias úteis.
+Dúvidas e sugestões: escreva para `{{CONTACT_EMAIL}}`. Respondemos em até 5 dias úteis.
 Pedidos sobre seus dados pessoais: respondemos em até 15 dias, conforme a política de privacidade.
 
 ---
@@ -127,17 +128,15 @@ Pedidos sobre seus dados pessoais: respondemos em até 15 dias, conforme a polí
 Conteúdo (o ID do editor entra por variável de ambiente no build, não fica fixo no repositório):
 
 ```
-google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+google.com, {{ADSENSE_PUBLISHER_ID}}, DIRECT, f08c47fec0942fa0
 ```
-
-`pub-XXXXXXXXXXXXXXXX` é o marcador. O valor real vem da conta AdSense do Rodrigo.
 
 ---
 
 ## Pendências
 
-- [ ] Rodrigo: informar o ID do editor AdSense (`pub-…`) e o e-mail de contato.
-- [ ] Rodrigo: confirmar o domínio público, o nome do controlador e a data de publicação.
-- [ ] Banco de Dados: definir a retenção dos eventos após o expurgo (RN08) e preencher `[RETENÇÃO DOS EVENTOS]`.
-- [ ] Segurança & LGPD: nova revisão destes textos antes de publicar.
+- [ ] Rodrigo (via Orquestrador): `{{DOMAIN}}`, `{{CONTACT_EMAIL}}`, `{{CONTROLLER_NAME}}`, `{{ADSENSE_PUBLISHER_ID}}`.
+- [ ] `{{PUBLICATION_DATE}}`: preencher na data de publicação.
+- [x] Retenção dos eventos decidida pelo Orquestrador: `ON DELETE SET NULL` (contadores anônimos sobrevivem ao expurgo). Falta o Banco aplicar no DB-01.
+- [ ] Segurança & LGPD: revisar de novo se o texto de retenção mudar.
 - [ ] Depois do SETUP-01: transformar estes textos em páginas e publicar `ads.txt`.

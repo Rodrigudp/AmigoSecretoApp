@@ -111,6 +111,11 @@ begin
   exception when foreign_key_violation then failed := true; end;
   assert failed, 'pairs: draw from another group must be rejected';
 
+  -- RN08 purge: deleting the group keeps the events with a null group_id
+  delete from public.groups where id = g;
+  select count(*) into n from public.events where type = 'test' and group_id is null;
+  assert n = 1, 'events must survive group deletion with group_id null';
+
   -- anon and authenticated read nothing from any table
   foreach t in array array['groups', 'participants', 'wish_items', 'draws', 'pairs', 'events'] loop
     set local role anon;

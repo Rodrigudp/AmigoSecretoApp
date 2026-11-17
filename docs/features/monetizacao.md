@@ -50,10 +50,9 @@ Observações:
    participante já sai com `group_id` + `type`: `affiliate_click` ÷ `participant_joined` por grupo, no agregado.
 2. **Métrica "organizadores que antes foram participantes" fica fora do MVP.** Não cruzamos organizadores com participantes
    por nome. Se um dia for medida, precisa de ADR próprio.
-3. **Retenção (RN08):** a migration atual (`supabase/migrations/20261118000100_initial_schema.sql`, linha 77) usa
-   `events.group_id ON DELETE CASCADE`, então os eventos somem junto com o grupo no expurgo de 60 dias.
-   Para manter contadores anônimos depois do expurgo, o Banco de Dados precisa trocar para `ON DELETE SET NULL`.
-   Decisão pendente com 12 Banco de Dados; o resultado vai para `[RETENÇÃO DOS EVENTOS]` em `monetizacao-paginas.md`.
+3. **Retenção (RN08), decidida pelo Orquestrador:** `events.group_id ON DELETE SET NULL`. No expurgo de 60 dias o grupo some,
+   mas os contadores anônimos (grupo + tipo + data) continuam. O texto da política de privacidade já cita isso.
+   O Banco aplica a troca no DB-01 (a migration atual, linha 77, ainda está com `CASCADE`).
 
 ## 3. Painel do dono — RF14
 
