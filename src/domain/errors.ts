@@ -1,0 +1,17 @@
+export type DomainErrorCode =
+  | "INVALID_INPUT"
+  | "INVALID_LINK"
+  | "RATE_LIMITED"
+  | "IDEMPOTENCY_CONFLICT"
+  | "GROUP_CLOSED"
+  | "GROUP_FULL"
+  | "PARTICIPANT_NOT_FOUND"
+  | "WISH_LIST_FULL"
+  | "WISH_ITEM_NOT_FOUND"
+  | "NOT_ENOUGH_PARTICIPANTS"
+  | "DRAW_NOT_READY"
+  | "DRAW_MEMBERS_CHANGED"
+  | "PRODUCT_LINK_UNAVAILABLE"
+  | "OWNER_ACCESS_DENIED";
+
+export type DomainError = { code: DomainErrorCode };
