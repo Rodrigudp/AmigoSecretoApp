@@ -1,4 +1,6 @@
 import type { NextConfig } from "next";
+import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_SERVER } from "next/constants";
+import { parseEnv } from "./src/shared/env-schema";
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -14,4 +16,10 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default function configure(phase: string): NextConfig {
+  if (phase === PHASE_DEVELOPMENT_SERVER || phase === PHASE_PRODUCTION_SERVER) {
+    parseEnv(process.env);
+  }
+
+  return nextConfig;
+}

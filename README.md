@@ -31,13 +31,15 @@ Aplicativo web moderno e responsivo (mobile-first / PWA) para organização e so
    npm install
    ```
 
-3. Inicie o servidor de desenvolvimento:
+3. Configure `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` em `.env.local`. Para links locais, defina `APP_URL=http://localhost:3000`. Os anúncios ficam desativados até definir `ADS_ENABLED=true`.
+
+4. Inicie o servidor de desenvolvimento:
 
    ```bash
    npm run dev
    ```
 
-4. Acesse no navegador:
+5. Acesse no navegador:
    [http://localhost:3000](http://localhost:3000)
 
 ## 🧪 Scripts Disponíveis
