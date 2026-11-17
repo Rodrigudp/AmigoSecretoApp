@@ -22,10 +22,10 @@ jobs:
       SUPABASE_SERVICE_ROLE_KEY: ci-dummy
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -51,12 +51,12 @@ jobs:
     timeout-minutes: 8
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Supabase CLI
-        uses: supabase/setup-cli@v1
+        uses: supabase/setup-cli@v3
         with:
-          version: latest
+          version: 3.2.0
 
       - name: Ensure Supabase config exists
         run: |
@@ -81,7 +81,7 @@ jobs:
           diff -u src/infrastructure/supabase/types.ts src/infrastructure/supabase/types.generated.ts || true
 
       - name: Upload generated types artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: supabase-types-generated
           path: src/infrastructure/supabase/types.generated.ts
@@ -89,13 +89,8 @@ jobs:
 
       - name: Test rollbacks and re-apply migrations
         run: |
-          if command -v psql >/dev/null 2>&1; then
-            PGPASSWORD=postgres psql -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/rollback/20261118000200_rls_and_constraints.down.sql
-            PGPASSWORD=postgres psql -h 127.0.0.1 -p 54322 -U postgres -d postgres -f supabase/rollback/20261118000100_initial_schema.down.sql
-          else
-            docker exec -i $(docker ps --filter "name=supabase_db" -q) psql -U postgres -d postgres < supabase/rollback/20261118000200_rls_and_constraints.down.sql
-            docker exec -i $(docker ps --filter "name=supabase_db" -q) psql -U postgres -d postgres < supabase/rollback/20261118000100_initial_schema.down.sql
-          fi
+          PGPASSWORD=postgres psql -h 127.0.0.1 -p 54322 -U postgres -d postgres -v ON_ERROR_STOP=1 -f supabase/rollback/20261118000200_rls_and_constraints.down.sql
+          PGPASSWORD=postgres psql -h 127.0.0.1 -p 54322 -U postgres -d postgres -v ON_ERROR_STOP=1 -f supabase/rollback/20261118000100_initial_schema.down.sql
           supabase db reset
 
   e2e:
@@ -109,10 +104,10 @@ jobs:
       SUPABASE_SERVICE_ROLE_KEY: ci-dummy
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -127,7 +122,7 @@ jobs:
         run: npm run test:e2e
 
       - name: Upload Playwright report on failure
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: playwright-report
