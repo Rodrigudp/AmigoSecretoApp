@@ -155,7 +155,16 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            [_ in never]: never
+            "create_group_once":
+{ Args: { "p_admin_token_hash": string,"p_exchange_date": string,"p_expires_at": string,"p_invite_token": string,"p_location": string,"p_max_value_cents": number,"p_name": string,"p_request_id": string }; Returns: {
+              "group_id": string,"invite_token": string,"was_replay": boolean
+            }[]
+                           },
+"join_group":
+{ Args: { "p_access_token_hash": string,"p_display_name": string,"p_invite_token": string }; Returns: {
+              "display_name": string,"expires_at": string,"group_id": string,"participant_id": string
+            }[]
+                           }
           }
           Enums: {
             [_ in never]: never
