@@ -77,8 +77,8 @@ jobs:
       - name: Generate TypeScript types and compare
         run: |
           supabase gen types typescript --local > src/infrastructure/supabase/types.generated.ts
-          echo "Comparing generated types with handwritten types.ts..."
-          diff -u src/infrastructure/supabase/types.ts src/infrastructure/supabase/types.generated.ts || true
+          echo "Comparing generated types with committed types.ts (fails on any difference)..."
+          diff -u src/infrastructure/supabase/types.ts src/infrastructure/supabase/types.generated.ts
 
       - name: Upload generated types artifact
         uses: actions/upload-artifact@v4
