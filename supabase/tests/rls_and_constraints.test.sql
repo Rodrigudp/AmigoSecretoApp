@@ -1,6 +1,8 @@
 -- DB-01/DB-02 tests. Run after `supabase db reset`:
 --   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/rls_and_constraints.test.sql
 -- Everything runs in a transaction that is rolled back. Any failed check raises an exception.
+-- Make failed checks loud: assert raises an exception that fails the run (psql -v ON_ERROR_STOP=1).
+set plpgsql.check_asserts = on;
 begin;
 
 do $$

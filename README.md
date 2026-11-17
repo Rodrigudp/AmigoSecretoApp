@@ -38,6 +38,8 @@ Aplicativo web moderno e responsivo (mobile-first / PWA) para organização e so
    cp .env.example .env.local
    ```
 
+   Defina `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` em `.env.local`. Para links locais, use `APP_URL=http://localhost:3000`. Os anúncios ficam desativados por padrão até definir `ADS_ENABLED=true`.
+
 4. Inicie o servidor de desenvolvimento:
 
    ```bash
