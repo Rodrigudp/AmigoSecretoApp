@@ -61,4 +61,5 @@ Tokens de acesso e admin são guardados **com hash (SHA-256)**; o valor em claro
 - ADR-001 Next.js + Supabase + Vercel.
 - ADR-002 Acesso por capability URL, sem login.
 - ADR-003 Sorteio no servidor por permutação sem ponto fixo (derangement) com `crypto.getRandomValues`.
+- ADR-004 Token da URL pessoal trocado por cookie `ptk_<groupId>` antes de anúncios, com fallback sem cookie e sem anúncios.
 Novas decisões: copie `adr/000-template.md`.
