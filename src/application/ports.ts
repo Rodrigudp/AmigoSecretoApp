@@ -1,8 +1,10 @@
+import type { Pair, ParticipantId } from "../domain/draw";
 import type { DomainError } from "../domain/errors";
 import type { Result } from "../shared/result";
 
+export type { Pair, ParticipantId } from "../domain/draw";
+
 export type GroupId = string;
-export type ParticipantId = string;
 export type WishItemId = string;
 export type GroupStatus = "open" | "drawn";
 
@@ -58,7 +60,6 @@ export type StoredWishFields = WishFields & {
   affiliateUrl: string | null;
   store: AffiliateStore | null;
 };
-export type Pair = { giverId: ParticipantId; receiverId: ParticipantId };
 export type NewGroup = GroupDetails & {
   inviteToken: string;
   adminTokenHash: string;
