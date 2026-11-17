@@ -3,7 +3,7 @@
 Mantido pelo **Orquestrador**. Os agentes só movem os **próprios** cartões e escrevem no log diário.
 Backlog completo, com critérios de aceite e dependências: `docs/board/BACKLOG.md`.
 
-Atualizado em: 2026-11-17 · Iteração atual: **It-1 · Fundação (18–19/11)** · Lançamento: **28/11/2026**
+Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (iniciada 17/11, prevista 20–21/11)** · It-1 concluída em 17/11 · Lançamento: **28/11/2026**
 
 ## Regras do quadro
 - Fluxo: **Backlog → Pronto p/ iniciar → Em andamento → Em revisão → Em teste → Pronto → Em produção**.
@@ -16,28 +16,40 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-1 · Fundação (18–19/11)
 ---
 
 ## 🗂️ Backlog (próximas iterações)
-- GRP-01..05, PAR-01..04, SEC-03, QA-03 — It-2 (20–21/11)
-- SEC-06 · ADR-004 token da URL → cookie por grupo antes de anúncios, com fallback sem cookie (WebView) · SEC → ORQ · 1 pt · 20/11 — antes do PAR-04; origem: SEC-02 AM-03
-- LST-01..04, SRT-01..04, QA-04 — It-3 (22–23/11)
-- MON-01..03, SEC-04, OPS-01..02, QA-05..06, SEC-05 — It-4 (24–25/11)
+- LST-02..04, SRT-02..04, QA-04 — It-3 (22–23/11)
+- MON-02..03, SEC-04, OPS-01..02, QA-05..06, SEC-05 — It-4 (24–25/11)
 - REL-01..02 — Release (26–28/11)
 
-## ✅ Pronto p/ iniciar (It-1)
+## ✅ Pronto p/ iniciar (It-2)
 _(vazio)_
 
-## ⏳ Aguardando dependência (It-1)
+## ⏳ Aguardando dependência (It-2)
+- DB-04 · RPCs transacionais `create_group_once` (idempotência requestId) e `join_group` (sufixo RN07, limite RN09, fechado RN04) · DB → SEC · 2 pts · 19/11 — depende de DB-03
+- OPS-03 · Job de testes de integração no CI (Vitest + Supabase do job db) · OPS → QA · 1 pt · 19/11 — depende de OPS-00
+- GRP-04 · Open Graph do convite + noindex/headers nas páginas com token · FE → SEC · 1 pt · 20/11 — depende de GRP-03
+- GRP-05 · Painel admin: lista, contador, remover antes do sorteio · GRP → QA · 3 pts · 21/11 — depende de PAR-02
+- PAR-03 · Tela de convite + tela do link pessoal · FE → PAR · 3 pts · 21/11 — depende de PAR-02, GRP-03 (WIP FE)
+- PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — depende de PAR-02 e SEC-06
+- SEC-03 · Rate limit (criar e entrar) + headers de segurança · SEC → OPS · 2 pts · 20/11 — depende de GRP-02 e SEC-06
 
 ## 🔨 Em andamento
 - OPS-00 · Endurecer CI (rollback ON_ERROR_STOP, npm audit, actions Node 24) · OPS → SEC · 1 pt · 19/11 — dívida do SETUP-03 (ORQ 17/11)
-- DB-03 · types.ts gerado pelo CI + comparação estrita · DB → BE · 1 pt · 19/11 — dívida do DB-01 (ORQ 17/11)
+- DB-03 · types.ts gerado pelo CI + comparação estrita · DB → BE · 1 pt · 19/11 — PR #10, ⏳ revisão BE
+- SEC-06 · ADR-004 token da URL → cookie por grupo antes de anúncios, com fallback sem cookie · SEC → ORQ · 1 pt · 18/11 — antes do PAR-04
+- BE-01 · Cliente Supabase do servidor + harness de testes de integração · BE → DB · 1 pt · 18/11
+- GRP-02 · Caso de uso `create-group` + repositório · GRP → BE · 2 pts · 19/11 — caso de uso com repositório fake já; adapter Supabase após BE-01 e DB-04
+- PAR-02 · Caso de uso `join-group` · PAR → BE · 2 pts · 19/11 — caso de uso com repositório fake já; adapter Supabase após BE-01 e DB-04
+- GRP-03 · Tela criar grupo (`/`) + tela de sucesso · FE → GRP · 3 pts · 20/11 — UI contra o contrato (CONTRATOS.md) com action stub; integra após GRP-02
+- QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — começar pela estrutura (fixtures, page objects); cenários após GRP-03/PAR-03
 
 ## 👀 Em revisão
-- LST-01 · Especificação da lista + termos de afiliados · LST → MON · 1 pt · 19/11 — `docs/features/lista-desejos.md` escrito; ✅ MON aprovado 17/11; ✅ D3 = lista editável após o sorteio, remoção física, evento sem `store` (ORQ 17/11); ⏳ revisão SEC (URL/redirect), priorizada pelo ORQ; D1 → PEN-04 (não bloqueia)
+_(vazio)_
 
 ## 🧪 Em teste (QA)
 _(vazio)_
 
 ## 🏁 Pronto
+- LST-01 · Especificação da lista + termos de afiliados · LST → MON · 1 pt · 19/11 — ✅ MON + SEC (URL/redirect) + ORQ; notas p/ LST-02/03: canRedirect com allowlist; recusar 0.0.0.0, fc00::/7, fe80::/10
 - QA-02 · Teste de propriedade do sorteio · QA → SRT · 1 pt · 19/11 — ✅ SRT+ORQ; mergeado PR #9 (bdab784); 10 mil sorteios em 296 ms no CI
 - SETUP-04 · Supabase local + .env.example · OPS → SEC · 1 pt · 18/11 — ✅ SEC+ORQ; mergeado PR #3 (2bb1a82); banco sobe no job db do CI
 - SETUP-03 · CI + preview Vercel · OPS → ORQ · 2 pts · 18/11 — ✅ ORQ (QA no DOM-01); mergeado PR #6 (c0ebd19); CI main 4f973bb verde (quality, db, e2e); preview Vercel depende de PEN-05/06
@@ -87,6 +99,7 @@ _(vazio)_
 - 2026-11-17 · Orquestrador · Decisão: sem Docker no host → banco validado no CI (job db do SETUP-03 com Supabase CLI); PEN-07 opcional; PR #3 (SETUP-04) com 3 ajustes pedidos e revisão da SEC; DB-01/02 já validados em PGlite pelo DB, PR único via worktree · revisar SETUP-02 e SETUP-03 · nenhum
 - 2026-11-17 · Orquestrador · PR #4 (SETUP-02) e PR #5 (DB-01/02) mergeados após teste combinado; PR #3 (SETUP-04) aprovado SEC+ORQ, aguarda rebase (conflito README); bug: typecheck exige next typegen → corrigir no SETUP-03; SEC-01 e DOM-01 liberados · revisar SETUP-03 · nenhum
 - 2026-11-17 · Orquestrador · PRs #3, #6, #7, #8 testados juntos e mergeados; CI da main 4f973bb verde (quality, db, e2e); DB-01/02 validados no Supabase real do CI; QA-02 liberado p/ PR · revisar QA-02 e LST-01 · dívidas: types.ts manual, rollback sem ON_ERROR_STOP, 19 vulnerabilidades altas no npm audit, actions em Node 20
+- 2026-11-17 · Orquestrador · It-1 CONCLUÍDA (todos os cartões em Pronto; LST-01 ✅ SEC); It-2 planejada e iniciada adiantada; novos cartões BE-01, DB-04, OPS-03 · distribuir It-2 · nenhum
 - 2026-11-17 · Monetização · MON-01 iniciado (textos das páginas e plano de eventos) · escrever docs/features e pedir revisão da Segurança · pendente: ID do editor AdSense (pub-…) e e-mail de contato do Rodrigo
 - 2026-11-17 · Monetização · MON-01 → Pronto (Segurança r2 aprovada; ORQ liberou com marcadores PEN-01..03) · PR #1 `docs/MON-01-paginas-adsense` aguarda merge · impedimento: dados do Rodrigo (PEN-01..03), sem bloquear o merge
 - 2026-11-17 · Banco de Dados · — · DB-01 e DB-02 escritos (migrations, rollback, teste SQL); revisão pedida à Segurança · impedimento: sem Supabase local (SETUP-04) para validar
@@ -94,7 +107,7 @@ _(vazio)_
 - 2026-11-17 · Front-end · — · UX-01: spec do design system escrita (tokens com contraste AA, componentes, wireframes das 6 telas); componentes após SETUP-01 · impedimento: SETUP-01
 - 2026-11-17 · Front-end · UX-01 spec · UX-01 implementado (Button, Input, Card, tokens) e PR #2 aberto; pedir revisão ao ORQ · nenhum
 - 2026-11-17 · Sorteio · SRT-01 aprovado pelo ORQ · DOM-01 entregue no PR #8 e aprovado pelo QA e pela SEC · aguarda merge do ORQ
-- 2026-11-17 · Lista de desejos · — · LST-01: spec escrita e revisada pela Monetização (✅ 17/11; D2 = beacon; ML fora da receita do lançamento); ✅ decisões do ORQ aplicadas (D3 = lista editável após o sorteio, remoção física, `affiliate_click` sem `store`, auth do beacon no ADR-004); ⏳ revisão SEC · impedimento: Rodrigo cadastrar o domínio como mídia no Programa de Afiliados do ML (D1)
+- 2026-11-17 · Lista de desejos · — · LST-01: spec aprovada pela Monetização (✅ 17/11) e pela Segurança (✅ 17/11; notas de canRedirect e IPs reservados incorporadas); decisões do ORQ aplicadas; pronto p/ validação final do Orquestrador · impedimento: Rodrigo cadastrar o domínio como mídia no Programa de Afiliados do ML (D1)
 
 - 2026-11-17 · QA · — · QA-01 elaborado e revisão solicitada · impedimentos: revisão 4/4, repositório Git e DOM-01 pendentes
 - 2026-11-17 · Segurança & LGPD · — · Revisões de MON-01 (r1 reprovada, r2 aprovada) e DB-01/DB-02 (ajustes enviados ao Banco); SEC-02 concluído em `docs/arquitetura/AMEACAS.md` (movido p/ Em revisão) · SEC-01 aguarda SETUP-02
