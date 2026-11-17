@@ -16,6 +16,7 @@ Aplicativo web moderno e responsivo (mobile-first / PWA) para organização e so
 - **Node.js:** `>= 20.x` (recomendado `>= 22.x` / `24.x`)
 - **npm:** `>= 10.x`
 - **Git**
+- **Docker Desktop** ou **Podman** (necessário para executar o Supabase local via CLI)
 
 ## 🛠️ Como Rodar Localmente
 
@@ -31,7 +32,13 @@ Aplicativo web moderno e responsivo (mobile-first / PWA) para organização e so
    npm install
    ```
 
-3. Configure `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` em `.env.local`. Para links locais, defina `APP_URL=http://localhost:3000`. Os anúncios ficam desativados até definir `ADS_ENABLED=true`.
+3. Configure o arquivo de ambiente:
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+   Defina `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` em `.env.local`. Para links locais, use `APP_URL=http://localhost:3000`. Os anúncios ficam desativados por padrão até definir `ADS_ENABLED=true`.
 
 4. Inicie o servidor de desenvolvimento:
 
@@ -41,6 +48,38 @@ Aplicativo web moderno e responsivo (mobile-first / PWA) para organização e so
 
 5. Acesse no navegador:
    [http://localhost:3000](http://localhost:3000)
+
+## 🗄️ Banco de Dados (Supabase)
+
+### Projeto Remoto (Produção e Staging)
+
+- **Projeto:** `amigo-secreto`
+- **Project Ref:** `ulthbrfwsvmazgdvrcyw`
+- **URL:** `https://ulthbrfwsvmazgdvrcyw.supabase.co`
+- **Região:** `us-east-1`
+- **Configuração:** RLS habilitada em todas as tabelas e exposição direta desativada.
+
+Para vincular o repositório local ao projeto remoto no Supabase:
+
+```bash
+npx supabase login
+npx supabase link --project-ref ulthbrfwsvmazgdvrcyw
+```
+
+### Desenvolvimento Local com Supabase CLI
+
+Para rodar a instância local do Supabase (requer Docker Desktop ou Podman):
+
+```bash
+# Iniciar containers locais
+npx supabase start
+
+# Parar containers
+npx supabase stop
+
+# Resetar e reaplicar migrações
+npx supabase db reset
+```
 
 ## 🧪 Scripts Disponíveis
 
