@@ -1,6 +1,6 @@
 # ADR-004: Troca de token da URL por cookie por grupo antes de anúncios
 
-- **Status:** proposta
+- **Status:** aceita
 - **Data:** 2026-11-17
 - **Autor:** Segurança & LGPD (15)
 - **Referências:** RN03, RNF03, RNF05, RNF08, ADR-002, `AMEACAS.md` (AM-03, AM-06, AM-13), `docs/features/participantes.md` §3, `docs/features/sorteio.md`, `docs/features/lista-desejos.md` §7.
@@ -26,16 +26,16 @@ Adotar uma troca automática do token na URL por um cookie `HttpOnly` específic
 flowchart TD
     A["GET /p/&lt;accessToken&gt;"] --> V{"Token válido?"}
     V -- Não --> E["Erro neutro INVALID_LINK (no-store)"]
-    V -- Sim --> C1{"Cookie ptk_&lt;groupId&gt; válido presente?"}
+    V -- Sim --> C1{"Cookie ptk_&lt;groupId&gt; == token da URL?"}
     C1 -- Sim --> R["302 → /p/g/&lt;groupId&gt; (adsAllowed = true)"]
-    C1 -- Não --> Q{"Query tem ?ck=1?"}
+    C1 -- "Não (ausente ou outro token)" --> Q{"Query tem ?ck=1?"}
     Q -- Não --> P["Set-Cookie ptk_&lt;groupId&gt; + 302 → /p/&lt;accessToken&gt;?ck=1"]
     Q -- Sim --> F["Fallback sem cookie: renderiza em /p/&lt;accessToken&gt;?ck=1 com adsAllowed = false"]
 ```
 
 1. **Validação inicial (`GET /p/[accessToken]`):** o servidor valida `accessToken` por hash SHA-256 em tempo constante (`SEC-01`). Token inválido, expirado ou de participante removido retorna erro neutro (`INVALID_LINK`), sem revelar existência do grupo.
-2. **Cookie já presente (ex.: gravado no `join-group` ou em visita anterior):** redireciona (`302`) diretamente para `/p/g/[groupId]`.
-3. **Probe de cookie (primeira visita sem cookie):** se a query ainda não possui `?ck=1`, o servidor grava o cookie:
+2. **Cookie igual ao token da URL (comparação em tempo constante):** o redirect direto (`302` → `/p/g/[groupId]`) só ocorre se `ptk_<groupId>` estiver presente **e** corresponder exatamente ao `accessToken` da URL (comparado em tempo constante via `timingSafeEqual` nos hashes SHA-256). Se o cookie pertencer a outra pessoa do mesmo grupo (aparelho compartilhado), o link explícito da URL vence e o fluxo segue para o passo 3 para sobrescrever o cookie.
+3. **Probe / atualização de cookie:** se a query ainda não possui `?ck=1`, o servidor grava (ou sobrescreve) o cookie:
    - Nome: `ptk_<groupId>`
    - Valor: `<accessToken>`
    - Atributos: `HttpOnly; Secure; SameSite=Lax; Path=/; Expires=<groups.expires_at>`
@@ -72,5 +72,5 @@ flowchart TD
 
 ## Consequências
 
-- **Positivas:** elimina a exposição do `accessToken` para o Google AdSense (AM-03); mantém 100% da funcionalidade para usuários em WebViews sem cookie (`RNF08`); isola múltiplos grupos no mesmo aparelho via `ptk_<groupId>`; evita vazamento por `Referer` e barra de endereço em navegadores comuns.
+- **Positivas:** elimina a exposição do `accessToken` para o Google AdSense (AM-03); mantém 100% da funcionalidade para usuários em WebViews sem cookie (`RNF08`); isola múltiplos grupos no mesmo aparelho via `ptk_<groupId>`; evita vazamento por `Referer` e barra de endereço em navegadores comuns; em aparelho compartilhado no mesmo grupo, **o último link pessoal aberto no aparelho é o que vale** (o cookie `ptk_<groupId>` é sobrescrito pelo link explícito, impedindo vazamento de resultado entre familiares — `RN03`).
 - **Negativas / riscos:** sessões em WebViews que bloqueiam cookies não exibem anúncios do AdSense (trade-off aceito em favor do sigilo `RN03`/`RNF03`); adiciona um redirect na primeira visita quando o navegador não tiver gravado o cookie anteriormente no `join-group`.
