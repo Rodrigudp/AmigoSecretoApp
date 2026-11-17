@@ -30,15 +30,15 @@ _(vazio)_
 ## 🔨 Em andamento
 - OPS-00 · Endurecer CI (rollback ON_ERROR_STOP, npm audit, actions Node 24) · OPS → SEC · 1 pt · 19/11 — dívida do SETUP-03 (ORQ 17/11)
 - DB-03 · types.ts gerado pelo CI + comparação estrita · DB → BE · 1 pt · 19/11 — dívida do DB-01 (ORQ 17/11)
-- QA-02 · Teste de propriedade do sorteio · QA → SRT · 1 pt · 19/11 — testes prontos; aguardando merge de DOM-01 para rebase e PR
 
 ## 👀 Em revisão
-- LST-01 · Especificação da lista + termos de afiliados · LST → MON · 1 pt · 19/11 — `docs/features/lista-desejos.md` escrito; ✅ MON aprovado 17/11; ✅ D3 = lista editável após o sorteio, remoção física, evento sem `store` (ORQ 17/11); ⏳ revisão SEC (URL/redirect); ⛔ D1: Rodrigo cadastrar o domínio como mídia no ML
+- LST-01 · Especificação da lista + termos de afiliados · LST → MON · 1 pt · 19/11 — `docs/features/lista-desejos.md` escrito; ✅ MON aprovado 17/11; ✅ D3 = lista editável após o sorteio, remoção física, evento sem `store` (ORQ 17/11); ⏳ revisão SEC (URL/redirect), priorizada pelo ORQ; D1 → PEN-04 (não bloqueia)
 
 ## 🧪 Em teste (QA)
 _(vazio)_
 
 ## 🏁 Pronto
+- QA-02 · Teste de propriedade do sorteio · QA → SRT · 1 pt · 19/11 — ✅ SRT+ORQ; mergeado PR #9 (bdab784); 10 mil sorteios em 296 ms no CI
 - SETUP-04 · Supabase local + .env.example · OPS → SEC · 1 pt · 18/11 — ✅ SEC+ORQ; mergeado PR #3 (2bb1a82); banco sobe no job db do CI
 - SETUP-03 · CI + preview Vercel · OPS → ORQ · 2 pts · 18/11 — ✅ ORQ (QA no DOM-01); mergeado PR #6 (c0ebd19); CI main 4f973bb verde (quality, db, e2e); preview Vercel depende de PEN-05/06
 - SEC-01 · Utilitário de tokens · SEC → BE · 1 pt · 19/11 — ✅ BE+ORQ; mergeado PR #7 (0416203)
