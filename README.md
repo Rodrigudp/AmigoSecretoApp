@@ -16,6 +16,7 @@ Aplicativo web moderno e responsivo (mobile-first / PWA) para organização e so
 - **Node.js:** `>= 20.x` (recomendado `>= 22.x` / `24.x`)
 - **npm:** `>= 10.x`
 - **Git**
+- **Docker Desktop** ou **Podman** (necessário para executar o Supabase local via CLI)
 
 ## 🛠️ Como Rodar Localmente
 
@@ -31,14 +32,52 @@ Aplicativo web moderno e responsivo (mobile-first / PWA) para organização e so
    npm install
    ```
 
-3. Inicie o servidor de desenvolvimento:
+3. Configure o arquivo de ambiente:
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+4. Inicie o servidor de desenvolvimento:
 
    ```bash
    npm run dev
    ```
 
-4. Acesse no navegador:
+5. Acesse no navegador:
    [http://localhost:3000](http://localhost:3000)
+
+## 🗄️ Banco de Dados (Supabase)
+
+### Projeto Remoto (Produção e Staging)
+
+- **Projeto:** `amigo-secreto`
+- **Project Ref:** `ulthbrfwsvmazgdvrcyw`
+- **URL:** `https://ulthbrfwsvmazgdvrcyw.supabase.co`
+- **Região:** `us-east-1`
+- **Configuração:** RLS habilitada em todas as tabelas e exposição direta desativada.
+
+Para vincular o repositório local ao projeto remoto no Supabase:
+
+```bash
+npx supabase login
+npx supabase link --project-ref ulthbrfwsvmazgdvrcyw
+```
+
+### Desenvolvimento Local com Supabase CLI
+
+Para rodar a instância local do Supabase (requer Docker Desktop ou Podman):
+
+```bash
+# Iniciar containers locais
+npx supabase start
+
+# Parar containers
+npx supabase stop
+
+# Resetar e reaplicar migrações
+npx supabase db reset
+```
 
 ## 🧪 Scripts Disponíveis
 
