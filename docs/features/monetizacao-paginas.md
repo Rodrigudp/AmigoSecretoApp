@@ -4,11 +4,9 @@ Status: **aguardando dados do Rodrigo para publicar.** Revisão 2 aprovada pela 
 Revisão 1 reprovada em 17/11 (ajustes aplicados). Requisito: RNF05 (privacidade).
 Conteúdo em português claro. Os textos entram em código só depois do SETUP-01.
 
-Placeholders (não inventar valores; o Orquestrador escalou ao Rodrigo):
-- `{{DOMAIN}}` — endereço público do site.
-- `{{CONTACT_EMAIL}}` — e-mail de contato que o Rodrigo quer expor. Não usar e-mail pessoal sem autorização.
-- `{{CONTROLLER_NAME}}` — nome do controlador dos dados.
-- `{{ADSENSE_PUBLISHER_ID}}` — ID `pub-…` da conta AdSense (vai no `ads.txt` e na variável de ambiente, nunca no código).
+Valores decididos (17/11/2026):
+- Domínio provisório para tudo: `https://amigo-secreto-app.vercel.app`. Domínio próprio fica para depois.
+- E-mail de contato, nome do controlador e ID do AdSense: marcador `A PREENCHER PELO RODRIGO`, registrado em `docs/board/PENDENCIAS_RODRIGO.md` (PEN-01 a PEN-03). Não usar e-mail pessoal nem inventar valor.
 - `{{PUBLICATION_DATE}}` — data de publicação das páginas (usada como "última atualização").
 
 ---
@@ -37,7 +35,7 @@ sem custo extra para você.
 
 **Quem é o responsável pelos dados**
 
-Controlador: `{{CONTROLLER_NAME}}`. Contato: `{{CONTACT_EMAIL}}`.
+Controlador: `A PREENCHER PELO RODRIGO`. Contato: `A PREENCHER PELO RODRIGO`.
 
 **Quais dados coletamos**
 
@@ -91,7 +89,7 @@ Você pode pedir acesso, correção, exclusão ou revogação do consentimento a
 
 - **Sem e-mail e sem login:** para editar a sua lista de desejos, use o seu link pessoal. Para sair ou ser removido de um grupo,
   peça ao organizador antes do sorteio. Não enviamos links secretos por e-mail.
-- **Pedidos pelo contato:** escreva para `{{CONTACT_EMAIL}}`. Respondemos em até 15 dias.
+- **Pedidos pelo contato:** escreva para `A PREENCHER PELO RODRIGO`. Respondemos em até 15 dias.
 
 ---
 
@@ -118,7 +116,9 @@ Você pode pedir acesso, correção, exclusão ou revogação do consentimento a
 
 **Fale com a gente**
 
-Dúvidas e sugestões: escreva para `{{CONTACT_EMAIL}}`. Respondemos em até 5 dias úteis.
+Site: https://amigo-secreto-app.vercel.app
+
+Dúvidas e sugestões: escreva para `A PREENCHER PELO RODRIGO`. Respondemos em até 5 dias úteis.
 Pedidos sobre seus dados pessoais: respondemos em até 15 dias, conforme a política de privacidade.
 
 ---
@@ -128,14 +128,14 @@ Pedidos sobre seus dados pessoais: respondemos em até 15 dias, conforme a polí
 Conteúdo (o ID do editor entra por variável de ambiente no build, não fica fixo no repositório):
 
 ```
-google.com, {{ADSENSE_PUBLISHER_ID}}, DIRECT, f08c47fec0942fa0
+google.com, A PREENCHER PELO RODRIGO, DIRECT, f08c47fec0942fa0
 ```
 
 ---
 
 ## Pendências
 
-- [ ] Rodrigo (via Orquestrador): `{{DOMAIN}}`, `{{CONTACT_EMAIL}}`, `{{CONTROLLER_NAME}}`, `{{ADSENSE_PUBLISHER_ID}}`.
+- [ ] Rodrigo: PEN-01 (e-mail de contato), PEN-02 (nome do controlador), PEN-03 (ID do AdSense e pedido de aprovação). Marcador `A PREENCHER PELO RODRIGO` até chegar.
 - [ ] `{{PUBLICATION_DATE}}`: preencher na data de publicação.
 - [x] Retenção dos eventos decidida pelo Orquestrador: `ON DELETE SET NULL` (contadores anônimos sobrevivem ao expurgo). Falta o Banco aplicar no DB-01.
 - [ ] Segurança & LGPD: revisar de novo se o texto de retenção mudar.
