@@ -256,10 +256,10 @@ Em 1280 px o painel usa `max-w-3xl`, com Convite e Sorteio lado a lado (grade de
 | Contraste AA verificado | tabela §2.2 (calculada); teste automatizado dos tokens + axe nas telas |
 | Alvos de toque ≥ 44 px | `min-h-12` (48 px) em Button/Input; checagem por script de medição no Playwright |
 | Fonte ≥ 16 px | nenhum `text-xs`; checagem por script (fontSize computado ≥ 16) |
-| Foco/erro/desabilitado | página interna `/_dev/ui` (somente dev) listando todos os estados |
-| Prints 360 px e 1280 px | geradas da página `/_dev/ui` e anexadas ao relatório |
+| Foco/erro/desabilitado | página interna `/dev/ui` (somente dev) listando todos os estados |
+| Prints 360 px e 1280 px | geradas da página `/dev/ui` e anexadas ao relatório |
 
 ## 7. Pendências / decisões
 - Implementação em `app/_components/` depende do **SETUP-01** (repositório Next.js ainda não existe).
 - Paleta vermelha/laranja (clima de festa) é proposta minha; sem identidade visual definida nos requisitos — o Orquestrador pode trocar os hex mantendo a tabela §2.2 (reexecutar a conferência).
-- `/_dev/ui` precisa ficar fora do build de produção (decidir com DevOps no SETUP-03).
+- `/dev/ui` precisa ficar fora do build de produção (decidir com DevOps no SETUP-03).
