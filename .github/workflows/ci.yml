@@ -74,11 +74,8 @@ jobs:
             PGPASSWORD=postgres psql -h 127.0.0.1 -p 54322 -U postgres -d postgres -v ON_ERROR_STOP=1 -f "$test_file"
           done
 
-      - name: Generate TypeScript types and compare
-        run: |
-          supabase gen types typescript --local > src/infrastructure/supabase/types.generated.ts
-          echo "Comparing generated types with committed types.ts (fails on any difference)..."
-          diff -u src/infrastructure/supabase/types.ts src/infrastructure/supabase/types.generated.ts
+      - name: Generate TypeScript types
+        run: supabase gen types typescript --local > src/infrastructure/supabase/types.generated.ts
 
       - name: Upload generated types artifact
         uses: actions/upload-artifact@v4
@@ -86,6 +83,9 @@ jobs:
           name: supabase-types-generated
           path: src/infrastructure/supabase/types.generated.ts
           retention-days: 7
+
+      - name: Compare generated types with committed types.ts
+        run: diff -u src/infrastructure/supabase/types.ts src/infrastructure/supabase/types.generated.ts
 
       - name: Test rollbacks and re-apply migrations
         run: |
