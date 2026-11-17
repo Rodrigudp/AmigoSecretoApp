@@ -61,4 +61,7 @@ Lançamento: **28/11/2026**. Meta: **10 mil participantes únicos até 25/12/202
 - **HU05** Ver resultado escondido até tocar em "revelar"; ninguém tira a si mesmo. (RF09, RN02)
 
 ## Fora do MVP
+Pós-lançamento (aprovado pelo PO em 17/11/2026, conforme BACKLOG.md): RF11 + RN05 refazer sorteio (SRT-05),
+RF12 sugestões de presente (LST-05), RF13 contagem regressiva (MON-04). No MVP, o convite fica fechado após o sorteio (RN04).
+
 Restrições de sorteio, chat anônimo, login Google, Amigo Chocolate, app nas lojas, notificações.
