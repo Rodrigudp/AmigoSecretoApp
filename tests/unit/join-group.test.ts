@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { joinGroup } from "../../src/application/join-group";
 import type {
@@ -8,7 +8,6 @@ import type {
   PublicGroup,
   TokenService,
 } from "../../src/application/ports";
-import type { EventRepository } from "../../src/application/ports";
 import { err, ok } from "../../src/shared/result";
 
 const APP_URL = "https://app.example.com";
@@ -26,7 +25,6 @@ type JoinInput = Parameters<ParticipantRepository["join"]>[0];
 type FakeConfig = {
   invite?: { groupId: string; view: PublicGroup } | null;
   joinResult?: (input: JoinInput) => ReturnType<ParticipantRepository["join"]>;
-  appendThrows?: boolean;
 };
 
 function makeDeps(config: FakeConfig = {}) {
@@ -50,18 +48,7 @@ function makeDeps(config: FakeConfig = {}) {
     generate: () => "test-personal-token",
     hash: (token) => `hash(${token})`,
   };
-  const events: EventRepository = {
-    append:
-      config.appendThrows === true
-        ? async () => {
-            throw new Error("event store down");
-          }
-        : async () => {},
-    readOwnerMetrics: async () => {
-      throw new Error("not used here");
-    },
-  };
-  return { deps: { groups, participants, tokens, events, appUrl: APP_URL }, joined };
+  return { deps: { groups, participants, tokens, appUrl: APP_URL }, joined };
 }
 
 describe("join-group (RF03, RF04, PAR-02)", () => {
@@ -141,17 +128,10 @@ describe("join-group (RF03, RF04, PAR-02)", () => {
     expect(result).toEqual(err({ code: "GROUP_FULL" }));
   });
 
-  it("still succeeds when the metrics event fails (join never blocks on events)", async () => {
-    const { deps } = makeDeps({
-      invite: { groupId: "group-1", view: openGroup },
-      appendThrows: true,
-    });
-    const appendSpy = vi.fn();
-    deps.events.append = appendSpy;
+  it("does not depend on the event port (participant_joined is recorded by DB-04's RPC)", async () => {
+    const { deps } = makeDeps({ invite: { groupId: "group-1", view: openGroup } });
+    const depsObject = deps as Record<string, unknown>;
 
-    const result = await joinGroup({ inviteToken: "invite-abc", displayName: "Ana" }, deps);
-
-    expect(result.ok).toBe(true);
-    expect(appendSpy).toHaveBeenCalledWith({ groupId: "group-1", type: "participant_joined" });
+    expect("events" in depsObject).toBe(false);
   });
 });
