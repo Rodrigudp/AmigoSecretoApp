@@ -68,7 +68,11 @@ jobs:
         run: supabase start
 
       - name: Run database tests
-        run: supabase test db
+        run: |
+          for test_file in supabase/tests/*.sql; do
+            echo "Running test: $test_file"
+            PGPASSWORD=postgres psql -h 127.0.0.1 -p 54322 -U postgres -d postgres -v ON_ERROR_STOP=1 -f "$test_file"
+          done
 
       - name: Generate TypeScript types and compare
         run: |
