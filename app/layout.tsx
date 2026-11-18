@@ -9,6 +9,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: copy.GLB_04,
   applicationName: APP_NAME,
+  other: { "google-adsense-account": "ca-pub-2752974850416759" },
   description: copy.GLB_03,
 };
 
