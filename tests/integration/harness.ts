@@ -44,36 +44,74 @@ export async function resetDatabase(client: ServerSupabaseClient): Promise<void>
   }
 }
 
+function isIntegrationRequired(source: Record<string, string | undefined>): boolean {
+  return source.INTEGRATION_REQUIRED === "1";
+}
+
+function formatProbeError(
+  error: { code?: string; message?: string; details?: string; hint?: string },
+  status?: number
+): string {
+  return [
+    `code=${error.code ?? "n/a"}`,
+    `message=${error.message ?? ""}`,
+    `details=${error.details ?? ""}`,
+    `hint=${error.hint ?? ""}`,
+    `status=${status ?? "n/a"}`,
+  ].join(" ");
+}
+
+function skipOrThrow(
+  reason: string,
+  source: Record<string, string | undefined>
+): { available: false; client: null } {
+  const message = `[integration] ${reason}`;
+  if (isIntegrationRequired(source)) {
+    throw new Error(message);
+  }
+  console.warn(`${message} Skipping suite.`);
+  return { available: false, client: null };
+}
+
+async function probeLocalSupabase(
+  source: Record<string, string | undefined>
+): Promise<{ available: true; client: ServerSupabaseClient } | { available: false; client: null }> {
+  try {
+    const client = await createIntegrationClient();
+    const { error, status } = await client.from("groups").select("id").limit(1);
+    if (error) {
+      const details = formatProbeError(error, status);
+      console.error(`[integration] Probe failed: ${details}`);
+      return skipOrThrow(`local Supabase responded with ${details}.`, source);
+    }
+    return { available: true, client };
+  } catch (cause) {
+    if (cause instanceof Error && cause.message.startsWith("[integration]")) {
+      throw cause;
+    }
+    const reason = cause instanceof Error ? cause.message : "unknown error";
+    return skipOrThrow(`local Supabase is unreachable (${reason}).`, source);
+  }
+}
+
 export async function probeIntegrationDatabase(
   source: Record<string, string | undefined> = process.env
 ): Promise<{ available: boolean; client: ServerSupabaseClient | null }> {
   if (!hasIntegrationEnv(source)) {
-    console.warn(
-      "[integration] Skipping suite: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are not set."
+    return skipOrThrow(
+      "SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are not set.",
+      source
     );
-    return { available: false, client: null };
   }
 
   if (!isAllowedIntegrationUrl(source.SUPABASE_URL ?? "", source.INTEGRATION_ALLOW_REMOTE)) {
-    console.warn(
-      "[integration] Skipping suite: SUPABASE_URL must point to 127.0.0.1/localhost (or set INTEGRATION_ALLOW_REMOTE=1)."
+    return skipOrThrow(
+      "SUPABASE_URL must point to 127.0.0.1/localhost (or set INTEGRATION_ALLOW_REMOTE=1).",
+      source
     );
-    return { available: false, client: null };
   }
 
-  try {
-    const client = await createIntegrationClient();
-    const { error } = await client.from("groups").select("id", { head: true, count: "exact" });
-    if (error) {
-      console.warn(`[integration] Skipping suite: local Supabase responded with ${error.message}.`);
-      return { available: false, client: null };
-    }
-    return { available: true, client };
-  } catch (cause) {
-    const reason = cause instanceof Error ? cause.message : "unknown error";
-    console.warn(`[integration] Skipping suite: local Supabase is unreachable (${reason}).`);
-    return { available: false, client: null };
-  }
+  return probeLocalSupabase(source);
 }
 
 export function useIntegrationDatabase() {
