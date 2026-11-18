@@ -8,7 +8,7 @@ Prioridade: pessoas que organizam trocas para famílias, amigos e equipes; parti
 
 WhatsApp e indicações são prioridade: cada convite chega às pessoas que já decidiram participar. Instagram e TikTok/Reels demonstram os passos; status alcança contatos próximos. Comunidades e grupos externos dependem das regras locais e de autorização de quem administra. Busca orgânica é investimento de prazo incerto, não previsão para sustentar a meta deste Natal. Criativos e textos ficam no MKT-04, sujeitos à revisão do Designer e publicação pelo PO.
 
-**Portão de segurança:** o ambiente previsto em IP:8090 com HTTP conflita com RNF03, que exige HTTPS. Não divulgar links reais ou dados de participantes enquanto Orquestrador, DevOps e Segurança não resolverem a divergência e aprovarem o ambiente. O domínio antigo da Vercel não é a URL principal. Não anunciar uma URL final até aprovação.
+**Portão de segurança:** IP:8090 com HTTP serve somente para homologação interna; nunca para divulgação. A alternativa provisória sem custo de domínio é `papelzinho.smartsolutionsbr.com.br`, sujeito ao DNS do PO (PEN-10) e à configuração de HTTPS com certbot. A divulgação só pode começar quando houver HTTPS, provisório ou próprio, aprovado por DevOps e Segurança. O domínio antigo da Vercel não é a URL principal.
 
 ## Metas e medição
 
@@ -71,7 +71,7 @@ Tudo é preparação ou proposta para o PO publicar após aprovação e liberaç
 
 ## Recomendação de domínio — PEN-09
 
-Recomendo escolher um nome curto e verificá-lo antes da compra; disponibilidade, conflito de marca e preço específico **não foram verificados**. Opções: `papelzinho.app`, `meupapelzinho.app` e `papelzinhoamigosecreto.app`. Preço indicativo padrão .app da [Zinn Digital](https://zinndigital.com/pt-BR/dom%C3%ADnios/app): R$ 116,99 no primeiro ano e R$ 101,99/ano para renovar; nomes premium, taxas e condições podem alterar o valor. Consulta: 18/11/2026. Comparar também .com.br antes da decisão; não foi obtida cotação verificável específica. Todos os nomes são apenas sugestões, não disponibilidade garantida.
+Recomendo **`papelzinho.app`** como primeira opção. Na consulta RDAP feita pelo Orquestrador em 18/11/2026, [papelzinho.app](https://pubapi.registry.google/rdap/domain/papelzinho.app) retornou 404 (sem registro encontrado, provavelmente livre); [papelzinho.com.br](https://rdap.registro.br/domain/papelzinho.com.br) e [papelzinho.com](https://rdap.verisign.com/com/v1/domain/papelzinho.com) constavam registrados. A consulta não reserva o nome nem verifica conflito de marca; confirmar novamente antes de eventual compra. Preço indicativo padrão .app da [Zinn Digital](https://zinndigital.com/pt-BR/dom%C3%ADnios/app): R$ 116,99 no primeiro ano e R$ 101,99/ano para renovar; nomes premium, taxas e condições podem alterar o valor. Consulta: 18/11/2026. Não foi obtida cotação específica para o nome.
 
 O .app exige HTTPS e certificado antes de funcionar nos navegadores ([Google Registry](https://www.registry.google/domains/app/), consulta 18/11/2026). Prazo de registro .app e propagação dependem do registrador, pagamento, configuração e caches: **não verificados**; reservar 1–2 dias úteis como margem de planejamento, sem garantia. Referência apenas para eventual .br: registro com DNS do Registro.br pode ser efetivado em até 5 minutos sem pendências e a zona é publicada a cada 5 minutos ([Registro.br](https://registro.br/tecnologia/caracteristicas-tecnicas/), consulta 18/11/2026); caches ainda podem demorar. Isso não é prazo do .app.
 
@@ -82,4 +82,4 @@ O .app exige HTTPS e certificado antes de funcionar nos navegadores ([Google Reg
 - PEN-09: aprovar ou recusar domínio, verificar titularidade/disponibilidade e custo final; registro e conta são ações do PO.
 - PEN-03 e PEN-04: decisão sobre contas AdSense e afiliado Mercado Livre; confirmar requisitos atuais com o dono da monetização antes de qualquer promessa.
 - Perfis, ferramentas pagas, mídia paga e custos: não previstos neste plano; se necessários, apresentar orçamento e contas ao PO antes de criar ou gastar.
-- Resolver HTTPS/RNF03 e validar o endereço final com DevOps e Segurança. Sem aprovação, não divulgar o ambiente com dados reais.
+- PEN-10: PO configura o registro DNS para `papelzinho.smartsolutionsbr.com.br`; DevOps configura HTTPS e valida com Segurança antes de qualquer divulgação. Domínio próprio permanece como decisão separada no PEN-09.
