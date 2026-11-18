@@ -6,9 +6,12 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   quality:
@@ -155,6 +158,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     environment: production
+    concurrency:
+      group: deploy-migrations-production
+      cancel-in-progress: false
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
