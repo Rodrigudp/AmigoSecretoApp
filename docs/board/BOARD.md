@@ -20,10 +20,18 @@ Atualizado em: 2026-11-18 · Iteração atual: **It-3 · Lista e sorteio (aberta
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar
-- APP-API-01 · Contrato da API v1 para o app (Bearer, sem token em URL) + implementação sobre `src/application` · BE → SEC · 5 pts — responsável: 10 Back-end (ADR-005)
-- APP-FE-01 · Esqueleto Expo em `mobile/` (navegação, tema Estilo Notion, SecureStore, deep links) · FE → DSN · 3 pts — responsável: 11 Front-end
-- APP-DSN-01 · Especificação das telas do app (criar, entrar, área, lista, Revelar, painel) e notificações · DSN → ORQ · 3 pts — responsável: 16 Designer
-- APP-MON-01 · Pesquisa: AdMob e regras do Amazon Associados para uso em app (fontes oficiais) · LST → MON · 1 pt — responsável: 22 Lista
+- APP-API-02 · API v1: PR A infraestrutura (Bearer por tipo, erros, headers, rate limit api_v1), PR B grupos/convite/participante/meus grupos/push-tokens, PR C envio de push e job do lembrete · BE → SEC · 8 pts — responsável: 10 Back-end
+- DB-APP-01 · Migration `push_tokens` + `push_reminders_sent` (RLS só service_role, cascade, rollback, testes) · DB → SEC · 2 pts — responsável: 12 Banco
+- APP-API-02b · API v1: endpoints da lista (`/participant/wishes`) · LST → SEC · 2 pts — responsável: 22 Lista (após o PR A do 10)
+- APP-API-02c · API v1: `/admin`, remover participante, `/admin/draw`, `/participant/reveal` · SRT → SEC · 3 pts — responsável: 23 Sorteio (após o PR A do 10)
+- APP-FE-02 · Telas reais do app (Meus grupos, criar, convite/entrar, área + lista offline, Revelar, painel), cliente tipado do contrato com mocks · FE → DSN + SEC · 8 pts — responsável: 11 Front-end
+- APP-DSN-02 · Ícones (iOS, Android adaptativo, monocromático, notificação) e splash do app · DSN → FE · 2 pts — responsável: 16 Designer
+- APP-LEG-01 · /privacidade e /termos cobrindo o app (SecureStore, push opcional, push_tokens, v1 sem anúncio) · MON → SEC + DSN · 1 pt — responsável: 24 Monetização
+- APP-QA-01 · Plano de testes do app + testes de contrato da v1 (fixme até os endpoints) · QA → ORQ · 3 pts — responsável: 13 QA
+- REL-02-QA · Checklist de regressão do site para 28/11 · QA → ORQ · 1 pt — responsável: 13 QA
+- APP-MKT-01 · Fichas das lojas em pt-BR + questionário de privacidade · MKT → DSN + SEC · 2 pts — responsável: 25 Marketing
+- REL-02 · CHANGELOG v1.0.0 + docs/ops/release.md (tag só em 28/11) · OPS → ORQ · 2 pts — responsável: 14 DevOps
+- APP-OPS-02 · Workflow EAS manual (desligado sem EXPO_TOKEN) + eas.json · OPS → SEC · 2 pts — responsável: 14 DevOps
 
 ## ⏳ Aguardando dependência
 _(vazio)_
