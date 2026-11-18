@@ -12,6 +12,7 @@
     "test:integration": "vitest run tests/integration --passWithNoTests",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "alert:test": "node scripts/send-test-alert.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky"
