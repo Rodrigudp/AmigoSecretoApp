@@ -141,14 +141,14 @@ O plano de capturas segue o visual nativo especificado em `docs/features/app-tel
 - **Origem das imagens:** Devem ser geradas exclusivamente a partir da build candidata de cada plataforma (iOS e Android), rodando em simuladores/emuladores oficiais ou dispositivos de teste.
 - **Privacidade e fidelidade:** Devem utilizar estritamente dados fictícios ("Família Silva", "Turma da Escola", "Ana", "Rafael", "Joana"). Nunca expor tokens reais, links de acesso privados ou dados de pessoas reais.
 - **Dimensões aceitas na Apple App Store:**
-  - iPhone 6.7" (obrigatório): 1290 × 2796 pixels (ou 2796 × 1290 px em paisagem).
-  - iPhone 6.5" / 5.5": 1242 × 2688 pixels ou 1242 × 2208 pixels.
+  - 1290 × 2796 pixels (iPhone 6.7" / tela cheia) é um tamanho aceito, não o único.
+  - 1242 × 2208 pixels (iPhone 5.5" / proporção 16:9 tradicional) também é aceito e exigido para telas de 5.5", conforme as [especificações oficiais da Apple](https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/) (outras resoluções homologadas incluem 1242 × 2688 px para 6.5" e 1320 × 2868 px para 6.9").
   - iPad Pro (se habilitado para tablets): 2048 × 2732 pixels.
   - Formato: PNG ou JPEG sem canal alfa (RGB).
 - **Dimensões aceitas no Google Play Console:**
-  - Smartphones: Mínimo de 4 capturas e máximo de 8 capturas por tipo de dispositivo.
+  - De 2 a 8 capturas de telefone (smartphones).
   - Dimensões entre 320 px e 3840 px (lado maior não pode exceder o dobro do lado menor).
-  - Resolução padrão recomendada: 1080 × 2400 pixels (proporção 9:16 vertical).
+  - Resolução padrão recomendada: 1080 × 1920 pixels (proporção 9:16 vertical).
   - Formato: JPEG ou PNG de 24 bits, até 8 MB por imagem.
 
 ### 4.2. Roteiro das 5 Capturas Oficiais
@@ -185,7 +185,7 @@ As respostas abaixo refletem fielmente a arquitetura sem cadastro do Papelzinho,
    - **Finalidade:** **Funcionalidade do App (App Functionality)** — exclusivamente para enviar avisos do sorteio realizado e lembrete do encontro.
    - **Vinculado à identidade?** **Não**.
    - **Usado para rastreamento?** **Não**.
-   - **Observação:** O registro só ocorre se o usuário autorizar explicitamente a permissão de notificações do sistema operacional. O token é revogado e apagado do servidor assim que o usuário exclui o grupo ou remove a permissão.
+   - **Observação:** O registro só ocorre se o usuário autorizar explicitamente a permissão de notificações do sistema operacional. A pessoa usa a opção "Desativar avisos" na área pessoal do app (`mobile/app/p/[...path].tsx`), o que apaga o cadastro deste aparelho no servidor. Além disso, todos os dados do grupo são apagados 60 dias após a data do encontro (a v1 do app não tem "remover grupo").
 
 2. **Conteúdo do Usuário (User Content):**
    - **Coletado?** **SIM**.
@@ -210,7 +210,7 @@ As respostas abaixo refletem fielmente a arquitetura sem cadastro do Papelzinho,
 #### A. Coleta e Compartilhamento de Dados (Data Collection and Sharing)
 - **O app coleta ou compartilha algum dos tipos de dados de usuários necessários?** **SIM** (coleta apenas; não compartilha).
 - **Todos os dados coletados pelo app são criptografados em trânsito?** **SIM** (todas as comunicações com o servidor utilizam exclusivamente HTTPS/TLS).
-- **O app oferece aos usuários uma forma de solicitar a exclusão de seus dados?** **SIM** (o participante pode remover seu token push no app, e todos os dados de grupos, participantes e listas são permanentemente expurgados do banco de dados 60 dias após a data do encontro).
+- **O app oferece aos usuários uma forma de solicitar a exclusão de seus dados?** **SIM** (a pessoa usa a opção "Desativar avisos" na área pessoal do app, o que apaga o cadastro deste aparelho no servidor; além disso, todos os dados do grupo são apagados 60 dias após a data do encontro. A v1 do app não tem "remover grupo").
 
 #### B. Detalhamento dos tipos de dados coletados (nenhum é compartilhado com terceiros):
 
