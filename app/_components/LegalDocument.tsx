@@ -81,7 +81,7 @@ function Block({ block }: { block: LegalBlock }) {
 export function LegalDocument({ title, sections, updated = false, children }: LegalDocumentProps) {
   return (
     <main id="conteudo" tabIndex={-1} className="page-shell">
-      <article className="paper-panel flex flex-col gap-6">
+      <article className="paper-panel flex flex-col gap-6 [overflow-wrap:anywhere]">
         <header className="flex flex-col gap-2">
           <h1 className="page-title">{title}</h1>
           {updated ? (
