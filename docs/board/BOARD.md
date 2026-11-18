@@ -27,19 +27,20 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 - OPS-04 · Aplicar migrations no Supabase de produção pelo CI (`supabase db push`) + APP_URL com o domínio real · OPS → SEC · 1 pt · 20/11 — enviado ao OPS 17/11; precisa de PEN-08 para rodar
 
 ## 🔨 Em andamento
+- BE-02 · Adapter Supabase de criar grupo e entrar (no lugar dos stubs) · BE → DB · 2 pts · 19/11 — enviado ao BE 17/11; só create_group_once, findByInvite e join_group; admin e área do participante continuam stub
 - SEC-03 · Rate limit (criar e entrar) + headers de segurança · SEC → OPS · 2 pts · 20/11 — desenho e headers já; rate limit após GRP-02
 - QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — draft PR #19; CT-01 conferido no GRP-03 (661 ms, stub); CT-02 conferido no PAR-03 (742 ms, cookie ptk_, stub) e armado: no CI vira fixme enquanto a rota /g não existe; "Ana 2" segue fixme (RN07 não está no stub)
 
 ## 👀 Em revisão
 - PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — PR #27 (`feat/PAR-04-participant-area`): handshake ADR-004 (/p/[accessToken] → /p/g/[groupId], probe ?ck=1, fallback sem cookie adsAllowed=false), get-participant-view com ports + stub TODO(BE-01), ParticipantHeader compartilhado c/ PAR-03; CI 3/3 verde (44210288249)
 - GRP-05 · Painel admin: lista, contador, remover antes do sorteio · GRP → QA · 3 pts · 21/11 — QA 17/11: #26 aprovado (CI 44210246791); #29 reprovado: stub findAdminByHash abre o painel para qualquer token exceto "invalid"
-- BE-01 · Cliente Supabase do servidor + harness de testes de integração · BE → DB · 1 pt · 18/11 — ✅ DB (comentário); PR #20 (`0d483d6`); CI 44209620112 smoke 1 passed / 0 skipped; aguarda merge ORQ
 - OPS-02 · Expurgo automático 60 dias após a troca (pg_cron) · OPS → DB · 1 pt · 20/11 — ✅ DB; PR #21 conflita com a main no ci.yml; DevOps atualiza a branch
 
 ## 🧪 Em teste (QA)
 _(vazio)_
 
 ## 🏁 Pronto
+- BE-01 · Cliente Supabase do servidor + harness de testes de integração · BE → DB · 1 pt · 18/11 — ✅ DB+ORQ; mergeado PR #20 (`34a8f9a`); smoke 1 passed / 0 skipped (CI 44209620112)
 - PAR-03 · Tela de convite + tela do link pessoal · FE → PAR · 3 pts · 21/11 — ✅ PAR+ORQ; mergeados #24 (`7aa98d6`) e #25 (`4ae079c`); stub até o adapter; o cookie do link pessoal ainda é gravado na página, o PAR-04 move isso para o route handler
 - DB-05 · GRANT de tabelas/sequences para service_role (decisão ORQ: opção A) · DB → SEC · 1 pt · 19/11 — ✅ SEC+ORQ; mergeado PR #22 (6aab68e); anon/authenticated sem privilégio
 - GRP-03 · Tela criar grupo (`/`) + tela de sucesso · FE → GRP · 3 pts · 20/11 — ✅ GRP+ORQ; mergeado PRs #15 (4eade29) e #16 (e9e2baa); ação ainda é stub até o adapter
@@ -69,7 +70,7 @@ _(vazio)_
 - MON-01 · Páginas para aprovação do AdSense · MON → SEC · 2 pts · 19/11 — ✅ Segurança aprovou revisão 2 (condicionada aos marcadores); ✅ ORQ; PR #1 (`9ebc5d1`) e domínio real no PR #23 (`ebc1e8a`, https://amigo-secreto-app-five.vercel.app); marcadores `A PREENCHER PELO RODRIGO` em PEN-01..03
 
 ## 🚀 Em produção
-- Site em https://amigo-secreto-app-five.vercel.app (main ebc1e8a): página inicial com o formulário do GRP-03; criar grupo ainda não grava (stub até BE-01 + adapter; banco de produção sem migrations até OPS-04/PEN-08)
+- Site em https://amigo-secreto-app-five.vercel.app (main 34a8f9a): página inicial com o formulário; criar grupo ainda não grava (stub até o BE-02). Cliente do servidor na main. Banco de produção sem migrations até OPS-04/PEN-08
 
 ---
 
@@ -132,3 +133,4 @@ _(vazio)_
 - 2026-11-17 · Orquestrador · PR #23 mergeado (`ebc1e8a`); DB-05 já na main (`6aab68e`) · OPS-02 (#21) em conflito no ci.yml; BE-01 (#20) espera o smoke do job db · impedimento: PEN-08
 - 2026-11-17 · Back-end · BE-01: rebase #20 após DB-05 (`0d483d6`); CI 44209620112 smoke 1 passed / 0 skipped; reaprovação pedida ao 12 · nenhum
 - 2026-11-17 · Back-end · BE-01: 12 Banco aprovou PR #20 (`0d483d6`); Orquestrador avisado para merge · nenhum
+- 2026-11-17 · Orquestrador · BE-01 mergeado (#20, `34a8f9a`) · BE-02 (adapter de criar e entrar) para o Back-end · impedimento: PEN-08 para o banco de produção
