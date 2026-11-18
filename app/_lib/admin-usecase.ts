@@ -11,19 +11,26 @@ const localTokenService: TokenService = {
   hash: hashToken,
 };
 
+export const DEMO_ADMIN_TOKEN = "demo-admin-token";
+
+// In-memory store for development/preview until BE-01 / DB-05 adapters are merged.
+// Only explicitly registered tokens exist (ADR-002, RNF03: unknown tokens return INVALID_LINK).
 // TODO(BE-01/DB-05): Replace stub repository with real Supabase adapter once merged.
 type StoredGroup = {
+  id: string;
   details: AdminGroup["group"];
   inviteToken: string;
   draw: AdminGroup["draw"];
   participants: { id: ParticipantId; displayName: string; joinedAt: string; removedAt?: string }[];
 };
+
 const store = new Map<string, StoredGroup>();
 
-function getOrCreateGroup(groupId: string): StoredGroup {
-  let g = store.get(groupId);
-  if (!g) {
-    g = {
+function initStore() {
+  const demoHash = hashToken(DEMO_ADMIN_TOKEN);
+  if (!store.has(demoHash)) {
+    store.set(demoHash, {
+      id: "grp-demo",
       details: { name: "Amigo Secreto da Galera", maxValueCents: 5000, exchangeDate: "2026-12-24", location: "Casa do João" },
       inviteToken: "convite-secreto-123",
       draw: { status: "open" },
@@ -32,21 +39,28 @@ function getOrCreateGroup(groupId: string): StoredGroup {
         { id: "p-2", displayName: "Carlos Eduardo", joinedAt: "2026-11-17T14:35:00Z" },
         { id: "p-3", displayName: "Beatriz Lima", joinedAt: "2026-11-17T14:40:00Z" },
       ],
-    };
-    store.set(groupId, g);
+    });
   }
-  return g;
+}
+initStore();
+
+export function registerStubGroup(adminToken: string, group: Omit<StoredGroup, "id"> & { id?: string }) {
+  store.set(hashToken(adminToken), { id: group.id ?? `grp-${hashToken(adminToken).slice(0, 8)}`, ...group });
 }
 
 const stubGroupRepository: GroupRepository = {
   createOrRotateAdminToken: async () => { throw new Error("not implemented"); },
   findByInvite: async () => null,
   findAdminByHash: async (hash: string) => {
-    if (hash === hashToken("invalid") || hash.length !== 64) return null;
-    return { groupId: `grp-${hash.slice(0, 8)}`, adminTokenHash: hash };
+    initStore();
+    const g = store.get(hash);
+    if (!g) return null;
+    return { groupId: g.id, adminTokenHash: hash };
   },
   getAdminView: async (admin: AdminScope) => {
-    const g = getOrCreateGroup(admin.groupId);
+    initStore();
+    const g = store.get(admin.adminTokenHash);
+    if (!g) return err({ code: "INVALID_LINK" });
     const active = g.participants.filter((p) => !p.removedAt);
     return ok({
       group: g.details,
@@ -57,7 +71,9 @@ const stubGroupRepository: GroupRepository = {
     });
   },
   removeParticipant: async (admin: AdminScope, participantId: ParticipantId) => {
-    const g = getOrCreateGroup(admin.groupId);
+    initStore();
+    const g = store.get(admin.adminTokenHash);
+    if (!g) return err({ code: "INVALID_LINK" });
     if (g.draw.status !== "open") return err({ code: "GROUP_CLOSED" });
     const p = g.participants.find((item) => item.id === participantId && !item.removedAt);
     if (!p) return err({ code: "PARTICIPANT_NOT_FOUND" });
