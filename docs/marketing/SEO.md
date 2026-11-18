@@ -29,7 +29,7 @@ Publicáveis após aceite e HTTPS: home `/` e futura `/como-funciona`, ligadas e
 |---|---|---|
 | Home `/` | Amigo secreto online — Papelzinho | Organize seu amigo secreto sem cadastro e sem senha. Crie o grupo, compartilhe o convite e reúna as pessoas para o sorteio. |
 | `/como-funciona` (proposta) | Como funciona o amigo secreto — Papelzinho | Veja como criar seu grupo, enviar o convite e participar do sorteio de amigo secreto pelo Papelzinho. |
-| Convite `/g/[inviteToken]` | Nome do grupo — Papelzinho | Manter o contrato vigente OG-01: “Você foi convidado para o amigo secreto 'X'. Toque para entrar e montar sua lista de presentes!” |
+| Convite `/g/[inviteToken]` | Nome do grupo — Papelzinho | Seguir OG-01 em `docs/features/textos.md`; aplicação do texto final depende de DSN-03. |
 | Participante `/p/[accessToken]` | Área do participante — Papelzinho | Sem descrição proposta. |
 | Organizador `/admin/[adminToken]` | Painel do organizador — Papelzinho | Sem descrição proposta. |
 
