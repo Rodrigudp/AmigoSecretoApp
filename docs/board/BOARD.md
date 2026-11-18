@@ -32,11 +32,10 @@ _(vazio)_
 ## 🔨 Em andamento
 - SEC-03 · Rate limit (criar e entrar) + headers de segurança · SEC → OPS · 2 pts · 20/11 — desenho e headers já; rate limit após GRP-02
 - BE-01 · Cliente Supabase do servidor + harness de testes de integração · BE → DB · 1 pt · 18/11
-- QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — começar pela estrutura (fixtures, page objects); cenários após GRP-03/PAR-03
+- QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — estrutura mobile 360px, page objects e fixtures entregues no draft PR #19; cenários fixme aguardando GRP-03 e PAR-03
 
 ## 👀 Em revisão
 - GRP-02 · Caso de uso `create-group` · GRP → BE · 2 pts · 19/11 — PR #18 (`feat/GRP-02-create-group`): ports injetados, Zod, data futura America/Sao_Paulo (clock), fake repo, 12 testes; lint/typecheck/test/build verdes; adapter Supabase após BE-01 e DB-04
-- OPS-03 · Job de testes de integração no CI (Vitest + Supabase do job db) · OPS → QA · 1 pt · 19/11 — PR #17, CI verde (5m56s), ⏳ revisão QA
 - GRP-03 · Tela criar grupo (`/`) + tela de sucesso · FE → GRP · 3 pts · 20/11 — PRs empilhados: #15 (lógica: schema, WhatsApp, action stub) e #16 (telas, base = #15; retargetar p/ main após o merge do #15); lint/typecheck/test/build verdes; ⏳ troca do stub após GRP-02
 - PAR-02 · Caso de uso `join-group` · PAR → BE · 2 pts · 19/11 — PR #13 (`feat/PAR-02-join-group`): caso de uso com ports injetados, Zod, fake repo, 8 testes; lint/typecheck/test/build verdes; adapter Supabase após BE-01 e DB-04
 
@@ -44,6 +43,7 @@ _(vazio)_
 _(vazio)_
 
 ## 🏁 Pronto
+- OPS-03 · Testes de integração no CI + npm audit de produção · OPS → ORQ · 1 pt · 19/11 — ✅ ORQ (QA bloqueado pelo provedor); mergeado PR #17
 - DB-04 · RPCs create_group_once e join_group · DB → SEC · 2 pts · 19/11 — ✅ SEC+ORQ; mergeado PR #14 (587473e); CI db no Supabase real
 - DB-03 · types.ts gerado pelo CI + comparação estrita · DB → BE · 1 pt · 19/11 — ✅ BE+ORQ; mergeado PR #10 (98a9821); CI main verde
 - SEC-06 · ADR-004 token da URL → cookie por grupo · SEC → ORQ · 1 pt · 18/11 — ✅ ORQ (com ajuste do aparelho compartilhado); mergeado PR #12 (a42e992)
@@ -114,6 +114,7 @@ _(vazio)_
 - 2026-11-17 · Sorteio · SRT-01 aprovado pelo ORQ · DOM-01 entregue no PR #8 e aprovado pelo QA e pela SEC · aguarda merge do ORQ
 - 2026-11-17 · Lista de desejos · — · LST-01: spec aprovada pela Monetização (✅ 17/11) e pela Segurança (✅ 17/11; notas de canRedirect e IPs reservados incorporadas); decisões do ORQ aplicadas; pronto p/ validação final do Orquestrador · impedimento: Rodrigo cadastrar o domínio como mídia no Programa de Afiliados do ML (D1)
 
+- 2026-11-17 · QA · QA-02 aprovado · QA-03 estrutura E2E mobile 360 px, page objects e fixtures entregues no draft PR #19 · aguarda merge de GRP-03 e PAR-03 para habilitar e rodar cenários de HU01 e HU02
 - 2026-11-17 · QA · — · QA-01 elaborado e revisão solicitada · impedimentos: revisão 4/4, repositório Git e DOM-01 pendentes
 - 2026-11-17 · Segurança & LGPD · — · Revisões de MON-01 (r1 reprovada, r2 aprovada) e DB-01/DB-02 (ajustes enviados ao Banco); SEC-02 concluído em `docs/arquitetura/AMEACAS.md` (movido p/ Em revisão) · SEC-01 aguarda SETUP-02
 - 2026-11-17 · Feature Grupos · GRP-01 aprovado · GRP-02: caso de uso create-group implementado com fake repo, PR #18 aberto (`feat/GRP-02-create-group`, 363 linhas); lint/typecheck/test/build verdes; revisão pedida ao Back-end · nenhum
