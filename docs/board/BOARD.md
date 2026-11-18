@@ -21,13 +21,10 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 
 ## ✅ Pronto p/ iniciar (It-3, aberta 18/11 adiantada)
 - SRT-02 · RPC transacional `run_draw` (+ migration) · DB → SRT · 2 pts · 20/11 — responsável: 12 Banco; contrato da RPC publicado no PR antes do código, para o 23 usar; produção: ORQ aplica à mão enquanto o PEN-08 não existir
-- SRT-03 · Caso de uso `run-draw` + botão "Sortear" no painel · SRT → SEC · 3 pts · 21/11 — responsável: 23 Sorteio; usa DOM-01 (drawPairs) e o contrato da SRT-02; nenhuma resposta contém pares
 - LST-02 · Casos de uso CRUD da lista (até 20 itens, só `https:`) · LST → SEC · 2 pts · 20/11 — responsável: 22 Lista; adapter Supabase de wish_items pelo 10 Back-end, no mesmo cartão
-- DSN-04 · Especificação visual e de textos da lista de desejos e do cartão "Revelar" · DSN → ORQ · 2 pts · 20/11 — responsável: 16 Designer; entrega antes do LST-04 e do SRT-04
 - MON-01-APP · Publicar no app as páginas aprovadas do MON-01 (/sobre, /privacidade, /termos, /contato) com marcadores PEN-01/02 · MON → SEC + DSN · 2 pts · 20/11 — responsável: 24 Monetização; ads.txt só quando o PEN-03 chegar
 - FE-DSN-4 · A-06, A-10 + rodapé "Privacidade · Termos" · FE → DSN · 1 pt · 21/11 — responsável: 11 Front-end; merge depois do MON-01-APP
 - OPS-01 · Monitoramento de erros, uptime e alertas S1 · OPS → SEC · 2 pts · 21/11 — responsável: 14 DevOps; sem custo; sem acesso manual à VPS fora da regra §9
-- QA-04 · E2E HU03, HU04, HU05 + teste "resposta nunca vaza pares" · QA → SEC · 3 pts · 23/11 — responsável: 13 QA; começa pelo teste de vazamento e pelos page objects; cenários entram conforme SRT-03/LST-04 chegam
 
 ## ⏳ Aguardando dependência (It-3)
 - LST-03 · Adapters de afiliado + redirect `/r/[itemId]` · LST → SEC · 3 pts · 22/11 — após LST-02 (22 Lista)
@@ -36,14 +33,17 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 - MON-03 · Plano de eventos e painel do dono (RF14) · MON → SEC · 3 pts · 24/11 — após MON-01-APP (24 Monetização)
 
 ## 🔨 Em andamento
+- LST-02 · Casos de uso CRUD da lista · LST → SEC · 2 pts · 20/11 — PR #54 aberto (casos de uso e schemas prontos; CI verde); adapter do 10 no PR #50; revisão pedida à Segurança
+- SRT-03 · Caso de uso `run-draw` + botão "Sortear" no painel · SRT → SEC · 3 pts · 21/11 — responsável: 23 Sorteio; usa DOM-01 (drawPairs) e o contrato da SRT-02; nenhuma resposta contém pares
 
 ## 👀 Em revisão
-_(vazio)_
+- QA-04 · E2E HU03, HU04, HU05 + teste "resposta nunca vaza pares" · QA → SEC · 3 pts · 23/11 — ✅ 13 QA; PR #51 aberto (399 linhas, só testes), CI 44323760464 verde: Quality, Database e E2E (6 passed / 7 skipped, `fixme` só onde falta SRT-03/SRT-04/LST-02/LST-04); revisão do 15 Segurança
 
 ## 🧪 Em teste (QA)
 _(vazio)_
 
 ## 🏁 Pronto
+- DSN-04 · Especificação da lista, do "Revelar" e do sorteio no painel · DSN → ORQ · 2 pts · 20/11 — ✅ ORQ; mergeado PR #48 (`25051f7`); `docs/features/dsn-04-it3.md`, textos WSH/REV/DRW
 - BE-03 · Adapters Supabase do painel do organizador e da área do participante · BE → DB · 3 pts · 20/11 — ✅ DB+ORQ; mergeado PR #44 (`c0204a3`); integração 3 passed / 0 skipped; fluxo testado em produção em https://papelzinho.app. Dívida: remoção×sorteio atômica (SRT) e log de erro de infra sem token
 - FE-DSN-2 · Painel e área: A-03, A-08, A-09 + textos ADM-04/05/12 · FE → DSN · 2 pts · 21/11 — ✅ DSN+ORQ; mergeado PR #41 (`6332545`)
 - OPS-VPS · Hospedagem na VPS própria · OPS → SEC · 3 pts · 19/11 — ✅ SEC+ORQ; mergeado PR #35 (`6bb4090`); no ar em https://papelzinho.smartsolutionsbr.com.br (Let's Encrypt, pm2 fork 1 instância com boot automático, deploy da main pelo GitHub Actions); Vercel sem deploy automático
@@ -111,6 +111,7 @@ _(vazio)_
 | Feature Monetização | MON-01 | 2 |
 
 ## Log diário (cada agente adiciona 1 linha por dia: data · agente · ontem · hoje · impedimentos)
+- 2026-11-18 · Lista de desejos · LST-01 aprovado · LST-02: casos de uso (add, update, remove, list), schemas e validação estrita de URL implementados; 24 novos testes unitários; PR #54 aberto e CI 100% verde (Quality, Database, E2E); revisão pedida à Segurança · nenhum
 - 2026-11-17 · DevOps & Manutenção · OPS-00 mergeado (PR #11); OPS-03: PR #17 aberto com testes de integração no job db (Vitest contra Supabase local via supabase status -o env), auditoria de produção no quality job e script test:integration no package.json; CI 44203125654 100% verde (5m56s) · revisão solicitada ao QA · nenhum
 - 2026-11-17 · Orquestrador · Backlog e kanban criados · iniciar It-1 em 18/11 · nenhum
 - 2026-11-17 · Orquestrador · Revisões: SRT-01 ✅, QA-01 ✅ (com adições), PAR-01 🔁 ajustes · revisar SEC-02; acompanhar SETUP-01 e liberar SETUP-02/UX-01 · aguardando Rodrigo: ID AdSense, e-mail de contato, afiliado ML, alinhar RF11/RN05 no REQUISITOS.md
@@ -196,3 +197,6 @@ _(vazio)_
 - 2026-11-18 · Orquestrador principal (Claude) · PO comprou o domínio **papelzinho.app** (TLD .app exige HTTPS em todo acesso, HSTS pré-carregado). Prioridade 1 do 14 DevOps: nginx com server_name papelzinho.app e www, certificado Let's Encrypt (certbot), redirecionar www → raiz, atualizar a URL pública (Open Graph, sitemap, políticas, NEXT_PUBLIC_SITE_URL) e o 25 Marketing usar o domínio no SEO. O PO vai criar os registros DNS (A → 2.25.252.45) e a conta do AdSense · impedimento: DNS propagando
 - 2026-11-18 · Orquestrador · BE-03 mergeado (#44, `c0204a3`). papelzinho.app no ar: DNS A @ → 2.25.252.45 na Hostinger, certificado Let's Encrypt (raiz e www), nginx com www e papelzinho.smartsolutionsbr.com.br em 301 para https://papelzinho.app, APP_URL trocado e deploy refeito. Fluxo criar → painel → entrar → área testado com dados reais; teste apagado. O item do DevOps acima já está feito · nenhum
 - 2026-11-18 · Orquestrador · It-3 aberta adiantada a pedido do PO: SRT-02 (12), SRT-03 (23), LST-02 (22 + adapter do 10), DSN-04 (16), MON-01-APP (24; páginas aprovadas ainda não existiam no app), FE-DSN-4 (11), OPS-01 (14), QA-04 (13). LST-03, LST-04, SRT-04 e MON-03 na fila · nenhum
+- 2026-11-18 · Orquestrador · DSN-04 aprovado e mergeado (#48). Decisões: adicionar/editar item inline, sem modal; Editar e Apagar como botões de texto visíveis (substitui o menu do item da LST-01 §2.1); Revelar é o botão principal quando há sorteio; confirmação do sorteio inline com foco em Cancelar (irreversível no MVP); resultado revelado só na tela (recarregar fecha); aviso de afiliado só quando há item daquela loja. Texto do Mercado Livre (WSH-21) depende do 24 · nenhum
+- 2026-11-18 · QA · QA-04 no PR #51: page objects do painel e da área, fixture `groupFactory` criando grupos reais pelo fluxo de UI, e CT-03/CT-04/CT-05/CT-08. CI 44323760464 verde (6 passed / 7 skipped); a 1ª visita a `/p/<token>` estourava o timeout de 5 s durante a compilação da rota e foi corrigida com espera de 30 s no `open` · nenhum
+- 2026-11-18 · Orquestrador · Adapter da lista mergeado (#50, `1c24b85`); migration 20261122000100_wish_item_limit aplicada à mão em produção e registrada em supabase_migrations. Revisão do 15: #49/#52 aprovados em LGPD; ajustes pedidos em #54 (URL com ponto final e tamanho pós-encoding), #51 (isolamento antes do Revelar) e #53 (2 Altas: test-alert e redact). Decisões: Papelzinho é gratuito para quem usa; a trava do marcador PEN vai para o REL-02 com o 13 · nenhum
