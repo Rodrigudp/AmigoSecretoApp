@@ -22,7 +22,7 @@ Referências normativas e técnicas:
 | **Idioma principal** | Português (Brasil) — `pt-BR` | Português (Brasil) — `pt-BR` |
 | **Categoria principal** | `Entretenimento` (Entertainment) | `Entretenimento` |
 | **Categoria secundária** | `Estilo de Vida` (Lifestyle) | `Estilo de vida` / `Eventos` |
-| **Classificação etária sugerida** | `4+` (Livre para todas as idades) | `Livre` (Classificação IARC Livre) |
+| **Classificação etária sugerida** | `4+` (Livre para todas as idades — avaliado pelo 15 Segurança) | `Livre` (Classificação IARC Livre — avaliado pelo 15 Segurança) |
 | **Modelo de preço** | Gratuito (`Free`) | Gratuito (`Free`) |
 | **Contém anúncios?** | Não (v1 sem SDK de anúncios) | Não (v1 sem SDK de anúncios) |
 | **Compras no app (IAP)** | Não possui | Não possui |
@@ -42,46 +42,46 @@ Referências normativas e técnicas:
   `Amigo secreto sem cadastro`
   *(Contagem: 26 caracteres — dentro do limite de 30).*
 
-### 2.2. Palavras-chave (Keywords, máx. 100 caracteres)
-Termos separados exclusivamente por vírgula, sem espaços extras para otimização de espaço:
-`amigo secreto,amigo oculto,sorteio,presentes,natal,confraternização,festa,grupo,troca de presentes`
-*(Contagem: 98 caracteres — dentro do limite de 100).*
+### 2.2. Palavras-chave (Keywords, máx. 100 bytes)
+Termos separados exclusivamente por vírgula, sem espaços extras. "Amigo secreto" foi removido por já compor o título do aplicativo.
+`amigo oculto,sorteio,presentes,natal,confraternização,festa,grupo,troca de presentes,fim de ano`
+*(Contagem: 95 caracteres · 97 bytes em codificação UTF-8 — dentro do limite estrito de 100 bytes).*
 
-### 2.3. Texto "O que há de novo" (What's New — Versão 1.0.0)
+### 2.3. Texto "O que há de novo" (What's New)
+*Nota técnica: Na primeira submissão de um aplicativo novo na App Store (versão 1.0.0), o campo "O que há de novo" não existe no App Store Connect. O texto abaixo fica registrado como base para a primeira atualização pública (v1.0.1).*
+
 ```text
-Bem-vindo ao Papelzinho!
-
-O jeito mais simples e rápido de organizar seu amigo secreto em família, com amigos ou no trabalho:
+O Papelzinho é o jeito mais simples de organizar seu amigo secreto em família, com amigos ou no trabalho:
 - Sem cadastro e sem senha: cada pessoa entra apenas com o nome.
-- Compartilhamento fácil: envie o convite direto para o WhatsApp.
-- Notificações úteis: saiba na hora em que o sorteio for realizado e receba lembrete antes do encontro.
-- Lista de desejos: anote sugestões de presentes para ajudar quem tirou você.
-- Sigilo garantido: o painel não mostra os pares e cada um só vê o seu próprio resultado.
+- Compartilhamento fácil: envie o convite pelo menu nativo para o WhatsApp e outros apps.
+- Avisos úteis: ative as notificações para saber quando o sorteio for realizado e lembrar da data do encontro.
+- Lista de desejos: anote sugestões de presentes para orientar quem tirou você.
+- Cada pessoa vê só quem tirou. O painel do organizador não mostra os pares.
 ```
 
 ### 2.4. Descrição Completa (Description, até 4.000 caracteres)
 ```text
-Organize seu amigo secreto em 2 minutos, sem cadastro e sem complicação.
+Organize seu amigo secreto sem cadastro e sem complicação.
 
-O Papelzinho foi feito para reunir famílias, turmas de amigos e equipes de trabalho em uma troca de presentes leve, segura e rápida. Aqui ninguém precisa criar conta, digitar e-mail ou inventar senhas: basta criar o grupo, enviar o convite pelo WhatsApp e cada participante entra apenas com o nome.
+O Papelzinho foi feito para reunir famílias, turmas de amigos e equipes de trabalho em um amigo secreto leve, seguro e simples. Aqui ninguém precisa criar conta, digitar e-mail ou inventar senhas: basta criar o grupo, compartilhar o convite e cada participante entra apenas com o nome.
 
 COMO FUNCIONA
-1. Crie o grupo: informe o nome do grupo, valor máximo do presente, data e local do encontro.
-2. Compartilhe o convite: envie o link de convite direto no grupo do WhatsApp da família ou dos amigos.
+1. Crie o grupo: informe o nome do grupo, valor máximo do presente e data do encontro (o local é opcional).
+2. Compartilhe o convite: envie o link de convite pelo menu de compartilhamento (WhatsApp e outros aplicativos).
 3. Cada pessoa entra: os participantes entram pelo link e informam apenas o nome.
-4. Faça o sorteio: quando todo mundo tiver entrado (a partir de 3 pessoas), o organizador faz o sorteio com um toque.
-5. Descubra quem tirou: cada participante abre o app e vê o seu sorteado em segredo.
+4. Faça o sorteio: com pelo menos 3 participantes, o organizador confirma o sorteio.
+5. Descubra quem tirou: cada participante abre o app para ver quem tirou. Cada pessoa vê só quem tirou. O painel do organizador não mostra os pares.
 
 POR QUE ESCOLHER O PAPELZINHO?
 • Sem cadastro e sem senha: você não precisa preencher formulários longos, lembrar de senhas nem confirmar e-mail.
-• Sigilo absoluto: o sorteio é protegido. Nem o organizador nem os participantes conseguem ver os pares sorteados.
+• Sorteio protegido: cada pessoa vê só quem tirou. O painel do organizador não mostra os pares.
 • Lista de desejos simples: adicione ideias de presentes (com links ou anotações) para orientar quem tirou você.
 • Meus grupos reunidos: acompanhe todos os amigos secretos em que você está participando ou organizando no mesmo aparelho.
-• Notificações no celular: receba um aviso assim que o organizador fizer o sorteio e um lembrete antes do dia do encontro.
+• Avisos no celular: ative as notificações para receber um aviso quando o sorteio for realizado e um lembrete antes da data do encontro (os avisos dependem da permissão do aparelho).
 • 100% gratuito e sem anúncios: experiência limpa e focada no que importa, pensada para funcionar bem para qualquer idade.
 
 PRIVACIDADE E SEGURANÇA
-No Papelzinho, seus dados pessoais não são vendidos nem compartilhados. Não exigimos dados bancários, documentos, telefone ou e-mail. Suas credenciais de acesso ficam guardadas de forma segura e criptografada no seu próprio dispositivo.
+No Papelzinho, não exigimos dados bancários, documentos, telefone ou e-mail. Suas credenciais de acesso ficam guardadas de forma segura e criptografada no seu próprio dispositivo.
 
 Dúvidas ou sugestões? Escreva para suporte@papelzinho.app.
 ```
@@ -96,37 +96,37 @@ Dúvidas ou sugestões? Escreva para suporte@papelzinho.app.
   *(Contagem: 25 caracteres — dentro do limite de 30).*
 - **Descrição Curta (Short Description, máx. 80 caracteres):**
   `Amigo secreto sem cadastro e sem senha. Crie o grupo e faça o sorteio.`
-  *(Contagem: 71 caracteres — dentro do limite de 80).*
+  *(Contagem: exatamente 70 caracteres — dentro do limite de 80).*
 
 ### 3.2. Texto de Novidades da Versão (Release Notes — Versão 1.0.0)
 ```text
 Chegou o Papelzinho para Android!
-Organize seu amigo secreto em 2 minutos, sem cadastro e sem senha. Crie o grupo, envie o convite pelo WhatsApp, monte sua lista de desejos e receba notificação assim que o sorteio for feito.
+Organize seu amigo secreto sem cadastro e sem senha. Crie o grupo, compartilhe o convite pelo WhatsApp, monte sua lista de desejos e receba notificação quando o sorteio for feito (com permissão ativada).
 ```
 
 ### 3.3. Descrição Completa (Full Description, até 4.000 caracteres)
 ```text
-Organize seu amigo secreto em 2 minutos, sem cadastro e sem complicação.
+Organize seu amigo secreto sem cadastro e sem complicação.
 
-O Papelzinho foi feito para reunir famílias, turmas de amigos e equipes de trabalho em uma troca de presentes leve, segura e rápida. Aqui ninguém precisa criar conta, digitar e-mail ou inventar senhas: basta criar o grupo, enviar o convite pelo WhatsApp e cada participante entra apenas com o nome.
+O Papelzinho foi feito para reunir famílias, turmas de amigos e equipes de trabalho em um amigo secreto leve, seguro e simples. Aqui ninguém precisa criar conta, digitar e-mail ou inventar senhas: basta criar o grupo, compartilhar o convite e cada participante entra apenas com o nome.
 
 COMO FUNCIONA
-1. Crie o grupo: informe o nome do grupo, valor máximo do presente, data e local do encontro.
-2. Compartilhe o convite: envie o link de convite direto no grupo do WhatsApp da família ou dos amigos.
+1. Crie o grupo: informe o nome do grupo, valor máximo do presente e data do encontro (o local é opcional).
+2. Compartilhe o convite: envie o link de convite pelo menu de compartilhamento (WhatsApp e outros aplicativos).
 3. Cada pessoa entra: os participantes entram pelo link e informam apenas o nome.
-4. Faça o sorteio: quando todo mundo tiver entrado (a partir de 3 pessoas), o organizador faz o sorteio com um toque.
-5. Descubra quem tirou: cada participante abre o app e vê o seu sorteado em segredo.
+4. Faça o sorteio: com pelo menos 3 participantes, o organizador confirma o sorteio.
+5. Descubra quem tirou: cada participante abre o app para ver quem tirou. Cada pessoa vê só quem tirou. O painel do organizador não mostra os pares.
 
 POR QUE USAR O PAPELZINHO?
 • Sem cadastro e sem senha: esqueça cadastros chatos e senhas perdidas. O acesso é prático e direto.
-• Sigilo absoluto: o algoritmo garante um sorteio justo onde ninguém tira a si mesmo e ninguém vê os pares além do próprio sorteado.
+• Sorteio protegido: cada pessoa vê só quem tirou. O painel do organizador não mostra os pares.
 • Lista de desejos simples: anote sugestões de presentes para ajudar quem tirou você na brincadeira.
 • Todos os seus grupos no mesmo lugar: organize o amigo secreto da família e participe do amigo secreto da empresa no mesmo aparelho.
-• Notificações no celular: seja avisado na hora quando o sorteio acontecer e receba lembretes sobre a data da troca.
+• Avisos no celular: ative as notificações para receber um aviso quando o sorteio for realizado e um lembrete antes da data do encontro (os avisos dependem da permissão do aparelho).
 • Gratuito e sem anúncios: visual limpo no Estilo Notion, acessível e fácil de usar para todas as idades.
 
-PRIVACIDADE E RESPEITO AOS SEUS DADOS
-O Papelzinho respeita sua privacidade. Não coletamos dados de contato desnecessários, não vendemos informações e não exibimos publicidade.
+PRIVACIDADE E SEGURANÇA
+O Papelzinho respeita sua privacidade. Não pedimos e-mail, telefone, documentos ou dados bancários. Suas credenciais ficam salvas de forma segura no seu próprio aparelho.
 
 Contato e suporte: suporte@papelzinho.app
 ```
@@ -135,21 +135,37 @@ Contato e suporte: suporte@papelzinho.app
 
 ## 4. Plano de 5 Capturas de Tela (Screenshots)
 
-O plano de capturas segue o visual nativo especificado em `docs/features/app-telas.md` e o Estilo Notion (fundo papel quente, cartões brancos com borda fina, tipografia clara e sem elementos genéricos de IA). Dimensões recomendadas: iPhone 6.7" (1290 × 2796 px) e 6.5" (1242 × 2688 px); Android Smartphone (1080 × 2400 px).
+O plano de capturas segue o visual nativo especificado em `docs/features/app-telas.md` e o Estilo Notion (fundo papel quente, cartões brancos com borda fina, tipografia clara do sistema e sem ilustrações genéricas).
+
+### 4.1. Requisitos Técnicos e Resoluções das Lojas
+- **Origem das imagens:** Devem ser geradas exclusivamente a partir da build candidata de cada plataforma (iOS e Android), rodando em simuladores/emuladores oficiais ou dispositivos de teste.
+- **Privacidade e fidelidade:** Devem utilizar estritamente dados fictícios ("Família Silva", "Turma da Escola", "Ana", "Rafael", "Joana"). Nunca expor tokens reais, links de acesso privados ou dados de pessoas reais.
+- **Dimensões aceitas na Apple App Store:**
+  - iPhone 6.7" (obrigatório): 1290 × 2796 pixels (ou 2796 × 1290 px em paisagem).
+  - iPhone 6.5" / 5.5": 1242 × 2688 pixels ou 1242 × 2208 pixels.
+  - iPad Pro (se habilitado para tablets): 2048 × 2732 pixels.
+  - Formato: PNG ou JPEG sem canal alfa (RGB).
+- **Dimensões aceitas no Google Play Console:**
+  - Smartphones: Mínimo de 4 capturas e máximo de 8 capturas por tipo de dispositivo.
+  - Dimensões entre 320 px e 3840 px (lado maior não pode exceder o dobro do lado menor).
+  - Resolução padrão recomendada: 1080 × 2400 pixels (proporção 9:16 vertical).
+  - Formato: JPEG ou PNG de 24 bits, até 8 MB por imagem.
+
+### 4.2. Roteiro das 5 Capturas Oficiais
 
 | # | Tela base (`app-telas.md`) | Título no topo (Cartaz) | Mensagem de apoio / Subtítulo | Elementos da interface visíveis na captura |
 |---|---|---|---|---|
-| **1** | **Criar grupo** (`create.tsx`) | **Crie em 2 minutos** | Sem cadastro, sem senha e sem formulários demorados. | Formulário limpo com campos: Nome do grupo ("Família Silva"), Valor máximo ("R$ 50,00"), Data do encontro ("20/12/2026"), Local ("Casa da vó") e o botão principal "Criar grupo". |
-| **2** | **Compartilhar convite** (`created`) | **Convide pelo WhatsApp** | Envie o convite para o grupo. Cada pessoa entra só com o nome. | Cartão de confirmação de grupo criado com botão em destaque "Compartilhar convite" (acionando o menu de compartilhamento do sistema) e "Copiar link". |
-| **3** | **Meus grupos** (`index.tsx`) | **Todos os seus grupos reunidos** | Acompanhe família, amigos e trabalho no mesmo aparelho. | Tela inicial listando dois cartões reais de grupos: "Família Silva" (Organizador · Entradas abertas · Encontro em 20/12) e "Turma da Escola" (Participante · Sorteio feito · Encontro em 22/12). |
-| **4** | **Painel do organizador** (`admin/[adminToken].tsx`) | **Sorteio justo e secreto** | Com 3 ou mais pessoas, faça o sorteio. Ninguém vê os pares. | Cabeçalho do grupo, contador de participantes ("3 de 100"), lista com nomes (Ana, Rafael, Joana) e botão ativo "Fazer o sorteio", com o aviso de que o painel não mostra os resultados. |
-| **5** | **Área do participante** (`p/[accessToken].tsx`) | **Descubra quem tirou e dê dicas** | Cartão de revelação secreto e lista de desejos para ajudar seu par. | Cartão pêssego com botão "Revelar" para ver quem tirou, seguido pela seção "Sua lista de desejos" com 2 sugestões cadastradas e botão "+ Adicionar presente". |
+| **1** | **Criar grupo** (`mobile/app/create.tsx`) | **Crie o seu grupo** | Sem cadastro, sem senha e sem formulários demorados. | Cabeçalho com botão voltar "< Meus grupos", título "Criar grupo", campos preenchidos: Nome do grupo ("Família Silva"), Valor máximo ("R$ 50,00"), Data do encontro ("20/12/2026"), Local do encontro ("Casa da vó" com indicação visual de opcional) e botão principal ativo "Criar grupo". |
+| **2** | **Compartilhar convite** (Confirmação pós-criação) | **Compartilhe o convite** | Envie para o grupo pelo WhatsApp ou por outro aplicativo. | Cartão de confirmação "Grupo criado", botão em destaque "Compartilhar convite" (acionando a folha/menu de compartilhamento nativo do sistema operacional, exibindo WhatsApp e outros apps como opção de envio) e botão secundário "Copiar link". |
+| **3** | **Meus grupos** (`mobile/app/index.tsx`) | **Todos os seus grupos reunidos** | Acompanhe família, amigos e trabalho no mesmo aparelho. | Tela inicial com logo Papelzinho, botão "Criar grupo" no topo e dois cartões de grupos salvos no SecureStore: "Família Silva" (Organizador · Entradas abertas · Encontro em 20/12/2026) e "Turma da Escola" (Participante · Sorteio feito · Encontro em 22/12/2026). |
+| **4** | **Painel do organizador** (`mobile/app/admin/[adminToken].tsx`) | **Sorteio protegido** | Com 3 ou mais pessoas, faça o sorteio. O painel do organizador não mostra os pares. | Estado estritamente **pré-sorteio** (sem avisos de encerramento de entradas ou de pós-sorteio): detalhes do grupo (data do encontro, valor máximo, local opcional), botões de convite ("Compartilhar convite" e "Copiar link"), contador de participantes ("Participantes (3 de 100)"), lista com nomes fictícios ("Ana", "Rafael", "Joana") com botão "Remover", e o botão ativo "Fazer o sorteio". |
+| **5** | **Área do participante** (`mobile/app/p/[...path].tsx`) | **Descubra quem tirou e dê dicas** | Cada pessoa vê só quem tirou. Monte sua lista de presentes. | Área do participante após sorteio com rótulos reais de interface: cartão de revelação fechado com botão de ação **"Revelar meu amigo secreto"** (sem exibir o resultado na foto de vitrine); seção intitulada **"Lista de desejos"** com 2 itens fictícios cadastrados e botão **"Adicionar presente"**. |
 
 ---
 
 ## 5. Questionários de Privacidade das Lojas
 
-As respostas abaixo refletem fielmente a arquitetura sem cadastro do Papelzinho, a política publicada em `https://papelzinho.app/privacidade` e o contrato da API v1 (`docs/arquitetura/API-V1.md` §5).
+As respostas abaixo refletem fielmente a arquitetura sem cadastro do Papelzinho, a política publicada em `https://papelzinho.app/privacidade` e o contrato da API v1 (`docs/arquitetura/API-V1.md` §5). Avaliado e aprovado pela Segurança (15 Segurança & LGPD, commit `c1f3fd3`).
 
 ### 5.1. Apple App Store — Rótulo de Privacidade (App Privacy Details)
 
@@ -201,7 +217,7 @@ As respostas abaixo refletem fielmente a arquitetura sem cadastro do Papelzinho,
 1. **Informações pessoais (Personal info):**
    - **Dado:** Nome (`Name`).
    - **Coletado:** Sim (nome informal ou apelido fornecido ao participar de um grupo).
-   - **Compartilhado:** Não.
+   - **Compartilhado:** Não. Provedores de nuvem (Supabase) atuam estritamente como operadores de processamento sob contrato.
    - **Finalidade:** Funcionalidade do app (`App functionality`).
    - **Opcional ou Obrigatório:** Obrigatório para participar do sorteio no grupo.
 
