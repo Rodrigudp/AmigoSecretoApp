@@ -164,4 +164,229 @@ export const copy = {
   OG_04: "Papelzinho",
   OG_05: "Painel do organizador — Papelzinho",
   OG_06: "Amigo secreto online — Papelzinho",
+  LEG: {
+    updated: "18/11/2026",
+    updatedLabel: "Última atualização:",
+    pending: "A PREENCHER PELO RODRIGO",
+    sobre: {
+      title: "Sobre o Papelzinho",
+      description: "Como o Papelzinho funciona e como o site se mantém.",
+      sections: [
+        {
+          heading: "O que é",
+          blocks: [
+            {
+              p: "O Papelzinho é um site gratuito para organizar a troca de presentes entre amigos e família.",
+            },
+            {
+              p: "O organizador cria um grupo, compartilha o link no WhatsApp, cada pessoa entra só com o nome, monta a própria lista de desejos e, no dia marcado, vê, só ela, quem tirou.",
+            },
+            {
+              p: "Não é preciso criar conta nem senha. Ninguém vê o resultado do sorteio além da própria pessoa.",
+            },
+          ],
+        },
+        {
+          heading: "Como o site se mantém",
+          blocks: [
+            {
+              p: "Podemos exibir anúncios do Google AdSense e, em alguns links de produtos, usamos links de afiliado. Quando você compra por um desses links, a loja pode pagar uma comissão ao site, sem custo extra para você.",
+            },
+          ],
+        },
+      ],
+    },
+    privacidade: {
+      title: "Política de privacidade",
+      description:
+        "Quais dados o Papelzinho coleta, para quê, por quanto tempo e como você exerce seus direitos.",
+      sections: [
+        {
+          heading: "Quem é o responsável pelos dados",
+          blocks: [
+            { p: "Controlador: A PREENCHER PELO RODRIGO. Contato: A PREENCHER PELO RODRIGO." },
+          ],
+        },
+        {
+          heading: "Quais dados coletamos",
+          blocks: [
+            {
+              ul: [
+                {
+                  label: "Nome",
+                  text: "que você digita ao entrar em um grupo (pode ser apelido).",
+                },
+                {
+                  label: "Lista de desejos:",
+                  text: "os itens, links opcionais e observações que você cadastra.",
+                },
+                {
+                  label: "Dados técnicos de uso, de forma anônima:",
+                  text: "por exemplo, que um grupo foi criado ou que um sorteio foi feito. Esses registros usam apenas números internos do sistema. Não guardamos e-mail, telefone, CPF, endereço ou localização.",
+                },
+                "Cookies (detalhados abaixo).",
+              ],
+            },
+            { p: "Não pedimos e-mail, telefone, documentos ou dados de pagamento." },
+          ],
+        },
+        {
+          heading: "Para que usamos",
+          blocks: [
+            {
+              ul: [
+                "Fazer o sorteio e mostrar o resultado somente para quem tem o link pessoal.",
+                "Mostrar a lista de desejos somente para quem tirou você.",
+                "Medir, de forma agregada, quantos grupos e participantes usam o site.",
+                "Exibir anúncios. Quando houver anúncios, pediremos o seu consentimento antes.",
+              ],
+            },
+          ],
+        },
+        {
+          heading: "Cookies",
+          blocks: [
+            {
+              ul: [
+                {
+                  label: "Cookie estritamente necessário:",
+                  text: "o cookie do seu link pessoal (ptk_). Ele mantém você conectado ao seu grupo durante a sessão. Sem ele o site não funciona, por isso não pedimos consentimento para ele.",
+                },
+              ],
+            },
+            {
+              p: "Hoje o site não usa cookies de anúncio nem de medição de terceiros. Quando houver anúncios, vamos pedir o seu consentimento antes de usar qualquer cookie desse tipo.",
+            },
+          ],
+        },
+        {
+          heading: "Compartilhamento e transferência internacional",
+          blocks: [
+            { p: "Compartilhamos dados apenas com os prestadores que mantêm o site:" },
+            {
+              ul: [
+                {
+                  label: "Hostinger (servidor do site, VPS):",
+                  text: "pode processar dados fora do Brasil.",
+                },
+                {
+                  label: "Supabase (banco de dados):",
+                  text: "pode processar dados fora do Brasil.",
+                },
+                {
+                  label: "Google AdSense (quando houver anúncios):",
+                  text: "poderá receber dados técnicos para exibir anúncios, somente após o seu consentimento. Pode haver transferência internacional.",
+                },
+                {
+                  label: "Lojas afiliadas:",
+                  text: "quando você clica em um link de afiliado, você é redirecionado para a loja. Não enviamos seu nome nem sua lista de desejos a elas.",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          heading: "Links de afiliado",
+          blocks: [
+            {
+              p: "Alguns links de produtos são links de afiliado. Ao clicar, a loja registra o clique com o identificador do programa de afiliados.",
+            },
+          ],
+        },
+        {
+          heading: "Por quanto tempo guardamos",
+          blocks: [
+            {
+              ul: [
+                "Os dados do grupo, incluindo nomes e listas de desejos, são apagados 60 dias após a data da troca.",
+                'Depois disso, ficam apenas contadores anônimos do histórico (por grupo e tipo de ação, como "grupo criado" ou "sorteio feito"). Esses contadores não contêm nome, lista de desejos nem qualquer identificador de pessoa, por isso não são apagados junto com o grupo.',
+              ],
+            },
+          ],
+        },
+        {
+          heading: "Seus direitos (LGPD)",
+          blocks: [
+            {
+              p: "Você pode pedir acesso, correção, exclusão ou revogação do consentimento a qualquer momento.",
+            },
+            {
+              ul: [
+                {
+                  label: "Sem e-mail e sem login:",
+                  text: "para editar a sua lista de desejos, use o seu link pessoal. Para sair ou ser removido de um grupo, peça ao organizador antes do sorteio. Não enviamos links secretos por e-mail.",
+                },
+                {
+                  label: "Pedidos pelo contato:",
+                  text: "escreva para A PREENCHER PELO RODRIGO. Respondemos em até 15 dias.",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    termos: {
+      title: "Termos de uso",
+      description: "Regras de uso do Papelzinho.",
+      sections: [
+        {
+          heading: "Regras gerais",
+          blocks: [
+            {
+              ol: [
+                {
+                  label: "Uso.",
+                  text: "O site serve para organizar trocas de presentes entre pessoas que se conhecem. É gratuito.",
+                },
+                {
+                  label: "Idade.",
+                  text: "O uso do site é permitido a partir de 18 anos. Pessoas menores de idade só podem usar o site com supervisão de um responsável, que concorda com estes termos e com a política de privacidade.",
+                },
+                {
+                  label: "Responsabilidade do organizador.",
+                  text: "O organizador é responsável pelo grupo que cria e pelos convites que envia.",
+                },
+                {
+                  label: "Conteúdo.",
+                  text: "Quem cadastra itens na lista de desejos é responsável pelo que escreve e pelos links que inclui.",
+                },
+                {
+                  label: "Afiliados e anúncios.",
+                  text: "O site pode exibir anúncios e links de afiliado. A compra é feita diretamente na loja, que responde pelo produto, pela entrega e pela troca.",
+                },
+                {
+                  label: "Disponibilidade.",
+                  text: "Fazemos o possível para manter o site no ar, mas não garantimos funcionamento sem interrupções.",
+                },
+                {
+                  label: "Alterações.",
+                  text: "Podemos atualizar estes termos. A data de atualização fica no topo da página.",
+                },
+                { label: "Foro.", text: "Aplica-se a lei brasileira." },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    contato: {
+      title: "Fale com a gente",
+      description: "Como falar com o time do Papelzinho sobre dúvidas, sugestões e dados pessoais.",
+      siteLabel: "Site:",
+      sections: [
+        {
+          heading: "Canais",
+          blocks: [
+            {
+              p: "Dúvidas e sugestões: escreva para A PREENCHER PELO RODRIGO. Respondemos em até 5 dias úteis.",
+            },
+            {
+              p: "Pedidos sobre seus dados pessoais: respondemos em até 15 dias, conforme a política de privacidade.",
+            },
+          ],
+        },
+      ],
+    },
+  },
 } as const;
