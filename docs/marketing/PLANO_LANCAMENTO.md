@@ -10,6 +10,12 @@ WhatsApp e indicações são prioridade: cada convite chega às pessoas que já 
 
 **Portão de segurança:** IP:8090 com HTTP serve somente para homologação interna; nunca para divulgação. A alternativa provisória sem custo de domínio é `papelzinho.smartsolutionsbr.com.br`, sujeito ao DNS do PO (PEN-10) e à configuração de HTTPS com certbot. A divulgação só pode começar quando houver HTTPS, provisório ou próprio, aprovado por DevOps e Segurança. O domínio antigo da Vercel não é a URL principal.
 
+## Escopo do lançamento de 28/11 e estratégia do aplicativo móvel
+
+O lançamento de 28/11/2026 contempla exclusivamente a **versão web** (`https://papelzinho.app`), que reúne todo o fluxo de criação, convite, entrada, lista de desejos e sorteio sem cadastro.
+
+O aplicativo móvel nativo (iOS e Android, [ADR-005](../arquitetura/adr/005-app-mobile.md)) **virá depois, sem data prometida ao público**. Não há compromisso de publicação nas lojas para o primeiro Natal de 2026, dado o tempo necessário para criação e verificação das contas individuais de desenvolvedor do PO (Apple US$ 99/ano e Google Play US$ 25 com exigência de 14 dias de teste fechado com 12 testadores), homologação de builds e revisão pelas lojas. A infraestrutura de deep linking (Universal Links e App Links) já está integrada para que os links web abram diretamente no app quando ele estiver disponível.
+
 ## Metas e medição
 
 Meta do produto: 10.000 participantes únicos até 25/12 e média ≥ 8 por grupo. Os marcos abaixo são metas operacionais acumuladas, não previsão; foram distribuídos para acompanhamento semanal. `participant_joined` conta entradas, **não pessoas únicas deduplicadas entre grupos**; usá-lo como proxy, sem afirmar que a meta de pessoas únicas foi comprovada. Para média, dividir entradas por grupos criados no mesmo período/coorte, distinguindo grupos ativos dos recém-criados. Confirmar disponibilidade do RF14/MON-03 antes de depender do painel; se indisponível, registrar “sem dado”, não inventar números.
