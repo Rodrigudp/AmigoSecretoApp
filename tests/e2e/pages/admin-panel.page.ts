@@ -1,3 +1,4 @@
+import { expect } from "@playwright/test";
 import type { Locator, Page } from "@playwright/test";
 
 /** Painel do organizador (/admin/<token>); rótulos de textos.md, sem texto de marca. */
@@ -5,7 +6,9 @@ export class AdminPanelPage {
   constructor(private readonly page: Page) {}
 
   async open(adminUrl: string) {
-    return this.page.goto(adminUrl);
+    await this.page.goto(adminUrl);
+    // A 1ª visita compila a rota no dev server e pode passar de 5 s.
+    await expect(this.page.getByRole("heading", { level: 1 })).toBeVisible({ timeout: 30_000 });
   }
 
   get heading(): Locator {

@@ -1,3 +1,4 @@
+import { expect } from "@playwright/test";
 import type { Locator, Page } from "@playwright/test";
 
 /** Área do participante (/p/<token>): lista (HU03), estado do sorteio (HU04) e Revelar (HU05). */
@@ -6,6 +7,8 @@ export class ParticipantAreaPage {
 
   async open(personalUrl: string) {
     await this.page.goto(personalUrl);
+    // A 1ª visita compila a rota no dev server e pode passar de 5 s; espera o h1 sair do Suspense.
+    await expect(this.page.getByRole("heading", { level: 1 })).toBeVisible({ timeout: 30_000 });
   }
 
   get waitingDrawMessage(): Locator {
