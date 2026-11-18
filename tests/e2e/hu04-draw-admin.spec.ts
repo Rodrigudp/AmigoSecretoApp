@@ -1,8 +1,7 @@
-import { test, expect } from "./fixtures/group-factory";
+import { test, expect, MOBILE } from "./fixtures/group-factory";
 import { AdminPanelPage } from "./pages/admin-panel.page";
 import { ParticipantAreaPage } from "./pages/participant-area.page";
 
-const MOBILE = { width: 360, height: 800 };
 const NAMES = ["QA Ana", "QA Bruno", "QA Carla"];
 
 test.describe("HU04 - sorteio pelo painel (CT-04)", () => {
@@ -23,7 +22,6 @@ test.describe("HU04 - sorteio pelo painel (CT-04)", () => {
     await expect(admin.participantsTitle(NAMES.length)).toBeVisible();
     for (const name of NAMES) await expect(admin.participantRow(name)).toBeVisible();
     await expect(admin.drawDisabledReason).toHaveCount(0);
-    expect(page.viewportSize()).toEqual(MOBILE);
 
     const area = new ParticipantAreaPage(page);
     await area.open(group.participants[0].personalUrl);

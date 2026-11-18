@@ -1,8 +1,7 @@
-import { test, expect } from "./fixtures/group-factory";
+import { test, expect, MOBILE } from "./fixtures/group-factory";
 import { AdminPanelPage } from "./pages/admin-panel.page";
 import { ParticipantAreaPage } from "./pages/participant-area.page";
 
-const MOBILE = { width: 360, height: 800 };
 const NAMES = ["QA Ana", "QA Bruno", "QA Carla"];
 
 test.describe("HU05 - revelar o próprio resultado (CT-05)", () => {
@@ -40,7 +39,6 @@ test.describe("HU05 - revelar o próprio resultado (CT-05)", () => {
       (name) => name !== participant.name && revealedText.includes(name)
     );
     expect(targets).toHaveLength(1);
-    expect(targets[0]).not.toBe(participant.name);
 
     await expect(area.wishListTitle).toBeVisible();
     await context.close();

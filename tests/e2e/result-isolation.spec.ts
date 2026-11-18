@@ -1,8 +1,7 @@
-import { test, expect } from "./fixtures/group-factory";
+import { test, expect, MOBILE } from "./fixtures/group-factory";
 import { AdminPanelPage } from "./pages/admin-panel.page";
 import { ParticipantAreaPage } from "./pages/participant-area.page";
 
-const MOBILE = { width: 360, height: 800 };
 const NAMES = ["QA Ana", "QA Bruno", "QA Carla"];
 
 test.describe("RN03 / RNF04 - o resultado nunca vaza pares (CT-08)", () => {

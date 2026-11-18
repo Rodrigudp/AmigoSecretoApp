@@ -4,7 +4,7 @@ import { GroupSuccessPage } from "../pages/group-success.page";
 import { InvitePage } from "../pages/invite.page";
 import { PersonalLinkPage } from "../pages/personal-link.page";
 
-const MOBILE = { width: 360, height: 800 };
+export const MOBILE = { width: 360, height: 800 };
 
 export type CreatedParticipant = { name: string; personalUrl: string };
 
