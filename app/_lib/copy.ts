@@ -113,6 +113,89 @@ export const copy = {
     text: "Este link é inválido ou não está mais disponível. Peça um novo link ao organizador.",
   },
   ARE_07: "Abra o seu link pessoal para acessar esta área.",
+  WSH_01: "Lista de desejos",
+  WSH_02: (n: number) => (n === 1 ? "1 de 20 presentes" : `${n} de 20 presentes`),
+  WSH_03: {
+    before: "Quem tirar você vai ver esta lista. Pode mudar quando quiser.",
+    after: "Quem tirou você vê a versão mais recente desta lista. Pode mudar quando quiser.",
+  },
+  WSH_04: "Sua lista está vazia. Adicione ideias de presente para quem tirar você.",
+  WSH_05: "Adicionar presente",
+  WSH_06: "Você chegou a 20 presentes. Apague um para adicionar outro.",
+  WSH_07: { new: "Novo presente", edit: "Editar presente" },
+  WSH_08: { label: "Nome do presente", placeholder: "Ex.: Livro de receitas" },
+  WSH_09: {
+    label: "Link da loja (opcional)",
+    hint: "Cole o endereço da página do produto.",
+    placeholder: "https://",
+  },
+  WSH_10: {
+    label: "Observação (opcional)",
+    hint: "Tamanho, cor, número… o que ajuda quem for comprar.",
+  },
+  WSH_11: {
+    save: "Salvar presente",
+    saveEdit: "Salvar alterações",
+    cancel: "Cancelar",
+    saving: "Salvando…",
+  },
+  WSH_12: {
+    saved: "Presente salvo.",
+    deleted: "Presente apagado.",
+  },
+  WSH_13: {
+    store: "Ver na loja",
+    edit: "Editar",
+    delete: "Apagar",
+    editAria: (name: string) => `Editar ${name}`,
+    deleteAria: (name: string) => `Apagar ${name}`,
+  },
+  WSH_14: {
+    confirm: (name: string) => `Apagar “${name}”? Não dá para desfazer.`,
+    cancel: "Cancelar",
+    yes: "Sim, apagar",
+  },
+  WSH_15: {
+    empty: "Escreva o nome do presente.",
+    tooLong: "Use até 80 letras no nome do presente.",
+  },
+  WSH_16: "Use até 200 letras na observação.",
+  WSH_17: {
+    http: "Use um link que comece com https://",
+    unsupported: "Este tipo de link não é aceito. Use o endereço da loja, que começa com https://",
+    invalid: "Link inválido. Copie o endereço completo da página do produto.",
+    tooLong: "Link muito longo. Use o endereço da página do produto.",
+  },
+  WSH_18: {
+    shortened: "Presente salvo, sem link de afiliado: links encurtados não são convertidos.",
+    notProduct: "Presente salvo, sem link de afiliado: este link não é de um produto.",
+    storeFailure: "Presente salvo. Não foi possível gerar o link de afiliado desta loja.",
+    dismiss: "Entendi",
+  },
+  WSH_19: {
+    affiliate: (domain: string) => `Link de afiliado · ${domain}`,
+    common: (domain: string) => domain,
+  },
+  WSH_20:
+    "Como participante do Programa de Associados da Amazon, sou remunerado pelas compras qualificadas efetuadas",
+  WSH_21:
+    "O Papelzinho participa do Programa de Afiliados e Criadores do Mercado Livre e pode receber comissão por compras feitas pelos links.",
+  WSH_22: {
+    loadError: "Não foi possível carregar a sua lista. Tente de novo.",
+    saveError: "Não foi possível salvar agora. Tente de novo.",
+    retry: "Tentar de novo",
+  },
+  WSH_23: {
+    notFound: "Este presente não está mais na lista. Atualize a página.",
+    productUnavailable: "Este link não está mais disponível.",
+    invalidLink:
+      "Este link é inválido ou não está mais disponível. Peça um novo link ao organizador.",
+  },
+  WSH_24: {
+    title: (name: string) => `Lista de desejos de ${name}`,
+    count: (n: number) => (n === 1 ? "1 de 20 presentes" : `${n} de 20 presentes`),
+    empty: "Esta pessoa ainda não adicionou desejos.",
+  },
   ADM_01: "Painel do organizador",
   ADM_02: "Entradas abertas",
   ADM_03: (date: string) => `Sorteio feito em ${date}`,

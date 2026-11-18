@@ -67,6 +67,8 @@ async function ParticipantEntry({
       redirect(`/api/p/hs/${decision.accessToken}`);
     case "fallback":
       // WebView without cookie support: render here, no ad slots (ADR-004).
-      return <ParticipantArea view={decision.access.view} adsAllowed={false} />;
+      return (
+        <ParticipantArea view={decision.access.view} adsAllowed={false} accessToken={accessToken} />
+      );
   }
 }

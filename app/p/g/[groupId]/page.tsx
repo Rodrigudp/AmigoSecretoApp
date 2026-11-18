@@ -49,5 +49,5 @@ async function ParticipantEntry({ paramsPromise }: { paramsPromise: PageProps["p
     return <ParticipantNeutralError hint={copy.EXTRA.invalidHint} />;
   }
 
-  return <ParticipantArea view={resolved.value.view} adsAllowed />;
+  return <ParticipantArea view={resolved.value.view} adsAllowed accessToken={cookieToken} />;
 }
