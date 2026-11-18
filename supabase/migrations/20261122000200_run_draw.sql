@@ -4,7 +4,7 @@
 -- DRAW_MEMBERS_CHANGED, DRAW_NOT_READY, INVALID_INPUT (and GROUP_CLOSED from the removal trigger).
 -- The pairs come from the domain (drawPairs, ADR-003) as two parallel arrays; the RPC validates and writes.
 -- It never returns pairs.
--- Rollback: supabase/rollback/20261122000100_run_draw.down.sql
+-- Rollback: supabase/rollback/20261122000200_run_draw.down.sql
 
 create or replace function public.run_draw(
   p_group_id         uuid,
