@@ -18,18 +18,18 @@ Cada item abaixo é um roteiro pronto para o Rodrigo publicar em Instagram, TikT
 
 | # | Canal | Roteiro / texto |
 |---|-------|-----------------|
-| 1 | Instagram / Reels | "Seu amigo secreto começa aqui. Crie o grupo em 2 minutos, sem cadastro e sem senha. Cada pessoa entra só com o nome. 🎁 <br><br>Crie o seu grupo: https://papelzinho.app" |
-| 2 | Instagram / Reels | "Não esquece ninguém na troca. Compartilhe o convite, cada um entra com o nome e você faz o sorteio quando estiver todo mundo. <br><br>https://papelzinho.app" |
-| 3 | Instagram / Reels | "Valor máximo: você combina. Data da troca: você escolhe. O Papelzinho cuida do resto. <br><br>https://papelzinho.app" |
+| 1 | Instagram / Reels | "Seu amigo secreto começa aqui. Crie o grupo em 2 minutos, sem cadastro e sem senha. Cada pessoa entra só com o nome. <br><br>Crie o seu grupo: https://papelzinho.app" |
+| 2 | Instagram / Reels | "Convide todo mundo para a troca. Compartilhe o convite, cada um entra com o nome e você faz o sorteio quando estiver todo mundo. <br><br>https://papelzinho.app" |
+| 3 | Instagram / Reels | "Valor máximo: você combina. Data da troca: você escolhe. O Papelzinho organiza convite e sorteio. <br><br>https://papelzinho.app" |
 | 4 | Status do WhatsApp | "Amigo secreto sem cadastro e sem senha. Cada pessoa entra só com o nome pelo convite. Crie o seu grupo: https://papelzinho.app 🎁" |
 | 5 | Status do WhatsApp | "Guarde seu link pessoal. É por ele que você vê quem tirou no sorteio. Não compartilhe com ninguém. <br><br>https://papelzinho.app" |
 | 6 | TikTok / Reels | Passo a passo em 4 telas: 1. O organizador cria o grupo. 2. Envia o convite. 3. Cada pessoa entra com o nome. 4. Faz o sorteio. <br><br>Legenda: Crie o seu grupo: https://papelzinho.app |
-| 7 | Instagram / Reels | "O grupo fecha depois do sorteio. Convite cedo, sorteio certo. <br><br>https://papelzinho.app" |
-| 8 | TikTok / Reels | "Quem organiza não compartilha o link do organizador. Apenas o convite vai para o grupo. <br><br>https://papelzinho.app ⚠" |
-| 9 | Instagram / Reels | "De 3 a 100 pessoas por grupo. O sorteio é só seu: o painel não mostra os pares. <br><br>https://papelzinho.app" |
+| 7 | Instagram / Reels | "O grupo fecha depois do sorteio. Convite cedo para organizar a tempo. <br><br>https://papelzinho.app" |
+| 8 | TikTok / Reels | "Quem organiza não compartilha o link do organizador. Apenas o convite vai para o grupo. <br><br>https://papelzinho.app" |
+| 9 | Instagram / Reels | "De 3 a 100 pessoas por grupo. O sorteio é só seu: cada pessoa vê só o próprio par e o painel não mostra os pares. <br><br>https://papelzinho.app" |
 | 10 | Status do WhatsApp | "Família, amigos, equipe de trabalho. Qualquer troca combina com o Papelzinho. <br><br>Crie o seu grupo: https://papelzinho.app 🎁" |
-| 11 | Instagram / Reels | "Primeiro Natal do Papelzinho. Organize a troca de presentes da sua família sem cadastro e sem senha. <br><br>https://papelzinho.app 🎁" |
-| 12 | TikTok / Reels | "Link pronto, grupo reunido, presente certo. Crie o seu amigo secreto em 2 minutos. <br><br>https://papelzinho.app" |
+| 11 | Instagram / Reels | "Primeiro Natal do Papelzinho. Organize a troca de presentes da sua família sem cadastro e sem senha. <br><br>https://papelzinho.app" |
+| 12 | TikTok / Reels | "Link pronto, grupo reunido, troca organizada. Crie o seu amigo secreto em 2 minutos. <br><br>https://papelzinho.app" |
 
 ## 3. Texto de divulgação para grupos (WhatsApp)
 
