@@ -16,16 +16,24 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 ---
 
 ## 🗂️ Backlog (próximas iterações)
-- LST-02..04, SRT-02..04, QA-04 — It-3 (22–23/11)
-- MON-02..03, SEC-04, OPS-01, QA-05..06, SEC-05 — It-4 (24–25/11)
+- MON-02, SEC-04, QA-05..06, SEC-05 — It-4 (24–25/11)
 - REL-01..02 — Release (26–28/11)
 
-## ✅ Pronto p/ iniciar (It-2)
-- DSN-03 + FE-DSN-3 · Centralizar textos (DSN-01) + A-05 e A-07 · FE → DSN + QA · 3 pts · 21/11 — responsável: 11 Front-end; revisão do 16 e do 13 QA (strings dos E2E); inclui texto do WhatsApp/OG sem a promessa da lista até a LST-04 e o aviso GLB-12
-- MKT-03 · Página "Como funciona"/FAQ + SEO técnico (sitemap.xml, robots.txt, metadados, schema.org) · MKT → FE + SEC + DSN · 3 pts · 24/11 — responsável: 25 Marketing; URLs pelo APP_URL (domínio vai mudar para papelzinho.app); páginas com token seguem noindex; Lighthouse SEO ≥ 90. Depois: MKT-04
+## ✅ Pronto p/ iniciar (It-3, aberta 18/11 adiantada)
+- SRT-02 · RPC transacional `run_draw` (+ migration) · DB → SRT · 2 pts · 20/11 — responsável: 12 Banco; contrato da RPC publicado no PR antes do código, para o 23 usar; produção: ORQ aplica à mão enquanto o PEN-08 não existir
+- SRT-03 · Caso de uso `run-draw` + botão "Sortear" no painel · SRT → SEC · 3 pts · 21/11 — responsável: 23 Sorteio; usa DOM-01 (drawPairs) e o contrato da SRT-02; nenhuma resposta contém pares
+- LST-02 · Casos de uso CRUD da lista (até 20 itens, só `https:`) · LST → SEC · 2 pts · 20/11 — responsável: 22 Lista; adapter Supabase de wish_items pelo 10 Back-end, no mesmo cartão
+- DSN-04 · Especificação visual e de textos da lista de desejos e do cartão "Revelar" · DSN → ORQ · 2 pts · 20/11 — responsável: 16 Designer; entrega antes do LST-04 e do SRT-04
+- MON-01-APP · Publicar no app as páginas aprovadas do MON-01 (/sobre, /privacidade, /termos, /contato) com marcadores PEN-01/02 · MON → SEC + DSN · 2 pts · 20/11 — responsável: 24 Monetização; ads.txt só quando o PEN-03 chegar
+- FE-DSN-4 · A-06, A-10 + rodapé "Privacidade · Termos" · FE → DSN · 1 pt · 21/11 — responsável: 11 Front-end; merge depois do MON-01-APP
+- OPS-01 · Monitoramento de erros, uptime e alertas S1 · OPS → SEC · 2 pts · 21/11 — responsável: 14 DevOps; sem custo; sem acesso manual à VPS fora da regra §9
+- QA-04 · E2E HU03, HU04, HU05 + teste "resposta nunca vaza pares" · QA → SEC · 3 pts · 23/11 — responsável: 13 QA; começa pelo teste de vazamento e pelos page objects; cenários entram conforme SRT-03/LST-04 chegam
 
-## ⏳ Aguardando dependência (It-2)
-- FE-DSN-4 · A-06, A-10 + rodapé "Privacidade · Termos" (LGPD, obrigatório antes do lançamento) · FE → DSN · 1 pt · 22/11 — após MON-01 (páginas) e textos GLB do 16
+## ⏳ Aguardando dependência (It-3)
+- LST-03 · Adapters de afiliado + redirect `/r/[itemId]` · LST → SEC · 3 pts · 22/11 — após LST-02 (22 Lista)
+- LST-04 · Tela da lista na área do participante · FE → LST · 2 pts · 22/11 — após LST-02 e DSN-04 (11 Front-end)
+- SRT-04 · `get-my-result` + cartão "Revelar" · SRT → QA · 3 pts · 23/11 — após SRT-03, LST-04 e DSN-04 (23 Sorteio)
+- MON-03 · Plano de eventos e painel do dono (RF14) · MON → SEC · 3 pts · 24/11 — após MON-01-APP (24 Monetização)
 
 ## 🔨 Em andamento
 
@@ -187,3 +195,4 @@ _(vazio)_
 - 2026-11-18 · Back-end · BE-03: adapters reais do painel e da área; demo-admin-token fora de produção; PR e revisão ao 12 · nenhum
 - 2026-11-18 · Orquestrador principal (Claude) · PO comprou o domínio **papelzinho.app** (TLD .app exige HTTPS em todo acesso, HSTS pré-carregado). Prioridade 1 do 14 DevOps: nginx com server_name papelzinho.app e www, certificado Let's Encrypt (certbot), redirecionar www → raiz, atualizar a URL pública (Open Graph, sitemap, políticas, NEXT_PUBLIC_SITE_URL) e o 25 Marketing usar o domínio no SEO. O PO vai criar os registros DNS (A → 2.25.252.45) e a conta do AdSense · impedimento: DNS propagando
 - 2026-11-18 · Orquestrador · BE-03 mergeado (#44, `c0204a3`). papelzinho.app no ar: DNS A @ → 2.25.252.45 na Hostinger, certificado Let's Encrypt (raiz e www), nginx com www e papelzinho.smartsolutionsbr.com.br em 301 para https://papelzinho.app, APP_URL trocado e deploy refeito. Fluxo criar → painel → entrar → área testado com dados reais; teste apagado. O item do DevOps acima já está feito · nenhum
+- 2026-11-18 · Orquestrador · It-3 aberta adiantada a pedido do PO: SRT-02 (12), SRT-03 (23), LST-02 (22 + adapter do 10), DSN-04 (16), MON-01-APP (24; páginas aprovadas ainda não existiam no app), FE-DSN-4 (11), OPS-01 (14), QA-04 (13). LST-03, LST-04, SRT-04 e MON-03 na fila · nenhum
