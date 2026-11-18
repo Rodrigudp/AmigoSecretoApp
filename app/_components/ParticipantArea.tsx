@@ -10,17 +10,26 @@ import type { ParticipantView } from "@/src/application/ports";
  * placeholder (SRT-04), wishlist (LST-04). Renders the area only with data
  * belonging to the token owner (RN03); no ads slots are rendered in
  * `/p/[accessToken]?ck=1` fallback (adsAllowed = false, ADR-004).
+ *
+ * BUG-SEC: the canonical route (/p/g/[groupId]) passes `groupId` so that
+ * WishList uses cookie-based server actions. The token never reaches
+ * the client. The fallback route (/p/[accessToken]) passes `accessToken`
+ * because it cannot set cookies (adsAllowed = false, no ad slots).
  */
 export function ParticipantArea({
   view,
   adsAllowed,
   accessToken,
+  groupId,
   children,
 }: {
   view: ParticipantView;
   /** ADR-004: false in the cookie fallback; MON-02 gates ad slots on this. */
   adsAllowed: boolean;
+  /** Token-based auth for /p/[accessToken] fallback only. */
   accessToken?: string;
+  /** Cookie-based auth for the canonical /p/g/[groupId] route. */
+  groupId?: string;
   children?: ReactNode;
 }) {
   return (
@@ -43,6 +52,7 @@ export function ParticipantArea({
         initialItems={view.ownWishItems}
         drawStatus={view.group.status}
         accessToken={accessToken}
+        groupId={groupId}
       />
       {children}
     </div>

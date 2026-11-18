@@ -11,6 +11,12 @@ vi.mock("@/app/wish-actions", () => ({
   removeWishItemAction: vi.fn(),
 }));
 
+vi.mock("@/app/wish-actions-cookie", () => ({
+  addWishItemCookieAction: vi.fn(),
+  updateWishItemCookieAction: vi.fn(),
+  removeWishItemCookieAction: vi.fn(),
+}));
+
 const sampleItem1: WishItemType = {
   id: "item-1",
   title: "Livro de culinária",
@@ -167,6 +173,42 @@ describe("WishList Component", () => {
 
     await waitFor(() => {
       expect(document.activeElement?.id).toBe("wishlist-add-btn");
+    });
+  });
+
+  it("uses cookie-based action when groupId is provided (BUG-SEC)", async () => {
+    const { addWishItemCookieAction } = await import("@/app/wish-actions-cookie");
+    const mockCookieAdd = vi.mocked(addWishItemCookieAction);
+    mockCookieAdd.mockResolvedValueOnce({
+      ok: true,
+      output: {
+        item: {
+          id: "cookie-item",
+          title: "Item via cookie",
+          url: null,
+          note: null,
+          productLink: null,
+        },
+        warning: null,
+      },
+    });
+
+    render(<WishList mode="owner" groupId="group-123" initialItems={[]} />);
+    const addBtn = screen.getByRole("button", { name: "Adicionar presente" });
+    fireEvent.click(addBtn);
+
+    const titleInput = screen.getByLabelText(/Nome do presente/);
+    fireEvent.change(titleInput, { target: { value: "Item via cookie" } });
+    fireEvent.click(screen.getByRole("button", { name: "Salvar presente" }));
+
+    await waitFor(() => {
+      expect(mockCookieAdd).toHaveBeenCalledWith(
+        "group-123",
+        expect.objectContaining({
+          title: "Item via cookie",
+        })
+      );
+      expect(screen.getByText("Item via cookie")).toBeTruthy();
     });
   });
 });

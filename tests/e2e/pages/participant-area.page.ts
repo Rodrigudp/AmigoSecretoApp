@@ -19,7 +19,7 @@ export class ParticipantAreaPage {
     return this.page.getByText(/o sorteio j. foi realizado\./i);
   }
 
-  /** HU03: card da lista e formulário de item (texto provisório até o DSN-04). */
+  /** HU03: card da lista e formulário de item. */
   get wishListTitle(): Locator {
     return this.page.getByRole("heading", { name: /(sua )?lista de desejos/i });
   }
@@ -29,11 +29,11 @@ export class ParticipantAreaPage {
   }
 
   get itemTitleField(): Locator {
-    return this.page.getByLabel(/^t.tulo$/i);
+    return this.page.getByRole("textbox", { name: "Nome do presente", exact: true });
   }
 
   get itemLinkField(): Locator {
-    return this.page.getByLabel(/^link( \(opcional\))?$/i);
+    return this.page.getByLabel(/^link da loja \(opcional\)$/i);
   }
 
   get itemList(): Locator {

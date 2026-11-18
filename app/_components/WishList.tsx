@@ -8,13 +8,27 @@ import { Button } from "./Button";
 import { WishForm, type WishFormData } from "./WishForm";
 import { WishItem } from "./WishItem";
 import { addWishItemAction, updateWishItemAction, removeWishItemAction } from "../wish-actions";
+import {
+  addWishItemCookieAction,
+  updateWishItemCookieAction,
+  removeWishItemCookieAction,
+} from "../wish-actions-cookie";
 
 type WishListProps = {
   mode: "owner" | "reader";
   initialItems?: WishItemType[];
   drawStatus?: GroupStatus;
   recipientName?: string;
+  /**
+   * Token-based auth for the /p/[accessToken] fallback route (no ads).
+   * BUG-SEC: never pass this in routes that allow ads or render ad slots.
+   */
   accessToken?: string;
+  /**
+   * Cookie-based auth for the canonical /p/g/[groupId] route.
+   * Server actions read the HttpOnly cookie — the token stays server-side.
+   */
+  groupId?: string;
 };
 
 function WishListSubheader({
@@ -183,12 +197,40 @@ function focusElementById(id: string) {
   }
 }
 
+/**
+ * BUG-SEC: Dispatches wish-item mutations through the right channel.
+ * - groupId → cookie-based server actions (token stays server-side)
+ * - accessToken → token-based server actions (fallback route only)
+ */
+function buildActions(groupId?: string, accessToken?: string) {
+  if (groupId) {
+    return {
+      add: (data: { title: string; url?: string | null; note?: string | null }) =>
+        addWishItemCookieAction(groupId, data),
+      update: (id: string, data: { title: string; url?: string | null; note?: string | null }) =>
+        updateWishItemCookieAction(groupId, id, data),
+      remove: (id: string) => removeWishItemCookieAction(groupId, id),
+    };
+  }
+  if (accessToken) {
+    return {
+      add: (data: { title: string; url?: string | null; note?: string | null }) =>
+        addWishItemAction(accessToken, data),
+      update: (id: string, data: { title: string; url?: string | null; note?: string | null }) =>
+        updateWishItemAction(accessToken, id, data),
+      remove: (id: string) => removeWishItemAction(accessToken, id),
+    };
+  }
+  return null;
+}
+
 export function WishList({
   mode,
   initialItems = [],
   drawStatus = "open",
   recipientName,
   accessToken,
+  groupId,
 }: WishListProps) {
   const [items, setItems] = useState<WishItemType[]>(initialItems);
   const [isAdding, setIsAdding] = useState(false);
@@ -198,6 +240,7 @@ export function WishList({
   const [retryAction, setRetryAction] = useState<(() => Promise<void>) | null>(null);
   const [announcement, setAnnouncement] = useState("");
 
+  const actions = buildActions(groupId, accessToken);
   const isOwner = mode === "owner";
   const count = items.length;
   const isFull = count >= 20;
@@ -211,7 +254,7 @@ export function WishList({
 
   async function handleAdd(data: WishFormData) {
     setErrorMessage(null);
-    if (!accessToken) {
+    if (!actions) {
       const fallback = makeFallbackItem(data);
       setItems((prev) => [fallback, ...prev]);
       setIsAdding(false);
@@ -220,7 +263,7 @@ export function WishList({
       return;
     }
 
-    const res = await addWishItemAction(accessToken, data);
+    const res = await actions.add(data);
     if (!res.ok) {
       setErrorMessage(res.message);
       setRetryAction(() => () => handleAdd(data));
@@ -239,7 +282,7 @@ export function WishList({
 
   async function handleUpdate(id: string, data: WishFormData) {
     setErrorMessage(null);
-    if (!accessToken) {
+    if (!actions) {
       setItems((prev) =>
         prev.map((item) =>
           item.id === id
@@ -259,7 +302,7 @@ export function WishList({
       return;
     }
 
-    const res = await updateWishItemAction(accessToken, id, data);
+    const res = await actions.update(id, data);
     if (!res.ok) {
       setErrorMessage(res.message);
       setRetryAction(() => () => handleUpdate(id, data));
@@ -282,14 +325,14 @@ export function WishList({
     const nextItem = items[idx + 1];
     const targetFocusId = nextItem ? `wish-item-title-${nextItem.id}` : "wishlist-add-btn";
 
-    if (!accessToken) {
+    if (!actions) {
       setItems((prev) => prev.filter((item) => item.id !== id));
       setAnnouncement(copy.WSH_12.deleted);
       focusElementById(targetFocusId);
       return;
     }
 
-    const res = await removeWishItemAction(accessToken, id);
+    const res = await actions.remove(id);
     if (!res.ok) {
       setErrorMessage(res.message);
       setRetryAction(() => () => handleDelete(id));
