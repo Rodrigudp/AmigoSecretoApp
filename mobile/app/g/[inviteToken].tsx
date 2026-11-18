@@ -9,6 +9,10 @@ import { Action, Body, Card, errorText, Field, formatDate, formatValue, Page } f
 
 export default function InvitationRoute() {
   const { inviteToken } = useLocalSearchParams<{ inviteToken: string }>();
+  return <Flow key={inviteToken} inviteToken={inviteToken} />;
+}
+
+function Flow({ inviteToken }: { inviteToken?: string }) {
   const [invitation, setInvitation] = useState<Invitation | null>(null);
   const [error, setError] = useState("");
   const [retry, setRetry] = useState(0);
