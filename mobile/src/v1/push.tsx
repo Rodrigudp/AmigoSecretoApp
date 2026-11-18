@@ -1,11 +1,20 @@
 import { useFocusEffect } from "expo-router";
 import { useCallback, useRef, useState } from "react";
-import { Platform } from "react-native";
+import { Platform, View } from "react-native";
 import { api, useDemo } from "./api";
 import { clearReceipt, makeReceiptKey, readReceipt, saveReceipt } from "./push-receipt";
 import { revokePush } from "./push-registration";
-import { Action, Body, Card } from "./ui";
+import { Action, Body, Card, focusTarget, type FocusTarget } from "./ui";
 import { requestDeviceToken } from "./push-device";
+
+const copy = {
+  disable: "Desativar avisos", // APP-25
+  disabled: "Avisos deste grupo desativados neste aparelho.", // APP-26
+  disableError: "Não foi possível desativar os avisos. Tente de novo.", // APP-27
+  statusError: "Não foi possível consultar os avisos. Tente de novo.", // APP-28
+  enableError: "Não foi possível confirmar a ativação dos avisos. Você pode desativar ou tentar de novo.", // APP-29
+  retry: "Tentar ativar de novo", // APP-30
+} as const;
 
 export function PushOffer({ credential, manage = false }: { credential: string; manage?: boolean }) {
   const [closed, setClosed] = useState(false);
@@ -13,6 +22,8 @@ export function PushOffer({ credential, manage = false }: { credential: string; 
   const [error, setError] = useState("");
   const [receipt, setReceipt] = useState<{ key: string; token: string } | null>(null);
   const inFlight = useRef(false);
+  const [notice, setNotice] = useState(false);
+  const confirmation = useRef<FocusTarget>(null);
   const platform = Platform.OS;
   const supported = useDemo || platform === "android" || platform === "ios";
 
@@ -23,7 +34,7 @@ export function PushOffer({ credential, manage = false }: { credential: string; 
       const key = await makeReceiptKey(credential);
       const token = await readReceipt(key);
       if (active) setReceipt(token ? { key, token } : null);
-    })().catch(() => { if (active) setError("Não foi possível consultar os avisos. Tente de novo."); });
+    })().catch(() => { if (active) setError(copy.statusError); });
     return () => { active = false; };
   }, [credential, supported]));
 
@@ -53,7 +64,7 @@ export function PushOffer({ credential, manage = false }: { credential: string; 
         throw new Error("Push registration could not be confirmed");
       }
       setReceipt({ key, token });
-    }, "Não foi possível confirmar a ativação dos avisos. Você pode desativar ou tentar de novo.");
+    }, copy.enableError);
   }
 
   function disable() {
@@ -62,16 +73,24 @@ export function PushOffer({ credential, manage = false }: { credential: string; 
     void withPending(async () => {
       await revokePush(api, credential, token, () => clearReceipt(key));
       setReceipt(null);
-      setClosed(false);
-    }, "Não foi possível desativar os avisos. Tente de novo.");
+      setNotice(true);
+      requestAnimationFrame(() => focusTarget(confirmation.current));
+    }, copy.disableError);
   }
+
+  if (notice) return <Card>
+    <View ref={confirmation} accessible tabIndex={-1} accessibilityRole="alert"
+      accessibilityLiveRegion="polite" accessibilityLabel={copy.disabled}>
+      <Body>{copy.disabled}</Body>
+    </View>
+  </Card>;
 
   if (!supported || closed || (manage && !receipt && !error)) return null;
   return <Card>
     {receipt ? <>
       {error && <Body alert>{error}</Body>}
-      <Action secondary label={busy ? "Aguarde…" : "Desativar avisos"} disabled={busy} run={disable} />
-      {error && !manage && <Action label="Tentar ativar de novo" disabled={busy} run={enable} />}
+      <Action secondary label={busy ? "Aguarde…" : copy.disable} disabled={busy} run={disable} />
+      {error && !manage && <Action label={copy.retry} disabled={busy} run={enable} />}
     </> : <>
       <Body>Quer receber avisos?</Body>
       <Body>Podemos avisar quando o sorteio sair e lembrar você do encontro.</Body>
