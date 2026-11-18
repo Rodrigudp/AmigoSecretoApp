@@ -27,17 +27,21 @@ _(vazio)_
 
 ## 🔨 Em andamento
 - LST-03 · Adapters de afiliado + redirect `/r/[itemId]` · LST → SEC · 3 pts · 22/11 — responsável: 22 Lista
-- MON-02 · Slots AdSense lazy + chave `ADS_ENABLED` · MON → SEC + DSN · 2 pts · 24/11 — responsável: 24 Monetização; adiantado da It-4 em 18/11; funciona desligado até o PEN-03 (ID pub-); `ads.txt` 404 sem ID; nunca em rota com token (ADR-004)
 
 ## 👀 Em revisão
-- SEC-04 · Aviso de cookies / consentimento para anúncios · SEC → MON + DSN · 2 pts · 24/11 — responsável: 15 Segurança; adiantado da It-4 em 18/11; nenhum cookie/script do Google antes do aceite; só aparece com `ADS_ENABLED=true`
-- SRT-04 · `get-my-result` + cartão "Revelar" · SRT → SEC + DSN + QA · 3 pts · 23/11 — PRs empilhados #66 (`888095e`, `get-my-result` + `DrawRepository.getCurrentResult` + evento `result_revealed`, 373L) e #67 (`c09d64e`, `RevealCard` R0–R4 + `revealMyResultAction` sem token no cliente + E2E QA-04 + prints 360/1280, 397L); revisão pedida à 15 Segurança e ao 16 Designer
-- MKT-03 · Página Como funciona + SEO técnico · MKT → FE + SEC + DSN · 2 pts · 22/11 — PR #45; ✅ SEC (`3e7436d`); DSN pediu ajustes de texto (CF-05, CF-08, meta descriptions), com o 25
-
-## 🧪 Em teste (QA)
 _(vazio)_
 
+## 🧪 Em teste (QA)
+- E2E-PO · Teste ponta a ponta com os dois grupos do PO (criar → entrar → lista → sortear → Revelar) · PO → ORQ · 23/11 — fluxo completo no ar desde a0a6995
+
 ## 🏁 Pronto
+- SRT-04 · `get-my-result` + cartão "Revelar" · SRT → SEC + DSN + QA · 3 pts · 23/11 — ✅ SEC+DSN+ORQ; mergeados #66 e #67 (`a0a6995`), E2E hu04/hu05/result-isolation ativos
+- MON-02 · Slots AdSense lazy + chave `ADS_ENABLED` · MON → SEC + DSN · 2 pts · 24/11 — ✅ SEC+DSN+ORQ; mergeado #62 (`8032481`); anúncios DESLIGADOS até aprovação do Google; links de saída da área monetizada são âncoras nativas
+- MON-02a · Verificação do site no AdSense (meta tag + /ads.txt) · MON → SEC · 1 pt · 18/11 — ✅ SEC+ORQ; mergeado #65; site verificado no AdSense
+- SEC-04 · Aviso de cookies / consentimento para anúncios · SEC → MON + DSN · 2 pts · 24/11 — ✅ MON+DSN+ORQ; mergeado #64 (`1d64d86`)
+- BUG-SEC · Token do participante serializado no client na rota limpa · FE → SEC · S2 · 18/11 — ✅ SEC+ORQ; mergeado #63 (`07050be`)
+- MKT-03 · Página Como funciona + SEO técnico · MKT → SEC + DSN · 2 pts · 22/11 — ✅ SEC+DSN+ORQ; mergeado #45
+- OPS-DOC · Remover usuário SSH e portas de terceiros dos docs (repo público) · OPS → ORQ · 18/11 — ✅ ORQ; mergeado #68
 - LST-04 · Tela da lista na área do participante · FE → LST + DSN · 2 pts · 22/11 — ✅ DSN+ORQ; mergeado PR #59 (`850293a`), no ar
 - MON-03 · Plano de eventos e painel do dono (RF14) · MON → SEC + DSN · 3 pts · 24/11 — ✅ SEC+DSN+ORQ; mergeado PR #61 (`7eee344`); /owner responde 401 sem senha; métricas só agregadas ("entradas", não pessoas únicas)
 - MKT-04 · Kit de posts e divulgação · MKT → DSN · 1 pt · 22/11 — ✅ DSN+ORQ; mergeado PR #46 (`c5e6c81`)
