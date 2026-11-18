@@ -1,4 +1,4 @@
-﻿import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ParticipantArea } from "@/app/_components/ParticipantArea";
 import type { ParticipantView } from "@/src/application/ports";
@@ -36,15 +36,18 @@ describe("participant group details", () => {
     expect(screen.queryByText("Local")).toBeNull();
     expect(container.querySelector('[data-ads-allowed="false"]')).toBeTruthy();
   });
-  it("keeps the list and the hidden-result placeholder after the draw", () => {
-    render(
+  it("renders RevealCard closed after the draw without serializing any pair or accessToken", () => {
+    const { container } = render(
       <ParticipantArea
         view={{ ...view, group: { ...view.group, status: "drawn" } }}
         adsAllowed={true}
+        groupId="grp-123"
       />
     );
     expect(screen.getByRole("heading", { name: "Lista de desejos" })).toBeTruthy();
-    expect(screen.getByRole("heading", { name: "Meu amigo secreto" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Seu amigo secreto" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Revelar meu amigo secreto" })).toBeTruthy();
+    expect(container.innerHTML).not.toContain("accessToken");
     expect(
       (screen.getByRole("button", { name: "Adicionar presente" }) as HTMLButtonElement).disabled
     ).toBe(false);

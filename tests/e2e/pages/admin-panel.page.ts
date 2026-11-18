@@ -20,7 +20,7 @@ export class AdminPanelPage {
   }
 
   get drawnBadge(): Locator {
-    return this.page.getByText(/sorteio (feito|realizado) em/i);
+    return this.page.getByText(/^sorteio (feito|realizado) em/i);
   }
 
   participantsTitle(count: number): Locator {
@@ -40,11 +40,13 @@ export class AdminPanelPage {
   }
 
   get drawConfirmButton(): Locator {
-    return this.page.getByRole("button", { name: /^(sim, sortear|confirmar sorteio|sortear)$/i });
+    return this.page.getByRole("button", {
+      name: /^(sim, (fazer o sorteio|sortear)|confirmar sorteio|sortear)$/i,
+    });
   }
 
   get drawDoneNotice(): Locator {
-    return this.page.getByText(/sorteio (feito|realizado)!?/i);
+    return this.page.getByText(/✓ sorteio (feito|realizado)/i);
   }
 
   get drawDisabledReason(): Locator {
