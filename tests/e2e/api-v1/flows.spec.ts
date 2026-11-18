@@ -1,10 +1,8 @@
 import { randomUUID } from "node:crypto";
-import { test, expect } from "@playwright/test";
-import { PENDING, bearer, expectError, seedGroup } from "./helpers";
+import { expect } from "@playwright/test";
+import { test, bearer, expectError, seedGroup, uniqueIp } from "./helpers";
 
 test.describe("API v1 - regras de negócio nos endpoints (CT-38)", () => {
-  test.fixme(true, PENDING);
-
   test("sorteio com 2 pessoas: NOT_ENOUGH_PARTICIPANTS; contagem divergente: DRAW_MEMBERS_CHANGED", async ({
     request,
   }) => {
@@ -77,5 +75,34 @@ test.describe("API v1 - regras de negócio nos endpoints (CT-38)", () => {
       400,
       "INVALID_INPUT"
     );
+  });
+
+  test("nome repetido recebe sufixo, sem diferenciar maiúsculas (CT-62, RN07)", async ({
+    request,
+  }) => {
+    const seed = await seedGroup(request, []);
+    const join = (displayName: string) =>
+      request.post("/api/v1/invite/join", {
+        headers: bearer(seed.inviteToken),
+        data: { displayName },
+      });
+    expect((await (await join("Ana")).json()).displayName).toBe("Ana");
+    expect((await (await join("ana")).json()).displayName).toMatch(/^ana \(?2\)?$/);
+  });
+
+  test("a 11ª criação de grupo por IP dá 429 (CT-63, create_group)", async ({ request }) => {
+    const headers = { "x-forwarded-for": uniqueIp() };
+    const statuses: number[] = [];
+    for (let i = 0; i < 11; i++) {
+      const data = {
+        name: `G${i}`,
+        maxValueCents: 1000,
+        exchangeDate: "2099-12-24",
+        requestId: randomUUID(),
+      };
+      statuses.push((await request.post("/api/v1/groups", { headers, data })).status());
+    }
+    expect(statuses.slice(0, 10)).toEqual(Array(10).fill(201));
+    expect(statuses[10]).toBe(429);
   });
 });

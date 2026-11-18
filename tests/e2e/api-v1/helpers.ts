@@ -1,8 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { expect, type APIRequestContext, type APIResponse } from "@playwright/test";
-
-/** Ativar (remover o fixme) quando os endpoints de /api/v1 entrarem na main (APP-API-02*). */
-export const PENDING = "API v1 ainda não está na main (APP-API-02a/b/c)";
+import { test as base, expect, type APIRequestContext, type APIResponse } from "@playwright/test";
 
 export const SECURITY_HEADERS = {
   "cache-control": "private, no-store, max-age=0, must-revalidate",
@@ -54,4 +51,22 @@ export async function expectError(res: APIResponse, status: number, code: string
 }
 
 /** IP de teste exclusivo para não consumir o limite dos outros testes. */
-export const uniqueIp = () => `203.0.113.${1 + Math.floor(Math.random() * 253)}`;
+export const uniqueIp = () => `qa-${randomUUID()}`;
+
+/**
+ * Cada teste usa um IP próprio (`x-forwarded-for`): o limite `api_v1` é de 120 req por IP em 10 min
+ * e a suíte inteira passaria disso se todos compartilhassem o IP do runner.
+ */
+export const test = base.extend({
+  request: async ({ playwright, baseURL }, provide) => {
+    const context = await playwright.request.newContext({
+      baseURL,
+      extraHTTPHeaders: { "x-forwarded-for": uniqueIp() },
+    });
+    await provide(context);
+    await context.dispose();
+  },
+});
+
+/** Token com o formato válido (43 caracteres) que não pertence a nenhum grupo. */
+export const unknownToken = () => randomUUID().replaceAll("-", "").padEnd(43, "x");
