@@ -77,7 +77,7 @@ export function RevealCard({ credential, group }: { credential: string; group: G
       </View>
       <Body>Encontro em {formatDate(group.exchangeDate)}</Body>
       <Body>Valor máximo {formatValue(group.maxValueCents)}</Body>
-      {group.location && <Body>Local: {group.location}</Body>}
+      {!!group.location && <Body>Local: {group.location}</Body>}
       <Body>Guarde segredo até o encontro.</Body>
       <Action secondary label="Esconder" run={() => {
         close();
@@ -88,8 +88,8 @@ export function RevealCard({ credential, group }: { credential: string; group: G
       <Body>Lista de desejos de {result.recipientName}</Body>
       {!result.wishItems.length && <Body>Ainda não há presentes na lista.</Body>}
       {result.wishItems.map((item) => <Card key={item.id}><Body>{item.title}</Body>
-        {item.note && <Body>{item.note}</Body>}<OpenWishLink item={item} onError={setError} /></Card>)}
-      {error && <Body alert>{error}</Body>}
+        {!!item.note && <Body>{item.note}</Body>}<OpenWishLink item={item} onError={setError} /></Card>)}
+      {!!error && <Body alert>{error}</Body>}
     </Card>
   </>;
 

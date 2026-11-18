@@ -129,7 +129,7 @@ export function WishList({ credential, cache, onCache }: {
     {!items.length && <Body>Sua lista está vazia. Adicione ideias de presente para quem tirar você.</Body>}
     {items.map((item) => <Card key={item.id}>
       <View ref={control(`title:${item.id}`)} accessible accessibilityLabel={item.title} tabIndex={-1}><Body>{item.title}</Body></View>
-      {item.note && <Body>{item.note}</Body>}
+      {!!item.note && <Body>{item.note}</Body>}
       <OpenWishLink item={item} onError={setError} />
       {confirm === item.id ? <>
         <Body>Apagar “{item.title}”? Não dá para desfazer.</Body>
@@ -155,8 +155,8 @@ export function WishList({ credential, cache, onCache }: {
       <Action secondary label="Cancelar" disabled={busy} run={() => { setEditing(null); focus(editing === "new" ? "add" : `edit:${editing}`); }} />
     </Card> : <Action controlRef={control("add")} label="Adicionar presente" disabled={items.length >= 20 || busy} run={() => open()} />}
     {items.length >= 20 && <Body>Você chegou a 20 presentes. Apague um para adicionar outro.</Body>}
-    {notice && <Body alert>{notice}</Body>}
-    {error && <Body alert>{error}</Body>}
+    {!!notice && <Body alert>{notice}</Body>}
+    {!!error && <Body alert>{error}</Body>}
     {!!cache.pending.length && <Action secondary label="Tentar de novo" disabled={busy} run={() =>
       void perform(async () => { await sync(); setNotice("Alterações sincronizadas."); })} />}
   </Card>;

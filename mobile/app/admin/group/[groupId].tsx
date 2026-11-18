@@ -1,5 +1,5 @@
 import * as Clipboard from "expo-clipboard";
-import { useFocusEffect, useLocalSearchParams } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useRef, useState } from "react";
 import { Alert, Platform, Share, View } from "react-native";
 import { readAccess } from "../../../src/v1/access";
@@ -12,11 +12,11 @@ import { Action, Body, Card, errorText, focusTarget, formatDate, formatValue, Pa
 type Confirmation = { type: "remove"; id: string; name: string } | { type: "draw"; count: number };
 
 export default function AdminGroup() {
-  const { groupId } = useLocalSearchParams<{ groupId: string }>();
-  return <Flow key={groupId} groupId={groupId} />;
+  const { groupId, created } = useLocalSearchParams<{ groupId: string; created?: string }>();
+  return <Flow key={groupId} groupId={groupId} created={created === "1"} />;
 }
 
-function Flow({ groupId }: { groupId?: string }) {
+function Flow({ groupId, created }: { groupId?: string; created: boolean }) {
   const [token, setToken] = useState("");
   const [data, setData] = useState<Admin | null>(null);
   const [error, setError] = useState("");
@@ -103,6 +103,16 @@ function Flow({ groupId }: { groupId?: string }) {
     catch { setError("Não foi possível compartilhar agora."); }
   }
 
+  function openInvitation(url: string) {
+    try {
+      const inviteToken = new URL(url).pathname.match(/^\/g\/([\w-]+)$/)?.[1];
+      if (!inviteToken) throw new Error();
+      router.push({ pathname: "/g/[inviteToken]", params: { inviteToken } });
+    } catch {
+      setError("Não foi possível abrir o convite.");
+    }
+  }
+
   const drawn = data?.draw.status === "drawn";
   const group = data?.group;
   return <Page title={group?.name ?? "Painel do organizador"}>
@@ -110,13 +120,21 @@ function Flow({ groupId }: { groupId?: string }) {
       <Card>
         <Body>Painel do organizador</Body><Body>{drawn ? "Sorteio feito" : "Entradas abertas"}</Body>
         <Body>Encontro em {formatDate(group.exchangeDate)}</Body><Body>Valor máximo {formatValue(group.maxValueCents)}</Body>
-        {group.location && <Body>Local do encontro: {group.location}</Body>}
+        {!!group.location && <Body>Local do encontro: {group.location}</Body>}
       </Card>
       <Card>
         <Body>Link do convite</Body>
         {drawn ? <Body>As entradas estão encerradas.</Body> : <>
+          {created && <>
+            <Body alert>Grupo criado</Body>
+            <Body>Envie o convite para quem vai participar.</Body>
+          </>}
           <Action label="Compartilhar convite" run={() => void share(invitationMessage(group, data.inviteUrl))} />
           <Action secondary label="Copiar link" run={() => void copy(data.inviteUrl)} />
+          {created && <>
+            <Body>Entre pelo convite com o seu nome para entrar no sorteio.</Body>
+            <Action secondary label="Entrar no grupo" run={() => openInvitation(data.inviteUrl)} />
+          </>}
         </>}
       </Card>
       <Card>
@@ -134,7 +152,7 @@ function Flow({ groupId }: { groupId?: string }) {
       <Card>
         <Body>Sorteio</Body>
         {drawn ? <>
-          {drawnAt && <Body>Sorteio feito em {new Date(drawnAt).toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" })}.</Body>}
+          {!!drawnAt && <Body>Sorteio feito em {new Date(drawnAt).toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" })}.</Body>}
           <Body>Cada pessoa já pode ver quem tirou pelo seu link pessoal. Por segurança, este painel não mostra os pares.</Body>
           <Body>Você também participa? Abra o seu link pessoal para ver quem você tirou.</Body>
           <Action label="Avisar o grupo" run={() => void share(drawMessage(group))} />
@@ -151,8 +169,8 @@ function Flow({ groupId }: { groupId?: string }) {
       <Action label={confirmation.type === "draw" ? "Sim, fazer o sorteio" : "Sim, remover"}
         disabled={busy} run={() => void mutate(confirmation)} />
     </Card>}
-    {notice && <Body alert>{notice}</Body>}
-    {error && <Card><Body alert>{error}</Body>
+    {!!notice && <Body alert>{notice}</Body>}
+    {!!error && <Card><Body alert>{error}</Body>
       {(!data || stale) && <Action secondary label="Atualizar grupo" run={() => setRetry(retry + 1)} />}
     </Card>}
   </Page>;

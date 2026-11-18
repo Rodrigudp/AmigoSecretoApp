@@ -62,7 +62,7 @@ function Flow({ inviteToken }: { inviteToken?: string }) {
     {group && invitation && <>
       <Card accent><Body>{group.name}</Body><Body>Encontro em {formatDate(group.exchangeDate)}</Body>
         <Body>Valor máximo {formatValue(group.maxValueCents)}</Body>
-        {group.location && <Body>{group.location}</Body>}
+        {!!group.location && <Body>{group.location}</Body>}
       </Card>
       {invitation.returningParticipant && <Action secondary
         label={`Continuar como ${invitation.returningParticipant.displayName}`} run={() => openArea(invitation.groupId)} />}
@@ -79,7 +79,7 @@ function Flow({ inviteToken }: { inviteToken?: string }) {
       </Card>
     </>}
     {!group && !error && <Body>Carregando…</Body>}
-    {error && <Card><Body alert>{error}</Body>
+    {!!error && <Card><Body alert>{error}</Body>
       {!group && <Action secondary label="Tentar de novo" run={() => { setError(""); setRetry(retry + 1); }} />}
     </Card>}
   </Page>;
