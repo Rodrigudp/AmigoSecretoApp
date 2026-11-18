@@ -18,24 +18,6 @@ export type JoinStubOutput = {
   accessToken: string;
 };
 
-export type PersonalAccess = {
-  groupId: GroupId;
-  displayName: string;
-  expiresAt: string;
-  group: PublicGroup;
-};
-
-type StoredJoin = {
-  inviteToken: string;
-  groupId: GroupId;
-  displayName: string;
-  expiresAt: string;
-  group: PublicGroup;
-};
-
-/** Process-local store for PAR-04 personal-area stubs only. */
-const joinsByAccessToken = new Map<string, StoredJoin>();
-
 const MAX_PARTICIPANTS = 100;
 
 /** RF02/RF03: invite view from groups (no in-memory map). */
@@ -121,36 +103,4 @@ export async function joinGroupUseCase(input: {
     expiresAt: result.value.expiresAt,
     accessToken,
   });
-}
-
-// TODO(PAR-04): replace with findActiveByHash / get-participant-view adapter.
-export async function resolvePersonalAccessUseCase(
-  accessToken: string
-): Promise<Result<PersonalAccess, DomainError>> {
-  const stored = joinsByAccessToken.get(accessToken);
-  if (!stored) return err({ code: "INVALID_LINK" });
-  return ok({
-    groupId: stored.groupId,
-    displayName: stored.displayName,
-    expiresAt: stored.expiresAt,
-    group: stored.group,
-  });
-}
-
-/** Test helper: seed a personal access token into the stub store. */
-export function seedStubPersonalAccess(
-  accessToken: string,
-  data: Omit<StoredJoin, "inviteToken"> & { inviteToken?: string }
-): void {
-  joinsByAccessToken.set(accessToken, {
-    inviteToken: data.inviteToken ?? "invite-demo",
-    groupId: data.groupId,
-    displayName: data.displayName,
-    expiresAt: data.expiresAt,
-    group: data.group,
-  });
-}
-
-export function clearStubJoins(): void {
-  joinsByAccessToken.clear();
 }
