@@ -21,8 +21,6 @@ export default function InvitationRoute() {
 
   useEffect(() => {
     let active = true;
-    setError("");
-    setInvitation(null);
     void (async () => {
       if (!inviteToken) throw new Error("Este convite não está disponível. Peça um novo link ao organizador.");
       const initial = await api.invitation(inviteToken);
@@ -78,7 +76,7 @@ export default function InvitationRoute() {
     </>}
     {!group && !error && <Body>Carregando…</Body>}
     {error && <Card><Body alert>{error}</Body>
-      {!group && <Action secondary label="Tentar de novo" run={() => setRetry(retry + 1)} />}
+      {!group && <Action secondary label="Tentar de novo" run={() => { setError(""); setRetry(retry + 1); }} />}
     </Card>}
   </Page>;
 }

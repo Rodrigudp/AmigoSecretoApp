@@ -1,4 +1,5 @@
 import Constants from "expo-constants";
+import { AndroidImportance } from "expo-notifications";
 import * as Notifications from "expo-notifications";
 import { useState } from "react";
 import { Platform } from "react-native";
@@ -23,7 +24,7 @@ export function PushOffer({ credential }: { credential: string }) {
       if (typeof projectId !== "string") throw new Error("Os avisos ainda não estão disponíveis neste app.");
       if (platform === "android") {
         await Notifications.setNotificationChannelAsync("default", {
-          name: "Avisos do Papelzinho", importance: Notifications.AndroidImportance.DEFAULT,
+          name: "Avisos do Papelzinho", importance: AndroidImportance.DEFAULT,
         });
       }
       const permission = await Notifications.requestPermissionsAsync();
