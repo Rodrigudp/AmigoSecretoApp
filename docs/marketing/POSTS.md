@@ -73,14 +73,14 @@ Me conte o que achou: foi fácil criar? A entrada foi rápida? Ficou alguma dúv
 1. Acesse https://papelzinho.app e crie o grupo (nome, valor máximo, data da troca).
 2. Copie o link do convite e envie apenas ele para o grupo do WhatsApp.
 3. Não compartilhe o link de organizador.
-4. Quando todas as pessoas entrarem (mínimo 3), faça o sorteio no painel do organizador.
-5. Cada pessoa abre o próprio resultado pelo link pessoal.
+4. Quando todas as pessoas entrarem (mínimo 3), confira no painel do organizador se o sorteio já está disponível e, se estiver, faça o sorteio.
+5. Se o sorteio foi feito, cada pessoa abre o próprio resultado pelo link pessoal.
 
 **O que observar e registrar (feedback para o time)**
 - Foi fácil criar o grupo em menos de 2 minutos?
 - Cada pessoa entrou em menos de 30 segundos pelo convite?
 - Algum link quebrou ou deu erro?
-- O sorteio e a revelação funcionaram?
+- Se o sorteio estiver disponível: o sorteio e a revelação funcionaram?
 - Alguma frase ou tela ficou confusa?
 
 O Rodrigo encaminha as respostas para o 00 Orquestrador, que registra os bugs S1/S2 para correção antes do lançamento de 28/11.
