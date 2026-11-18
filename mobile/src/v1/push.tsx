@@ -88,13 +88,13 @@ export function PushOffer({ credential, manage = false }: { credential: string; 
   if (!supported || closed || (manage && !receipt && !error)) return null;
   return <Card>
     {receipt ? <>
-      {error && <Body alert>{error}</Body>}
+      {!!error && <Body alert>{error}</Body>}
       <Action secondary label={busy ? "Aguarde…" : copy.disable} disabled={busy} run={disable} />
-      {error && !manage && <Action label={copy.retry} disabled={busy} run={enable} />}
+      {!!error && !manage && <Action label={copy.retry} disabled={busy} run={enable} />}
     </> : <>
       <Body>Quer receber avisos?</Body>
       <Body>Podemos avisar quando o sorteio sair e lembrar você do encontro.</Body>
-      {error && <Body alert>{error}</Body>}
+      {!!error && <Body alert>{error}</Body>}
       <Action label={busy ? "Ativando…" : "Ativar avisos"} disabled={busy} run={enable} />
       <Action secondary label="Agora não" disabled={busy} run={() => setClosed(true)} />
     </>}

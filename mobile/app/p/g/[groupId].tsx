@@ -46,11 +46,11 @@ function Flow({ groupId }: { groupId?: string }) {
   const view = participant?.view;
   return <Page title={view?.group.name ?? "Área do participante"}>
     {view && <Card><Body>Olá, {view.displayName}.</Body><Body>Encontro em {formatDate(view.group.exchangeDate)}</Body></Card>}
-    {view && credential && <RevealCard key={groupId} credential={credential} group={view.group} />}
-    {error && <Card><Body alert>{cache ? "Sem conexão. Você está vendo a lista salva neste aparelho." : error}</Body>
+    {view && !!credential && <RevealCard credential={credential} group={view.group} />}
+    {!!error && <Card><Body alert>{cache ? "Sem conexão. Você está vendo a lista salva neste aparelho." : error}</Body>
       <Action secondary label="Tentar de novo" run={() => { setError(""); setRetry(retry + 1); }} /></Card>}
-    {cache && credential ? <WishList key={groupId} credential={credential} cache={cache} onCache={setCache}/>
+    {cache && credential ? <WishList credential={credential} cache={cache} onCache={setCache}/>
       : !error && <Body>Carregando…</Body>}
-    {credential && <PushOffer key={groupId} credential={credential} manage />}
+    {!!credential && <PushOffer credential={credential} manage />}
   </Page>;
 }

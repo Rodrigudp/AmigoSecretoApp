@@ -27,17 +27,12 @@ test.describe("Expo Web live contra Next e Supabase locais (APP-FE-03, APP-QA-02
     context.on("request", (request) => {
       if (request.url().includes("/api/v1/")) apiOrigins.add(new URL(request.url()).origin);
     });
-    const calls: string[] = [];
-    context.on("response", async (response) => {
-      const url = new URL(response.url());
-      if (!url.pathname.startsWith("/api/v1/")) return;
-      const body = response.status() >= 400 ? await response.text().catch(() => "") : "";
-      const code = /"code":"([A-Z_]+)"/.exec(body)?.[1] ?? "";
-      calls.push(
-        `${response.request().method()} ${url.pathname.replace(/[A-Za-z0-9_-]{36,}/g, ":id")} ${response.status()} ${code}`
-      );
+    const renderErrors: string[] = [];
+    context.on("console", (message) => {
+      if (/Unexpected text node|two children with the same key/i.test(message.text())) {
+        renderErrors.push(message.text());
+      }
     });
-    test.info().attach("api-calls", { body: "", contentType: "text/plain" });
     let inviteToken = "";
     organizer.on("response", async (response) => {
       if (response.url().endsWith("/api/v1/groups") && response.request().method() === "POST") {
@@ -59,6 +54,8 @@ test.describe("Expo Web live contra Next e Supabase locais (APP-FE-03, APP-QA-02
     await shot(organizer, "02-criar-grupo-preenchido");
     await organizer.getByRole("button", { name: "Criar grupo" }).click();
     await expect(heading(organizer, "Grupo criado")).toBeVisible({ timeout: 30_000 });
+    await expect(organizer).toHaveURL(/\/admin\/group\/[\w-]+\?created=1$/);
+    await expect(organizer.getByRole("button", { name: "Entrar no grupo" })).toBeVisible();
     await shot(organizer, "03-grupo-criado");
     expect(inviteToken).toHaveLength(43);
 
@@ -67,11 +64,10 @@ test.describe("Expo Web live contra Next e Supabase locais (APP-FE-03, APP-QA-02
     expect(keys.some((key) => key.includes("papelzinho.credential.organizer."))).toBe(true);
     expect(organizer.url()).not.toMatch(/[A-Za-z0-9_-]{43}/);
 
-    // 2. Recarregar a mesma aba e reabrir o painel por Meus grupos
-    // A URL continua em /create: recarregar volta ao formulário vazio, mas o acesso fica salvo.
+    // 2. Recarregar no painel e confirmar que o grupo também ficou em Meus grupos
     await organizer.reload();
-    await expect(heading(organizer, "Criar grupo")).toBeVisible({ timeout: 90_000 });
-    await shot(organizer, "03b-recarregou-em-create");
+    await expect(heading(organizer, "Painel do organizador")).toBeVisible({ timeout: 90_000 });
+    await expect(organizer.getByText("Participantes (0 de 100)")).toBeVisible();
     await organizer.getByRole("link", { name: /Meus grupos/ }).click();
     await expect(organizer.getByText(groupName)).toBeVisible({ timeout: 30_000 });
     await expect(organizer.getByText(/Organizador · Entradas abertas/)).toBeVisible();
@@ -101,31 +97,18 @@ test.describe("Expo Web live contra Next e Supabase locais (APP-FE-03, APP-QA-02
 
     // 4. Lista de desejos (Ana)
     const ana = tabs.Ana;
-    const consoleErrors: string[] = [];
-    ana.on("console", (m) => {
-      if (m.type() === "error" && !m.text().startsWith("Unexpected text node"))
-        consoleErrors.push(m.text().slice(0, 300));
-    });
-    ana.on("pageerror", (e) => consoleErrors.push("pageerror: " + String(e).slice(0, 300)));
     await ana.getByRole("button", { name: "Adicionar presente" }).click();
     await ana.getByLabel("Nome do presente").fill("Livro de receitas");
     await ana.getByLabel("Observação (opcional)").fill("Capa dura");
     await shot(ana, "08-novo-presente");
     await ana.getByRole("button", { name: "Salvar presente" }).click();
-    // BUG-010: o POST do presente responde 201 e o cache local fica certo, mas a tela
-    // permanece em "Salvando…" (e o React acusa chave duplicada). Registrado, não bloqueia o fluxo.
-    const confirmed = await ana
-      .getByText("Presente salvo.")
-      .waitFor({ timeout: 20_000 })
-      .then(() => true)
-      .catch(() => false);
+    await expect(ana.getByText("Presente salvo.")).toBeVisible({ timeout: 30_000 });
+    await expect(ana.getByRole("button", { name: "Salvando…" })).toHaveCount(0);
+    await expect(ana.getByText("Livro de receitas", { exact: true })).toHaveCount(1);
+    await expect(ana.getByRole("button", { name: "Adicionar presente" })).toBeEnabled();
     await shot(ana, "09-apos-salvar-presente");
-    if (!confirmed) {
-      test.info().annotations.push({
-        type: "BUG-010",
-        description: `Salvar presente não conclui na tela. API: ${calls.slice(-2).join(" | ")}. Erros: ${[...new Set(consoleErrors)].length} tipo(s) de aviso do React.`,
-      });
-    }
+    await ana.reload();
+    await expect(ana.getByText("Livro de receitas", { exact: true })).toHaveCount(1);
 
     // 5. Sortear pelo painel (aba do organizador, recarregada para ler os 3 participantes)
     await organizer.reload();
@@ -177,5 +160,6 @@ test.describe("Expo Web live contra Next e Supabase locais (APP-FE-03, APP-QA-02
     await expect(fresh.getByText(/Você ainda não tem grupos neste aparelho/)).toBeVisible({
       timeout: 60_000,
     });
+    expect(renderErrors).toEqual([]);
   });
 });

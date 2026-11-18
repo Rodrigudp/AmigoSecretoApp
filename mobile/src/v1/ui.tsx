@@ -65,7 +65,7 @@ export function Field({ label, error, ...props }: ComponentPropsWithRef<typeof T
   return <View style={styles.field}>
     <Text style={styles.label}>{label}</Text>
     <TextInput accessibilityLabel={label} placeholderTextColor={palette.muted} style={styles.input} {...props} />
-    {error && <Body alert>{error}</Body>}
+    {!!error && <Body alert>{error}</Body>}
   </View>;
 }
 
