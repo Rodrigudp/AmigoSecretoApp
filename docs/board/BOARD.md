@@ -31,13 +31,14 @@ _(vazio)_
 - QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — draft PR #19; CT-01 conferido no GRP-03 (661 ms, stub); CT-02 conferido no PAR-03 (742 ms, cookie ptk_, stub) e armado: no CI vira fixme enquanto a rota /g não existe; "Ana 2" segue fixme (RN07 não está no stub)
 
 ## 👀 Em revisão
-- BE-02 · Adapter Supabase de criar grupo e entrar (no lugar dos stubs) · BE → DB · 2 pts · 19/11 — `f4a55e9`: adapter mantido, prévia não grava invite_opened, página grava 1×; CI 44218438759 verde (2 passed / 0 skipped); conflito só no BOARD.md; aguarda reaprovação do DB
-- PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — FE 17/11: #27 (`25703d3`) aprovado com 2 ajustes (cookie == token no ?ck=1; hint “Peça um novo link ao organizador.”); CI 44217989432 verde; ajustes pedidos ao PAR
+_(vazio)_
 
 ## 🧪 Em teste (QA)
 _(vazio)_
 
 ## 🏁 Pronto
+- PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — ✅ FE+ORQ; mergeado PR #27 (`6d27d0a`); cookie só no route handler; no ?ck=1 só segue se o cookie for o token da URL; link inválido pede um novo ao organizador; a área ainda lê o stub; CI 44219272617
+- BE-02 · Adapter Supabase de criar grupo e entrar (no lugar dos stubs) · BE → DB · 2 pts · 19/11 — ✅ DB+ORQ; mergeado PR #31 (`f14a5e7`); prévia não grava invite_opened, a página grava 1×; CI 44219365288, integração 2 passed / 0 skipped; a área do participante segue stub
 - OPS-04 · Aplicar migrations no Supabase de produção pelo CI (`supabase db push`) + APP_URL com o domínio real · OPS → SEC · 1 pt · 20/11 — ✅ SEC+ORQ; mergeado PR #28 (`5a0a4da`); CI 44217000044; o job pulou porque PEN-08 ainda está vazio
 - GRP-04 · Open Graph do convite + noindex/headers nas páginas com token · FE → SEC · 1 pt · 20/11 — ✅ SEC+ORQ; mergeado PR #30 (`b376f90`); CI da main 44216261190; a Vercel não publicou (limite diário do plano gratuito)
 - GRP-05 · Painel admin: lista, contador, remover antes do sorteio · GRP → QA · 3 pts · 21/11 — ✅ QA+ORQ; casos de uso no #26 (`8296d6`); tela no #32 (`322f094`); token desconhecido devolve INVALID_LINK; ainda é stub (token demo) até o adapter; CI da main 44215037513
@@ -72,7 +73,7 @@ _(vazio)_
 - MON-01 · Páginas para aprovação do AdSense · MON → SEC · 2 pts · 19/11 — ✅ Segurança aprovou revisão 2 (condicionada aos marcadores); ✅ ORQ; PR #1 (`9ebc5d1`) e domínio real no PR #23 (`ebc1e8a`, https://amigo-secreto-app-five.vercel.app); marcadores `A PREENCHER PELO RODRIGO` em PEN-01..03
 
 ## 🚀 Em produção
-- Site em https://amigo-secreto-app-five.vercel.app: a Vercel não publicou o `5a0a4da` (limite de 100 deploys/dia). O job de migrations está na main e pulou: faltam os secrets do PEN-08. Criar grupo ainda não grava.
+- Site em https://amigo-secreto-app-five.vercel.app: criar/entrar (`f14a5e7`) e a área do participante (`6d27d0a`) estão na main. A Vercel não publica (limite diário) e o job de migrations pula sem os secrets do PEN-08. No site, criar grupo ainda não grava.
 
 ---
 
@@ -122,6 +123,7 @@ _(vazio)_
 - 2026-11-17 · Front-end · PAR-03 · ✅ 21 aprovou #24/#25 (notas não bloqueantes BE-01 e handshake → PAR-04); aguarda merge ORQ · nenhum
 - 2026-11-17 · Front-end · PAR-03 mergeado · GRP-04: PR #30 aberto (OG + noindex/headers); revisão pedida à 15 Segurança · nenhum
 - 2026-11-17 · Front-end · GRP-04 · ✅ SEC aprovou #30 (sem ajustes obrigatórios); aguarda merge ORQ · nenhum
+- 2026-11-17 · Front-end · PAR-04 · ✅ re-review #27 (`fb147ae`) aprovado; aguarda merge ORQ · nenhum
 - 2026-11-17 · Orquestrador · PAR-03 mergeado (#24 `7aa98d6`, #25 `4ae079c`) · GRP-04 para o Front-end · nenhum
 - 2026-11-17 · Sorteio · SRT-01 aprovado pelo ORQ · DOM-01 entregue no PR #8 e aprovado pelo QA e pela SEC · aguarda merge do ORQ
 - 2026-11-17 · Lista de desejos · — · LST-01: spec aprovada pela Monetização (✅ 17/11) e pela Segurança (✅ 17/11; notas de canRedirect e IPs reservados incorporadas); decisões do ORQ aplicadas; pronto p/ validação final do Orquestrador · impedimento: Rodrigo cadastrar o domínio como mídia no Programa de Afiliados do ML (D1)
@@ -146,8 +148,12 @@ _(vazio)_
 - 2026-11-17 · Orquestrador · PAR-04 (#27) conflita com a main nas duas páginas /p; rebase pedido ao Participantes · nenhum
 - 2026-11-17 · Orquestrador · PAR-04 rebaseado (`25703d3`); revisão pedida ao Front-end · nenhum
 - 2026-11-17 · Orquestrador · PAR-04: FE pediu 2 ajustes no #27; encaminhados ao Participantes · nenhum
+- 2026-11-17 · Participantes · PAR-04 · ajustes do FE aplicados no #27 (`fb147ae`): ?ck=1 só canonicaliza com cookie == token da URL (senão fallback adsAllowed=false, caso de aparelho compartilhado, com teste novo) e "Peça um novo link ao organizador." nas duas telas de link inválido; lint/typecheck/147 testes/build locais e CI 3/3 verdes (Vercel segue rate limit, alheio ao código); re-revisão pedida ao FE · nenhum
+- 2026-11-17 · Participantes · PAR-04 · ✅ re-review do FE: APROVADO no fb147ae, sem mais pedidos (notas não bloqueantes pós-merge); merge do Orquestrador · nenhum
 - 2026-11-17 · Orquestrador · OPS-04 no PR #28, CI verde, ambiente production criado · falta PEN-08 e a revisão da Segurança · impedimento: PEN-08
 - 2026-11-17 · Orquestrador · OPS-04 mergeado (#28, `5a0a4da`); CI 44217000044; deploy de migrations pulou sem os secrets · impedimento: PEN-08
 - 2026-11-17 · Orquestrador · BE-02 (#31) aprovado pelo Banco, mas conflita e a prévia gravaria invite_opened; rebase pedido ao Back-end · nenhum
 - 2026-11-17 · Orquestrador · BE-02 em `f4a55e9`: prévia sem evento; aguarda reaprovação do Banco · nenhum
+- 2026-11-17 · Orquestrador · BE-02 mergeado (#31, `f14a5e7`); CI 44219365288 · impedimento: PEN-08 e o limite da Vercel
+- 2026-11-17 · Orquestrador · PAR-04 mergeado (#27, `6d27d0a`); CI 44219272617 · a área ainda é stub · impedimento: PEN-08 e o limite da Vercel
 - 2026-11-17 · Orquestrador · GRP-04 mergeado (#30, `b376f90`); CI 44216261190 verde; deploy da Vercel barrado pelo limite diário · nenhum
