@@ -141,7 +141,7 @@ Todas as respostas de erro retornam o envelope JSON único:
 
 ### 4.4. Entrar no grupo — `POST /api/v1/invite/join`
 - **Caso de uso:** `joinGroup` (`src/application/join-group.ts`) · **Auth:** `Authorization: Bearer <inviteToken>` · **Rate limit:** `join_group`
-- **Request (`application/json`):** `{ "displayName": "Ana" }` (1–40 chars após trim, sem `<`/`>`; sufixo `(2)` automático em homônimos conforme RN07).
+- **Request (`application/json`):** `{ "displayName": "Ana" }` (1–40 chars após trim, sem `<`/`>`; sufixo numérico automático em homônimos conforme RN07, ex.: `Ana 2`).
 - **Response `201 Created`:**
   ```json
   {
