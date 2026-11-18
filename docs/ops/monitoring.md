@@ -73,7 +73,7 @@ Este documento especifica a arquitetura de observabilidade, monitoramento de dis
 4. Defina o nome como `Papelzinho Monitor` e copie a **URL do Webhook**.
 5. Cadastre a URL:
    - No GitHub: **Settings > Environments > production > Secrets** > `ALERT_WEBHOOK_URL`.
-   - Na VPS: Adicione `ALERT_WEBHOOK_URL="https://discord.com/api/webhooks/..."` no `/home/smartops/papelzinho/.env.production` (modo 600).
+   - Na VPS: Adicione `ALERT_WEBHOOK_URL="https://discord.com/api/webhooks/..."` no `/home/<VPS_USER>/papelzinho/.env.production` (modo 600).
 
 ---
 
@@ -88,7 +88,7 @@ npm run alert:test <URL_DO_WEBHOOK>
 
 ### Na VPS (utilizando `ALERT_WEBHOOK_URL` do `.env.production`):
 ```bash
-cd /home/smartops/papelzinho
+cd /home/<VPS_USER>/papelzinho
 node scripts/send-test-alert.mjs
 ```
 
@@ -113,13 +113,13 @@ Conforme a regra do projeto (§9 de `docs/ops/vps.md`), execute em **uma única 
 
 ```bash
 # 1. Conectar na VPS
-ssh smartops@2.25.252.45
+ssh <VPS_USER>@<IP_DA_VPS>
 
 # 2. Testar execução do watchdog
-bash /home/smartops/papelzinho/ops/uptime-watchdog.sh
+bash /home/<VPS_USER>/papelzinho/ops/uptime-watchdog.sh
 
 # 3. Adicionar cron job para rodar a cada 5 minutos
-(crontab -l 2>/dev/null; echo "*/5 * * * * bash /home/smartops/papelzinho/ops/uptime-watchdog.sh >> /home/smartops/.pm2/logs/watchdog.log 2>&1") | crontab -
+(crontab -l 2>/dev/null; echo "*/5 * * * * bash /home/<VPS_USER>/papelzinho/ops/uptime-watchdog.sh >> /home/<VPS_USER>/.pm2/logs/watchdog.log 2>&1") | crontab -
 
 # 4. Conferir crontab
 crontab -l
@@ -130,10 +130,10 @@ crontab -l
 ## 7. Protocolo de Resposta a Incidentes S1 (ISO/IEC 14764)
 
 Ao receber um alerta S1:
-1. **Triagem Imediata:** Verificar logs em `/home/smartops/.pm2/logs/papelzinho-error.log` e status com `pm2 status papelzinho`.
+1. **Triagem Imediata:** Verificar logs em `/home/<VPS_USER>/.pm2/logs/papelzinho-error.log` e status com `pm2 status papelzinho`.
 2. **Registro de Incidente:** Criar `BUG-xxx` no Kanban do projeto (`docs/board/BOARD.md`).
 3. **Contenção / Recuperação:** Se a aplicação estiver instável, executar rollback para o commit anterior:
    ```bash
-   bash /home/smartops/papelzinho/ops/deploy-vps.sh # ou git checkout <hash> && pm2 reload ecosystem.config.cjs
+   bash /home/<VPS_USER>/papelzinho/ops/deploy-vps.sh # ou git checkout <hash> && pm2 reload ecosystem.config.cjs
    ```
 4. **Pós-Incidente:** Documentar análise sem culpados em `docs/processo/incidentes/AAAA-MM-DD-slug.md`.

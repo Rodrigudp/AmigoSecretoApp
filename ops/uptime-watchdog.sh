@@ -7,7 +7,7 @@
 set -euo pipefail
 
 HEALTH_URL="http://127.0.0.1:3010/api/health"
-APP_DIR="/home/smartops/papelzinho"
+APP_DIR="${APP_DIR:-$HOME/papelzinho}"
 MAX_RETRIES=3
 RETRY_DELAY=2
 

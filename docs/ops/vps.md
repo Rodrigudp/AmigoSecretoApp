@@ -9,13 +9,13 @@ Este documento descreve a arquitetura de implantação, os procedimentos de conf
 Devido ao limite de 100 deploys/24h da Vercel no plano gratuito e à necessidade de controle de custos, a aplicação foi migrada para a VPS dedicada.
 
 - **Servidor:** Ubuntu 26.04 LTS (2 vCPU, 8 GB RAM, Node 22.23, PM2, Nginx).
-- **Diretório da Aplicação:** `/home/smartops/papelzinho`
+- **Diretório da Aplicação:** `/home/<VPS_USER>/papelzinho`
 - **Gerenciador de Processos:** PM2 em modo `fork` com 1 instância (`exec_mode: "fork"`, `instances: 1`).
   > **Nota de Segurança & Rate Limit:** O rate limiting do projeto (SEC-03) opera em memória (`globalThis`). Executar em modo `fork` com 1 processo único garante que a contagem de requisições por IP seja centralizada e consistente.
 - **Porta Local da Aplicação:** `127.0.0.1:3010` (processo PM2 `papelzinho`).
-  > **Nota de Portas:** A porta local 3010 é de uso exclusivo do Papelzinho (anteriormente executado via `nohup` em `/home/smartops/amigo-secreto` e agora consolidado sob o PM2 em `/home/smartops/papelzinho`).
+  > **Nota de Portas:** A porta local 3010 é de uso exclusivo do Papelzinho (consolidada sob o PM2 em `/home/<VPS_USER>/papelzinho`).
 - **Reverse Proxy:** Nginx escutando na porta pública **`8090`** (`http://<IP_DA_VPS>:8090`).
-  > **Preservação de Serviços:** A porta 8090 foi escolhida para não conflitar com nenhum dos serviços já existentes na VPS (portas 22, 80, 443, 3005, 3030, 3085, 3306, 33060, 5000, 5555, 8080, 8082, 8443, 8790).
+  > **Preservação de Serviços:** A porta 8090 foi escolhida para não conflitar com nenhum dos serviços pré-existentes na VPS compartilhada.
   > 
   > **GATE DE SEGURANÇA & LGPD (Art. 46 — OBRIGATÓRIO ANTES DO GO-LIVE):**
   > O endpoint HTTP na porta `:8090` é **restrito à fase de homologação, testes técnicos e smoke tests**. Em conexões HTTP puras, tokens de URL (`/p/[token]`, `/owner/[token]`) e cookies de autenticação (`ptk_<groupId>`, cuja flag `Secure` é omitida pelo runtime quando `APP_URL` começa com `http://`) trafegam em texto claro pela rede. A ativação de domínio com terminação HTTPS (Certbot / SSL — Seção 8) e a definição de `APP_URL=https://...` no `.env.production` são **obrigatórias antes da abertura do sistema a participantes reais**.
@@ -26,10 +26,10 @@ Devido ao limite de 100 deploys/24h da Vercel no plano gratuito e à necessidade
 
 ## 2. Pré-requisitos na VPS
 
-Conecte-se à VPS como o usuário `smartops`:
+Conecte-se à VPS com o usuário de operações configurado:
 
 ```bash
-ssh smartops@<IP_DA_VPS>
+ssh <VPS_USER>@<IP_DA_VPS>
 ```
 
 Certifique-se de que o Node.js 22, PM2 e Nginx estão instalados:
@@ -48,39 +48,33 @@ nginx -v
 ### Passo 3.1: Clonar o Repositório
 
 ```bash
-cd /home/smartops
-if [ ! -d "/home/smartops/papelzinho" ]; then
+cd /home/<VPS_USER>
+if [ ! -d "/home/<VPS_USER>/papelzinho" ]; then
   git clone https://github.com/Rodrigudp/AmigoSecretoApp.git papelzinho
 fi
-cd /home/smartops/papelzinho
+cd /home/<VPS_USER>/papelzinho
 git checkout main
 ```
 
 ### Passo 3.2: Configurar o Arquivo de Variáveis de Ambiente (`.env.production`)
 
-Se já existir um arquivo configurado na pasta `/home/smartops/amigo-secreto`, copie-o:
-
 ```bash
 # Definir umask restritiva antes da criação dos arquivos para evitar leitura por outros usuários
 umask 077
 
-if [ -f "/home/smartops/amigo-secreto/.env.production" ]; then
-  cp "/home/smartops/amigo-secreto/.env.production" "/home/smartops/papelzinho/.env.production"
-else
-  # Crie o arquivo manualmente com as variáveis de produção
-  nano /home/smartops/papelzinho/.env.production
-fi
+# Crie o arquivo com as variáveis de produção
+nano /home/<VPS_USER>/papelzinho/.env.production
 
-# Restringir permissão estritamente ao usuário smartops (LGPD / Segurança)
-chmod 600 /home/smartops/papelzinho/.env.production
-cp /home/smartops/papelzinho/.env.production /home/smartops/papelzinho/.env.local
-chmod 600 /home/smartops/papelzinho/.env.local
+# Restringir permissão estritamente ao usuário da aplicação (LGPD / Segurança)
+chmod 600 /home/<VPS_USER>/papelzinho/.env.production
+cp /home/<VPS_USER>/papelzinho/.env.production /home/<VPS_USER>/papelzinho/.env.local
+chmod 600 /home/<VPS_USER>/papelzinho/.env.local
 ```
 
 ### Passo 3.3: Instalar Dependências e Construir a Aplicação
 
 ```bash
-cd /home/smartops/papelzinho
+cd /home/<VPS_USER>/papelzinho
 npm ci
 npm run build
 ```
@@ -88,7 +82,7 @@ npm run build
 ### Passo 3.4: Iniciar o PM2 e Ativar Inicialização no Boot
 
 ```bash
-cd /home/smartops/papelzinho
+cd /home/<VPS_USER>/papelzinho
 
 # Iniciar processo conforme ecosystem.config.cjs
 pm2 start ecosystem.config.cjs
@@ -112,7 +106,7 @@ pm2 startup
 Copie a configuração do repositório para o diretório de sites do Nginx:
 
 ```bash
-sudo cp /home/smartops/papelzinho/ops/nginx-papelzinho.conf /etc/nginx/sites-available/papelzinho.conf
+sudo cp /home/<VPS_USER>/papelzinho/ops/nginx-papelzinho.conf /etc/nginx/sites-available/papelzinho.conf
 sudo ln -sf /etc/nginx/sites-available/papelzinho.conf /etc/nginx/sites-enabled/papelzinho.conf
 
 # Validar sintaxe da configuração
@@ -155,7 +149,7 @@ Acesse o repositório no GitHub: **Settings > Environments > production > Secret
 | Nome do Secret | Descrição | Exemplo |
 | :--- | :--- | :--- |
 | `VPS_HOST` | Endereço IP ou hostname público da VPS | `192.0.2.1` ou `vps.meudominio.com` |
-| `VPS_USER` | Usuário SSH do sistema | `smartops` |
+| `VPS_USER` | Usuário SSH do sistema | `<usuario-ssh>` |
 | `VPS_SSH_KEY` | Chave privada SSH autorizada no servidor | Conteúdo de `~/.ssh/id_rsa` |
 | `VPS_SSH_PORT` | Porta SSH (opcional, padrão `22`) | `22` |
 | `VPS_SSH_KNOWN_HOSTS` | Chave pública do host para validação MITM (`StrictHostKeyChecking=yes`) | Saída de `ssh-keyscan -p 22 -H <IP_DA_VPS>` |
@@ -168,7 +162,7 @@ Acesse o repositório no GitHub: **Settings > Environments > production > Secret
 
 O script de deploy é idempotente e conta com rollback automático:
 
-1. Acessa `/home/smartops/papelzinho`.
+1. Acessa `/home/<VPS_USER>/papelzinho`.
 2. Garante existência e permissão segura (`chmod 600`) do `.env.production`.
 3. Registra o commit atual (`PREV_COMMIT`) para recuperação de desastre.
 4. Faz `git fetch` e `git reset --hard origin/main`.
@@ -188,7 +182,7 @@ O script de deploy é idempotente e conta com rollback automático:
 Para rodar uma atualização manual diretamente no servidor:
 
 ```bash
-bash /home/smartops/papelzinho/ops/deploy-vps.sh
+bash /home/<VPS_USER>/papelzinho/ops/deploy-vps.sh
 ```
 
 ### Rollback Manual de Emergência
@@ -196,7 +190,7 @@ bash /home/smartops/papelzinho/ops/deploy-vps.sh
 Caso seja necessário reverter para uma versão anterior manualmente:
 
 ```bash
-cd /home/smartops/papelzinho
+cd /home/<VPS_USER>/papelzinho
 
 # Listar os últimos commits
 git log -n 5 --oneline
@@ -231,7 +225,7 @@ pm2 monit
 pm2 logs papelzinho
 
 # Logs de erro específicos
-cat /home/smartops/.pm2/logs/papelzinho-error.log | tail -n 50
+cat /home/<VPS_USER>/.pm2/logs/papelzinho-error.log | tail -n 50
 
 # Logs de acesso do Nginx
 sudo tail -f /var/log/nginx/access.log
@@ -255,7 +249,7 @@ Futuramente, após aquisição do domínio próprio `papelzinho.app` (`PEN-09`),
 
 1. **Propagação de DNS (PEN-10 pelo PO):**
    Criar na zona DNS de `smartsolutionsbr.com.br` o registro tipo `A`:
-   `papelzinho` → `2.25.252.45` (ou IP público correspondente da VPS).
+   `papelzinho` → `<IP_DA_VPS>`.
    Aguarde a propagação antes de rodar o Certbot:
    ```bash
    dig +short papelzinho.smartsolutionsbr.com.br
@@ -264,7 +258,7 @@ Futuramente, após aquisição do domínio próprio `papelzinho.app` (`PEN-09`),
 2. **Ativar Configuração do Domínio no Nginx:**
    O arquivo `ops/nginx-papelzinho-domain.conf` foi criado de forma totalmente isolada (sem alterar nenhum site existente na VPS):
    ```bash
-   sudo cp /home/smartops/papelzinho/ops/nginx-papelzinho-domain.conf /etc/nginx/sites-available/papelzinho-domain.conf
+   sudo cp /home/<VPS_USER>/papelzinho/ops/nginx-papelzinho-domain.conf /etc/nginx/sites-available/papelzinho-domain.conf
    sudo ln -sf /etc/nginx/sites-available/papelzinho-domain.conf /etc/nginx/sites-enabled/
    ```
 
@@ -281,7 +275,7 @@ Futuramente, após aquisição do domínio próprio `papelzinho.app` (`PEN-09`),
    ```
 
 5. **Atualizar Variáveis de Produção:**
-   No arquivo `/home/smartops/papelzinho/.env.production` (e `.env.local`), configure:
+   No arquivo `/home/<VPS_USER>/papelzinho/.env.production` (e `.env.local`), configure:
    ```env
    APP_URL=https://papelzinho.smartsolutionsbr.com.br
    ```
