@@ -87,7 +87,7 @@ A carga é dividida entre as assinaturas (Claude, ChatGPT, Gemini) e modelos gra
 | 21 Feature Participantes | Gratuito | OpenCode GLM-5.3-Flash Free | Baixo |
 | 22 Feature Lista de desejos | Gratuito | OpenCode DeepSeek V4.1 Flash Free | Baixo |
 
-Reserva automática (pedido do PO, 17/11): 1º Cursor (Alto `gpt-5.6-sol`, Médio `gpt-5.6-terra`, Básico/Gratuito `deepseek-v41-flash`), depois um modelo de outro provedor já conectado (Gemini 4 Hydrogen/3.8 Flash, Claude Sonnet/Haiku) e por fim `opencode/deepseek-v4.1-flash-free`. Em 17/11 o plano do Cursor esgotou: 10 Back-end foi para Gemini 4 Argon e 13 QA para Gemini 3.8 Flash.
+Reserva automática (pedido do PO, 17/11), quando o modelo principal bate no limite de uso: Alto → Cursor `grok-4.7`, Cursor `gpt-5.6-sol`; Médio → Cursor `grok-4.7`, Cursor `composer-2.5`; Básico/Gratuito → Cursor `grok-4.6`, Cursor `composer-2.5`; depois um modelo de outro provedor conectado (Gemini/Claude) e por fim `opencode/deepseek-v4.1-flash-free`. O agente volta ao modelo principal quando o limite passa.
 
 Escalonamento: se um agente básico ou gratuito errar duas vezes no mesmo cartão, o Orquestrador passa o cartão
 para o agente de camada correspondente (modelo mais forte) ou sobe o esforço temporariamente.
