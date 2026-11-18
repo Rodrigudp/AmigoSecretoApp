@@ -21,8 +21,10 @@ Arquivos em `tests/e2e/api-v1/`, todos em `test.fixme` com o motivo `PENDING` at
 | --- | --- | --- | --- |
 | CT-35 | `auth.spec.ts` | Cada rota recusa credencial de outro tipo (convite, participante, admin) com `401 INVALID_LINK` e envelope `{ error: { code, message } }`. Bearer ausente, vazio e desconhecido devolvem corpo idêntico (ADR-002). `my-groups/summary` aceita participante e organizador e informa `role`. Token em query string (`token`, `accessToken`, `adminToken`, `inviteToken`, `expoPushToken`, `key`, `secret`, `auth`) dá `400 INVALID_INPUT`. Participante removido perde o acesso. | RN06, RNF03, API-V1 §1.2 |
 | CT-36 | `secrecy.spec.ts` | Antes do sorteio, `reveal` dá `409 DRAW_NOT_READY`. Depois, nenhuma resposta de admin, participante, desejos ou resumo contém chaves de pares; `reveal` devolve só `drawVersion`, `recipientName`, `wishItems`, nunca o próprio nome, e os 4 participantes juntos formam uma permutação. Itens de desejo sem `affiliateUrl`, `productLink` ou `tag=`. | RN03, RNF04, APP-MON-01 |
-| CT-37 | `headers-and-limits.spec.ts` | Sucesso e erro levam `Cache-Control: private, no-store, max-age=0, must-revalidate`, `Referrer-Policy: no-referrer`, `X-Robots-Tag: noindex, nofollow`, `X-Content-Type-Options: nosniff` e nenhum `Access-Control-Allow-Origin`. `OPTIONS` dá 403 ou 405. Limites por IP: 120 req (`api_v1`), 30 entradas (`join_group`), 10 criações (`create_group`) → `429 RATE_LIMITED`. | SEC-03, API-V1 §1.5–1.8 |
-| CT-38 | `flows.spec.ts` | `NOT_ENOUGH_PARTICIPANTS`, `DRAW_MEMBERS_CHANGED`, `GROUP_CLOSED` (entrar e remover), sorteio repetido mantém `drawVersion` 1, `IDEMPOTENCY_CONFLICT`, validação de `INVALID_INPUT`, sufixo `(2)` sem diferenciar caixa, `WISH_LIST_FULL` no 21º item, `WISH_ITEM_NOT_FOUND` em item alheio, push: formato inválido, repetição idempotente, `PUSH_DEVICE_LIMIT` no 6º aparelho e `DELETE`. | RN01, RN04, RN07, RN09, RF05 |
+| CT-37 | `headers-and-limits.spec.ts` | Sucesso e erro levam `Cache-Control: private, no-store, max-age=0, must-revalidate`, `Referrer-Policy: no-referrer`, `X-Robots-Tag: noindex, nofollow`, `X-Content-Type-Options: nosniff` e nenhum `Access-Control-Allow-Origin`. `OPTIONS` dá 403 ou 405. Limites por IP: 120 req (`api_v1`) e 30 entradas (`join_group`) → `429 RATE_LIMITED`. | SEC-03, API-V1 §1.5–1.8 |
+| CT-38 | `flows.spec.ts` | `NOT_ENOUGH_PARTICIPANTS`, `DRAW_MEMBERS_CHANGED`, `GROUP_CLOSED` (entrar e remover), sorteio repetido mantém `drawVersion` 1, `IDEMPOTENCY_CONFLICT` e validação de `INVALID_INPUT`. | RN01, RN04, RN07, RN09, RF05 |
+
+Ficam para um segundo PR, escrito quando os endpoints existirem (API-V1 §4.6 e §5.2): CT-60 em `wishes.spec.ts` (`WISH_LIST_FULL` no 21º item, `WISH_ITEM_NOT_FOUND` em item alheio, CRUD sem `affiliateUrl`), CT-61 em `push.spec.ts` (formato inválido, repetição idempotente, `PUSH_DEVICE_LIMIT` no 6º aparelho, `DELETE`, `role` na resposta), CT-62 sufixo `(2)` (RN07) e CT-63 limites `create_group` (10 req) e `api_v1_write` (30 req).
 
 Casos que o Playwright `request` não alcança e ficam em outros níveis:
 
@@ -68,7 +70,7 @@ Seletores por papel e rótulo (`getByRole`, `getByLabel`), nunca por texto de ma
 
 ## 4. Critérios de aceite do app (para o QA liberar um build)
 
-1. CT-35 a CT-38 ativos e verdes no CI, sem `fixme`.
+1. CT-35 a CT-38 e CT-60 a CT-63 ativos e verdes no CI, sem `fixme`.
 2. Jest do app verde, cobertura de `mobile/src` ≥ 70% e do cliente de API ≥ 90%.
 3. Fluxo web CT-55 a CT-59 verde.
 4. Roteiro manual §5 executado em pelo menos um iPhone e um Android, sem bug S1 ou S2 aberto.

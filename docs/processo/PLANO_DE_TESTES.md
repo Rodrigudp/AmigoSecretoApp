@@ -63,4 +63,4 @@ Unitários: Vitest; integração: Vitest com Supabase local; E2E: Playwright em 
 
 ## App nativo
 
-O plano do app (contrato da API v1, testes do app e roteiro em aparelho) está em [docs/qa/PLANO_APP.md](../qa/PLANO_APP.md), com os casos CT-35 a CT-59.
+O plano do app (contrato da API v1, testes do app e roteiro em aparelho) está em [docs/qa/PLANO_APP.md](../qa/PLANO_APP.md), com os casos CT-35 a CT-63.
