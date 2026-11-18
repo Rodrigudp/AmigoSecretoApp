@@ -20,14 +20,16 @@ export type ListWishItemsActionResult =
   { ok: true; items: WishItem[] } | { ok: false; message: string; code?: string };
 
 async function getDeps() {
-  const { buildWishItemRepository, buildParticipantViewDeps } =
+  const { buildWishItemRepository, buildParticipantViewDeps, buildAffiliateLinkService } =
     await import("@/src/infrastructure/supabase/deps");
   const partDeps = buildParticipantViewDeps();
   const wishRepo = buildWishItemRepository();
+  const affiliate = buildAffiliateLinkService();
   return {
     participants: partDeps.participants,
     wishItems: wishRepo,
     tokens: partDeps.tokens,
+    affiliate,
   };
 }
 

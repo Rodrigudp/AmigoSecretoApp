@@ -35,12 +35,31 @@ export function StoreBadge({ domain, affiliate }: { domain: string; affiliate?: 
   return <span className="text-base text-text-muted">{copy.WSH_19.common(domain)}</span>;
 }
 
-function WishItemStoreLink({ href, isAffiliate }: { href: string; isAffiliate: boolean }) {
+function WishItemStoreLink({
+  id,
+  href,
+  isAffiliate,
+}: {
+  id: string;
+  href: string;
+  isAffiliate: boolean;
+}) {
+  const handleClick = () => {
+    if (isAffiliate && typeof navigator !== "undefined" && navigator.sendBeacon) {
+      try {
+        navigator.sendBeacon("/api/affiliate-click", JSON.stringify({ itemId: id }));
+      } catch {
+        // Beacon não bloqueia navegação
+      }
+    }
+  };
+
   return (
     <a
       href={href}
       target="_blank"
       rel={isAffiliate ? "sponsored nofollow noopener noreferrer" : "nofollow noopener noreferrer"}
+      onClick={handleClick}
       className={buttonClass("secondary") + " min-h-11 inline-flex items-center text-sm"}
     >
       {copy.WSH_13.store}
@@ -66,7 +85,7 @@ function WishItemActions({
   onDeletePrompt?: () => void;
 }) {
   const storeLink = linkHref ? (
-    <WishItemStoreLink href={linkHref} isAffiliate={isAffiliate} />
+    <WishItemStoreLink id={id} href={linkHref} isAffiliate={isAffiliate} />
   ) : null;
 
   if (mode !== "owner") {
