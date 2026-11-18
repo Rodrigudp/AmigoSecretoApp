@@ -60,7 +60,7 @@ function WishListWarningBanner({
       <Button
         type="button"
         variant="ghost"
-        className="min-h-11 self-start sm:self-auto text-xs font-semibold"
+        className="min-h-11 self-start sm:self-auto text-base font-semibold"
         onClick={onDismiss}
       >
         {copy.WSH_18.dismiss}
@@ -89,7 +89,7 @@ function WishListErrorBanner({
       <Button
         type="button"
         variant="ghost"
-        className="min-h-11 self-start sm:self-auto text-xs font-semibold text-danger"
+        className="min-h-11 self-start sm:self-auto text-base font-semibold text-danger"
         onClick={onRetry}
       >
         {copy.WSH_22.retry}
@@ -103,7 +103,13 @@ function WishListEmptyBlock({ isOwner, onAdd }: { isOwner: boolean; onAdd: () =>
     <div className="flex flex-col gap-3 py-2">
       <p className="text-base text-text">{isOwner ? copy.WSH_04 : copy.WSH_24.empty}</p>
       {isOwner && (
-        <Button type="button" variant="secondary" className="self-start" onClick={onAdd}>
+        <Button
+          id="wishlist-add-btn"
+          type="button"
+          variant="secondary"
+          className="self-start"
+          onClick={onAdd}
+        >
           {copy.WSH_05}
         </Button>
       )}
@@ -129,6 +135,7 @@ function WishListAddBlock({
   return (
     <div className="flex flex-col gap-1.5 pt-2">
       <Button
+        id="wishlist-add-btn"
         type="button"
         variant="secondary"
         className="self-start"
@@ -151,9 +158,9 @@ function AffiliateDisclosures({ hasAmazon, hasML }: { hasAmazon: boolean; hasML:
   return (
     <>
       {hasAmazon && (
-        <p className="mt-2 border-t border-line pt-3 text-xs text-text-muted">{copy.WSH_20}</p>
+        <p className="mt-2 border-t border-line pt-3 text-base text-text-muted">{copy.WSH_20}</p>
       )}
-      {hasML && <p className="text-xs text-text-muted">{copy.WSH_21}</p>}
+      {hasML && <p className="text-base text-text-muted">{copy.WSH_21}</p>}
     </>
   );
 }
@@ -168,6 +175,14 @@ function makeFallbackItem(data: WishFormData): WishItemType {
   };
 }
 
+function focusElementById(id: string) {
+  if (typeof window !== "undefined") {
+    requestAnimationFrame(() => {
+      document.getElementById(id)?.focus();
+    });
+  }
+}
+
 export function WishList({
   mode,
   initialItems = [],
@@ -180,6 +195,7 @@ export function WishList({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [warningMessage, setWarningMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [retryAction, setRetryAction] = useState<(() => Promise<void>) | null>(null);
   const [announcement, setAnnouncement] = useState("");
 
   const isOwner = mode === "owner";
@@ -196,24 +212,29 @@ export function WishList({
   async function handleAdd(data: WishFormData) {
     setErrorMessage(null);
     if (!accessToken) {
-      setItems((prev) => [makeFallbackItem(data), ...prev]);
+      const fallback = makeFallbackItem(data);
+      setItems((prev) => [fallback, ...prev]);
       setIsAdding(false);
       setAnnouncement(copy.WSH_12.saved);
+      focusElementById(`wish-item-title-${fallback.id}`);
       return;
     }
 
     const res = await addWishItemAction(accessToken, data);
     if (!res.ok) {
       setErrorMessage(res.message);
+      setRetryAction(() => () => handleAdd(data));
       return;
     }
 
     setItems((prev) => [res.output.item, ...prev]);
     setIsAdding(false);
+    setRetryAction(null);
     setWarningMessage(
       res.output.warning === "AFFILIATE_UNAVAILABLE" ? copy.WSH_18.storeFailure : null
     );
     setAnnouncement(copy.WSH_12.saved);
+    focusElementById(`wish-item-title-${res.output.item.id}`);
   }
 
   async function handleUpdate(id: string, data: WishFormData) {
@@ -234,39 +255,58 @@ export function WishList({
       );
       setEditingId(null);
       setAnnouncement(copy.WSH_12.saved);
+      focusElementById(`wish-item-title-${id}`);
       return;
     }
 
     const res = await updateWishItemAction(accessToken, id, data);
     if (!res.ok) {
       setErrorMessage(res.message);
+      setRetryAction(() => () => handleUpdate(id, data));
       return;
     }
 
     setItems((prev) => prev.map((item) => (item.id === id ? res.output.item : item)));
     setEditingId(null);
+    setRetryAction(null);
     setWarningMessage(
       res.output.warning === "AFFILIATE_UNAVAILABLE" ? copy.WSH_18.storeFailure : null
     );
     setAnnouncement(copy.WSH_12.saved);
+    focusElementById(`wish-item-title-${id}`);
   }
 
   async function handleDelete(id: string) {
     setErrorMessage(null);
+    const idx = items.findIndex((i) => i.id === id);
+    const nextItem = items[idx + 1];
+    const targetFocusId = nextItem ? `wish-item-title-${nextItem.id}` : "wishlist-add-btn";
+
     if (!accessToken) {
       setItems((prev) => prev.filter((item) => item.id !== id));
       setAnnouncement(copy.WSH_12.deleted);
+      focusElementById(targetFocusId);
       return;
     }
 
     const res = await removeWishItemAction(accessToken, id);
     if (!res.ok) {
       setErrorMessage(res.message);
+      setRetryAction(() => () => handleDelete(id));
       return;
     }
 
     setItems((prev) => prev.filter((item) => item.id !== id));
+    setRetryAction(null);
     setAnnouncement(copy.WSH_12.deleted);
+    focusElementById(targetFocusId);
+  }
+
+  async function handleRetry() {
+    setErrorMessage(null);
+    if (retryAction) {
+      await retryAction();
+    }
   }
 
   const title = isOwner ? copy.WSH_01 : copy.WSH_24.title(recipientName || "");
@@ -282,9 +322,17 @@ export function WishList({
 
         <WishListWarningBanner message={warningMessage} onDismiss={() => setWarningMessage(null)} />
 
-        <WishListErrorBanner message={errorMessage} onRetry={() => setErrorMessage(null)} />
+        <WishListErrorBanner message={errorMessage} onRetry={handleRetry} />
 
-        {isOwner && isAdding && <WishForm onSave={handleAdd} onCancel={() => setIsAdding(false)} />}
+        {isOwner && isAdding && (
+          <WishForm
+            onSave={handleAdd}
+            onCancel={() => {
+              setIsAdding(false);
+              focusElementById("wishlist-add-btn");
+            }}
+          />
+        )}
 
         {count === 0 && !isAdding && (
           <WishListEmptyBlock isOwner={isOwner} onAdd={() => setIsAdding(true)} />
@@ -299,7 +347,10 @@ export function WishList({
                 mode={mode}
                 isEditing={editingId === item.id}
                 onStartEdit={(id) => setEditingId(id)}
-                onCancelEdit={() => setEditingId(null)}
+                onCancelEdit={() => {
+                  setEditingId(null);
+                  focusElementById(`edit-btn-${item.id}`);
+                }}
                 onSaveEdit={handleUpdate}
                 onDelete={handleDelete}
               />

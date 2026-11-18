@@ -5,6 +5,12 @@ import { WishItem } from "@/app/_components/WishItem";
 import { WishForm } from "@/app/_components/WishForm";
 import type { WishItem as WishItemType } from "@/src/application/ports";
 
+vi.mock("@/app/wish-actions", () => ({
+  addWishItemAction: vi.fn(),
+  updateWishItemAction: vi.fn(),
+  removeWishItemAction: vi.fn(),
+}));
+
 const sampleItem1: WishItemType = {
   id: "item-1",
   title: "Livro de culinária",
@@ -67,13 +73,14 @@ describe("WishList Component", () => {
     expect(screen.getByText(/Escreva o nome do presente/)).toBeTruthy();
     expect(handleSave).not.toHaveBeenCalled();
 
-    // Invalid url
+    // Invalid url on blur
     const urlInput = screen.getByLabelText(/Link da loja/);
     fireEvent.change(urlInput, { target: { value: "http://insecure.com" } });
+    fireEvent.blur(urlInput);
+    expect(screen.getByText(/Use um link que comece com https:\/\//)).toBeTruthy();
+
     fireEvent.click(saveBtn);
-    expect(
-      screen.getByText(/Use um link que comece com https:\/\//)
-    ).toBeTruthy();
+    expect(screen.getByText(/Use um link que comece com https:\/\//)).toBeTruthy();
   });
 
   it("shows limit reached state when count is 20 (E9)", () => {
@@ -108,6 +115,60 @@ describe("WishList Component", () => {
     render(<WishList mode="reader" recipientName="Carlos" initialItems={[]} />);
     expect(screen.getByText("Esta pessoa ainda não adicionou desejos.")).toBeTruthy();
   });
+
+  it("retries failed action when clicking 'Tentar de novo' (E10)", async () => {
+    const { addWishItemAction } = await import("@/app/wish-actions");
+    const mockAdd = vi.mocked(addWishItemAction);
+    mockAdd
+      .mockResolvedValueOnce({ ok: false, message: "Erro de rede ao salvar" })
+      .mockResolvedValueOnce({
+        ok: true,
+        output: {
+          item: {
+            id: "new-item",
+            title: "Tênis esportivo",
+            url: null,
+            note: null,
+            productLink: null,
+          },
+          warning: null,
+        },
+      });
+
+    render(<WishList mode="owner" accessToken="valid-token" initialItems={[]} />);
+    const addBtn = screen.getByRole("button", { name: "Adicionar presente" });
+    fireEvent.click(addBtn);
+
+    const titleInput = screen.getByLabelText(/Nome do presente/);
+    fireEvent.change(titleInput, { target: { value: "Tênis esportivo" } });
+    fireEvent.click(screen.getByRole("button", { name: "Salvar presente" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("Erro de rede ao salvar")).toBeTruthy();
+    });
+
+    const retryBtn = screen.getByRole("button", { name: "Tentar de novo" });
+    fireEvent.click(retryBtn);
+
+    await waitFor(() => {
+      expect(mockAdd).toHaveBeenCalledTimes(2);
+      expect(screen.getByText("Tênis esportivo")).toBeTruthy();
+      expect(screen.queryByText("Erro de rede ao salvar")).toBeNull();
+    });
+  });
+
+  it("returns focus to add button when canceling new form", async () => {
+    render(<WishList mode="owner" initialItems={[]} />);
+    const addBtn = screen.getByRole("button", { name: "Adicionar presente" });
+    fireEvent.click(addBtn);
+
+    const cancelBtn = screen.getByRole("button", { name: "Cancelar" });
+    fireEvent.click(cancelBtn);
+
+    await waitFor(() => {
+      expect(document.activeElement?.id).toBe("wishlist-add-btn");
+    });
+  });
 });
 
 describe("WishItem Component", () => {
@@ -118,9 +179,7 @@ describe("WishItem Component", () => {
     const deleteBtn = screen.getByRole("button", { name: "Apagar Livro de culinária" });
     fireEvent.click(deleteBtn);
 
-    expect(
-      screen.getByText(/Apagar.*Livro de culinária.*Não dá para desfazer/)
-    ).toBeTruthy();
+    expect(screen.getByText(/Apagar.*Livro de culinária.*Não dá para desfazer/)).toBeTruthy();
     const cancelBtn = screen.getByRole("button", { name: "Cancelar" });
     const confirmBtn = screen.getByRole("button", { name: "Sim, apagar" });
 

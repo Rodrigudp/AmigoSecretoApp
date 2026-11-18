@@ -27,12 +27,12 @@ function getDomain(rawUrl: string): string {
 export function StoreBadge({ domain, affiliate }: { domain: string; affiliate?: boolean }) {
   if (affiliate) {
     return (
-      <span className="inline-flex items-center rounded bg-[#FFF0BB] px-2 py-0.5 text-xs font-medium text-text">
+      <span className="inline-flex items-center rounded bg-[#FFF0BB] px-2 py-0.5 text-base font-medium text-text">
         {copy.WSH_19.affiliate(domain)}
       </span>
     );
   }
-  return <span className="text-xs text-text-muted">{copy.WSH_19.common(domain)}</span>;
+  return <span className="text-base text-text-muted">{copy.WSH_19.common(domain)}</span>;
 }
 
 function WishItemStoreLink({ href, isAffiliate }: { href: string; isAffiliate: boolean }) {
@@ -49,6 +49,7 @@ function WishItemStoreLink({ href, isAffiliate }: { href: string; isAffiliate: b
 }
 
 function WishItemActions({
+  id,
   title,
   linkHref,
   isAffiliate,
@@ -56,6 +57,7 @@ function WishItemActions({
   onEdit,
   onDeletePrompt,
 }: {
+  id: string;
   title: string;
   linkHref: string | null;
   isAffiliate: boolean;
@@ -75,6 +77,7 @@ function WishItemActions({
     <div className="flex flex-wrap items-center gap-2 self-start">
       {storeLink}
       <Button
+        id={`edit-btn-${id}`}
         type="button"
         variant="ghost"
         onClick={onEdit}
@@ -165,11 +168,13 @@ function WishItemEditRow({
 }
 
 function WishItemContent({
+  id,
   title,
   note,
   domain,
   isAffiliate,
 }: {
+  id: string;
   title: string;
   note?: string | null;
   domain: string | null;
@@ -177,7 +182,13 @@ function WishItemContent({
 }) {
   return (
     <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-      <h3 className="text-base font-semibold text-text wrap-break-word">{title}</h3>
+      <h3
+        id={`wish-item-title-${id}`}
+        tabIndex={-1}
+        className="text-base font-semibold text-text wrap-break-word focus:outline-none"
+      >
+        {title}
+      </h3>
       {note && (
         <p className="text-sm text-text-muted whitespace-pre-wrap wrap-break-word">{note}</p>
       )}
@@ -225,6 +236,7 @@ export function WishItem({
     <li className="flex flex-col gap-3 py-4 first:pt-0 last:pb-0">
       <div className="flex flex-col justify-between gap-3 min-[641px]:flex-row min-[641px]:items-start">
         <WishItemContent
+          id={item.id}
           title={item.title}
           note={item.note}
           domain={domain}
@@ -232,6 +244,7 @@ export function WishItem({
         />
 
         <WishItemActions
+          id={item.id}
           title={item.title}
           linkHref={linkHref}
           isAffiliate={isAffiliate}

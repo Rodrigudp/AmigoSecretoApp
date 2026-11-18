@@ -164,6 +164,10 @@ export function WishForm({ initialValues, isEdit = false, onSave, onCancel }: Wi
         placeholder={copy.WSH_09.placeholder}
         value={url}
         onChange={(e) => setUrl(e.target.value)}
+        onBlur={() => {
+          const urlError = validateUrlField(url);
+          setErrors((prev) => ({ ...prev, url: urlError ?? undefined }));
+        }}
         error={errors.url}
       />
 

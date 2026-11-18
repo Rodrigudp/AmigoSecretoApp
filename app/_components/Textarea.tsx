@@ -39,7 +39,7 @@ function TextareaHeader({
         {required && <span aria-hidden="true"> *</span>}
       </label>
       {count && (
-        <span id={countId} className="text-xs text-text-muted" aria-live="polite">
+        <span id={countId} className="text-base text-text-muted" aria-live="polite">
           {count}
         </span>
       )}
