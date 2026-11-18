@@ -1,0 +1,37 @@
+{
+  "invite-360": {
+    "small": [],
+    "overflow": false,
+    "minFont": 18
+  },
+  "invite-1280": {
+    "small": [],
+    "overflow": false,
+    "minFont": 18
+  },
+  "closed-360": {
+    "small": [],
+    "overflow": false,
+    "minFont": 18
+  },
+  "full-360": {
+    "small": [],
+    "overflow": false,
+    "minFont": 18
+  },
+  "invalid-360": {
+    "small": [],
+    "overflow": false,
+    "minFont": 18
+  },
+  "success-360": {
+    "small": [],
+    "overflow": false,
+    "minFont": 16
+  },
+  "success-1280": {
+    "small": [],
+    "overflow": false,
+    "minFont": 16
+  }
+}
