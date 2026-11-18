@@ -17,10 +17,6 @@ export default function ParticipantGroup() {
   const [retry, setRetry] = useState(0);
   useEffect(() => {
     let active = true;
-    setCredential("");
-    setCache(null);
-    setParticipant(null);
-    setError("");
     void (async () => {
       const token = await readAccess({ groupId: groupId ?? "", role: "participant" });
       if (!token) throw new Error("Este grupo não está disponível neste aparelho. Abra seu link pessoal ou peça ajuda ao organizador.");
@@ -45,7 +41,7 @@ export default function ParticipantGroup() {
   return <Page title={view?.group.name ?? "Área do participante"}>
     {view && <Card><Body>Olá, {view.displayName}.</Body><Body>Encontro em {formatDate(view.group.exchangeDate)}</Body></Card>}
     {error && <Card><Body alert>{cache ? "Sem conexão. Você está vendo a lista salva neste aparelho." : error}</Body>
-      <Action secondary label="Tentar de novo" run={() => setRetry(retry + 1)} /></Card>}
+      <Action secondary label="Tentar de novo" run={() => { setError(""); setRetry(retry + 1); }} /></Card>}
     {cache && credential ? <WishList key={groupId} credential={credential} cache={cache} onCache={setCache}/>
       : !error && <Body>Carregando…</Body>}
   </Page>;
