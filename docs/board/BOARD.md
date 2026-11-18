@@ -20,19 +20,12 @@ Atualizado em: 2026-11-18 · Iteração atual: **It-3 · Lista e sorteio (aberta
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar
-- BUG-010 · S2 · App: "Salvar presente" fica em "Salvando…" com POST 201 e chave duplicada do item no React (Expo Web live; lógica igual no nativo) · FE → QA · responsável: 11 Front-end (apoio 22)
-- BUG-011 · S4 · App: aviso "Unexpected text node: ." em /g, /p e /admin; e recarregar após "Grupo criado" volta ao formulário · FE → QA · responsável: 11 Front-end
-- APP-QA-02 · Aceite do app com API real: contrato v1 (feito no #110) + interface no Expo Web em modo live contra Next/Supabase locais após o BUG-008 (#113), prints e bugs · QA → ORQ · 2 pts — responsável: 13 QA
-- APP-DSN-03 · 5 capturas das lojas (1080×1920; 1290×2796; 1242×2208) a partir do app real com dados fictícios, em docs/marketing/capturas/ · DSN → MKT · 2 pts — responsável: 16 Designer
-- APP-LEG-01 · /privacidade e /termos cobrindo o app (SecureStore, push opcional, push_tokens, v1 sem anúncio) · MON → SEC + DSN · 1 pt — responsável: 24 Monetização
-- APP-MKT-01 · Fichas das lojas em pt-BR + questionário de privacidade · MKT → DSN + SEC · 2 pts — responsável: 25 Marketing
 
 ## ⏳ Aguardando dependência
 _(vazio)_
 
 ## 🔨 Em andamento
 
-- APP-FE-03 · PRIORIDADE BUG-008 (cliente ignora EXPO_PUBLIC_API_URL; Expo Web em modo live não persiste credenciais) + config de produção por perfil no eas.json (API https://papelzinho.app, MOBILE_API=live, versão 1.0.0/1) + docs/ops/app-release.md · FE → SEC + QA · 3 pts — responsável: 11 Front-end
 
 
 ## 👀 Em revisão
@@ -42,6 +35,13 @@ _(vazio)_
 ## 🧪 Em teste (QA)
 
 ## 🏁 Pronto
+- BUG-010 · S2 · App: "Salvar presente" fica em "Salvando…" com POST 201 e chave duplicada do item no React (Expo Web live; lógica igual no nativo) · FE → QA · responsável: 11 Front-end (apoio 22) — ✅ mergeado
+- BUG-011 · S4 · App: aviso "Unexpected text node: ." em /g, /p e /admin; e recarregar após "Grupo criado" volta ao formulário · FE → QA · responsável: 11 Front-end — ✅ mergeado
+- APP-QA-02 · Aceite do app com API real: contrato v1 (feito no #110) + interface no Expo Web em modo live contra Next/Supabase locais após o BUG-008 (#113), prints e bugs · QA → ORQ · 2 pts — responsável: 13 QA — ✅ mergeado
+- APP-DSN-03 · 5 capturas das lojas (1080×1920; 1290×2796; 1242×2208) a partir do app real com dados fictícios, em docs/marketing/capturas/ · DSN → MKT · 2 pts — responsável: 16 Designer — ✅ mergeado
+- APP-LEG-01 · /privacidade e /termos cobrindo o app (SecureStore, push opcional, push_tokens, v1 sem anúncio) · MON → SEC + DSN · 1 pt — responsável: 24 Monetização — ✅ mergeado
+- APP-MKT-01 · Fichas das lojas em pt-BR + questionário de privacidade · MKT → DSN + SEC · 2 pts — responsável: 25 Marketing — ✅ mergeado
+- APP-FE-03 · PRIORIDADE BUG-008 (cliente ignora EXPO_PUBLIC_API_URL; Expo Web em modo live não persiste credenciais) + config de produção por perfil no eas.json (API https://papelzinho.app, MOBILE_API=live, versão 1.0.0/1) + docs/ops/app-release.md · FE → SEC + QA · 3 pts — responsável: 11 Front-end — ✅ mergeado
 - APP-API-02 · API v1: PR A infraestrutura (Bearer por tipo, erros, headers, rate limit api_v1), PR B grupos/convite/participante/meus grupos/push-tokens, PR C envio de push e job do lembrete · BE → SEC · 8 pts — responsável: 10 Back-end — ✅ mergeado
 - DB-APP-01 · Migration `push_tokens` + `push_reminders_sent` (RLS só service_role, cascade, rollback, testes) · DB → SEC · 2 pts — responsável: 12 Banco — ✅ mergeado
 - APP-API-02b · API v1: endpoints da lista (`/participant/wishes`) · LST → SEC · 2 pts — responsável: 22 Lista (após o PR A do 10) — ✅ mergeado
@@ -241,3 +241,4 @@ _(vazio)_
 - 2026-11-18 · DevOps · REL-02: CHANGELOG.md da v1.0.0 e docs/ops/release.md com checklist completo do dia 28/11 (code freeze, regressão QA, criação de tag/release, deploy e rollback pronto; tag NÃO criada hoje); PR aberto · nenhum
 - 2026-11-18 · Orquestrador · PO ausente por 3 h com autonomia total. Mergeados #82 (Nginx sem log de /api/p/hs), #83 (contrato API v1), #79 (esqueleto Expo), #84 (SEC-05-FIX), #85 (guia das lojas + .well-known). Modelos: 12→GPT-6.2 Sol, 13→Claude Sonnet; reservas sem Cursor/OpenCode em todos. Rodada: 10 APP-API-02 (PR A infra, B, C push), 12 DB-APP-01 (push_tokens), 22 APP-API-02b (wishes), 23 APP-API-02c (admin/draw/reveal), 11 APP-FE-02 (telas), 24 APP-LEG-01 (privacidade do app), 13 APP-QA-01 + REL-02-QA, 25 APP-MKT-01 (fichas das lojas), 14 REL-02 (CHANGELOG/release, sem tag) + APP-OPS-02 (EAS manual), 16 APP-DSN-02 (ícones) + revisões · aguardando Rodrigo: contas Apple/Google/Expo, caixa suporte@
 - 2026-11-18 · Orquestrador · Mergeados: #88, #89, #92, #100, #104, #105, #107 (API v1 completa), pilha mobile #91…#109 consolidada no #86 (f4a01c7), #90 (ícones), #87 (REL-02 docs), #95 (EAS), #93/#94/#97 (QA). Migration 20261123000100_push_notifications aplicada à mão em produção pelo ORQ (CI pula por falta do PEN-08); tabelas, RLS forçada e grants conferidos. Push NÃO ativado (falta conta Expo). Próximos: APP-QA-02 (13), APP-LEG-01 #98 (24), APP-MKT-01 #101 (25), Nginx api/v1 + PEN-08 visível (14) · aguardando Rodrigo: contas Apple/Google/Expo, secrets PEN-08, caixa suporte@
+- 2026-11-18 · Orquestrador · App v1 completo na main: API v1 (#88…#107), telas (#86), ícones (#90), privacidade do app (#98), fichas e questionários das lojas (#101), capturas provisórias (#112), config de produção e BUG-008 (#113), aceite em Expo Web live (#114), BUG-010/011 (#115). Testado no CI com Next/Supabase locais; NÃO testado em aparelho. Bloqueios do PO para submeter: contas Apple Developer, Google Play Console e Expo (EXPO_TOKEN/EXPO_ACCESS_TOKEN), caixa suporte@ confirmada, secrets PEN-08 · aguardando Rodrigo
