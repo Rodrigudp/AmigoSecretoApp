@@ -1,6 +1,6 @@
 # Pesquisa de palavras e plano de SEO — Papelzinho
 
-Responsável: Marketing · revisão: Designer · 18/11/2026. Proposta para MKT-03; não implementa páginas nem autoriza publicação. O guia DSN-01 ainda está em revisão; textos abaixo seguem o alinhamento recebido do Designer e precisam de seu parecer no PR.
+Responsável: Marketing · revisão: Designer · 18/11/2026. O MKT-03 implementa a página e o SEO técnico; nada é publicado sem o PO. O guia DSN-01 está aprovado; textos novos seguem o alinhamento do Designer e precisam de seu parecer no PR.
 
 ## Objetivo e situação
 
@@ -51,6 +51,8 @@ O convite mantém nome do grupo conforme contrato vigente aprovado pela Seguran�
 - Schema.org: propor JSON-LD `WebSite` para a home (`name`, `url`, `inLanguage`) e `WebPage` para a página de ajuda (`name`, `url`, `inLanguage`, `isPartOf`), com URLs públicas definitivas e conteúdo visível. Não colocar preços, avaliação ou recursos não comprovados. FAQ deve existir em texto; não esperar resultado especial de FAQ no Google, que o restringe principalmente a sites governamentais e de saúde reconhecidos ([Google](https://developers.google.com/search/blog/2023/08/howto-faq-changes), consulta 18/11/2026).
 
 ## Entrega e verificação — MKT-03
+
+**Implementado em 18/11/2026:** página `/como-funciona` (textos CF-01..CF-13 em `docs/features/textos.md`), metadados da home (GLB-04) e da página, `app/sitemap.ts` e `app/robots.ts`. A origem do canonical, do Open Graph e do sitemap vem de `APP_URL` (`app/_lib/site-url.ts`), sem domínio fixo. As páginas com token seguem `noindex` e fora do sitemap. Schema.org: `WebSite` na home e `WebPage` em `/como-funciona`. Imagem OG da home e da página: `public/images/og-invite-preview.png` (1200×630); uma imagem dedicada à home fica para o 16.
 
 1. Aprovar domínio e HTTPS, revisar segurança e decidir URL canônica; confirmar que páginas públicas existem e respondem corretamente.
 2. FE implementa página, metadados, schema, sitemap e robots; Designer revisa textos e Segurança revisa rotas com token e headers. Não alterar scripts de terceiros sem segurança.
