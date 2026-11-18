@@ -86,8 +86,9 @@ describe("JoinGroupForm", () => {
     const wa = screen.getByRole("link", { name: "Salvar no WhatsApp" });
     expect(wa.getAttribute("href")).toContain("https://wa.me/?text=");
     expect(decodeURIComponent(wa.getAttribute("href")!)).toContain("https://x.test/p/token-abc");
+    // BUG-007: area link always uses the personal link (cookie is HttpOnly).
     expect(screen.getByRole("link", { name: "Ir para a minha área" }).getAttribute("href")).toBe(
-      "/p/g/group-1"
+      "https://x.test/p/token-abc"
     );
   });
 

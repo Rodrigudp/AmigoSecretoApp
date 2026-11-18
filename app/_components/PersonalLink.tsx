@@ -11,7 +11,12 @@ type PersonalLinkProps = {
   groupId: string;
 };
 
-export function PersonalLink({ displayName, personalUrl, groupId }: PersonalLinkProps) {
+export function PersonalLink({ displayName, personalUrl }: PersonalLinkProps) {
+  // BUG-007: ptk_<groupId> is HttpOnly (ADR-004), so the client can't read it.
+  // Always point "Ir para a minha área" at the personal link (/p/[accessToken]);
+  // its handshake decides: cookie present -> clean route, blocked -> area with
+  // adsAllowed=false. No extra token exposure (personalUrl is already shown).
+  const areaHref = personalUrl;
   return (
     <div className="flex flex-col gap-6">
       <header className="rounded-xl bg-success-bg p-5 sm:p-7">
@@ -32,7 +37,7 @@ export function PersonalLink({ displayName, personalUrl, groupId }: PersonalLink
         </CopyField>
       </Card>
 
-      <a className={buttonClass("primary")} href={`/p/g/${groupId}`}>
+      <a className={buttonClass("primary")} href={areaHref}>
         {copy.PES_03.open}
       </a>
     </div>
