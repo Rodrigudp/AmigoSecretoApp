@@ -181,3 +181,4 @@ _(vazio)_
 - 2026-11-18 · Orquestrador · OPS-VPS no ar em https://papelzinho.smartsolutionsbr.com.br (certificado, nginx testado antes do reload, pm2 no boot, outros sites conferidos). FE-DSN-1 mergeado (#40); FE-DSN-2 liberado. Bloqueio do SSH do PO: regra LIMIT do ufw renovada por conexões em sequência e espera em loop; regra registrada em docs/ops/vps.md §9 · nenhum
 - 2026-11-18 · Orquestrador · FE-DSN-2 mergeado (#41, `6332545`) e publicado na VPS pelo CI; DSN-03 + FE-DSN-3 liberado ao 11 · nenhum
 - 2026-11-18 · Orquestrador · MKT-03 liberado ao 25 (caminho crítico do lançamento); MKT-04 em seguida, MKT-05 depois · nenhum
+- 2026-11-18 · Orquestrador · BUG criar grupo em produção: banco vazio porque o job de migrations pula sem PEN-08. Apliquei à mão no SQL Editor as 5 migrations (até 20261121000100) e o histórico em supabase_migrations.schema_migrations. Criar e entrar testados no site; grupo e eventos de teste apagados · PEN-08 segue para migrations novas
