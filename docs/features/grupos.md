@@ -184,8 +184,8 @@ Mensagens rigorosamente alinhadas com as especificações de [Participantes](par
 | Link admin ou convite inválido, expirado ou grupo inexistente | `"Este link é inválido ou não está mais disponível."` |
 | Nome do grupo fora de 1 a 60 caracteres | `"Informe um nome para o grupo entre 1 e 60 caracteres."` |
 | Valor do presente menor ou igual a zero | `"O valor do presente deve ser maior que zero."` |
-| Data do encontro no passado ou hoje no fuso `America/Sao_Paulo` | "Escolha uma data para o encontro a partir de amanh?." |
-| Local do encontro com mais de 120 caracteres | "Use at? 120 letras no local do encontro." |
+| Data do encontro no passado ou hoje no fuso `America/Sao_Paulo` | "Escolha uma data para o encontro a partir de amanhã." |
+| Local do encontro com mais de 120 caracteres | "Use até 120 letras no local do encontro." |
 | Grupo atingiu o limite de 100 participantes (RN09) | `"Este grupo já está completo (100 pessoas)."` |
 | Menos de 3 participantes para sortear (RN01) | `"São necessários pelo menos 3 participantes para sortear."` |
 | Tentativa de remover participante em grupo já sorteado (RN04) | `"Não é possível remover participantes após a realização do sorteio."` |

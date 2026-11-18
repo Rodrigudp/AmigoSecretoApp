@@ -58,7 +58,7 @@ Legenda da coluna **Final**: ✓ mantém o texto de hoje · ✎ muda (vira cart�
 | HOM-10 | Resumo de erro (campos) | Não foi possível criar o grupo + "Confira os campos destacados." | ✎ título "Confira os campos destacados", sem corpo |
 | HOM-11 | Erro nome | Informe um nome para o grupo entre 1 e 60 caracteres. | ✎ Escreva o nome do grupo (até 60 letras). |
 | HOM-12 | Erro valor | O valor do presente deve ser maior que zero. | ✎ Informe um valor maior que zero. Ex.: 50,00. |
-| HOM-13 | Erro data | Escolha uma data para o encontro a partir de amanh?. | ✎ explicita a que evento a data se refere. |
+| HOM-13 | Erro data | Escolha uma data para o encontro a partir de amanhã. | ✎ explicita a que evento a data se refere. |
 | HOM-14 | Erro local | Use até 120 letras no local do encontro. | ✎ explicita a que evento o local se refere. |
 | HOM-15 | Erro duplicado | Os dados enviados conflitam com uma criação anterior. Recarregue a página para criar um novo grupo. | ✎ Este grupo já foi criado antes. Recarregue a página para criar outro. |
 | HOM-16 | Erro geral | Não foi possível criar o grupo agora. Confira os dados e tente de novo. | ✓ |

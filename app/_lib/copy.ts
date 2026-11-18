@@ -56,7 +56,7 @@ export const copy = {
   HOM_10: "Confira os campos destacados",
   HOM_11: "Escreva o nome do grupo (até 60 letras).",
   HOM_12: "Informe um valor maior que zero. Ex.: 50,00.",
-  HOM_13: "Escolha uma data para o encontro a partir de amanh?.",
+  HOM_13: "Escolha uma data para o encontro a partir de amanhã.",
   HOM_14: "Use até 120 letras no local do encontro.",
   HOM_15: "Este grupo já foi criado antes. Recarregue a página para criar outro.",
   HOM_16: "Não foi possível criar o grupo agora. Confira os dados e tente de novo.",
