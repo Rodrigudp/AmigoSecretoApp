@@ -26,7 +26,9 @@ describe("security headers (SEC-03)", () => {
     vi.stubEnv("SUPABASE_SERVICE_ROLE_KEY", "test-key");
     vi.stubEnv("ADS_ENABLED", "false");
 
-    const rules = (await configure(PHASE_PRODUCTION_SERVER).headers?.()) ?? [];
+    const config = configure(PHASE_PRODUCTION_SERVER);
+    expect(config.poweredByHeader).toBe(false);
+    const rules = (await config.headers?.()) ?? [];
     const globalHeaders = rules.find((rule) => rule.source === "/:path*")?.headers ?? [];
     expect(globalHeaders).toEqual(
       expect.arrayContaining([
@@ -39,6 +41,7 @@ describe("security headers (SEC-03)", () => {
       "/g/:path*",
       "/p/:path*",
       "/admin/:path*",
+      "/api/p/hs/:path*",
       "/r/:path*",
       "/owner/:path*",
     ]) {
@@ -47,6 +50,7 @@ describe("security headers (SEC-03)", () => {
         expect.arrayContaining([
           { key: "Referrer-Policy", value: "no-referrer" },
           { key: "X-Robots-Tag", value: "noindex, nofollow" },
+          { key: "Cache-Control", value: "private, no-store, max-age=0, must-revalidate" },
         ])
       );
     }

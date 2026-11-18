@@ -24,8 +24,17 @@ vi.mock("../../app/_lib/participant-stubs", () => ({
     },
   })),
 }));
+vi.mock("../../app/_lib/admin-usecase", () => ({
+  removeParticipantUseCase: vi.fn(),
+  runDrawUseCase: vi.fn(async () => ({
+    ok: true,
+    value: { drawnAt: "2026-11-18T12:00:00.000Z", drawVersion: 1 },
+  })),
+}));
 
 import { createGroupAction, joinGroupAction } from "../../app/actions";
+import { runDrawAction } from "../../app/admin-actions";
+import { copy } from "../../app/_lib/copy";
 import { GROUP_MESSAGES } from "../../app/_lib/create-group-schema";
 import { JOIN_MESSAGES } from "../../app/_lib/join-messages";
 import {
@@ -33,7 +42,7 @@ import {
   getSharedRateLimiter,
 } from "../../src/infrastructure/rate-limit";
 
-describe("server actions rate limiting (SEC-03)", () => {
+describe("server actions rate limiting (SEC-03, SEC05-M01)", () => {
   beforeEach(() => {
     getSharedRateLimiter().reset();
     headersMock.mockResolvedValue(new Headers({ "x-real-ip": "198.51.100.77" }));
@@ -65,6 +74,17 @@ describe("server actions rate limiting (SEC-03)", () => {
       ok: false,
       message: JOIN_MESSAGES.rateLimited,
       code: "RATE_LIMITED",
+    });
+  });
+
+  it("blocks runDrawAction after exceeding the IP limit", async () => {
+    for (let i = 0; i < DEFAULT_RATE_LIMIT_POLICIES.run_draw.limit; i += 1) {
+      expect((await runDrawAction("admin_token_0123456789", 3)).ok).toBe(true);
+    }
+    expect(await runDrawAction("admin_token_0123456789", 3)).toEqual({
+      ok: false,
+      code: "RATE_LIMITED",
+      message: copy.GLB_09,
     });
   });
 });

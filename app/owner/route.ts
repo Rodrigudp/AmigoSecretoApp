@@ -1,3 +1,5 @@
+import { copy } from "@/app/_lib/copy";
+import { extractClientIp, getSharedRateLimiter } from "@/src/infrastructure/rate-limit";
 import { createServerClient } from "@/src/infrastructure/supabase/client";
 import { authorized, metrics } from "./metrics";
 
@@ -8,6 +10,10 @@ const headers = {
 };
 
 export async function GET(request: Request) {
+  const clientIp = extractClientIp(request.headers);
+  if (!getSharedRateLimiter().check("owner_auth", clientIp).ok) {
+    return new Response(copy.GLB_09, { status: 429, headers });
+  }
   if (!authorized(request.headers.get("authorization"), process.env.OWNER_PANEL_SECRET)) {
     return new Response("Acesso restrito", {
       status: 401,
