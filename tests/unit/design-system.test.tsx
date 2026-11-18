@@ -5,6 +5,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { Button } from "@/app/_components/Button";
 import { Input } from "@/app/_components/Input";
 import { Card } from "@/app/_components/Card";
+import { Footer } from "@/app/_components/Footer";
 
 afterEach(cleanup);
 
@@ -119,5 +120,24 @@ describe("Card", () => {
     render(<Card tone="danger" title="Confira os campos destacados" />);
     const h = screen.getByRole("heading", { name: /Confira os campos destacados/ });
     expect(h.className.split(" ")).not.toContain("mb-3");
+  });
+});
+
+describe("Footer", () => {
+  it("renders the footer region, tagline and legal links (A-10, FTR-01..03)", () => {
+    render(<Footer />);
+    const footer = screen.getByRole("contentinfo", { name: "Informações do Papelzinho" });
+    expect(footer).toBeTruthy();
+    expect(screen.getByText("Papelzinho: amigo secreto sem cadastro e sem senha.")).toBeTruthy();
+    const sobre = screen.getByRole("link", { name: "Sobre" });
+    const privacidade = screen.getByRole("link", { name: "Privacidade" });
+    const termos = screen.getByRole("link", { name: "Termos" });
+    const contato = screen.getByRole("link", { name: "Contato" });
+    expect(sobre.getAttribute("href")).toBe("/sobre");
+    expect(privacidade.getAttribute("href")).toBe("/privacidade");
+    expect(termos.getAttribute("href")).toBe("/termos");
+    expect(contato.getAttribute("href")).toBe("/contato");
+    expect(sobre.className).toContain("min-h-11");
+    expect(sobre.className).toContain("underline");
   });
 });

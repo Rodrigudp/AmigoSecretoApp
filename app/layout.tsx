@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { copy } from "./_lib/copy";
 import { APP_NAME } from "./_lib/brand";
+import { Footer } from "./_components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </div>
         </header>
         {children}
+        <Footer />
       </body>
     </html>
   );

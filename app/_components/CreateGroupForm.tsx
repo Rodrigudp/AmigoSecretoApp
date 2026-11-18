@@ -152,7 +152,8 @@ export function CreateGroupForm({ action }: Props) {
         />
         <Input
           name="exchangeDate"
-          label={copy.HOM_07}
+          label={copy.HOM_07.label}
+          hint={copy.HOM_07.hint}
           required
           type="date"
           value={values.exchangeDate}
