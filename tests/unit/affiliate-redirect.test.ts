@@ -1,7 +1,9 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { resolveProductLink, isAllowedRedirectUrl } from "../../src/application/resolve-product-link";
 import { recordAffiliateClick } from "../../src/application/record-affiliate-click";
 import type { WishItemRepository } from "../../src/application/ports";
+
+vi.mock("server-only", () => ({}));
 
 describe("isAllowedRedirectUrl", () => {
   it("permite domínios autorizados da Amazon e Mercado Livre com https", () => {
@@ -120,5 +122,32 @@ describe("recordAffiliateClick", () => {
       expect(res.value.recorded).toBe(false);
     }
     expect(appendSpy).not.toHaveBeenCalled();
+  });
+});
+
+describe("Route /r/[itemId] flag behavior (D2)", () => {
+  const originalEnv = process.env.AFFILIATE_REDIRECT_ENABLED;
+
+  beforeEach(() => {
+    delete process.env.AFFILIATE_REDIRECT_ENABLED;
+    vi.stubEnv("SUPABASE_URL", "http://127.0.0.1:54321");
+    vi.stubEnv("SUPABASE_SERVICE_ROLE_KEY", "test-service-role-key");
+  });
+
+  afterEach(() => {
+    process.env.AFFILIATE_REDIRECT_ENABLED = originalEnv;
+    vi.unstubAllEnvs();
+  });
+
+  it("retorna 404 por padrão quando AFFILIATE_REDIRECT_ENABLED está ausente ou false", async () => {
+    const { GET: getRedirectRoute } = await import("../../app/r/[itemId]/route");
+    const { NextRequest } = await import("next/server");
+
+    const req = new NextRequest("http://localhost:3000/r/11111111-1111-4111-8111-111111111111");
+    const res = await getRedirectRoute(req, {
+      params: Promise.resolve({ itemId: "11111111-1111-4111-8111-111111111111" }),
+    });
+
+    expect(res.status).toBe(404);
   });
 });

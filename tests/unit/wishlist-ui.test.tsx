@@ -233,4 +233,26 @@ describe("WishItem Component", () => {
       expect(handleDelete).toHaveBeenCalledWith(sampleItem1.id);
     });
   });
+
+  it("exibe link direto da loja com tag de associado Amazon e nunca rota /r/ (D2)", () => {
+    const amazonItem: WishItemType = {
+      id: "amazon-item-1",
+      title: "Kindle Paperwhite",
+      url: "https://www.amazon.com.br/dp/B08N5WRWNW",
+      note: "Cor preta",
+      productLink: {
+        href: "https://www.amazon.com.br/dp/B08N5WRWNW?tag=papelzinho20-20",
+        affiliate: true,
+        store: "amazon",
+      },
+    };
+
+    render(<WishItem item={amazonItem} mode="owner" />);
+
+    const storeLink = screen.getByRole("link", { name: "Ver na loja" });
+    expect(storeLink.getAttribute("href")).toBe(
+      "https://www.amazon.com.br/dp/B08N5WRWNW?tag=papelzinho20-20"
+    );
+    expect(storeLink.getAttribute("href")).not.toContain("/r/");
+  });
 });

@@ -11,6 +11,10 @@ const UUID_REGEX =
 
 const recentClicks = new Map<string, number>();
 
+function isRedirectEnabled(): boolean {
+  return process.env.AFFILIATE_REDIRECT_ENABLED === "true";
+}
+
 function isDuplicateClick(itemId: string): boolean {
   const now = Date.now();
   const last = recentClicks.get(itemId);
@@ -51,6 +55,11 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ itemId: string }> }
 ) {
+  // Decisão D2: redirect fica desligado por flag no MVP para evitar risco contratual com a Amazon
+  if (!isRedirectEnabled()) {
+    return new NextResponse("Redirecionamento desabilitado", { status: 404 });
+  }
+
   const { itemId } = await params;
 
   if (!itemId || !UUID_REGEX.test(itemId)) {
