@@ -9,7 +9,7 @@ import { getAppUrl } from "../_lib/site-url";
 export const metadata = publicPageMetadata({
   title: "Como funciona o amigo secreto — Papelzinho",
   description:
-    "Veja como criar seu grupo, enviar o convite e participar do sorteio de amigo secreto pelo Papelzinho.",
+    "Veja como criar seu grupo, combinar o encontro e participar do amigo secreto no Papelzinho.",
   path: "/como-funciona",
 });
 

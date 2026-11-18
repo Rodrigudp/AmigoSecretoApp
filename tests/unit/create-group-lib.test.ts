@@ -71,7 +71,7 @@ describe("WhatsApp share", () => {
       "https://x.test/g/abc"
     );
     expect(text).toContain("*Família Silva*");
-    expect(text).toContain("Troca de presentes: 24/12/2026");
+    expect(text).toContain("Data do encontro: 24/12/2026");
     expect(text).toContain("Valor máximo: R$ 50,00");
     expect(text).not.toContain("Local:");
     expect(text).not.toContain("lista de desejos");

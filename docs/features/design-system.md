@@ -127,9 +127,9 @@ Props: `tone: "default" | "warning" | "success" | "danger"`, `as` (`section`/`ar
 │ [ Família 2026         ]  │  máx. 60
 │ Valor máximo do presente *│
 │ [ R$ 50,00             ]  │  inputmode=decimal
-│ Data da troca *           │
+│ Data do encontro *        │
 │ [ 24/12/2026           ]  │  type=date
-│ Local da troca            │
+│ Local do encontro         │
 │ [ Casa da vovó         ]  │
 │                           │
 │ [   Criar grupo   ]       │  primário, 48 px
@@ -164,7 +164,7 @@ Erros: abaixo de cada campo + resumo no topo ao enviar. Enviando: botão "Criand
 ┌──────────────────────────┐
 │ 🎁 Você foi convidado!    │  h1
 │ Grupo: Família 2026       │
-│ Troca em 24/12 · até R$50 │
+│ Encontro em 24/12 · até R$50 │
 │ 7 pessoas já entraram     │
 │                           │
 │ Seu nome *                │
@@ -198,7 +198,7 @@ grupo cheio (100) → Card "Este grupo está cheio"; link inválido → erro gen
 ┌──────────────────────────┐
 │ Olá, Maria 👋             │  h1
 │ Grupo Família 2026        │
-│ Troca em 24/12 · até R$50 │
+│ Encontro em 24/12 · até R$50 │
 ├──────────────────────────┤
 │ Antes do sorteio          │  Card
 │ Aguardando o organizador. │

@@ -79,7 +79,7 @@ Alguns links de produtos são links de afiliado. Ao clicar, a loja registra o cl
 
 **Por quanto tempo guardamos**
 
-- Os dados do grupo, incluindo nomes e listas de desejos, são apagados 60 dias após a data da troca.
+- Os dados do grupo, incluindo nomes e listas de desejos, são apagados 60 dias após a data do encontro.
 - Depois disso, ficam apenas contadores anônimos do histórico (por grupo e tipo de ação, como "grupo criado" ou "sorteio feito").
   Esses contadores não contêm nome, lista de desejos nem qualquer identificador de pessoa, por isso não são apagados junto com o grupo.
 
@@ -105,7 +105,7 @@ Você pode pedir acesso, correção, exclusão ou revogação do consentimento a
 3. **Responsabilidade do organizador.** O organizador é responsável pelo grupo que cria e pelos convites que envia.
 4. **Conteúdo.** Quem cadastra itens na lista de desejos é responsável pelo que escreve e pelos links que inclui.
 5. **Afiliados e anúncios.** O site pode exibir anúncios e links de afiliado. A compra é feita diretamente na loja,
-   que responde pelo produto, pela entrega e pela troca.
+   que responde pelo produto, pela entrega e pela troca do produto.
 6. **Disponibilidade.** Fazemos o possível para manter o site no ar, mas não garantimos funcionamento sem interrupções.
 7. **Alterações.** Podemos atualizar estes termos. A data de atualização fica no topo da página.
 8. **Foro.** Aplica-se a lei brasileira.

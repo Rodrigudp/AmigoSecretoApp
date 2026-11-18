@@ -44,19 +44,20 @@ export const copy = {
   CKB_05: "Política de privacidade",
   CKB_06: "Não foi possível alterar a escolha neste navegador. Tente de novo.",
   HOM_01: { start: "Amigo secreto", end: "começa aqui." },
-  HOM_02: "Organize a troca em dois minutos. Cada pessoa entra pelo convite, só com o nome.",
+  HOM_02:
+    "Organize o amigo secreto em dois minutos. Cada pessoa entra pelo convite, só com o nome.",
   HOM_03: ["Crie o grupo", "Envie o convite", "Faça o sorteio"],
   HOM_04: { title: "Criar grupo", help: "Os dados abaixo vão no convite." },
   HOM_05: { label: "Nome do grupo", placeholder: "Ex.: Família Silva" },
   HOM_06: { label: "Valor máximo do presente (R$)", placeholder: "Ex.: 50,00" },
-  HOM_07: { label: "Data da troca", hint: "Ex.: 24/12/2026" },
-  HOM_08: { label: "Local da troca (opcional)", placeholder: "Ex.: Casa da Vó Maria" },
+  HOM_07: { label: "Data do encontro", hint: "Ex.: 24/12/2026" },
+  HOM_08: { label: "Local do encontro (opcional)", placeholder: "Ex.: Casa da Vó Maria" },
   HOM_09: { action: "Criar grupo", loading: "Criando…" },
   HOM_10: "Confira os campos destacados",
   HOM_11: "Escreva o nome do grupo (até 60 letras).",
   HOM_12: "Informe um valor maior que zero. Ex.: 50,00.",
-  HOM_13: "Escolha uma data a partir de amanhã.",
-  HOM_14: "Use até 120 letras no local.",
+  HOM_13: "Escolha uma data para o encontro a partir de amanh?.",
+  HOM_14: "Use até 120 letras no local do encontro.",
   HOM_15: "Este grupo já foi criado antes. Recarregue a página para criar outro.",
   HOM_16: "Não foi possível criar o grupo agora. Confira os dados e tente de novo.",
   CRI_01: "Grupo criado.",
@@ -133,9 +134,9 @@ export const copy = {
     ariaName: (name: string) => `Você tirou ${name}`,
     summary: (date: string, value: string, location: string | null) =>
       location
-        ? `Troca em ${date} · até R$ ${value} · Local: ${location}`
-        : `Troca em ${date} · até R$ ${value}`,
-    secret: "Guarde segredo até a troca.",
+        ? `Encontro em ${date} · até R$ ${value} · Local: ${location}`
+        : `Encontro em ${date} · até R$ ${value}`,
+    secret: "Guarde segredo até o encontro.",
     hide: "Esconder",
   },
   REV_06: {
@@ -232,9 +233,9 @@ export const copy = {
   ADM_03: (date: string) => `Sorteio feito em ${date}`,
   ADM_04: {
     title: "Detalhes do grupo",
-    date: "Data da troca",
+    date: "Data do encontro",
+    location: "Local do encontro",
     value: "Valor máximo",
-    location: "Local",
     missing: "Não informado",
   },
   ADM_05: { title: "Link do convite", text: "Envie o convite para quem vai participar." },
@@ -299,9 +300,9 @@ export const copy = {
   },
   WPP_01: {
     intro: (name: string) => `Oi! Criei um amigo secreto no Papelzinho: *${name}* 🎁`,
-    date: "Troca de presentes",
+    date: "Data do encontro",
     value: "Valor máximo",
-    location: "Local",
+    location: "Local do encontro",
     action: "Entre pelo link, só com o seu nome:",
   },
   WPP_02: "Meu link pessoal do Papelzinho (guarde, não compartilhe):",
@@ -309,7 +310,7 @@ export const copy = {
   WPP_04: {
     title: (name: string) => `O sorteio do amigo secreto *${name}* foi feito! 🎁`,
     text: "Abra o link pessoal que você salvou ao entrar para ver quem você tirou. Não conte para ninguém!",
-    date: "Troca de presentes",
+    date: "Data do encontro",
   },
   OG_01: {
     title: (name: string) => `${name} — Papelzinho`,
@@ -360,7 +361,9 @@ export const copy = {
         {
           heading: "Quem é o responsável pelos dados",
           blocks: [
-            { p: "Controlador: Rodrigo Del Padre, pessoa física. Contato: suporte@papelzinho.app." },
+            {
+              p: "Controlador: Rodrigo Del Padre, pessoa física. Contato: suporte@papelzinho.app.",
+            },
           ],
         },
         {
@@ -454,7 +457,7 @@ export const copy = {
           blocks: [
             {
               ul: [
-                "Os dados do grupo, incluindo nomes e listas de desejos, são apagados 60 dias após a data da troca.",
+                "Os dados do grupo, incluindo nomes e listas de desejos, são apagados 60 dias após a data do encontro.",
                 'Depois disso, ficam apenas contadores anônimos do histórico (por grupo e tipo de ação, como "grupo criado" ou "sorteio feito"). Esses contadores não contêm nome, lista de desejos nem qualquer identificador de pessoa, por isso não são apagados junto com o grupo.',
               ],
             },
@@ -509,7 +512,7 @@ export const copy = {
                 },
                 {
                   label: "Afiliados e anúncios.",
-                  text: "O site pode exibir anúncios e links de afiliado. A compra é feita diretamente na loja, que responde pelo produto, pela entrega e pela troca.",
+                  text: "O site pode exibir anúncios e links de afiliado. A compra é feita diretamente na loja, que responde pelo produto, pela entrega e pela troca do produto.",
                 },
                 {
                   label: "Disponibilidade.",

@@ -47,19 +47,19 @@ Legenda da coluna **Final**: ✓ mantém o texto de hoje · ✎ muda (vira cart�
 | ID | Onde | Hoje | Final |
 | --- | --- | --- | --- |
 | HOM-01 | Título (h1) | Amigo secreto começa aqui. | ✓ |
-| HOM-02 | Subtítulo | Organize a troca em dois minutos. Cada pessoa entra pelo convite, só com o nome. | ✓ |
+| HOM-02 | Subtítulo | Organize o amigo secreto em dois minutos. Cada pessoa entra pelo convite, só com o nome. | ✎ "Organize a troca" era ambíguo; nomeia o amigo secreto. |
 | HOM-03 | Passos | Crie o grupo · Envie o convite · Faça o sorteio | ✓ |
 | HOM-04 | Título do formulário / apoio | Criar grupo / Os dados abaixo vão no convite. | ✓ |
 | HOM-05 | Rótulo nome | Nome do grupo (ex.: Família Silva) | ✓ |
 | HOM-06 | Rótulo valor | Valor máximo do presente (R$) (ex.: 50,00) | ✓ |
-| HOM-07 | Rótulo data | Data da troca de presentes | ✎ "Data da troca" |
-| HOM-08 | Rótulo local | Local da troca (opcional) (ex.: Casa da Vó Maria) | ✓ |
+| HOM-07 | Rótulo data | Data do encontro (ex.: 24/12/2026) | ✎ substitui "Data da troca". |
+| HOM-08 | Rótulo local | Local do encontro (opcional) (ex.: Casa da Vó Maria) | ✎ substitui "Local da troca". |
 | HOM-09 | Botão / enviando | Criar grupo → / Criando… | ✓ |
 | HOM-10 | Resumo de erro (campos) | Não foi possível criar o grupo + "Confira os campos destacados." | ✎ título "Confira os campos destacados", sem corpo |
 | HOM-11 | Erro nome | Informe um nome para o grupo entre 1 e 60 caracteres. | ✎ Escreva o nome do grupo (até 60 letras). |
 | HOM-12 | Erro valor | O valor do presente deve ser maior que zero. | ✎ Informe um valor maior que zero. Ex.: 50,00. |
-| HOM-13 | Erro data | A data da troca de presentes deve ser uma data futura. | ✎ Escolha uma data a partir de amanhã. |
-| HOM-14 | Erro local | O local da troca deve ter no máximo 120 caracteres. | ✎ Use até 120 letras no local. |
+| HOM-13 | Erro data | Escolha uma data para o encontro a partir de amanh?. | ✎ explicita a que evento a data se refere. |
+| HOM-14 | Erro local | Use até 120 letras no local do encontro. | ✎ explicita a que evento o local se refere. |
 | HOM-15 | Erro duplicado | Os dados enviados conflitam com uma criação anterior. Recarregue a página para criar um novo grupo. | ✎ Este grupo já foi criado antes. Recarregue a página para criar outro. |
 | HOM-16 | Erro geral | Não foi possível criar o grupo agora. Confira os dados e tente de novo. | ✓ |
 | HOM-17 | Link para Como funciona | (não existe) | **novo**: "Veja como funciona" |
@@ -116,7 +116,7 @@ Legenda da coluna **Final**: ✓ mantém o texto de hoje · ✎ muda (vira cart�
 | ADM-01 | Kicker | Painel do Organizador | ✎ Painel do organizador |
 | ADM-02 | Selo aberto | Aberto para inscrições | ✎ Entradas abertas |
 | ADM-03 | Selo sorteado | Sorteio Realizado em {data} | ✎ Sorteio feito em {data} |
-| ADM-04 | Detalhes | Detalhes do Grupo · Data da troca · Valor sugerido · Local · Não informado | ✎ "Detalhes do grupo" · ✓ · "Valor máximo" · ✓ · ✓ |
+| ADM-04 | Detalhes | Detalhes do grupo · Data do encontro · Valor máximo · Local do encontro · Não informado | ✎ "Data da troca" e "Local" ficam explícitos. |
 | ADM-05 | Convite | Link do Convite — Compartilhe o convite com os amigos que vão participar: | ✎ "Link do convite" — "Envie o convite para quem vai participar." |
 | ADM-06 | Botões do convite | Copiar convite · Compartilhar no WhatsApp | ✎ "Copiar link" · ✓ |
 | ADM-07 | Lista | Participantes ({n} de 100) · Entrou em {data} | ✓ |
@@ -139,9 +139,9 @@ Abre `https://wa.me/?text=…`. Negrito do WhatsApp com `*…*`. Linha do local 
 ```
 Oi! Criei um amigo secreto no Papelzinho: *Família Silva* 🎁
 
-Troca de presentes: 24/12/2026
+Data do encontro: 24/12/2026
 Valor máximo: R$ 50,00
-Local: Casa da Vó Maria
+Local do encontro: Casa da Vó Maria
 
 Entre pelo link, só com o seu nome:
 https://…/g/…
@@ -160,7 +160,7 @@ O sorteio do amigo secreto *Família Silva* foi feito! 🎁
 
 Abra o link pessoal que você salvou ao entrar para ver quem você tirou. Não conte para ninguém!
 
-Troca de presentes: 24/12/2026
+Data do encontro: 24/12/2026
 ```
 
 ## 9. Prévia ao compartilhar (Open Graph) e metadados
@@ -216,7 +216,7 @@ Substitui ARE-05 (título passa de "Meu amigo secreto" para "Seu amigo secreto",
 | REV-01 | Título do cartão | Seu amigo secreto |
 | REV-02 | R0, sorteio ainda não feito | Quando o organizador fizer o sorteio, o seu amigo secreto aparece aqui. |
 | REV-03 | R1, pronto e fechado | O sorteio foi feito. Toque para ver quem você tirou. Confira se ninguém está olhando a sua tela. · botão Revelar meu amigo secreto · enviando: Revelando… |
-| REV-04 | R3, revelado | Você tirou · {nome} · Troca em {data} · até R$ {valor} · Local: {local} (só se houver) · Guarde segredo até a troca. · botão Esconder (aria do nome: "Você tirou {nome}") |
+| REV-04 | R3, revelado | Você tirou · {nome} · Encontro em {data} · até R$ {valor} · Local: {local} (só se houver) · Guarde segredo até o encontro. · botão Esconder (aria do nome: "Você tirou {nome}") |
 | REV-05 | Lista do par | WSH-24 |
 | REV-06 | R4, erro | Não foi possível carregar o seu resultado. Tente de novo. · botão Tentar de novo |
 | REV-07 | R6, sorteio refeito (**pós-MVP**, SRT-05) | O sorteio foi refeito. O resultado anterior não vale mais. Toque em Revelar para ver o novo. |
@@ -267,4 +267,4 @@ Proposto pelo 25 Marketing em 18/11/2026; sujeito à aprovação do 16. Página 
 | CF-11 | FAQ voltar | (não existe) | **novo**: "Como volto para a minha área?" — "Guarde o link pessoal." |
 | CF-12 | Botão | (não existe) | **novo**: "Criar grupo" |
 | CF-13 | Título da aba | (não existe) | **novo**: "Como funciona o amigo secreto — Papelzinho" |
-| CF-14 | Descrição da página (meta) | (não existe) | **novo**: "Veja como criar seu grupo, enviar o convite e participar do sorteio de amigo secreto pelo Papelzinho." |
+| CF-14 | Descrição da página (meta) | (não existe) | **novo**: "Veja como criar seu grupo, combinar o encontro e participar do amigo secreto no Papelzinho." |

@@ -4,7 +4,7 @@ Responsável: Marketing · revisão: Orquestrador · versão 18/11/2026. Planeja
 
 ## Público, proposta e canais
 
-Prioridade: pessoas que organizam trocas para famílias, amigos e equipes; participantes podem vir a organizar outros grupos. Papelzinho permite criar um grupo, compartilhar o convite e entrar só com o nome, sem cadastro ou senha. Tom: acolhedor, claro e curto; seguir DSN-01 quando aprovado. Não prometer recursos ainda não entregues. Link de organizador e link pessoal são privados; só o convite vai para o grupo.
+Prioridade: pessoas que organizam amigos secretos para famílias, amigos e equipes; participantes podem vir a organizar outros grupos. Papelzinho permite criar um grupo, compartilhar o convite e entrar só com o nome, sem cadastro ou senha. Tom: acolhedor, claro e curto; seguir DSN-01 quando aprovado. Não prometer recursos ainda não entregues. Link de organizador e link pessoal são privados; só o convite vai para o grupo.
 
 WhatsApp e indicações são prioridade: cada convite chega às pessoas que já decidiram participar. Instagram e TikTok/Reels demonstram os passos; status alcança contatos próximos. Comunidades e grupos externos dependem das regras locais e de autorização de quem administra. Busca orgânica é investimento de prazo incerto, não previsão para sustentar a meta deste Natal. Criativos e textos ficam no MKT-04, sujeitos à revisão do Designer e publicação pelo PO.
 
@@ -51,14 +51,14 @@ Tudo é preparação ou proposta para o PO publicar após aprovação e liberaç
 | 06/12 | Propor lembrete para organizadores convidarem o grupo. |
 | 07/12 | Propor vídeo de como conferir participantes. |
 | 08/12 | Propor resposta às dúvidas observadas no teste. |
-| 09/12 | Propor post sobre valor e data da troca. |
+| 09/12 | Propor post sobre valor e data do encontro. |
 | 10/12 | Propor demonstração do sorteio, se entregue. |
 | 11/12 | Propor status: guarde seu link pessoal. |
 | 12/12 | Revisar segundo marco e disponibilidade do painel. |
 | 13/12 | Propor post para grupos que ainda estão organizando. |
 | 14/12 | Propor lembrete de confirmar participantes antes do sorteio. |
 | 15/12 | Propor vídeo curto sobre revelar resultado, se entregue. |
-| 16/12 | Propor mensagem para quem organiza outra troca. |
+| 16/12 | Propor mensagem para quem organiza outro amigo secreto. |
 | 17/12 | Revisar dúvidas de uso e corrigir materiais preparados. |
 | 18/12 | Propor status sobre guardar o link pessoal. |
 | 19/12 | Revisar terceiro marco e incidentes. |
