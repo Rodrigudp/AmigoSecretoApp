@@ -21,19 +21,18 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar (It-2)
-- PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — dependências ok (PAR-02, SEC-06); enviado ao PAR 17/11
-- GRP-05 · Painel admin: lista, contador, remover antes do sorteio · GRP → QA · 3 pts · 21/11 — dependência ok (PAR-02); enviado ao GRP 17/11
-- GRP-04 · Open Graph do convite + noindex/headers nas páginas com token · FE → SEC · 1 pt · 20/11 — dependência ok (GRP-03); FE começa após PAR-03
+- GRP-04 · Open Graph do convite + noindex/headers nas páginas com token · FE → SEC · 1 pt · 20/11 — dependência ok (PAR-03 na main); enviado ao FE 17/11
 
 ## ⏳ Aguardando dependência (It-2)
 - OPS-04 · Aplicar migrations no Supabase de produção pelo CI (`supabase db push`) + APP_URL com o domínio real · OPS → SEC · 1 pt · 20/11 — enviado ao OPS 17/11; precisa de PEN-08 para rodar
 
 ## 🔨 Em andamento
 - SEC-03 · Rate limit (criar e entrar) + headers de segurança · SEC → OPS · 2 pts · 20/11 — desenho e headers já; rate limit após GRP-02
-- QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — estrutura mobile 360px, page objects e fixtures entregues no draft PR #19; cenários fixme aguardando GRP-03 e PAR-03
+- QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — draft PR #19; CT-01 conferido no GRP-03 (661 ms, stub); CT-02 conferido no PAR-03 (742 ms, cookie ptk_, stub) e armado: no CI vira fixme enquanto a rota /g não existe; "Ana 2" segue fixme (RN07 não está no stub)
 
 ## 👀 Em revisão
-- PAR-03 · Tela de convite + tela do link pessoal · FE → PAR · 3 pts · 21/11 — PRs empilhados #24 (lógica) e #25 (telas); lint/typecheck/test 107/build verdes; stub tipado com TODO(BE-01); ADR-004 handshake; prints em docs/features/par-03-prints/
+- PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — PR #27 (`feat/PAR-04-participant-area`): handshake ADR-004 (/p/[accessToken] → /p/g/[groupId], probe ?ck=1, fallback sem cookie adsAllowed=false), get-participant-view com ports + stub TODO(BE-01), ParticipantHeader compartilhado c/ PAR-03; CI 3/3 verde (44210288249)
+- GRP-05 · Painel admin: lista, contador, remover antes do sorteio · GRP → QA · 3 pts · 21/11 — QA 17/11: #26 aprovado (CI 44210246791); #29 reprovado: stub findAdminByHash abre o painel para qualquer token exceto "invalid"
 - BE-01 · Cliente Supabase do servidor + harness de testes de integração · BE → DB · 1 pt · 18/11 — ✅ DB (comentário); PR #20 (`0d483d6`); CI 44209620112 smoke 1 passed / 0 skipped; aguarda merge ORQ
 - OPS-02 · Expurgo automático 60 dias após a troca (pg_cron) · OPS → DB · 1 pt · 20/11 — ✅ DB; PR #21 conflita com a main no ci.yml; DevOps atualiza a branch
 
@@ -41,6 +40,7 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 _(vazio)_
 
 ## 🏁 Pronto
+- PAR-03 · Tela de convite + tela do link pessoal · FE → PAR · 3 pts · 21/11 — ✅ PAR+ORQ; mergeados #24 (`7aa98d6`) e #25 (`4ae079c`); stub até o adapter; o cookie do link pessoal ainda é gravado na página, o PAR-04 move isso para o route handler
 - DB-05 · GRANT de tabelas/sequences para service_role (decisão ORQ: opção A) · DB → SEC · 1 pt · 19/11 — ✅ SEC+ORQ; mergeado PR #22 (6aab68e); anon/authenticated sem privilégio
 - GRP-03 · Tela criar grupo (`/`) + tela de sucesso · FE → GRP · 3 pts · 20/11 — ✅ GRP+ORQ; mergeado PRs #15 (4eade29) e #16 (e9e2baa); ação ainda é stub até o adapter
 - GRP-02 · Caso de uso `create-group` · GRP → BE · 2 pts · 19/11 — ✅ BE+ORQ; mergeado PR #18 (d37c4b3); testado junto com o #13 sobre a main
@@ -110,17 +110,20 @@ _(vazio)_
 - 2026-11-17 · Banco de Dados · — · DB-01 e DB-02 escritos (migrations, rollback, teste SQL); revisão pedida à Segurança · impedimento: sem Supabase local (SETUP-04) para validar
 - 2026-11-17 · Participantes · PAR-01 ajustado conforme revisão (cookie por grupo, mensagens SRT-01, RN07, organizador entra pelo convite) · aguardar reaprovação do Orquestrador · nenhum
 - 2026-11-17 · Participantes · PAR-01 reaprovado (Pronto); It-2 iniciada · PAR-02: caso de uso join-group implementado com fake repo, PR #13 aberto (worktree própria, branch feat/PAR-02-join-group); lint/typecheck/test 67/build verdes; revisão pedida ao Back-end · nenhum
+- 2026-11-17 · Participantes · PAR-02 mergeado (PR #13); PAR-04 liberado · PAR-04 implementado (PR #27): handshake ADR-004, get-participant-view + stub, ParticipantHeader; alinhado com o FE (rotas /p/* e headers são meus); revisões de PAR-03 #24/#25 registradas nos PRs (aprovados com notas) · nenhum
 - 2026-11-17 · Front-end · — · UX-01: spec do design system escrita (tokens com contraste AA, componentes, wireframes das 6 telas); componentes após SETUP-01 · impedimento: SETUP-01
 - 2026-11-17 · Front-end · UX-01 spec · UX-01 implementado (Button, Input, Card, tokens) e PR #2 aberto; pedir revisão ao ORQ · nenhum
 - 2026-11-17 · Front-end · UX-01 mergeado · GRP-03 implementado (PRs #15 e #16), revisão do 20 Grupos · nenhum (stub do GRP-02 no lugar do caso de uso)
 - 2026-11-17 · Front-end · GRP-03 mergeado · PAR-03: PRs #24 (lógica) e #25 (telas) abertos; revisão pedida ao 21 Participantes; QA avisado p/ HU02 · nenhum (stub tipado até BE-01/adapter)
+- 2026-11-17 · Front-end · PAR-03 · ✅ 21 aprovou #24/#25 (notas não bloqueantes BE-01 e handshake → PAR-04); aguarda merge ORQ · nenhum
+- 2026-11-17 · Orquestrador · PAR-03 mergeado (#24 `7aa98d6`, #25 `4ae079c`) · GRP-04 para o Front-end · nenhum
 - 2026-11-17 · Sorteio · SRT-01 aprovado pelo ORQ · DOM-01 entregue no PR #8 e aprovado pelo QA e pela SEC · aguarda merge do ORQ
 - 2026-11-17 · Lista de desejos · — · LST-01: spec aprovada pela Monetização (✅ 17/11) e pela Segurança (✅ 17/11; notas de canRedirect e IPs reservados incorporadas); decisões do ORQ aplicadas; pronto p/ validação final do Orquestrador · impedimento: Rodrigo cadastrar o domínio como mídia no Programa de Afiliados do ML (D1)
 
-- 2026-11-17 · QA · QA-02 aprovado · QA-03 estrutura E2E mobile 360 px, page objects e fixtures entregues no draft PR #19 · aguarda merge de GRP-03 e PAR-03 para habilitar e rodar cenários de HU01 e HU02
+- 2026-11-17 · QA · QA-03 no PR #19 · revisão GRP-05: #26 aprovado, #29 reprovado (token inválido abre o painel) · nenhum
 - 2026-11-17 · QA · — · QA-01 elaborado e revisão solicitada · impedimentos: revisão 4/4, repositório Git e DOM-01 pendentes
 - 2026-11-17 · Segurança & LGPD · — · Revisões de MON-01 (r1 reprovada, r2 aprovada) e DB-01/DB-02 (ajustes enviados ao Banco); SEC-02 concluído em `docs/arquitetura/AMEACAS.md` (movido p/ Em revisão) · SEC-01 aguarda SETUP-02
-- 2026-11-17 · Feature Grupos · GRP-01 aprovado · GRP-02: caso de uso create-group implementado com fake repo, PR #18 aberto (`feat/GRP-02-create-group`, 363 linhas); lint/typecheck/test/build verdes; revisão pedida ao Back-end · nenhum
+- 2026-11-17 · Feature Grupos · GRP-01 concluído (Pronto) · GRP-02 e GRP-03 mergeados; GRP-05 entregue em PRs empilhados #26 (casos de uso, 290L) e #29 (interface /admin/[token], AdminPanel, 371L); 110 testes, typecheck, lint e build verdes; CI 3 jobs verdes (44210246791); revisão pedida ao 13 QA · nenhum
 - 2026-11-17 · Back-end · Contratos aprovados e já na main · SETUP-02: PR #4 aberto com ports, Result, env e testes locais verdes · aguarda vaga em revisão e revisão ORQ
 - 2026-11-17 · Segurança & LGPD · SEC-02 aprovado; revisões de DB-01/DB-02 e SETUP-04 (PR #3) aprovadas · SEC-01 implementado em `feat/SEC-01-tokens` (PR #7 aberto, 38 testes/lint/typecheck/build verdes, revisão pedida ao Back-end) · nenhum
 - 2026-11-17 · Segurança & LGPD · SEC-01 mergeado (PR #7); LST-01 aprovado · OPS-00 (PR #11) revisado e aprovado com recomendação; SEC-06 (ADR-004) entregue no PR #12 (`docs/SEC-06-adr-004`) e movido p/ Em revisão · nenhum
