@@ -1,15 +1,15 @@
 "use server";
 
 import { removeParticipantUseCase } from "./_lib/admin-usecase";
+import { copy } from "./_lib/copy";
 
 export type RemoveParticipantActionResult =
-  | { ok: true; participantCount: number }
-  | { ok: false; message: string };
+  { ok: true; participantCount: number } | { ok: false; message: string };
 
 const ADMIN_ERROR_MESSAGES: Record<string, string> = {
-  INVALID_LINK: "Este link é inválido ou não está mais disponível.",
-  GROUP_CLOSED: "Não é possível remover participantes após a realização do sorteio.",
-  PARTICIPANT_NOT_FOUND: "Participante não encontrado neste grupo.",
+  INVALID_LINK: copy.CNV_10.text,
+  GROUP_CLOSED: copy.ADM_11,
+  PARTICIPANT_NOT_FOUND: copy.ADM_11,
 };
 
 export async function removeParticipantAction(
@@ -22,6 +22,6 @@ export async function removeParticipantAction(
   }
   return {
     ok: false,
-    message: ADMIN_ERROR_MESSAGES[result.error.code] ?? "Não foi possível remover o participante. Tente novamente.",
+    message: ADMIN_ERROR_MESSAGES[result.error.code] ?? copy.ADM_11,
   };
 }

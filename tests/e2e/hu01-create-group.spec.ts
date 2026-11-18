@@ -30,7 +30,7 @@ test.describe("HU01 - Criar grupo de amigo secreto", () => {
     const message = decodeURIComponent(new URL(waShareHref ?? "").searchParams.get("text") ?? "");
     expect(message).toContain(`*${syntheticGroup.name}*`);
     expect(message).toContain("24/12/2099");
-    expect(message).toContain("até R$ 50,00");
+    expect(message).toContain("Valor máximo: R$ 50,00");
     expect(message).toContain("Local de teste");
     expect(message).toContain(inviteUrl);
 

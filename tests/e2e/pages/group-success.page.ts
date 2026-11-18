@@ -16,7 +16,7 @@ export class GroupSuccessPage {
   }
 
   get joinAsParticipant() {
-    return this.page.getByRole("link", { name: /entrar no grupo como participante/i });
+    return this.page.getByRole("link", { name: /^entrar no grupo$/i });
   }
 
   get saveAdminOnWhatsApp() {
@@ -24,7 +24,7 @@ export class GroupSuccessPage {
   }
 
   get goToAdmin() {
-    return this.page.getByRole("link", { name: /ir para o painel do organizador/i });
+    return this.page.getByRole("link", { name: /abrir o painel/i });
   }
 
   get adminSecrecyWarning() {
