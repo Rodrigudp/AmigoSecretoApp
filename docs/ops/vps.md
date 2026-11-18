@@ -24,6 +24,16 @@ Devido ao limite de 100 deploys/24h da Vercel no plano gratuito e à necessidade
 
 ---
 
+## Lembretes de encontro no app
+
+Configure `EXPO_ACCESS_TOKEN` e `PUSH_CRON_SECRET` no ambiente do servidor. Gere o segredo do cron a partir de 32 bytes aleatórios. No crontab do usuário da aplicação, use o caminho absoluto do Node.js 22 e do projeto. O filtro por horário local funciona mesmo quando o fuso da VPS é UTC.
+
+```cron
+* * * * * [ "$(TZ=America/Sao_Paulo date +\%H\%M)" = 1000 ] && cd /home/<VPS_USER>/papelzinho && /usr/bin/node --env-file=.env.production ops/send-exchange-reminders.mjs
+```
+
+O script chama o Next.js em loopback. O banco reserva o envio uma vez por grupo e data de São Paulo. O cron mantém a reserva se o envio ao Expo falhar, para evitar disparos duplicados.
+
 ## 2. Pré-requisitos na VPS
 
 Conecte-se à VPS com o usuário de operações configurado:
