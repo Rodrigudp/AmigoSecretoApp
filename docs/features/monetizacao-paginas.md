@@ -5,7 +5,7 @@ Revisão 1 reprovada em 17/11 (ajustes aplicados). Requisito: RNF05 (privacidade
 Conteúdo em português claro. Os textos entram em código só depois do SETUP-01.
 
 Valores decididos (17/11/2026):
-- Domínio provisório para tudo: `https://amigo-secreto-app.vercel.app`. Domínio próprio fica para depois.
+- Domínio provisório para tudo: `https://amigo-secreto-app-five.vercel.app`. Domínio próprio fica para depois.
 - E-mail de contato, nome do controlador e ID do AdSense: marcador `A PREENCHER PELO RODRIGO`, registrado em `docs/board/PENDENCIAS_RODRIGO.md` (PEN-01 a PEN-03). Não usar e-mail pessoal nem inventar valor.
 - `{{PUBLICATION_DATE}}` — data de publicação das páginas (usada como "última atualização").
 
@@ -116,7 +116,7 @@ Você pode pedir acesso, correção, exclusão ou revogação do consentimento a
 
 **Fale com a gente**
 
-Site: https://amigo-secreto-app.vercel.app
+Site: https://amigo-secreto-app-five.vercel.app
 
 Dúvidas e sugestões: escreva para `A PREENCHER PELO RODRIGO`. Respondemos em até 5 dias úteis.
 Pedidos sobre seus dados pessoais: respondemos em até 15 dias, conforme a política de privacidade.
