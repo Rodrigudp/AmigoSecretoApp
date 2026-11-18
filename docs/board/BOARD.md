@@ -33,7 +33,7 @@ _(vazio)_
 ## 👀 Em revisão
 - BE-02 · Adapter Supabase de criar grupo e entrar (no lugar dos stubs) · BE → DB · 2 pts · 19/11 — ✅ DB (comentário); PR #31 (`c4b7cb1`); CI 44212657904 2 passed / 0 skipped; aguarda merge ORQ
 - GRP-04 · Open Graph do convite + noindex/headers nas páginas com token · FE → SEC · 1 pt · 20/11 — ✅ SEC aprovou PR #30 (`cfa115e`); OG + noindex/headers ok; notas não bloqueantes (generateMetadata sem invite_opened no adapter; CI 44212151482); aguarda merge ORQ
-- PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — PR #27 (`feat/PAR-04-participant-area`): handshake ADR-004 (/p/[accessToken] → /p/g/[groupId], probe ?ck=1, fallback sem cookie adsAllowed=false), get-participant-view com ports + stub TODO(BE-01), ParticipantHeader compartilhado c/ PAR-03; CI 3/3 verde (44210288249)
+- PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — PR #27 (`267cb2e`) conflita com a main (add/add em /p/[accessToken] e /p/g/[groupId]); PAR-03 já na main; rebase pedido ao PAR 17/11; CI antigo 44210288249 verde
 
 ## 🧪 Em teste (QA)
 _(vazio)_
@@ -141,3 +141,4 @@ _(vazio)_
 - 2026-11-17 · Back-end · BE-02: 12 Banco aprovou PR #31 (`c4b7cb1`); Orquestrador avisado para merge · nenhum
 - 2026-11-17 · Orquestrador · OPS-02 mergeado (#21, `3d35962`) depois do rebase do DevOps · impedimento: PEN-08 para o banco de produção
 - 2026-11-17 · Orquestrador · GRP-05 mergeado: casos de uso #26 (`8296d6`) e tela #32 (`322f094`); o #29 fechou com a branch base · impedimento: PEN-08
+- 2026-11-17 · Orquestrador · PAR-04 (#27) conflita com a main nas duas páginas /p; rebase pedido ao Participantes · nenhum
