@@ -4,7 +4,7 @@ export class PersonalLinkPage {
   constructor(private readonly page: Page) {}
 
   heading(name: string) {
-    return this.page.getByRole("heading", { name: `Você entrou, ${name}!` });
+    return this.page.getByRole("heading", { name: `Você entrou, ${name}.` });
   }
 
   get personalLink() {

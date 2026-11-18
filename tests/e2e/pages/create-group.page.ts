@@ -24,7 +24,7 @@ export class CreateGroupPage {
   }
 
   get createButton() {
-    return this.page.getByRole("button", { name: /criar grupo de amigo secreto/i });
+    return this.page.getByRole("button", { name: "Criar grupo" });
   }
 
   async fillForm(data: {

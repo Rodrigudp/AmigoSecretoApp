@@ -1,14 +1,12 @@
 import { test, expect, syntheticGroup } from "./fixtures/group.fixture";
 
 test.describe("HU01 - Criar grupo de amigo secreto", () => {
-  test.fixme("CT-01: criar grupo com links de convite e organizador distintos e texto do WhatsApp", async ({
+  test("CT-01: criar grupo com links de convite e organizador distintos e texto do WhatsApp", async ({
     page,
     createGroupPage,
     groupSuccessPage,
   }) => {
-    // Checked on 2026-11-17 against the GRP-03 worktree (stub action): 661 ms at 360x800.
-    // Stays fixme until PRs #15 and #16 merge; that screen is not on main yet.
-
+    test.setTimeout(90_000);
     expect(page.viewportSize()).toEqual({ width: 360, height: 800 });
 
     const startTime = Date.now();
