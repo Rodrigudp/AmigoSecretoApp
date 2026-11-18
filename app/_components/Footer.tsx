@@ -1,7 +1,36 @@
+"use client";
+
 import Link from "next/link";
 import { copy } from "../_lib/copy";
+import { useAdConsent, setAdConsent } from "../_lib/consent";
 
-export function Footer() {
+function CookiePreferences() {
+  const consent = useAdConsent();
+  if (consent === "unknown") return null;
+
+  return (
+    <>
+      <li aria-hidden="true" className="select-none text-text-muted/60">
+        ·
+      </li>
+      <li>
+        <button
+          type="button"
+          onClick={() => {
+            setAdConsent("unknown");
+            // Unload any advertising code that already ran in this document.
+            if (consent === "granted") window.location.reload();
+          }}
+          className="inline-flex min-h-11 items-center px-1 underline hover:text-text"
+        >
+          {copy.FTR_10}
+        </button>
+      </li>
+    </>
+  );
+}
+
+export function Footer({ adsEnabled }: { adsEnabled?: boolean }) {
   return (
     <footer
       aria-label={copy.FTR_02}
@@ -52,6 +81,7 @@ export function Footer() {
                 {copy.FTR_01.contact}
               </Link>
             </li>
+            {adsEnabled && <CookiePreferences />}
           </ul>
         </nav>
       </div>

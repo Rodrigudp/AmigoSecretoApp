@@ -35,6 +35,13 @@ export const copy = {
   FTR_05: "Termos de uso — Papelzinho",
   FTR_06: "Sobre o Papelzinho",
   FTR_10: "Cookies",
+  /** Cookie banner (SEC-04 / LGPD RNF05 / AM-10) */
+  CKB_01: "Aviso de cookies",
+  CKB_02:
+    "Se você aceitar, o Google poderá usar cookies para exibir e medir anúncios do AdSense. Você pode mudar sua escolha em Cookies, no rodapé.",
+  CKB_03: "Aceitar",
+  CKB_04: "Recusar",
+  CKB_05: "Política de privacidade",
   HOM_01: { start: "Amigo secreto", end: "começa aqui." },
   HOM_02: "Organize a troca em dois minutos. Cada pessoa entra pelo convite, só com o nome.",
   HOM_03: ["Crie o grupo", "Envie o convite", "Faça o sorteio"],
