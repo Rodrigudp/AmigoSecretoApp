@@ -1,0 +1,90 @@
+name: Mobile EAS Build & Submit
+
+# Manual trigger only (workflow_dispatch)
+# Dormant until EXPO_TOKEN and store developer accounts are provisioned
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Plataforma para compilação'
+        required: true
+        type: choice
+        options:
+          - all
+          - android
+          - ios
+        default: 'all'
+      profile:
+        description: 'Perfil EAS'
+        required: true
+        type: choice
+        options:
+          - preview
+          - production
+          - development
+        default: 'preview'
+      submit:
+        description: 'Enviar automaticamente para as lojas (somente perfil production)'
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  eas-build:
+    name: EAS Build (${{ inputs.platform }} / ${{ inputs.profile }})
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - name: Check EXPO_TOKEN secret
+        id: check-token
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "::warning::EXPO_TOKEN is not configured in repository secrets. Skipping EAS Build and Submit. Configure EXPO_TOKEN in Settings > Secrets and Variables > Actions once Expo developer account is created."
+            echo "has_token=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_token=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout repository
+        if: steps.check-token.outputs.has_token == 'true'
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        if: steps.check-token.outputs.has_token == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+
+      - name: Install dependencies
+        if: steps.check-token.outputs.has_token == 'true'
+        run: npm ci
+
+      - name: Setup Expo and EAS CLI
+        if: steps.check-token.outputs.has_token == 'true'
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Run EAS Build
+        if: steps.check-token.outputs.has_token == 'true'
+        run: |
+          eas build \
+            --platform ${{ inputs.platform }} \
+            --profile ${{ inputs.profile }} \
+            --non-interactive
+
+      - name: Run EAS Submit
+        if: steps.check-token.outputs.has_token == 'true' && inputs.submit == true && inputs.profile == 'production'
+        run: |
+          eas submit \
+            --platform ${{ inputs.platform }} \
+            --profile production \
+            --non-interactive
