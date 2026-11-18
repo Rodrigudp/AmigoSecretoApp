@@ -96,8 +96,8 @@ Legenda da coluna **Final**: ✓ mantém o texto de hoje · ✎ muda (vira cart�
 | ARE-01 | Kicker / título | Grupo {nome} / Olá, {nome}. | ✓ |
 | ARE-02 | Antes do sorteio | O sorteio ainda não foi realizado. | ✓ |
 | ARE-03 | Depois do sorteio | O sorteio já foi realizado. Veja abaixo quem você tirou. | ✓ |
-| ARE-04 | Lista (provisório) | Lista de desejos — Em breve você poderá montar aqui a sua lista de desejos. | ✓ até a LST-04; textos finais na DSN-04 |
-| ARE-05 | Resultado (provisório) | Meu amigo secreto — Em breve o resultado aparecerá aqui, escondido até você tocar em revelar. | ✓ até a SRT-04; textos finais na DSN-04 |
+| ARE-04 | Lista (provisório) | Lista de desejos — Em breve você poderá montar aqui a sua lista de desejos. | substituído por WSH-01 a WSH-24 (§10) |
+| ARE-05 | Resultado (provisório) | Meu amigo secreto — Em breve o resultado aparecerá aqui, escondido até você tocar em revelar. | substituído por REV-01 a REV-08 (§11) |
 | ARE-06 | Link inválido | Link inválido — Este link é inválido ou não está mais disponível. Peça um novo link ao organizador. | ✎ título "Link indisponível" (igual ao convite e ao painel) |
 | ARE-07 | Sem link pessoal | Abra o seu link pessoal para acessar esta área. | ✓ |
 
@@ -168,8 +168,74 @@ Páginas com token são `noindex` (regra do 15 Segurança, não muda). Imagem do
 | OG-05 | Painel | Painel do organizador — Papelzinho | sem descrição ✓ |
 | OG-06 | Home | proposta em GLB-04 | GLB-03 |
 
-## 10. Pendências desta versão
-- Os textos "✎" viram o cartão DSN-03 (centralizar em um módulo e aplicar); testes E2E que citam textos precisam acompanhar.
-- Textos finais de lista de desejos e "Revelar": DSN-04.
+## 10. Lista de desejos (WSH, LST-04) — especificação em `dsn-04-it3.md` §2
+
+Vale para o dono da lista e, sem botões, para quem tirou a pessoa. Regras de negócio: `lista-desejos.md` (RN-LST-01 a 12). Estes textos substituem ARE-04.
+
+| ID | Onde | Texto final |
+| --- | --- | --- |
+| WSH-01 | Título do cartão | Lista de desejos |
+| WSH-02 | Contador | {n} de 20 presentes (com 1: "1 de 20 presentes") |
+| WSH-03 | Apoio, antes do sorteio / depois | Quem tirar você vai ver esta lista. Pode mudar quando quiser. / Quem tirou você vê a versão mais recente desta lista. Pode mudar quando quiser. |
+| WSH-04 | Lista vazia | Sua lista está vazia. Adicione ideias de presente para quem tirar você. |
+| WSH-05 | Botão adicionar | Adicionar presente |
+| WSH-06 | Limite de 20 (motivo do botão desabilitado; código WISH_LIST_FULL) | Você chegou a 20 presentes. Apague um para adicionar outro. |
+| WSH-07 | Títulos do formulário | Novo presente · Editar presente |
+| WSH-08 | Campo nome | Nome do presente * (ex.: Livro de receitas) |
+| WSH-09 | Campo link | Link da loja (opcional) · dica "Cole o endereço da página do produto." · exemplo https:// |
+| WSH-10 | Campo observação | Observação (opcional) · dica "Tamanho, cor, número… o que ajuda quem for comprar." · contador {n}/200 |
+| WSH-11 | Botões do formulário | Salvar presente · Salvar alterações · Cancelar · enviando: Salvando… |
+| WSH-12 | Avisos para leitor de tela | Presente salvo. · Presente apagado. |
+| WSH-13 | Botões do item | Ver na loja · Editar · Apagar (aria: "Editar {nome}", "Apagar {nome}") |
+| WSH-14 | Confirmar apagar | Apagar “{nome}”? Não dá para desfazer. · Cancelar · Sim, apagar |
+| WSH-15 | Erro nome vazio / longo | Escreva o nome do presente. · Use até 80 letras no nome do presente. |
+| WSH-16 | Erro observação longa | Use até 200 letras na observação. |
+| WSH-17 | Erros de link | `http:` Use um link que comece com https:// · outro tipo (`javascript:`, `ftp:`…) Este tipo de link não é aceito. Use o endereço da loja, que começa com https:// · inválido Link inválido. Copie o endereço completo da página do produto. · longo Link muito longo. Use o endereço da página do produto. |
+| WSH-18 | Avisos ao salvar (o presente é salvo; botão "Entendi") | Encurtado: Presente salvo, sem link de afiliado: links encurtados não são convertidos. · Não é produto (busca, página inicial, categoria): Presente salvo, sem link de afiliado: este link não é de um produto. · Falha da loja: Presente salvo. Não foi possível gerar o link de afiliado desta loja. |
+| WSH-19 | Selo da loja | Link de afiliado · {domínio} (ex.: amazon.com.br) · link comum: só {domínio} |
+| WSH-20 | Divulgação, Amazon (**literal**, só se houver item Amazon) | Como participante do Programa de Associados da Amazon, sou remunerado pelas compras qualificadas efetuadas |
+| WSH-21 | Divulgação, Mercado Livre (proposta; revisão do 24 Monetização; só se houver item ML afiliado) | O Papelzinho participa do Programa de Afiliados e Criadores do Mercado Livre e pode receber comissão por compras feitas pelos links. |
+| WSH-22 | Erros de rede e servidor | Sem conexão: GLB-08 · Carregar: Não foi possível carregar a sua lista. Tente de novo. · Salvar: Não foi possível salvar agora. Tente de novo. · botão: Tentar de novo |
+| WSH-23 | Outros códigos | WISH_ITEM_NOT_FOUND: Este presente não está mais na lista. Atualize a página. · PRODUCT_LINK_UNAVAILABLE: Este link não está mais disponível. · INVALID_LINK: ARE-06 |
+| WSH-24 | Visão de quem tirou (leitor) | Lista de desejos de {nome} · {n} presentes · vazia: Esta pessoa ainda não adicionou desejos. |
+
+## 11. Cartão "Revelar" (REV, SRT-04) — `dsn-04-it3.md` §3
+
+Substitui ARE-05 (título passa de "Meu amigo secreto" para "Seu amigo secreto", como "Seu link pessoal").
+
+| ID | Estado | Texto final |
+| --- | --- | --- |
+| REV-01 | Título do cartão | Seu amigo secreto |
+| REV-02 | R0, sorteio ainda não feito | Quando o organizador fizer o sorteio, o seu amigo secreto aparece aqui. |
+| REV-03 | R1, pronto e fechado | O sorteio foi feito. Toque para ver quem você tirou. Confira se ninguém está olhando a sua tela. · botão Revelar meu amigo secreto · enviando: Revelando… |
+| REV-04 | R3, revelado | Você tirou · {nome} · Troca em {data} · até R$ {valor} · Local: {local} (só se houver) · Guarde segredo até a troca. · botão Esconder (aria do nome: "Você tirou {nome}") |
+| REV-05 | Lista do par | WSH-24 |
+| REV-06 | R4, erro | Não foi possível carregar o seu resultado. Tente de novo. · botão Tentar de novo |
+| REV-07 | R6, sorteio refeito (**pós-MVP**, SRT-05) | O sorteio foi refeito. O resultado anterior não vale mais. Toque em Revelar para ver o novo. |
+| REV-08 | R5, link inválido | ARE-06 |
+
+## 12. Sorteio no painel (DRW, SRT-03) — `dsn-04-it3.md` §4
+
+Mantém ADM-12 a ADM-15; o "Em breve" provisório sai quando o botão ficar ativo.
+
+| ID | Estado | Texto final |
+| --- | --- | --- |
+| DRW-01 | Cartão (título / apoio) | ADM-12 |
+| DRW-02 | Botão | Fazer o sorteio |
+| DRW-03 | S1, menos de 3 pessoas (também o erro do servidor) | Para sortear, precisa de pelo menos 3 pessoas. |
+| DRW-04 | S3, confirmação | Fazer o sorteio agora? · {n} pessoas vão participar. Depois do sorteio, ninguém mais entra pelo convite e não dá para desfazer. · Cancelar · Sim, fazer o sorteio |
+| DRW-05 | S4, enviando | Sorteando… |
+| DRW-06 | S5, feito | ✓ Sorteio feito em {data}. · Cada pessoa já pode ver quem tirou pelo seu link pessoal. Por segurança, este painel não mostra os pares. · Você também participa? Abra o seu link pessoal para ver quem você tirou. · botão Avisar o grupo no WhatsApp (envia WPP-04) |
+| DRW-07 | S6, erro geral | Não foi possível concluir o sorteio. Tente de novo. |
+| DRW-08 | S7, grupo mudou durante a confirmação | O número de pessoas mudou. Atualize a página e confira antes de sortear. · botão Atualizar a página |
+| DRW-09 | Link inválido | ADM-16 |
+
+Operação repetida (duas abas, duplo clique): mostra DRW-06 sem aviso de erro.
+
+## 13. Pendências desta versão
+- Os textos "✎" viram o cartão DSN-03; E2E que citam textos acompanham.
+- WSH, REV e DRW entram em `copy.ts` com o cartão que implementar cada tela (LST-04, SRT-04, SRT-03).
+- `sorteio.md` usa "Sortear" e "participantes": o 23 Sorteio alinha as mensagens dele a DRW e REV.
+- WSH-21 (Mercado Livre): revisão do 24 Monetização; sem afiliado ativo do ML no lançamento, o texto não aparece.
 - Título/descrição de "Como funciona" e FAQ: com o 25 Marketing (MKT-02/03).
-- Footer "Privacidade · Termos" (GLB-10): depende das páginas do 15 Segurança e LGPD.
+- Rodapé "Privacidade · Termos" (GLB-10): FE-DSN-4, com as páginas do MON-01.
