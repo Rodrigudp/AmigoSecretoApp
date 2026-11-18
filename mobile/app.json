@@ -2,7 +2,7 @@
   "expo": {
     "name": "Papelzinho",
     "slug": "papelzinho",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "scheme": "papelzinho",
     "userInterfaceStyle": "light",
     "icon": "./assets/icon-ios.png",
@@ -25,10 +25,12 @@
     },
     "ios": {
       "bundleIdentifier": "app.papelzinho",
+      "buildNumber": "1",
       "associatedDomains": ["applinks:papelzinho.app"]
     },
     "android": {
       "package": "app.papelzinho",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon-android-foreground.png",
         "backgroundImage": "./assets/icon-android-background.png",

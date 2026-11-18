@@ -1,6 +1,6 @@
 import type { ApiV1 } from "./contract";
 
-const endpoint = "https://papelzinho.app/api/v1";
+const defaultEndpoint = "https://papelzinho.app/api/v1";
 const offline = "Sem conexão no momento. Verifique a internet e tente de novo.";
 
 export class ApiError extends Error {
@@ -26,7 +26,10 @@ function itemId(id: string): string {
   return id;
 }
 
-export function createHttpApi(fetcher: (url: string, options: RequestInit) => Promise<Response> = fetch): ApiV1 {
+export function createHttpApi(
+  fetcher: (url: string, options: RequestInit) => Promise<Response> = fetch,
+  endpoint = defaultEndpoint
+): ApiV1 {
   async function request<Result>(path: string, options: RequestOptions = {}): Promise<Result> {
     const { method = "GET", credential, resume, body } = options;
     const headers = new Headers({ Accept: "application/json" });

@@ -1,11 +1,9 @@
-import * as SecureStore from "expo-secure-store";
+import { privateStorage } from "./private-storage";
 
 export interface GroupAccess {
   groupId: string;
   role: "organizer" | "participant";
 }
-
-const options = { keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY };
 
 function credentialKey({ groupId, role }: GroupAccess): string {
   if (!/^[a-zA-Z0-9_-]+$/.test(groupId)) throw new Error("Invalid group identifier");
@@ -14,18 +12,18 @@ function credentialKey({ groupId, role }: GroupAccess): string {
 
 export const credentials = {
   async read(access: GroupAccess): Promise<string | null> {
-    if (!(await SecureStore.isAvailableAsync())) return null;
-    return SecureStore.getItemAsync(credentialKey(access), options);
+    if (!(await privateStorage.isAvailable())) return null;
+    return privateStorage.read(credentialKey(access));
   },
   async save(access: GroupAccess, token: string): Promise<void> {
-    if (!(await SecureStore.isAvailableAsync())) {
+    if (!(await privateStorage.isAvailable())) {
       throw new Error("Secure credential storage is unavailable");
     }
-    await SecureStore.setItemAsync(credentialKey(access), token, options);
+    await privateStorage.write(credentialKey(access), token);
   },
   async clear(access: GroupAccess): Promise<void> {
-    if (await SecureStore.isAvailableAsync()) {
-      await SecureStore.deleteItemAsync(credentialKey(access), options);
+    if (await privateStorage.isAvailable()) {
+      await privateStorage.remove(credentialKey(access));
     }
   },
 };
