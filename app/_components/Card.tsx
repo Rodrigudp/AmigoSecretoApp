@@ -14,7 +14,7 @@ type CardProps = {
 const tones: Record<CardTone, string> = {
   default: "",
   warning: "border-[#ecd998] bg-warning-bg text-warning",
-  success: "border-[#bfdbc9] bg-success-bg text-success",
+  success: "border-line bg-success-bg text-success",
   danger: "border-[#efc4bd] bg-danger-bg text-danger",
 };
 
