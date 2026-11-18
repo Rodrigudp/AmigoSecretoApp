@@ -1,8 +1,20 @@
 "use server";
 
+import { headers } from "next/headers";
 import type { DomainErrorCode } from "@/src/domain/errors";
 import { removeParticipantUseCase, runDrawUseCase } from "./_lib/admin-usecase";
 import { copy } from "./_lib/copy";
+
+async function allowRunDrawRequest(): Promise<boolean> {
+  try {
+    const requestHeaders = await headers();
+    const { extractClientIp, getSharedRateLimiter } =
+      await import("@/src/infrastructure/rate-limit");
+    return getSharedRateLimiter().check("run_draw", extractClientIp(requestHeaders)).ok;
+  } catch {
+    return true;
+  }
+}
 
 export type RemoveParticipantActionResult =
   { ok: true; participantCount: number } | { ok: false; message: string };
@@ -20,6 +32,7 @@ const DRAW_ERROR_MESSAGES: Partial<Record<DomainErrorCode, string>> = {
   INVALID_LINK: copy.DRW_09.text,
   NOT_ENOUGH_PARTICIPANTS: copy.DRW_03,
   DRAW_MEMBERS_CHANGED: copy.DRW_08.text,
+  RATE_LIMITED: copy.GLB_09,
 };
 
 export async function removeParticipantAction(
@@ -40,6 +53,9 @@ export async function runDrawAction(
   adminToken: string,
   expectedParticipantCount?: number
 ): Promise<RunDrawActionResult> {
+  if (!(await allowRunDrawRequest())) {
+    return { ok: false, code: "RATE_LIMITED", message: copy.GLB_09 };
+  }
   const result = await runDrawUseCase(adminToken, expectedParticipantCount);
   if (result.ok) {
     return { ok: true, drawnAt: result.value.drawnAt };

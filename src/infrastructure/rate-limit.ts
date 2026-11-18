@@ -8,7 +8,8 @@ export type RateLimitAction =
   | "join_group"
   | "run_draw"
   | "affiliate_redirect"
-  | "affiliate_click";
+  | "affiliate_click"
+  | "owner_auth";
 export type RateLimitPolicy = { limit: number; windowMs: number };
 export type RateLimitReceipt = { remaining: number; resetAtMs: number };
 export type RateLimiter = {
@@ -24,6 +25,7 @@ export const DEFAULT_RATE_LIMIT_POLICIES: Record<RateLimitAction, RateLimitPolic
   run_draw: { limit: 10, windowMs: 10 * 60_000 },
   affiliate_redirect: { limit: 60, windowMs: 60_000 },
   affiliate_click: { limit: 30, windowMs: 10 * 60_000 },
+  owner_auth: { limit: 10, windowMs: 10 * 60_000 },
 };
 
 const DEFAULT_MAX_ENTRIES = 10_000;

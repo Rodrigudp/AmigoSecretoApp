@@ -8,6 +8,7 @@ function createNextConfig(phase: string): NextConfig {
   const isDev = phase === PHASE_DEVELOPMENT_SERVER;
 
   return {
+    poweredByHeader: false,
     cacheComponents: true,
     partialPrefetching: true,
     turbopack: {

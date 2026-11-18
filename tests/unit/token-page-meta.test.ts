@@ -52,7 +52,12 @@ describe("token-page-meta (GRP-04, RNF09)", () => {
       { key: "Referrer-Policy", value: "no-referrer" },
       { key: "Cache-Control", value: "private, no-store, max-age=0, must-revalidate" },
     ]);
-    expect([...TOKEN_ROUTE_SOURCES]).toEqual(["/g/:path*", "/p/:path*", "/admin/:path*"]);
+    expect([...TOKEN_ROUTE_SOURCES]).toEqual([
+      "/g/:path*",
+      "/p/:path*",
+      "/admin/:path*",
+      "/api/p/hs/:path*",
+    ]);
   });
 
   it("serves a 1200x630 PNG at the spec path", () => {
