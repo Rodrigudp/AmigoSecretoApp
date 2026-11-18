@@ -3,7 +3,7 @@
 Mantido pelo **Orquestrador**. Os agentes só movem os **próprios** cartões e escrevem no log diário.
 Backlog completo, com critérios de aceite e dependências: `docs/board/BACKLOG.md`.
 
-Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (iniciada 17/11, prevista 20–21/11)** · It-1 concluída em 17/11 · Lançamento: **28/11/2026**
+Atualizado em: 2026-11-18 · Iteração atual: **It-3 · Lista e sorteio (aberta 18/11 adiantada)** · MON-02 e SEC-04 adiantados da It-4 · It-1 concluída em 17/11 · Lançamento: **28/11/2026**
 
 ## Regras do quadro
 - Fluxo: **Backlog → Pronto p/ iniciar → Em andamento → Em revisão → Em teste → Pronto → Em produção**.
@@ -16,33 +16,38 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 ---
 
 ## 🗂️ Backlog (próximas iterações)
-- MON-02, SEC-04, QA-05..06, SEC-05 — It-4 (24–25/11)
+- QA-05..06, SEC-05 — It-4 (24–25/11)
 - REL-01..02 — Release (26–28/11)
 
-## ✅ Pronto p/ iniciar (It-3, aberta 18/11 adiantada)
-- SRT-02 · RPC transacional `run_draw` (+ migration) · DB → SRT · 2 pts · 20/11 — responsável: 12 Banco; contrato da RPC publicado no PR antes do código, para o 23 usar; produção: ORQ aplica à mão enquanto o PEN-08 não existir
-- LST-02 · Casos de uso CRUD da lista (até 20 itens, só `https:`) · LST → SEC · 2 pts · 20/11 — responsável: 22 Lista; adapter Supabase de wish_items pelo 10 Back-end, no mesmo cartão
-- MON-01-APP · Publicar no app as páginas aprovadas do MON-01 (/sobre, /privacidade, /termos, /contato) com marcadores PEN-01/02 · MON → SEC + DSN · 2 pts · 20/11 — responsável: 24 Monetização; ads.txt só quando o PEN-03 chegar
-- FE-DSN-4 · A-06, A-10 + rodapé "Privacidade · Termos" · FE → DSN · 1 pt · 21/11 — responsável: 11 Front-end; merge depois do MON-01-APP
+## ✅ Pronto p/ iniciar
+_(vazio)_
 
-## ⏳ Aguardando dependência (It-3)
-- LST-03 · Adapters de afiliado + redirect `/r/[itemId]` · LST → SEC · 3 pts · 22/11 — após LST-02 (22 Lista)
-- LST-04 · Tela da lista na área do participante · FE → LST · 2 pts · 22/11 — após LST-02 e DSN-04 (11 Front-end)
-- SRT-04 · `get-my-result` + cartão "Revelar" · SRT → QA · 3 pts · 23/11 — após SRT-03, LST-04 e DSN-04 (23 Sorteio)
-- MON-03 · Plano de eventos e painel do dono (RF14) · MON → SEC · 3 pts · 24/11 — após MON-01-APP (24 Monetização)
+## ⏳ Aguardando dependência
+_(vazio)_
 
 ## 🔨 Em andamento
-- LST-02 · Casos de uso CRUD da lista · LST → SEC · 2 pts · 20/11 — PR #54 aberto (casos de uso e schemas prontos; CI verde); adapter do 10 no PR #50; revisão pedida à Segurança
-- SRT-03 · Caso de uso `run-draw` + botão "Sortear" no painel · SRT → SEC · 3 pts · 21/11 — responsável: 23 Sorteio; usa DOM-01 (drawPairs) e o contrato da SRT-02; nenhuma resposta contém pares
+- SRT-04 · `get-my-result` + cartão "Revelar" · SRT → SEC + DSN + QA · 3 pts · 23/11 — responsável: 23 Sorteio; liberado 18/11 após LST-04; evento `result_revealed` sem dados pessoais; tirar `fixme` do QA-04
+- LST-03 · Adapters de afiliado + redirect `/r/[itemId]` · LST → SEC · 3 pts · 22/11 — responsável: 22 Lista
+- MON-02 · Slots AdSense lazy + chave `ADS_ENABLED` · MON → SEC + DSN · 2 pts · 24/11 — responsável: 24 Monetização; adiantado da It-4 em 18/11; funciona desligado até o PEN-03 (ID pub-); `ads.txt` 404 sem ID; nunca em rota com token (ADR-004)
+- SEC-04 · Aviso de cookies / consentimento para anúncios · SEC → MON + DSN · 2 pts · 24/11 — responsável: 15 Segurança; adiantado da It-4 em 18/11; nenhum cookie/script do Google antes do aceite; só aparece com `ADS_ENABLED=true`
 
 ## 👀 Em revisão
-- QA-04 · E2E HU03, HU04, HU05 + teste "resposta nunca vaza pares" · QA → SEC · 3 pts · 23/11 — ✅ 13 QA; PR #51 aberto (399 linhas, só testes), CI 44323760464 verde: Quality, Database e E2E (6 passed / 7 skipped, `fixme` só onde falta SRT-03/SRT-04/LST-02/LST-04); revisão do 15 Segurança
-- OPS-01 · Monitoramento de erros, uptime e alertas S1 · OPS → SEC · 2 pts · 21/11 — responsável: 14 DevOps; sem custo; healthcheck /api/health, mascaramento LGPD, canal de webhook S1, watchdog local e PEN-11 documentados
+- MKT-03 · Página Como funciona + SEO técnico · MKT → FE + SEC + DSN · 2 pts · 22/11 — PR #45; ✅ SEC (`3e7436d`); DSN pediu ajustes de texto (CF-05, CF-08, meta descriptions), com o 25
 
 ## 🧪 Em teste (QA)
 _(vazio)_
 
 ## 🏁 Pronto
+- LST-04 · Tela da lista na área do participante · FE → LST + DSN · 2 pts · 22/11 — ✅ DSN+ORQ; mergeado PR #59 (`850293a`), no ar
+- MON-03 · Plano de eventos e painel do dono (RF14) · MON → SEC + DSN · 3 pts · 24/11 — ✅ SEC+DSN+ORQ; mergeado PR #61 (`7eee344`); /owner responde 401 sem senha; métricas só agregadas ("entradas", não pessoas únicas)
+- MKT-04 · Kit de posts e divulgação · MKT → DSN · 1 pt · 22/11 — ✅ DSN+ORQ; mergeado PR #46 (`c5e6c81`)
+- SRT-03 · Caso de uso `run-draw` + botão "Sortear" · SRT → SEC + DSN · 3 pts · 21/11 — ✅ SEC+DSN+ORQ; mergeados #57, #58 e follow-up #60 (`d8da9d6`)
+- SRT-02 · RPC transacional `run_draw` · DB → SRT · 2 pts · 20/11 — ✅ SRT+ORQ; aplicada à mão em produção
+- LST-02 · Casos de uso CRUD da lista · LST → SEC · 2 pts · 20/11 — ✅ SEC+ORQ; mergeados #54 e adapter #50 (`1c24b85`)
+- QA-04 · E2E HU03–HU05 + "resposta nunca vaza pares" · QA → SEC · 3 pts · 23/11 — ✅ SEC+ORQ; mergeado PR #51; trava PEN no #56 (desligada até o REL-02)
+- OPS-01 · Monitoramento de erros, uptime e alertas S1 · OPS → SEC · 2 pts · 21/11 — ✅ SEC+ORQ; mergeado PR #53 (`e99243f`); falta só o canal do Discord para os avisos
+- MON-01-APP · Páginas /sobre, /privacidade, /termos, /contato no app · MON → SEC + DSN · 2 pts · 20/11 — ✅ SEC+DSN+ORQ; no ar com marcadores PEN-01/02
+- FE-DSN-4 · A-06, A-10 + rodapé "Privacidade · Termos" · FE → DSN · 1 pt · 21/11 — ✅ DSN+ORQ; mergeado PR #55 (`55830ab`)
 - DSN-04 · Especificação da lista, do "Revelar" e do sorteio no painel · DSN → ORQ · 2 pts · 20/11 — ✅ ORQ; mergeado PR #48 (`25051f7`); `docs/features/dsn-04-it3.md`, textos WSH/REV/DRW
 - BE-03 · Adapters Supabase do painel do organizador e da área do participante · BE → DB · 3 pts · 20/11 — ✅ DB+ORQ; mergeado PR #44 (`c0204a3`); integração 3 passed / 0 skipped; fluxo testado em produção em https://papelzinho.app. Dívida: remoção×sorteio atômica (SRT) e log de erro de infra sem token
 - FE-DSN-2 · Painel e área: A-03, A-08, A-09 + textos ADM-04/05/12 · FE → DSN · 2 pts · 21/11 — ✅ DSN+ORQ; mergeado PR #41 (`6332545`)
@@ -201,3 +206,4 @@ _(vazio)_
 - 2026-11-18 · QA · QA-04 no PR #51: page objects do painel e da área, fixture `groupFactory` criando grupos reais pelo fluxo de UI, e CT-03/CT-04/CT-05/CT-08. CI 44323760464 verde (6 passed / 7 skipped); a 1ª visita a `/p/<token>` estourava o timeout de 5 s durante a compilação da rota e foi corrigida com espera de 30 s no `open` · nenhum
 - 2026-11-18 · Orquestrador · Adapter da lista mergeado (#50, `1c24b85`); migration 20261122000100_wish_item_limit aplicada à mão em produção e registrada em supabase_migrations. Revisão do 15: #49/#52 aprovados em LGPD; ajustes pedidos em #54 (URL com ponto final e tamanho pós-encoding), #51 (isolamento antes do Revelar) e #53 (2 Altas: test-alert e redact). Decisões: Papelzinho é gratuito para quem usa; a trava do marcador PEN vai para o REL-02 com o 13 · nenhum
 - 2026-11-18 · DevOps · OPS-01 implementado com healthcheck /api/health, mascaramento de tokens LGPD, webhook S1 com debounce e watchdog VPS; PR aberto e enviado para revisão do 15 Segurança · nenhum
+- 2026-11-18 · Orquestrador · Mergeados #59 (LST-04), #61 (MON-03) e #46 (MKT-04); deploy da main verde e /api/health ok. SRT-04 liberado ao 23. AdSense adiantado: MON-02 (24) e SEC-04 (15) começam já, com `ADS_ENABLED=false` até o Rodrigo criar a conta e mandar o ID pub- (PEN-03); pedir aprovação ao Google depende também de PEN-01/02 nas páginas legais. 11 e 15 trocados para Opus via contas do Gemini (Cursor/OpenCode sem crédito) · aguardando Rodrigo: PEN-01, PEN-02, PEN-03
