@@ -24,7 +24,6 @@ Atualizado em: 2026-11-18 · Iteração atual: **It-3 · Lista e sorteio (aberta
 - DB-APP-01 · Migration `push_tokens` + `push_reminders_sent` (RLS só service_role, cascade, rollback, testes) · DB → SEC · 2 pts — responsável: 12 Banco
 - APP-API-02b · API v1: endpoints da lista (`/participant/wishes`) · LST → SEC · 2 pts — responsável: 22 Lista (após o PR A do 10)
 - APP-API-02c · API v1: `/admin`, remover participante, `/admin/draw`, `/participant/reveal` · SRT → SEC · 3 pts — responsável: 23 Sorteio (após o PR A do 10)
-- APP-FE-02 · Telas reais do app (Meus grupos, criar, convite/entrar, área + lista offline, Revelar, painel), cliente tipado do contrato com mocks · FE → DSN + SEC · 8 pts — responsável: 11 Front-end
 - APP-DSN-02 · Ícones (iOS, Android adaptativo, monocromático, notificação) e splash do app · DSN → FE · 2 pts — responsável: 16 Designer
 - APP-LEG-01 · /privacidade e /termos cobrindo o app (SecureStore, push opcional, push_tokens, v1 sem anúncio) · MON → SEC + DSN · 1 pt — responsável: 24 Monetização
 - APP-QA-01 · Plano de testes do app + testes de contrato da v1 (fixme até os endpoints) · QA → ORQ · 3 pts — responsável: 13 QA
@@ -37,6 +36,8 @@ Atualizado em: 2026-11-18 · Iteração atual: **It-3 · Lista e sorteio (aberta
 _(vazio)_
 
 ## 🔨 Em andamento
+
+- APP-FE-02 · Telas reais do app (Meus grupos, criar, convite/entrar, área + lista offline, Revelar, painel), cliente tipado do contrato com mocks · FE → DSN + SEC · 8 pts — responsável: 11 Front-end
 
 ## 👀 Em revisão
 - SEC-05 · Revisão final de segurança (OWASP Top 10, RNF03–05) · SEC → ORQ · 18/11 — `docs/seguranca/SEC-05.md` (0 Críticos, 0 Altos, 2 Médios, 2 Baixos)
