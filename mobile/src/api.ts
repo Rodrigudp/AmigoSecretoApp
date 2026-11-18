@@ -1,10 +1,12 @@
 const previews = {
   home: {
-    title: "Amigo secreto",
-    message: "Abra um link do Papelzinho para acessar seu grupo no app.",
+    title: "Meus grupos", // APP-01
+    message:
+      "Você ainda não tem grupos neste aparelho. Crie um grupo ou abra um convite que recebeu.", // APP-02
   },
+  create: { title: "Criar grupo", message: "Em breve, você poderá criar um grupo pelo app." },
   invitation: {
-    title: "Convite do grupo",
+    title: "Você foi convidado",
     message: "Em breve, você poderá entrar no grupo por aqui.",
   },
   participant: {
@@ -15,7 +17,10 @@ const previews = {
     title: "Painel do organizador",
     message: "Em breve, você poderá organizar seu grupo por aqui.",
   },
-  missing: { title: "Página não encontrada", message: "Confira o endereço ou volte ao início." },
+  missing: {
+    title: "Página não encontrada",
+    message: "Confira o endereço ou volte a Meus grupos.",
+  },
 } as const;
 
 export type Section = keyof typeof previews;
@@ -25,7 +30,7 @@ export interface ScreenPreview {
   message: string;
 }
 
-// Contrato local de prévia. A integração HTTP aguarda o APP-API-01.
+// Temporary preview contract until APP-API-01.
 export interface PreviewClient {
   getScreen(section: Section): ScreenPreview;
 }

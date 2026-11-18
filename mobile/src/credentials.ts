@@ -1,22 +1,31 @@
 import * as SecureStore from "expo-secure-store";
 
-const key = "papelzinho.credential";
+export interface GroupAccess {
+  groupId: string;
+  role: "organizer" | "participant";
+}
+
 const options = { keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY };
 
+function credentialKey({ groupId, role }: GroupAccess): string {
+  if (!/^[a-zA-Z0-9_-]+$/.test(groupId)) throw new Error("Invalid group identifier");
+  return `papelzinho.credential.${role}.${groupId}`;
+}
+
 export const credentials = {
-  async read(): Promise<string | null> {
+  async read(access: GroupAccess): Promise<string | null> {
     if (!(await SecureStore.isAvailableAsync())) return null;
-    return SecureStore.getItemAsync(key, options);
+    return SecureStore.getItemAsync(credentialKey(access), options);
   },
-  async save(token: string): Promise<void> {
+  async save(access: GroupAccess, token: string): Promise<void> {
     if (!(await SecureStore.isAvailableAsync())) {
       throw new Error("Secure credential storage is unavailable");
     }
-    await SecureStore.setItemAsync(key, token, options);
+    await SecureStore.setItemAsync(credentialKey(access), token, options);
   },
-  async clear(): Promise<void> {
+  async clear(access: GroupAccess): Promise<void> {
     if (await SecureStore.isAvailableAsync()) {
-      await SecureStore.deleteItemAsync(key, options);
+      await SecureStore.deleteItemAsync(credentialKey(access), options);
     }
   },
 };
