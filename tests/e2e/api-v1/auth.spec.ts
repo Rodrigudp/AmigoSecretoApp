@@ -1,5 +1,5 @@
-import { test, expect } from "@playwright/test";
-import { PENDING, bearer, expectError, seedGroup, type Seed } from "./helpers";
+import { expect } from "@playwright/test";
+import { test, bearer, expectError, seedGroup, unknownToken, type Seed } from "./helpers";
 
 type Kind = "invite" | "participant" | "admin";
 
@@ -14,10 +14,8 @@ const ENDPOINTS: { role: Kind; method: string; path: string; data?: object }[] =
 ];
 
 test.describe("API v1 - credencial por tipo (CT-35)", () => {
-  test.fixme(true, PENDING);
-
   let seed: Seed;
-  test.beforeAll(async ({ request }) => {
+  test.beforeEach(async ({ request }) => {
     seed = await seedGroup(request, ["Ana", "Bruno", "Carla"]);
   });
 
@@ -44,21 +42,23 @@ test.describe("API v1 - credencial por tipo (CT-35)", () => {
       });
     }
 
-    test(`${ep.method} ${ep.path} recusa Bearer ausente, vazio e desconhecido com a mesma resposta`, async ({
+    test(`${ep.method} ${ep.path} recusa credencial ausente, mal formada, desconhecida e de outro papel com a mesma resposta`, async ({
       request,
     }) => {
       const send = (headers: Record<string, string>) =>
         request.fetch(ep.path, { method: ep.method, headers, data: ep.data });
-      const [none, empty, unknown] = await Promise.all([
+      const wrong = (["invite", "participant", "admin"] as const).find((k) => k !== ep.role)!;
+      const responses = await Promise.all([
         send({}),
         send({ Authorization: "Bearer " }),
-        send(bearer("token-que-nao-existe")),
+        send(bearer("curto")),
+        send(bearer(unknownToken())),
+        send(bearer(tokenOf(wrong))),
       ]);
-      for (const res of [none, empty, unknown]) await expectError(res, 401, "INVALID_LINK");
-      // ADR-002: mesma mensagem, sem revelar se o grupo existe.
-      const [a, b, c] = await Promise.all([none.json(), empty.json(), unknown.json()]);
-      expect(b).toEqual(a);
-      expect(c).toEqual(a);
+      for (const res of responses) await expectError(res, 401, "INVALID_LINK");
+      // ADR-002: a recusa é a mesma, sem revelar se o grupo existe nem o papel do token.
+      const bodies = await Promise.all(responses.map((res) => res.json()));
+      for (const body of bodies) expect(body).toEqual(bodies[0]);
     });
   }
 

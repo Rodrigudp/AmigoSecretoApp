@@ -1,12 +1,10 @@
-import { test, expect } from "@playwright/test";
-import { PENDING, bearer, seedGroup } from "./helpers";
+import { expect } from "@playwright/test";
+import { test, bearer, seedGroup } from "./helpers";
 
 const PAIR_KEYS =
   /"(giver|giver_id|receiver|receiver_id|recipient|receiverName|pairs|assignments|draw_results)"/i;
 
 test.describe("API v1 - sigilo dos pares (CT-36, RN03/RNF04)", () => {
-  test.fixme(true, PENDING);
-
   test("nenhuma resposta lista pares; reveal devolve só o próprio par", async ({ request }) => {
     const names = ["Ana", "Bruno", "Carla", "Diego"];
     const seed = await seedGroup(request, names);

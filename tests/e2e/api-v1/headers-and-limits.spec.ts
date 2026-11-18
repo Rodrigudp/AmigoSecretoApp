@@ -1,9 +1,7 @@
-import { test, expect } from "@playwright/test";
-import { PENDING, SECURITY_HEADERS, bearer, expectError, seedGroup, uniqueIp } from "./helpers";
+import { expect } from "@playwright/test";
+import { test, SECURITY_HEADERS, bearer, expectError, seedGroup, uniqueIp } from "./helpers";
 
 test.describe("API v1 - headers, CORS e rate limit (CT-37)", () => {
-  test.fixme(true, PENDING);
-
   test("sucesso e erro levam os 4 headers de segurança e nenhum CORS", async ({ request }) => {
     const seed = await seedGroup(request, ["Ana", "Bruno", "Carla"]);
     const ok = await request.get("/api/v1/admin", { headers: bearer(seed.adminToken) });
