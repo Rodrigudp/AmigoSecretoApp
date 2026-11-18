@@ -268,3 +268,13 @@ Proposto pelo 25 Marketing em 18/11/2026; sujeito à aprovação do 16. Página 
 | CF-12 | Botão | (não existe) | **novo**: "Criar grupo" |
 | CF-13 | Título da aba | (não existe) | **novo**: "Como funciona o amigo secreto — Papelzinho" |
 | CF-14 | Descrição da página (meta) | (não existe) | **novo**: "Veja como criar seu grupo, combinar o encontro e participar do amigo secreto no Papelzinho." |
+
+### MON-01b — Política de privacidade e anúncios
+
+| ID | Onde | Texto |
+| --- | --- | --- |
+| LEG-ADS-01 | Responsável pelos dados | O controlador é pessoa física e agente de tratamento de pequeno porte, conforme a Resolução CD/ANPD nº 2/2022, e está dispensado de indicar encarregado. Para exercer seus direitos, escreva para suporte@papelzinho.app. |
+| LEG-ADS-02 | Cookies | Quando houver anúncios e você aceitar, o Google e fornecedores terceiros certificados pelo Google AdSense poderão usar cookies para exibi-los, inclusive com base em suas visitas anteriores a este e a outros sites. Para coletar dados, podem usar cookies, endereço IP e web beacons (pequenos recursos que registram o acesso a uma página). |
+| LEG-ADS-03 | Cookies | Você pode revogar sua escolha a qualquer momento pelo link Cookies no rodapé. Para recusar publicidade personalizada, acesse as opções abaixo: |
+| LEG-ADS-04 | Links de escolha | Configurações de anúncios do Google — https://adssettings.google.com; Opções de publicidade da AboutAds — https://www.aboutads.info |
+| LEG-ADS-05 | Compartilhamento | Compartilhamos dados com os prestadores abaixo. O Google AdSense é nosso único fornecedor de anúncios; não usamos outras redes de anúncios. |
