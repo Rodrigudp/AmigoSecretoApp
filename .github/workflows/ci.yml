@@ -198,3 +198,50 @@ jobs:
           fi
           supabase link --project-ref ulthbrfwsvmazgdvrcyw
           supabase db push --password "$SUPABASE_DB_PASSWORD" --yes
+  deploy-vps:
+    name: Deploy App to VPS (Production)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [quality, db, deploy-migrations]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    concurrency:
+      group: deploy-vps-production
+      cancel-in-progress: false
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Deploy to VPS via SSH
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_SSH_PORT: ${{ secrets.VPS_SSH_PORT }}
+          VPS_SSH_KNOWN_HOSTS: ${{ secrets.VPS_SSH_KNOWN_HOSTS }}
+        run: |
+          if [ -z "$VPS_HOST" ] || [ -z "$VPS_USER" ] || [ -z "$VPS_SSH_KEY" ] || [ -z "$VPS_SSH_KNOWN_HOSTS" ]; then
+            echo "::warning::VPS_HOST, VPS_USER, VPS_SSH_KEY, or VPS_SSH_KNOWN_HOSTS is not set in environment 'production'. Skipping VPS deployment."
+            exit 0
+          fi
+
+          SSH_PORT="${VPS_SSH_PORT:-22}"
+
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          trap 'rm -f ~/.ssh/id_rsa ~/.ssh/known_hosts' EXIT
+
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          printf '%s\n' "$VPS_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+          ssh -o StrictHostKeyChecking=yes -p "$SSH_PORT" "$VPS_USER@$VPS_HOST" "bash -l -c '
+            set -e
+            if [ ! -d /home/smartops/papelzinho/.git ]; then
+              echo \"[CI] Initializing repository on VPS...\"
+              git clone -b main https://github.com/Rodrigudp/AmigoSecretoApp.git /home/smartops/papelzinho
+            fi
+            bash /home/smartops/papelzinho/ops/deploy-vps.sh
+          '"
