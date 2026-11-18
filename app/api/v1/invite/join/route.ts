@@ -1,7 +1,8 @@
 import { copy } from "@/app/_lib/copy";
 import { joinGroupUseCase } from "@/app/_lib/participant-stubs";
 import { joinGroupInputSchema } from "@/src/application/schemas/join-group";
-import { apiError, apiOptions, apiRoute, fromResult } from "../../_lib/http";
+import { apiError, apiOptions, apiRoute } from "../../_lib/http";
+import { fromResult } from "../../_lib/domain-error";
 import { readJson } from "../../_lib/input";
 
 export { apiOptions as OPTIONS };

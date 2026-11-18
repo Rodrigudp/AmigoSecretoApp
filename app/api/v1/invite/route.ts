@@ -1,5 +1,6 @@
 import { getInviteViewUseCase } from "@/app/_lib/participant-stubs";
-import { apiOptions, apiRoute, capabilityToken, fromResult } from "../_lib/http";
+import { apiOptions, apiRoute, capabilityToken } from "../_lib/http";
+import { fromResult } from "../_lib/domain-error";
 
 export { apiOptions as OPTIONS };
 

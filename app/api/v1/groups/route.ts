@@ -1,7 +1,8 @@
 import { createGroupInputSchema } from "@/src/application/schemas/create-group";
 import { createGroup } from "@/src/application/create-group";
 import { buildCreateGroupDeps } from "@/src/infrastructure/supabase/deps";
-import { apiError, apiJson, apiOptions, apiRoute, capabilityToken, fromResult } from "../_lib/http";
+import { apiError, apiJson, apiOptions, apiRoute, capabilityToken } from "../_lib/http";
+import { fromResult } from "../_lib/domain-error";
 import { readJson } from "../_lib/input";
 
 export { apiOptions as OPTIONS };

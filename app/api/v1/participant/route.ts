@@ -1,5 +1,6 @@
 import { resolveParticipantByToken } from "@/app/_lib/participant-view-usecase";
-import { apiJson, apiOptions, apiRoute, fromResult } from "../_lib/http";
+import { apiJson, apiOptions, apiRoute } from "../_lib/http";
+import { fromResult } from "../_lib/domain-error";
 import { originalGiftUrl } from "../_lib/gift-url";
 
 export { apiOptions as OPTIONS };
