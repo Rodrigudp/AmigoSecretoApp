@@ -202,14 +202,19 @@ jobs:
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
         run: |
           if [ -z "$SUPABASE_ACCESS_TOKEN" ] || [ -z "$SUPABASE_DB_PASSWORD" ]; then
-            echo "::warning::SUPABASE_ACCESS_TOKEN or SUPABASE_DB_PASSWORD is not set in environment 'production'. Skipping production database migrations deploy."
-            exit 0
+            echo "## ⚠️ PEN-08: Migrations de Produção NÃO aplicadas automaticamente" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "Os segredos \`SUPABASE_ACCESS_TOKEN\` e/ou \`SUPABASE_DB_PASSWORD\` não estão configurados no ambiente \`production\` do GitHub Actions." >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "> **Atenção:** Conforme política operacional documentada em \`docs/ops/vps.md\`, as migrations de produção devem ser aplicadas **manualmente pelo Orquestrador (Tech Lead)** via Supabase SQL Editor e registradas em \`supabase_migrations.schema_migrations\` até a resolução formal da pendência PEN-08 pelo PO." >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::PEN-08: SUPABASE_ACCESS_TOKEN ou SUPABASE_DB_PASSWORD ausentes no ambiente production. Migrations não aplicadas automaticamente."
+            exit 1
           fi
           supabase link --project-ref ulthbrfwsvmazgdvrcyw
           supabase db push --password "$SUPABASE_DB_PASSWORD" --yes
   deploy-vps:
     name: Deploy App to VPS (Production)
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !cancelled() && needs.quality.result == 'success' && needs.db.result == 'success'
     needs: [quality, db, deploy-migrations]
     runs-on: ubuntu-latest
     timeout-minutes: 10

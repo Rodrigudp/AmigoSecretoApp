@@ -24,16 +24,6 @@ Devido ao limite de 100 deploys/24h da Vercel no plano gratuito e à necessidade
 
 ---
 
-## Lembretes de encontro no app
-
-Configure `EXPO_ACCESS_TOKEN` e `PUSH_CRON_SECRET` no ambiente do servidor. Gere o segredo do cron a partir de 32 bytes aleatórios. No crontab do usuário da aplicação, use o caminho absoluto do Node.js 22 e do projeto. O filtro por horário local funciona mesmo quando o fuso da VPS é UTC.
-
-```cron
-* * * * * [ "$(TZ=America/Sao_Paulo date +\%H\%M)" = 1000 ] && cd /home/<VPS_USER>/papelzinho && /usr/bin/node --env-file=.env.production ops/send-exchange-reminders.mjs
-```
-
-O script chama o Next.js em loopback. O banco reserva o envio uma vez por grupo e data de São Paulo. O cron mantém a reserva se o envio ao Expo falhar, para evitar disparos duplicados.
-
 ## 2. Pré-requisitos na VPS
 
 Conecte-se à VPS com o usuário de operações configurado:
@@ -149,7 +139,7 @@ curl -I http://localhost:8090
 A cada push na branch `main`, o pipeline de CI do GitHub (`.github/workflows/ci.yml`) executa os jobs:
 1. `quality`: Lint, verificação de tipos TypeScript, auditoria de dependências, testes unitários e build Next.js.
 2. `db`: Supabase local stack, migrations, testes de banco de dados e testes de rollback.
-3. `deploy-migrations`: Aplica migrations no Supabase de Produção (se secrets presentes).
+3. `deploy-migrations`: Aplica migrations no Supabase de Produção (se secrets presentes; caso ausentes, falha visivelmente conforme PEN-08).
 4. `deploy-vps`: Conecta à VPS via SSH e executa o script `ops/deploy-vps.sh` para zero-downtime reload.
 
 ### Secrets Necessárias no GitHub (Environment `production`)
@@ -163,8 +153,31 @@ Acesse o repositório no GitHub: **Settings > Environments > production > Secret
 | `VPS_SSH_KEY` | Chave privada SSH autorizada no servidor | Conteúdo de `~/.ssh/id_rsa` |
 | `VPS_SSH_PORT` | Porta SSH (opcional, padrão `22`) | `22` |
 | `VPS_SSH_KNOWN_HOSTS` | Chave pública do host para validação MITM (`StrictHostKeyChecking=yes`) | Saída de `ssh-keyscan -p 22 -H <IP_DA_VPS>` |
+| `SUPABASE_ACCESS_TOKEN` | Token de acesso da conta Supabase (PEN-08) | `sbp_...` |
+| `SUPABASE_DB_PASSWORD` | Senha do banco PostgreSQL de produção (PEN-08) | `...` |
 
 > **Nota de Segurança:** O pipeline de CI utiliza `StrictHostKeyChecking=yes` com a secret `VPS_SSH_KNOWN_HOSTS` e registra um `trap` automático para expurgar a chave privada do runner efêmero ao término da execução, prevenindo ataques Man-in-the-Middle (MITM). Caso as secrets da VPS não estejam configuradas, o job `deploy-vps` emitirá um aviso informativo (`::warning::`) e concluirá sem quebrar o pipeline.
+
+### 4.1. Política Operacional de Migrations de Produção (PEN-08)
+
+> **Regra Operacional:** Aplicação manual pelo ORQ até o PEN-08.
+
+- **Causa Raiz:** O ambiente `production` do GitHub Actions não possui configurados os segredos `SUPABASE_ACCESS_TOKEN` e `SUPABASE_DB_PASSWORD` (bloqueio externo PEN-08, dependente do PO Rodrigo).
+- **Comportamento do CI:** O job `deploy-migrations` valida a existência de ambos os segredos. Na ausência de qualquer um deles, o job **falha de forma visível** (`exit 1`) gerando anotação `::error::` e publicando um relatório destacado no `$GITHUB_STEP_SUMMARY`, alertando a equipe sobre a não execução do deploy de banco.
+- **Continuidade do Deploy na VPS:** O job `deploy-vps` aguarda `deploy-migrations`, mas sua regra de execução foi desenhada como:
+  ```yaml
+  if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !cancelled() && needs.quality.result == 'success' && needs.db.result == 'success'
+  ```
+  Isso assegura que o deploy do código da aplicação na VPS continue ocorrendo sem travar o pipeline contínuo, contanto que os gates de qualidade e banco local estejam 100% verdes.
+- **Protocolo de Aplicação Manual (Tech Lead / ORQ):**
+  1. O Orquestrador (Tech Lead) acessa o **SQL Editor** no dashboard do Supabase (`ulthbrfwsvmazgdvrcyw`).
+  2. Executa a migration correspondente (ex: `supabase/migrations/20261123000100_push_notifications.sql`).
+  3. Confere a criação de tabelas, índices, ativação do RLS, criação de policies e concessão de permissões (`GRANT` explícito para `service_role`).
+  4. Registra manualmente a versão executada na tabela de controle de migrações:
+     ```sql
+     INSERT INTO supabase_migrations.schema_migrations (version) VALUES ('20261123000100');
+     ```
+  5. *Histórico:* As 5 migrations iniciais (até `20261121000100`) e a migration de push (`20261123000100_push_notifications`) foram aplicadas com sucesso pelo ORQ seguindo esse protocolo. Migrations futuras seguirão esse fluxo até a resolução formal do PEN-08.
 
 ---
 
@@ -321,3 +334,75 @@ O firewall da VPS tem `ufw limit 22/tcp`: 6 conexões novas em 30 s bloqueiam o 
 - Não rodar `ssh-keyscan` nem testar a porta 22 em loop. A chave do host já está no segredo `VPS_SSH_KNOWN_HOSTS`.
 - Se o SSH cair, esperar pelo menos 2 minutos sem nenhuma tentativa antes de tentar de novo.
 - Não colocar IPs em `ignoreip` (IP residencial muda).
+
+---
+
+## 10. Procedimento de Ativação do Serviço de Push Notifications na VPS
+
+> **Status Operacional:** ⚠️ **NÃO ATIVAR AGORA** (Procedimento preparado e documentado. A ativação depende do fornecimento do `EXPO_ACCESS_TOKEN` vinculado à conta Expo do PO Rodrigo).
+
+Quando a conta do Expo estiver criada e o token for fornecido, execute o procedimento abaixo para ativar o envio de lembretes e notificações via push na VPS:
+
+### Passo 10.1: Gerar o Segredo do Cron (`PUSH_CRON_SECRET`)
+Gere um segredo de alta entropia (32 bytes aleatórios em hexadecimal):
+```bash
+openssl rand -hex 32
+```
+
+### Passo 10.2: Configurar Variáveis de Ambiente na VPS
+Acesse a VPS (em sessão SSH única, conforme Seção 9) e edite o arquivo `.env.production`:
+```bash
+nano /home/<VPS_USER>/papelzinho/.env.production
+```
+Adicione as duas variáveis obrigatórias:
+```env
+# Expo Push Service & Notificações
+EXPO_ACCESS_TOKEN=<token_gerado_no_expo_account>
+PUSH_CRON_SECRET=<hash_hex_gerado_no_passo_10_1>
+```
+Reaplique as permissões restritivas e sincronize com `.env.local`:
+```bash
+chmod 600 /home/<VPS_USER>/papelzinho/.env.production
+cp /home/<VPS_USER>/papelzinho/.env.production /home/<VPS_USER>/papelzinho/.env.local
+chmod 600 /home/<VPS_USER>/papelzinho/.env.local
+```
+
+### Passo 10.3: Recarregar o Processo PM2
+Recarregue o PM2 para que a aplicação Next.js leia as novas variáveis de ambiente:
+```bash
+pm2 reload ecosystem.config.cjs --update-env
+```
+
+### Passo 10.4: Configurar o Crontab do Usuário da Aplicação
+Crie o diretório de logs caso ainda não exista:
+```bash
+mkdir -p /home/<VPS_USER>/papelzinho/logs
+```
+Abra o crontab do usuário da aplicação (`smartops`):
+```bash
+crontab -e
+```
+Adicione a linha de agendamento para execução diária às 10:00 (fuso de São Paulo):
+```cron
+# Lembretes de encontro no app e push notifications diários às 10h (America/Sao_Paulo)
+* * * * * [ "$(TZ=America/Sao_Paulo date +\%H\%M)" = 1000 ] && cd /home/<VPS_USER>/papelzinho && /usr/bin/node --env-file=.env.production ops/send-exchange-reminders.mjs >> /home/<VPS_USER>/papelzinho/logs/push-cron.log 2>&1
+```
+
+> **Notas Técnicas e Garantias de Execução:**
+> - O script `ops/send-exchange-reminders.mjs` chama internamente em loopback o endpoint `http://127.0.0.1:3010/api/internal/push/exchange-reminders` autenticado via header `Authorization: Bearer <PUSH_CRON_SECRET>`.
+> - A rota interna compara hashes de tamanho fixo com `crypto.timingSafeEqual`, prevenindo ataques de timing.
+> - O banco de dados Supabase reserva atomicamente o envio uma vez por grupo e data de São Paulo (`exchange_reminder_runs`), evitando disparos concorrentes.
+> - Se a chamada ao serviço Expo falhar transitóriamente, a reserva permanece registrada no banco para evitar duplicação incômoda de notificações aos participantes.
+> - O teste inline `[ "$(TZ=America/Sao_Paulo date +\%H\%M)" = 1000 ]` assegura execução no horário correto de Brasília mesmo que o relógio da VPS opere em UTC.
+
+### Passo 10.5: Teste Manual e Validação de Logs
+Antes de habilitar o crontab em definitivo, teste o runner manualmente:
+```bash
+cd /home/<VPS_USER>/papelzinho
+/usr/bin/node --env-file=.env.production ops/send-exchange-reminders.mjs
+```
+Acompanhe os logs para verificar o comportamento:
+```bash
+tail -n 30 /home/<VPS_USER>/papelzinho/logs/push-cron.log
+pm2 logs papelzinho --lines 20
+```
