@@ -79,6 +79,20 @@ describe("participant access handshake (ADR-004, PAR-04)", () => {
     expect(decision).toEqual({ kind: "canonical", groupId: "g-1" });
   });
 
+  it("falls back without ads when ?ck=1 returns a cookie of another person (shared device)", () => {
+    const resolved = access("g-1");
+    const decision = decideParticipantAccess({
+      accessToken: "tok-mine",
+      ck: true,
+      cookieValue: "tok-other-person",
+      resolved,
+    });
+
+    // The cookie must never win over the URL token after the probe: the area
+    // renders from the cookie, so canonicalizing would show another person.
+    expect(decision).toEqual({ kind: "fallback", access: resolved });
+  });
+
   it("renders the fallback without ads when the WebView blocked the cookie", () => {
     const resolved = access("g-1");
     const decision = decideParticipantAccess({

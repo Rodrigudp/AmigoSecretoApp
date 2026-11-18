@@ -45,7 +45,7 @@ async function ParticipantEntry({ paramsPromise }: { paramsPromise: PageProps["p
 
   const resolved = await resolveParticipantByToken(cookieToken);
   if (!resolved.ok || resolved.value.groupId !== groupId) {
-    return <ParticipantNeutralError />;
+    return <ParticipantNeutralError hint="Peça um novo link ao organizador." />;
   }
 
   return <ParticipantArea view={resolved.value.view} adsAllowed />;

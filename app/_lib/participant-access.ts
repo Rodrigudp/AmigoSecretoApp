@@ -33,9 +33,11 @@ export function isSameToken(a: string, b: string): boolean {
  *    `/p/g/<groupId>` (URL wins over a stale cookie of another person);
  * 3. no `?ck=1` yet -> probe: the route handler sets the cookie and redirects
  *    back to `/p/<accessToken>?ck=1`;
- * 4. `?ck=1` with a cookie -> cookies work -> canonical `/p/g/<groupId>`;
- * 5. `?ck=1` without a cookie -> WebView blocks cookies -> fallback render on
- *    `/p/<accessToken>?ck=1` with adsAllowed = false.
+ * 4. `?ck=1` with a cookie that still equals the URL token -> cookies work ->
+ *    canonical `/p/g/<groupId>`;
+ * 5. `?ck=1` without a cookie, or with a cookie of ANOTHER person (shared
+ *    device / stale cookie: the URL token must win, never the cookie) ->
+ *    fallback render on `/p/<accessToken>?ck=1` with adsAllowed = false.
  */
 export function decideParticipantAccess(input: {
   accessToken: string;
@@ -54,8 +56,9 @@ export function decideParticipantAccess(input: {
   if (!ck) {
     return { kind: "probe", accessToken };
   }
-  if (cookieValue) {
-    return { kind: "canonical", groupId: resolved.groupId };
-  }
+  // After the probe (?ck=1), canonical only when the cookie is the URL token.
+  // A cookie of another person must never take over the URL (shared device):
+  // the PAR-04 area reads the view from the cookie, so redirecting would show
+  // someone else's data. Fallback renders the URL token's view, no ads.
   return { kind: "fallback", access: resolved };
 }

@@ -57,7 +57,7 @@ async function ParticipantEntry({
 
   switch (decision.kind) {
     case "invalid":
-      return <ParticipantNeutralError />;
+      return <ParticipantNeutralError hint="Peça um novo link ao organizador." />;
     case "canonical":
       redirect(`/p/g/${decision.groupId}`);
     case "probe":
