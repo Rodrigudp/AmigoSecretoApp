@@ -26,7 +26,6 @@ Atualizado em: 2026-11-18 · Iteração atual: **It-3 · Lista e sorteio (aberta
 - APP-API-02c · API v1: `/admin`, remover participante, `/admin/draw`, `/participant/reveal` · SRT → SEC · 3 pts — responsável: 23 Sorteio (após o PR A do 10)
 - APP-FE-02 · Telas reais do app (Meus grupos, criar, convite/entrar, área + lista offline, Revelar, painel), cliente tipado do contrato com mocks · FE → DSN + SEC · 8 pts — responsável: 11 Front-end
 - APP-DSN-02 · Ícones (iOS, Android adaptativo, monocromático, notificação) e splash do app · DSN → FE · 2 pts — responsável: 16 Designer
-- APP-LEG-01 · /privacidade e /termos cobrindo o app (SecureStore, push opcional, push_tokens, v1 sem anúncio) · MON → SEC + DSN · 1 pt — responsável: 24 Monetização
 - APP-QA-01 · Plano de testes do app + testes de contrato da v1 (fixme até os endpoints) · QA → ORQ · 3 pts — responsável: 13 QA
 - REL-02-QA · Checklist de regressão do site para 28/11 · QA → ORQ · 1 pt — responsável: 13 QA
 - APP-MKT-01 · Fichas das lojas em pt-BR + questionário de privacidade · MKT → DSN + SEC · 2 pts — responsável: 25 Marketing
@@ -37,6 +36,7 @@ Atualizado em: 2026-11-18 · Iteração atual: **It-3 · Lista e sorteio (aberta
 _(vazio)_
 
 ## 🔨 Em andamento
+- APP-LEG-01 · /privacidade e /termos cobrindo o app (SecureStore, push opcional, push_tokens, v1 sem anúncio) · MON → SEC + DSN · 1 pt — responsável: 24 Monetização
 
 ## 👀 Em revisão
 - SEC-05 · Revisão final de segurança (OWASP Top 10, RNF03–05) · SEC → ORQ · 18/11 — `docs/seguranca/SEC-05.md` (0 Críticos, 0 Altos, 2 Médios, 2 Baixos)
@@ -232,3 +232,4 @@ _(vazio)_
 - 2026-11-18 · DevOps · APP-OPS-01: guia das lojas (Apple US$ 99/ano, Google US$ 25 taxa única com regra de 14 dias/12 testadores), plano EAS CI/CD, endpoints de deep linking (assetlinks.json e apple-app-site-association) servidos com fallbacks e 7 testes unitários; PR aberto · aguardando Rodrigo: criação das contas de desenvolvedor
 - 2026-11-18 · Orquestrador · APP-MON-01 (#81): app v1 vai às lojas SEM monetização (sem AdMob e sem tag de afiliado; links de presente abrem a loja no navegador externo com a URL original). Monetização no app só depois de: aceite separado do Amazon Associados para app, conta AdMob + app-ads.txt, avaliação LGPD e regras Families do Play. APP-DSN-01 mergeado (#80); lembrete push 2 dias antes, 10h America/Sao_Paulo · nenhum
 - 2026-11-18 · Orquestrador · PO ausente por 3 h com autonomia total. Mergeados #82 (Nginx sem log de /api/p/hs), #83 (contrato API v1), #79 (esqueleto Expo), #84 (SEC-05-FIX), #85 (guia das lojas + .well-known). Modelos: 12→GPT-6.2 Sol, 13→Claude Sonnet; reservas sem Cursor/OpenCode em todos. Rodada: 10 APP-API-02 (PR A infra, B, C push), 12 DB-APP-01 (push_tokens), 22 APP-API-02b (wishes), 23 APP-API-02c (admin/draw/reveal), 11 APP-FE-02 (telas), 24 APP-LEG-01 (privacidade do app), 13 APP-QA-01 + REL-02-QA, 25 APP-MKT-01 (fichas das lojas), 14 REL-02 (CHANGELOG/release, sem tag) + APP-OPS-02 (EAS manual), 16 APP-DSN-02 (ícones) + revisões · aguardando Rodrigo: contas Apple/Google/Expo, caixa suporte@
+- 2026-11-18 · Monetização · APP-LEG-01: /privacidade e /termos atualizados para cobrir app nativo (SecureStore, push opcional com base art. 7º I/V LGPD, descarte/expurgo de push_tokens, v1 sem anúncios/afiliados e Expo no compartilhamento); PR aberto e revisões pedidas ao 15 e ao 16 · nenhum

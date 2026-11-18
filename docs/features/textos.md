@@ -309,3 +309,15 @@ Os fluxos e wireframes estão em [app-telas.md](app-telas.md). Os IDs anteriores
 | APP-22 | Prévia, participante | Em breve, você poderá ver quem tirou e editar sua lista de desejos aqui. |
 | APP-23 | Prévia, organizador | Em breve, você poderá organizar seu grupo por aqui. |
 | APP-24 | Prévia, rota desconhecida | Confira o endereço ou volte a Meus grupos. |
+
+### APP-LEG-01 — Política de privacidade e termos do app móvel
+
+| ID | Onde | Texto |
+| --- | --- | --- |
+| LEG-APP-01 | /privacidade (Aplicativo móvel) | O app guarda no próprio aparelho os links de acesso dos seus grupos (em armazenamento seguro do sistema operacional, SecureStore) e uma cópia local da sua própria lista de desejos para acesso rápido e modo offline. |
+| LEG-APP-02 | /privacidade (Aplicativo móvel) | O envio de notificações push depende de permissão explícita no sistema operacional do aparelho. Ao autorizar, o servidor guarda apenas o identificador de notificação do Expo (ExpoPushToken), o grupo, o seu papel (participante ou organizador) e a plataforma (iOS ou Android). Não enviamos nome de pessoas, grupos ou resultados de sorteio no conteúdo da notificação. |
+| LEG-APP-03 | /privacidade (Aplicativo móvel) | O envio de notificações tem base legal no consentimento e na execução do serviço solicitado pelo titular (art. 7º, incisos I e V da LGPD). |
+| LEG-APP-04 | /privacidade (Aplicativo móvel) | Os identificadores de notificação são apagados quando você desativa as notificações no aparelho, quando você sai ou é removido do grupo, ou no expurgo definitivo do grupo (60 dias após a data do encontro). |
+| LEG-APP-05 | /privacidade (Aplicativo móvel) | A primeira versão (v1) do aplicativo móvel não exibe anúncios publicitários e não utiliza links de afiliado. Links de presentes abrem a loja no navegador externo do aparelho com o endereço original. |
+| LEG-APP-06 | /termos (Regras gerais) | O serviço também pode ser acessado por aplicativo móvel. A versão 1 do aplicativo não exibe anúncios nem links de afiliado. Notificações no aplicativo são opcionais e dependem da sua permissão no sistema do aparelho. |
+| LEG-APP-07 | /privacidade (Compartilhamento) | Expo (notificações push do aplicativo móvel): recebe exclusivamente o identificador técnico de notificação para a entrega de avisos aos aparelhos que autorizarem notificações. Não enviamos dados pessoais no conteúdo da mensagem. Pode haver transferência internacional. |
