@@ -13,6 +13,7 @@ Nenhum deles bloqueia o time: os agentes usam o marcador `A PREENCHER PELO RODRI
 | PEN-06 | Confirmar o código de verificação por e-mail da Vercel (primeiro deploy) | Deploy e previews | SETUP-03 | ✅ Feito 17/11 (produção no ar) |
 | PEN-07 | Instalar Docker Desktop ou Podman no Windows para `supabase start` local | Validação local opcional (CI valida com Docker) | SETUP-04 | Opcional — não bloqueia (validação via CI) |
 | PEN-08 | Criar no ambiente `production` do GitHub Actions os secrets `SUPABASE_ACCESS_TOKEN` (Supabase > Account > Access Tokens) e `SUPABASE_DB_PASSWORD` (senha do banco do projeto amigo-secreto). Não colar no chat. | Aplicar as migrations no banco de produção (OPS-04) | OPS-04 | A PREENCHER PELO RODRIGO — nomes confirmados no PR #28 |
+| PEN-09 | Decisão de gasto: comprar domínio próprio para o Papelzinho (o app vai para a VPS sem domínio; sem domínio o SEO não rende e o cadastro no AdSense e no Mercado Livre fica fraco). Custo e prazo virão na recomendação do MKT-01. | SEO (MKT-02/03), nginx/certbot da VPS (OPS-VPS), PEN-03, PEN-04 | MKT-01 | AGUARDA DECISÃO DO PO — recomendação do 25 Marketing pendente |
 
 ## Decisões já tomadas (17/11/2026)
 - Domínio provisório em tudo (prévia, política de privacidade, links): `https://amigo-secreto-app-five.vercel.app`. Domínio próprio fica para depois.

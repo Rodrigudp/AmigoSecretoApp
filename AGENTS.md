@@ -23,11 +23,13 @@ Conflito entre fontes → pare e pergunte ao **Orquestrador**. Nunca invente req
 | QA / Testes | `agentes/13-qa.md` | Estratégia de testes, testes automatizados, aceite |
 | DevOps & Manutenção | `agentes/14-devops-manutencao.md` | CI/CD, deploy, observabilidade, manutenção |
 | Segurança & LGPD | `agentes/15-seguranca-lgpd.md` | Ameaças, tokens, privacidade, revisão de segurança |
+| Designer de Produto & Textos | `agentes/16-design-produto.md` | Padrão visual, design system, todos os textos do app (erros, convites, WhatsApp) |
 | Feature: Grupos | `agentes/20-feature-grupos.md` | RF01, RF02, RF06, RF07 |
 | Feature: Participantes | `agentes/21-feature-participantes.md` | RF03, RF04 |
 | Feature: Lista de desejos | `agentes/22-feature-lista-desejos.md` | RF05, RF10, RF12 |
 | Feature: Sorteio | `agentes/23-feature-sorteio.md` | RF08, RF09, RF11 |
 | Feature: Monetização | `agentes/24-feature-monetizacao.md` | AdSense, afiliados, RF13, RF14 |
+| Marketing & Lançamento | `agentes/25-marketing-lancamento.md` | SEO, posts, plano de lançamento e do primeiro Natal |
 
 **Modelo de trabalho:** agentes de *feature* são donos do resultado da funcionalidade de ponta a ponta
 (especificação detalhada, critérios de aceite, integração). Agentes de *camada* são especialistas e
@@ -42,6 +44,7 @@ guardiões do padrão da sua camada: implementam ou revisam o que cai na camada 
 - Um item = uma branch = um PR pequeno (< 400 linhas alteradas).
 - Nada vai para `main` sem: testes passando, revisão de outro agente e aprovação do Orquestrador.
 - Toda decisão de arquitetura nova vira um ADR em `docs/arquitetura/adr/`.
+- Todo PR que muda tela ou texto visível ao usuário tem revisão do **16 Designer de Produto & Textos**.
 - Escreva código, nomes e commits em **inglês**; documentação e mensagens ao usuário em **português**.
 - Segredos (chaves Supabase, AdSense, afiliados) só em variáveis de ambiente. Nunca no repositório.
 - Ao terminar, responda ao Orquestrador no formato de **Relatório de entrega** (seção 4).
@@ -81,6 +84,8 @@ A carga é dividida entre as assinaturas (Claude, ChatGPT, Gemini) e modelos gra
 | 11 Front-end | Médio | Claude Sonnet 5.5 | Médio |
 | 12 Banco de Dados | Médio | Claude Sonnet 5.5 | Médio |
 | 13 QA / Testes | Médio | GPT-6.1 Terra | Médio |
+| 16 Designer de Produto & Textos | Médio | Claude Sonnet 5.5 | Médio |
+| 25 Marketing & Lançamento | Médio | GPT-6.1 Terra | Médio |
 | 14 DevOps & Manutenção | Básico | Gemini 3.8 Flash | Médio |
 | 20 Feature Grupos | Básico | Gemini 3.8 Flash | Médio |
 | 24 Feature Monetização | Básico | Claude Haiku 5.5 | Médio |

@@ -70,6 +70,25 @@ SRT Feature Sorteio · MON Feature Monetização
 | REL-01 | Teste com 2 grupos reais (família e amigos do Rodrigo) | Todos | ORQ | QA | 2 | It-4 | Feedback registrado; bugs S1/S2 corrigidos |
 | REL-02 | Domínio, produção, migrations em produção, tag `v1.0.0`, CHANGELOG | ADR-001 | OPS | ORQ | 2 | REL-01 | Site no ar em 28/11 |
 
+## Design e textos · 16 Designer de Produto & Textos (DSN) — entra na It-2 em diante
+| ID | Item | Req. | Dono | Revisor | Pts | Depende de | Critérios de aceite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| DSN-01 | Guia de voz + inventário de todos os textos do app em `docs/features/textos.md` (títulos, botões, erros, vazios, sucesso, convites, texto do WhatsApp, Open Graph) | RNF01, RNF09, RNF10 | DSN | ORQ | 3 | — | Toda tela existente coberta com IDs; erros dizem o que fazer; texto do WhatsApp final aprovado |
+| DSN-02 | Auditoria visual Estilo Notion das telas já prontas (home, convite, link pessoal, área do participante, admin) + lista de correções | UX-01, UX-LOGO | DSN | FE | 2 | — | Relatório com prints 360/1280 px; correções viram cartões para o FE |
+| DSN-03 | Centralizar textos num único módulo (ex.: `src/shared/copy.ts`) e aplicar o DSN-01 | DSN-01 | FE | DSN | 2 | DSN-01 | Nenhum texto visível solto nos componentes; testes E2E atualizados |
+| DSN-04 | Especificação visual e de textos das telas da It-3 (lista de desejos, resultado com "Revelar") antes do FE implementar | HU03, HU05 | DSN | ORQ | 2 | DSN-01 | FE recebe layout, componentes e textos com IDs |
+| DSN-05 | Revisão contínua de visual e textos em todo PR de tela | AGENTS §3 | DSN | — | contínuo | — | Parecer em até meio dia |
+
+## Marketing e lançamento · 25 Marketing & Lançamento (MKT) — entra na It-2 em diante
+| ID | Item | Req. | Dono | Revisor | Pts | Depende de | Critérios de aceite |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| MKT-01 | Plano de lançamento e do primeiro Natal (`docs/marketing/PLANO_LANCAMENTO.md`): público, mensagens, canais, calendário 20/11–25/12, metas semanais ligadas ao RF14 | Meta 10 mil | MKT | ORQ | 3 | — | Calendário dia a dia; metas mensuráveis; custos e contas necessárias listados como pendência do PO |
+| MKT-02 | Pesquisa de palavras-chave e plano de SEO (`docs/marketing/SEO.md`) | RNF09 | MKT | DSN | 2 | — | Palavras com fonte e data; title/description por página; schema.org, sitemap, robots definidos |
+| MKT-03 | Página "Como funciona" / perguntas frequentes + SEO técnico (sitemap.xml, robots.txt, metadados, schema.org) | MKT-02 | MKT | FE + SEC | 3 | MKT-02, DSN-01 | Páginas com token continuam `noindex`; Lighthouse SEO ≥ 90 |
+| MKT-04 | Kit de posts e textos de divulgação (`docs/marketing/POSTS.md`): ≥ 10 posts/roteiros + texto para grupos + kit do teste real (REL-01) | — | MKT | DSN | 2 | MKT-01 | Revisado pelo Designer; nada publicado sem o PO |
+| MKT-05 | Laço viral no app: proposta de convite "organize o seu grupo" após o resultado e ao entrar | Meta 10% organizadores | MKT | ORQ | 1 | MKT-01 | Proposta aprovada vira cartão para FE/feature dona |
+| MKT-06 | Acompanhamento semanal pós-lançamento com base no painel do dono | RF14 | MKT | ORQ | contínuo | MON-03 | Relatório semanal com ajuste proposto |
+
 ## Pós-MVP (não entra antes do lançamento)
 | ID | Item | Req. | Dono | Pts |
 | --- | --- | --- | --- | --- |

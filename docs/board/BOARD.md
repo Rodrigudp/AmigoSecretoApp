@@ -21,7 +21,10 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar (It-2)
-_(vazio)_
+- DSN-01 · Guia de voz + inventário de textos (`docs/features/textos.md`) · DSN → ORQ · 3 pts · 20/11 — responsável: 16 Designer
+- DSN-02 · Auditoria visual Estilo Notion das telas prontas + correções · DSN → FE · 2 pts · 20/11 — responsável: 16 Designer
+- MKT-01 · Plano de lançamento e do primeiro Natal (`docs/marketing/PLANO_LANCAMENTO.md`) com recomendação de domínio (custo e prazo, PEN-09) · MKT → ORQ · 3 pts · 20/11 — responsável: 25 Marketing
+- MKT-02 · Palavras-chave e plano de SEO (`docs/marketing/SEO.md`) · MKT → DSN · 2 pts · 21/11 — responsável: 25 Marketing
 
 ## ⏳ Aguardando dependência (It-2)
 _(vazio)_
@@ -167,3 +170,4 @@ _(vazio)_
 - 2026-11-18 · Orquestrador · SEC-03 mergeado (#33, `d012793`) após aprovação do 14 DevOps · nenhum
 - 2026-11-18 · QA · QA-03 rebase na main e HU01/HU02 reais em 360 px · PR #19 fora de draft com CI 44295573056 verde; criar 1.390 ms, entrar 2.582 ms, "Ana 2" no adapter real; fixme só em grupo sorteado e grupo cheio · nenhum
 - 2026-11-18 · Orquestrador · QA-03 mergeado (#19, `fd960e5`) após rodar o CI de novo com a main atual; OPS-VPS em revisão no #35 · nenhum
+- 2026-11-18 · Orquestrador · Entraram 16 Designer e 25 Marketing. DSN-01/02 e MKT-01/02 liberados. Visual e textos passam ao 16; ORQ só aprova. PEN-09 (domínio) registrado como decisão de gasto do PO · nenhum
