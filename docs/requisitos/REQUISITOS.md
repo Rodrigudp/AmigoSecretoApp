@@ -20,7 +20,7 @@ Lançamento: **28/11/2026**. Meta: **10 mil participantes únicos até 25/12/202
 | RF07 | Remover participante antes do sorteio | Organizador | Alta | Feature Grupos |
 | RF08 | Realizar o sorteio | Organizador | Alta | Feature Sorteio |
 | RF09 | Ver quem tirou e a lista de desejos dessa pessoa | Participante | Alta | Feature Sorteio |
-| RF10 | Converter links de produtos em links de afiliado | Sistema | Alta | Feature Lista de desejos |
+| RF10 | Converter links de produtos da Amazon em links de afiliado | Sistema | Alta | Feature Lista de desejos |
 | RF11 | Refazer o sorteio, invalidando o anterior | Organizador | Média | Feature Sorteio |
 | RF12 | Sugestões de presente dentro do valor máximo | Sistema | Média | Feature Lista de desejos |
 | RF13 | Contagem regressiva até a troca | Participante | Baixa | Feature Monetização |
@@ -56,7 +56,7 @@ Lançamento: **28/11/2026**. Meta: **10 mil participantes únicos até 25/12/202
 ## Histórias de usuário (resumo)
 - **HU01** Criar grupo e receber link de convite + link admin separado. (RF01, RF02)
 - **HU02** Entrar só com nome e receber link pessoal; grupo fechado após sorteio. (RF03, RF04, RN04)
-- **HU03** Montar lista de desejos; links Amazon/Mercado Livre viram afiliado. (RF05, RF10)
+- **HU03** Montar lista de desejos; links da Amazon viram afiliado (Mercado Livre removido pelo PO em 18/11: fica como link comum). (RF05, RF10)
 - **HU04** Sortear com ≥ 3 pessoas; organizador vê só "sorteio realizado". (RF06, RF08, RN01, RN03)
 - **HU05** Ver resultado escondido até tocar em "revelar"; ninguém tira a si mesmo. (RF09, RN02)
 

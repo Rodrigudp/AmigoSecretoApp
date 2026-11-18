@@ -26,7 +26,6 @@ _(vazio)_
 _(vazio)_
 
 ## 🔨 Em andamento
-- LST-03 · Adapters de afiliado + redirect `/r/[itemId]` · LST → SEC · 3 pts · 22/11 — responsável: 22 Lista
 
 ## 👀 Em revisão
 _(vazio)_
@@ -34,6 +33,7 @@ _(vazio)_
 ## 🧪 Em teste (QA)
 
 ## 🏁 Pronto
+- LST-03 · Afiliado Amazon (papelzinho20-20) + clique por beacon; /r desligado por flag · LST → SEC + DSN · 3 pts · 22/11 — ✅ SEC+DSN+ORQ; mergeado #77 (`ea0993f`); Mercado Livre removido pelo PO
 - REL-01 · Teste com grupos reais do PO · ORQ → QA · 2 pts · 18/11 — ✅ PO testou o fluxo completo em produção (criar → entrar → lista → sortear → Revelar): "tá ok"
 - SRT-04 · `get-my-result` + cartão "Revelar" · SRT → SEC + DSN + QA · 3 pts · 23/11 — ✅ SEC+DSN+ORQ; mergeados #66 e #67 (`a0a6995`), E2E hu04/hu05/result-isolation ativos
 - MON-02 · Slots AdSense lazy + chave `ADS_ENABLED` · MON → SEC + DSN · 2 pts · 24/11 — ✅ SEC+DSN+ORQ; mergeado #62 (`8032481`); anúncios DESLIGADOS até aprovação do Google; links de saída da área monetizada são âncoras nativas
