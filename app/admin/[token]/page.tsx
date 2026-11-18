@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { getAdminViewUseCase } from "../../_lib/admin-usecase";
-import { APP_NAME } from "../../_lib/brand";
+import { copy } from "../../_lib/copy";
 import { AdminPanel } from "../../_components/AdminPanel";
 import { Card } from "../../_components/Card";
 import { buttonClass } from "../../_components/Button";
 
 export const metadata: Metadata = {
-  title: `Painel do organizador — ${APP_NAME}`,
+  title: copy.ADM_17,
   robots: { index: false, follow: false, nocache: true },
   referrer: "no-referrer",
 };
@@ -20,14 +20,12 @@ async function AdminContent({ params }: { params: Promise<{ token: string }> }) 
   if (!result.ok) {
     return (
       <main id="conteudo" tabIndex={-1} className="page-shell">
-        <Card tone="warning" title="Link não disponível" heading="h1">
-          <p className="text-base text-text">Este link é inválido ou não está mais disponível.</p>
-          <p className="mt-2 text-sm text-text-muted">
-            Verifique se você copiou o endereço completo ou crie um novo grupo.
-          </p>
+        <Card tone="warning" title={copy.ADM_16.title} heading="h1">
+          <p className="text-base text-text">{copy.ADM_16.text}</p>
+          <p className="mt-2 text-sm text-text-muted">{copy.ADM_16.help}</p>
           <div className="mt-4">
             <Link className={buttonClass("primary")} href="/">
-              Criar um novo grupo
+              {copy.ADM_16.action}
             </Link>
           </div>
         </Card>
@@ -49,7 +47,7 @@ export default function AdminPage({ params }: { params: Promise<{ token: string 
         <main id="conteudo" tabIndex={-1} className="page-shell page-shell--wide" aria-busy="true">
           <Card>
             <p role="status" className="text-text-muted">
-              Carregando painel…
+              {copy.GLB_07}
             </p>
           </Card>
         </main>

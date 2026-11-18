@@ -27,7 +27,7 @@ describe("AdminPanel UI (GRP-05)", () => {
   it("renders empty state with group details and disabled draw button", () => {
     render(<AdminPanel initialData={sampleData} adminToken="adm-123" />);
     expect(screen.getByText("Natal da Família")).toBeTruthy();
-    expect(screen.getByText("Aberto para inscrições")).toBeTruthy();
+    expect(screen.getByText("Entradas abertas")).toBeTruthy();
     expect(screen.getByText("Em breve")).toBeTruthy();
     expect(screen.getByText("25/12/2026")).toBeTruthy();
     expect(screen.getByText("Valor máximo")).toBeTruthy();
@@ -37,9 +37,9 @@ describe("AdminPanel UI (GRP-05)", () => {
         "Quando todos tiverem entrado, faça o sorteio. Cada pessoa vê só quem tirou."
       )
     ).toBeTruthy();
-    expect(screen.getByText(/Nenhum participante entrou ainda/)).toBeTruthy();
+    expect(screen.getByText(/Ninguém entrou ainda/)).toBeTruthy();
     expect(
-      (screen.getByRole("button", { name: "Realizar Sorteio" }) as HTMLButtonElement).disabled
+      (screen.getByRole("button", { name: "Fazer o sorteio" }) as HTMLButtonElement).disabled
     ).toBe(true);
   });
 
@@ -57,7 +57,7 @@ describe("AdminPanel UI (GRP-05)", () => {
     expect(screen.getByText("Participantes (3 de 100)")).toBeTruthy();
     expect(screen.getByText("Ana")).toBeTruthy();
     expect(
-      (screen.getByRole("button", { name: "Realizar Sorteio" }) as HTMLButtonElement).disabled
+      (screen.getByRole("button", { name: "Fazer o sorteio" }) as HTMLButtonElement).disabled
     ).toBe(true);
   });
 
@@ -69,9 +69,9 @@ describe("AdminPanel UI (GRP-05)", () => {
     };
     render(<AdminPanel initialData={dataWithParticipant} adminToken="adm-123" />);
     fireEvent.click(screen.getByRole("button", { name: "Remover Ana" }));
-    expect(screen.getByText(/Tem certeza que deseja remover Ana\?/)).toBeTruthy();
+    expect(screen.getByText(/Remover Ana\?/)).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "Cancelar" }));
-    expect(screen.queryByText(/Tem certeza que deseja remover Ana\?/)).toBeNull();
+    expect(screen.queryByText(/Remover Ana\?/)).toBeNull();
   });
 
   it("removes participant on confirmation and updates participant count", async () => {
@@ -86,7 +86,7 @@ describe("AdminPanel UI (GRP-05)", () => {
     );
     fireEvent.click(screen.getByRole("button", { name: "Remover Ana" }));
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Confirmar remoção" }));
+      fireEvent.click(screen.getByRole("button", { name: "Sim, remover" }));
     });
     expect(actionMock).toHaveBeenCalledWith("adm-123", "p-1");
     expect(screen.queryByText("Ana")).toBeNull();
@@ -101,10 +101,10 @@ describe("AdminPanel UI (GRP-05)", () => {
       participants: [{ id: "p-1", displayName: "Ana", joinedAt: "2026-11-17T10:00:00Z" }],
     };
     render(<AdminPanel initialData={drawnData} adminToken="adm-123" />);
-    expect(screen.getByText(/Sorteio Realizado em/)).toBeTruthy();
+    expect(screen.getByText(/Sorteio feito em/)).toBeTruthy();
     expect(screen.queryByRole("button", { name: /Remover/ })).toBeNull();
-    expect(screen.queryByRole("button", { name: "Realizar Sorteio" })).toBeNull();
-    expect(screen.getByText(/Sorteio realizado!/)).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Fazer o sorteio" })).toBeNull();
+    expect(screen.getByText(/Sorteio feito!/)).toBeTruthy();
   });
 
   it("resolves demo admin token and refuses unknown tokens with INVALID_LINK (ADR-002, RNF03)", async () => {

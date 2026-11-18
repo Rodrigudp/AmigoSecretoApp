@@ -1,3 +1,4 @@
+import { copy } from "../_lib/copy";
 import type { ReactNode } from "react";
 import { Card } from "@/app/_components/Card";
 import { Button } from "@/app/_components/Button";
@@ -30,17 +31,15 @@ export function ParticipantArea({
         maxValueCents={view.group.maxValueCents}
         location={view.group.location}
       />
-      <Card title="Lista de desejos">
-        <p className="text-base">Em breve você poderá montar aqui a sua lista de desejos.</p>
+      <Card title={copy.ARE_04.title}>
+        <p className="text-base">{copy.ARE_04.text}</p>
         <Button disabled className="mt-3">
-          Adicionar presente — em breve
+          {copy.ARE_04.action}
         </Button>
       </Card>
       {view.group.status === "drawn" ? (
-        <Card title="Meu amigo secreto">
-          <p className="text-base">
-            Em breve o resultado aparecerá aqui, escondido até você tocar em revelar.
-          </p>
+        <Card title={copy.ARE_05.title}>
+          <p className="text-base">{copy.ARE_05.text}</p>
         </Card>
       ) : null}
       {children}

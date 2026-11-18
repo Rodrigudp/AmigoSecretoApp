@@ -1,5 +1,14 @@
 /** Textos aprovados em docs/features/textos.md; as chaves preservam os IDs do catálogo. */
 export const copy = {
+  EXTRA: {
+    stepsLabel: "Como funciona",
+    upcoming: "Em breve",
+    invalidHint: "Peça um novo link ao organizador.",
+    personalRequired: "Link pessoal necessário",
+    createErrorTitle: "Não foi possível criar o grupo",
+    joinErrorTitle: "Não foi possível entrar",
+    currencyPrefix: "até R$",
+  },
   GLB_01: "Pular para o conteúdo",
   GLB_02: "Papelzinho",
   GLB_03: "Organize seu amigo secreto em 2 minutos, sem cadastro e sem senha.",
