@@ -55,6 +55,7 @@ Legenda da coluna **Final**: ✓ mantém o texto de hoje · ✎ muda (vira cart�
 | HOM-14 | Erro local | O local da troca deve ter no máximo 120 caracteres. | ✎ Use até 120 letras no local. |
 | HOM-15 | Erro duplicado | Os dados enviados conflitam com uma criação anterior. Recarregue a página para criar um novo grupo. | ✎ Este grupo já foi criado antes. Recarregue a página para criar outro. |
 | HOM-16 | Erro geral | Não foi possível criar o grupo agora. Confira os dados e tente de novo. | ✓ |
+| HOM-17 | Link para Como funciona | (não existe) | **novo**: "Veja como funciona" |
 
 ## 4. Grupo criado
 
@@ -239,3 +240,24 @@ Operação repetida (duas abas, duplo clique): mostra DRW-06 sem aviso de erro.
 - WSH-21 (Mercado Livre): revisão do 24 Monetização; sem afiliado ativo do ML no lançamento, o texto não aparece.
 - Título/descrição de "Como funciona" e FAQ: com o 25 Marketing (MKT-02/03).
 - Rodapé "Privacidade · Termos" (GLB-10): FE-DSN-4, com as páginas do MON-01.
+
+## 14. Como funciona (`/como-funciona`) — MKT-03
+
+Proposto pelo 25 Marketing em 18/11/2026; sujeito à aprovação do 16. Página pública, indexável, linkada da home (HOM-17).
+
+| ID | Onde | Hoje | Final |
+| --- | --- | --- | --- |
+| CF-01 | Título (h1) | (não existe) | **novo**: "Como funciona o amigo secreto" |
+| CF-02 | Intro | (não existe) | **novo**: "Crie o grupo, envie o convite e faça o sorteio. Cada pessoa entra só com o nome." |
+| CF-03 | Passos | (não existe) | **novo**: 1. "O organizador cria o grupo e guarda o link de organizador." 2. "Compartilha apenas o convite." 3. "Cada pessoa entra com o nome e guarda o link pessoal." 4. "Com pelo menos três pessoas, o organizador faz o sorteio. Cada pessoa abre o próprio resultado." |
+| CF-04 | Aviso (título) | (não existe) | **novo**: "Atenção: links privados" |
+| CF-05 | Aviso (texto) | (não existe) | **novo**: "Não compartilhe esses links. O link de organizador permite alterar o grupo; o link pessoal dá acesso à sua área e ao seu resultado." |
+| CF-06 | Título FAQ | (não existe) | **novo**: "Perguntas frequentes" |
+| CF-07 | FAQ cadastro | (não existe) | **novo**: "Preciso de cadastro?" — "Não. Basta entrar pelo convite com o seu nome." |
+| CF-08 | FAQ pessoas | (não existe) | **novo**: "Quantas pessoas podem participar?" — "O grupo aceita até 100 pessoas. Para fazer o sorteio, precisa de pelo menos três." |
+| CF-09 | FAQ pares | (não existe) | **novo**: "O organizador vê os pares?" — "Não. O painel não mostra os pares." |
+| CF-10 | FAQ entrar depois | (não existe) | **novo**: "Posso entrar depois do sorteio?" — "Não. O grupo fecha para novas entradas." |
+| CF-11 | FAQ voltar | (não existe) | **novo**: "Como volto para a minha área?" — "Guarde o link pessoal." |
+| CF-12 | Botão | (não existe) | **novo**: "Criar grupo" |
+| CF-13 | Título da aba | (não existe) | **novo**: "Como funciona o amigo secreto — Papelzinho" |
+| CF-14 | Descrição da página (meta) | (não existe) | **novo**: "Veja como criar seu grupo, enviar o convite e participar do sorteio de amigo secreto pelo Papelzinho." |

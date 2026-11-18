@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState } from "react";
 import { copy } from "../_lib/copy";
 import type { FormEvent } from "react";
@@ -104,6 +105,12 @@ export function CreateGroupForm({ action }: Props) {
             </li>
           ))}
         </ol>
+        <Link
+          href="/como-funciona"
+          className="text-sm font-medium text-primary-soft-text underline decoration-2 underline-offset-4 hover:text-primary-hover"
+        >
+          Veja como funciona
+        </Link>
       </div>
       <form
         ref={formRef}
