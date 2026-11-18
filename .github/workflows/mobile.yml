@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths: ["mobile/**", ".github/workflows/mobile.yml"]
   pull_request:
-    branches: [main]
+    branches: [main, "feat/APP-FE-02-*"]
     paths: ["mobile/**", ".github/workflows/mobile.yml"]
 
 permissions:
