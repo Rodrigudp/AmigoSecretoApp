@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
   AmazonAffiliateAdapter,
-  MercadoLivreAffiliateAdapter,
   CompositeAffiliateLinkService,
 } from "../../src/infrastructure/affiliates/affiliate-adapters";
 
@@ -46,15 +45,9 @@ describe("AmazonAffiliateAdapter", () => {
     expect(adapter.supports("https://www.amazon.com/dp/B08N5WRWNW")).toBe(false);
     expect(adapter.supports("https://amzn.to/3xyz")).toBe(false);
   });
-});
 
-describe("MercadoLivreAffiliateAdapter", () => {
-  const adapter = new MercadoLivreAffiliateAdapter();
-
-  it("reconhece URLs do Mercado Livre mas devolve null em modo passthrough (PEN-04)", () => {
-    const url = "https://produto.mercadolivre.com.br/MLB-123456-produto";
-    expect(adapter.supports(url)).toBe(true);
-    expect(adapter.convert()).toBeNull();
+  it("rejeita protocolo http inseguro", () => {
+    expect(adapter.supports("http://www.amazon.com.br/dp/B08N5WRWNW")).toBe(false);
   });
 });
 
@@ -66,6 +59,11 @@ describe("CompositeAffiliateLinkService", () => {
     expect(res).not.toBeNull();
     expect(res?.store).toBe("amazon");
     expect(res?.affiliateUrl).toContain("tag=papelzinho20-20");
+  });
+
+  it("trata link do Mercado Livre como link comum (retorna null, sem comissão)", async () => {
+    const res = await service.convert("https://produto.mercadolivre.com.br/MLB-123456-produto");
+    expect(res).toBeNull();
   });
 
   it("devolve null para link comum de outra loja", async () => {

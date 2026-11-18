@@ -12,23 +12,21 @@ export type RecordAffiliateClickOutput = {
 };
 
 export type RecordAffiliateClickDeps = {
-  wishItems: Pick<WishItemRepository, "getVisibleLink">;
+  wishItems: Pick<WishItemRepository, "getLinkForRedirect">;
   events: Pick<EventRepository, "append">;
 };
 
 /**
  * Caso de uso: Registra clique em link de afiliado.
  * RF10 / LST-03:
- * - Valida se o item existe e possui link seguro de afiliado.
+ * - Valida se o item existe em grupo ativo e possui link seguro de afiliado.
  * - Grava evento 'affiliate_click' com apenas { groupId, type: 'affiliate_click' } (RNF05, sem dados pessoais).
  */
 export async function recordAffiliateClick(
   input: RecordAffiliateClickInput,
-  deps: RecordAffiliateClickDeps,
-  access?: Parameters<WishItemRepository["getVisibleLink"]>[0]
+  deps: RecordAffiliateClickDeps
 ): Promise<Result<RecordAffiliateClickOutput, DomainError>> {
-  const scope = access ?? { participantId: "", accessTokenHash: "" };
-  const itemRes = await deps.wishItems.getVisibleLink(scope, input.itemId);
+  const itemRes = await deps.wishItems.getLinkForRedirect(input.itemId);
   if (!itemRes.ok) {
     return err(itemRes.error);
   }

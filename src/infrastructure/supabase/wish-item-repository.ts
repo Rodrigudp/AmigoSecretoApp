@@ -173,6 +173,60 @@ export function createWishItemRepository(client: ServerSupabaseClient): WishItem
         affiliateUrl: own.affiliate_url,
       });
     },
+
+    async getLinkForRedirect(itemId: WishItemId) {
+      const { data: item, error } = await client
+        .from("wish_items")
+        .select(
+          `
+          id,
+          url,
+          affiliate_url,
+          participant:participants!inner(
+            id,
+            removed_at,
+            group:groups!inner(
+              id,
+              expires_at
+            )
+          )
+        `
+        )
+        .eq("id", itemId)
+        .maybeSingle();
+
+      if (error) {
+        logInfraError("wish.getLinkForRedirect", error);
+        return err({ code: "INVALID_LINK" });
+      }
+
+      if (!item) return err({ code: "WISH_ITEM_NOT_FOUND" });
+
+      const participant = item.participant as unknown as {
+        id: string;
+        removed_at: string | null;
+        group: { id: string; expires_at: string };
+      } | null;
+
+      if (!participant || participant.removed_at !== null) {
+        return err({ code: "WISH_ITEM_NOT_FOUND" });
+      }
+
+      const group = participant.group;
+      if (!group || new Date(group.expires_at).getTime() <= Date.now()) {
+        return err({ code: "WISH_ITEM_NOT_FOUND" });
+      }
+
+      if (!item.url && !item.affiliate_url) {
+        return err({ code: "PRODUCT_LINK_UNAVAILABLE" });
+      }
+
+      return ok({
+        groupId: group.id,
+        url: item.url ?? item.affiliate_url!,
+        affiliateUrl: item.affiliate_url,
+      });
+    },
   };
 }
 

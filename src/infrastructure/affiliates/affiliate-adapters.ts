@@ -35,6 +35,9 @@ export class AmazonAffiliateAdapter {
   supports(rawUrl: string): boolean {
     try {
       const parsed = new URL(rawUrl);
+      if (parsed.protocol !== "https:") {
+        return false;
+      }
       const host = parsed.hostname.toLowerCase().replace(/^www\./, "");
       if (host !== "amazon.com.br") {
         return false;
@@ -70,50 +73,21 @@ export class AmazonAffiliateAdapter {
 }
 
 /**
- * Adapter para Mercado Livre.
- * Enquanto o cadastro do domínio não for aprovado (PEN-04 / D1),
- * opera em modo passthrough sem comissão (devolve null para manter o link original).
- */
-export class MercadoLivreAffiliateAdapter {
-  readonly store: AffiliateStore = "mercadolivre";
-
-  supports(rawUrl: string): boolean {
-    try {
-      const parsed = new URL(rawUrl);
-      const host = parsed.hostname.toLowerCase().replace(/^www\./, "");
-      return host === "mercadolivre.com.br" || host === "produto.mercadolivre.com.br";
-    } catch {
-      return false;
-    }
-  }
-
-  convert(): { affiliateUrl: string; store: AffiliateStore } | null {
-    return null;
-  }
-}
-
-/**
- * Serviço que orquestra a cadeia de adapters de afiliado (Strategy pattern).
+ * Serviço que orquestra os adapters de afiliado (Amazon).
+ * O Mercado Livre foi removido pelo PO em 18/11 (D1) e opera como link comum.
  */
 export class CompositeAffiliateLinkService implements AffiliateLinkService {
   private readonly amazon: AmazonAffiliateAdapter;
-  private readonly ml: MercadoLivreAffiliateAdapter;
 
   constructor(options?: { amazonTag?: string }) {
     this.amazon = new AmazonAffiliateAdapter(
       options?.amazonTag ? { associateTag: options.amazonTag } : undefined
     );
-    this.ml = new MercadoLivreAffiliateAdapter();
   }
 
   async convert(url: string): Promise<{ affiliateUrl: string; store: AffiliateStore } | null> {
     if (this.amazon.supports(url)) {
       const converted = this.amazon.convert(url);
-      if (converted) return converted;
-    }
-
-    if (this.ml.supports(url)) {
-      const converted = this.ml.convert();
       if (converted) return converted;
     }
 

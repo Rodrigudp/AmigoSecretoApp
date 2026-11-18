@@ -5,6 +5,10 @@ import {
   buildWishItemRepository,
   buildEventAppendService,
 } from "@/src/infrastructure/supabase/deps";
+import {
+  extractClientIp,
+  getSharedRateLimiter,
+} from "@/src/infrastructure/rate-limit";
 
 const UUID_REGEX =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -15,37 +19,46 @@ function isRedirectEnabled(): boolean {
   return process.env.AFFILIATE_REDIRECT_ENABLED === "true";
 }
 
-function isDuplicateClick(itemId: string): boolean {
+function isDuplicateClick(key: string): boolean {
   const now = Date.now();
-  const last = recentClicks.get(itemId);
+  const last = recentClicks.get(key);
   if (last && now - last < 60_000) {
     return true;
   }
-  recentClicks.set(itemId, now);
+  return false;
+}
+
+function registerClick(key: string): void {
+  const now = Date.now();
+  recentClicks.set(key, now);
 
   if (recentClicks.size > 1000) {
-    for (const [key, timestamp] of recentClicks.entries()) {
+    for (const [k, timestamp] of recentClicks.entries()) {
       if (now - timestamp >= 60_000) {
-        recentClicks.delete(key);
+        recentClicks.delete(k);
       }
     }
   }
-
-  return false;
 }
 
 async function tryRecordClick(itemId: string, isAffiliate: boolean, request: NextRequest) {
   const purpose = request.headers.get("sec-purpose") || request.headers.get("purpose");
   const isPrefetch = purpose?.includes("prefetch");
 
-  if (!isAffiliate || isPrefetch || isDuplicateClick(itemId)) {
+  const clientIp = extractClientIp(request.headers);
+  const dedupeKey = `${clientIp}:${itemId}`;
+
+  if (!isAffiliate || isPrefetch || isDuplicateClick(dedupeKey)) {
     return;
   }
 
   try {
     const wishItems = buildWishItemRepository();
     const events = buildEventAppendService();
-    await recordAffiliateClick({ itemId }, { wishItems, events });
+    const recorded = await recordAffiliateClick({ itemId }, { wishItems, events });
+    if (recorded.ok && recorded.value.recorded) {
+      registerClick(dedupeKey);
+    }
   } catch {
     // Falha de métrica não interrompe redirecionamento
   }
@@ -64,6 +77,12 @@ export async function GET(
 
   if (!itemId || !UUID_REGEX.test(itemId)) {
     return new NextResponse("Item não encontrado", { status: 404 });
+  }
+
+  const clientIp = extractClientIp(request.headers);
+  const rateLimitRes = getSharedRateLimiter().check("affiliate_redirect", clientIp);
+  if (!rateLimitRes.ok) {
+    return new NextResponse("Muitas requisições", { status: 429 });
   }
 
   try {

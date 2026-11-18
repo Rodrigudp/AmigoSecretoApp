@@ -126,4 +126,76 @@ describe("wish_items adapter (LST-02)", () => {
     expect(failures[0]).toEqual({ ok: false, error: { code: "WISH_LIST_FULL" } });
     expect(await countWishItemsForParticipant(harness.db, participantId)).toBe(20);
   });
+
+  it("records affiliate click and resolves redirect link without participant credentials (LST-03)", async () => {
+    expect(harness.available).toBe(true);
+    const { createWishItemRepository } = await import(
+      "../../src/infrastructure/supabase/wish-item-repository"
+    );
+    const { recordAffiliateClick } = await import(
+      "../../src/application/record-affiliate-click"
+    );
+    const { resolveProductLink } = await import(
+      "../../src/application/resolve-product-link"
+    );
+
+    const { access, groupId } = await seedParticipant(
+      "7f2e92a0-67a6-4253-bc19-4d5b6fcd20a2",
+      "Lista BE LST-03 Affiliate Click"
+    );
+    const wishes = createWishItemRepository(harness.db);
+
+    const added = await wishes.addOwn(access, {
+      title: "Kindle",
+      url: "https://www.amazon.com.br/dp/B08N5WRWNW",
+      note: "16GB",
+      affiliateUrl: "https://www.amazon.com.br/dp/B08N5WRWNW?tag=papelzinho20-20",
+      store: "amazon",
+    });
+    expect(added.ok).toBe(true);
+    if (!added.ok) return;
+
+    // Test resolveProductLink with service-role (without access tokens)
+    const resolved = await resolveProductLink(
+      { itemId: added.value.id },
+      { wishItems: wishes }
+    );
+    expect(resolved.ok).toBe(true);
+    if (resolved.ok) {
+      expect(resolved.value.groupId).toBe(groupId);
+      expect(resolved.value.destinationUrl).toBe(
+        "https://www.amazon.com.br/dp/B08N5WRWNW?tag=papelzinho20-20"
+      );
+      expect(resolved.value.isAffiliate).toBe(true);
+    }
+
+    // Test recordAffiliateClick and verify event written to DB
+    const eventAppender = {
+      async append(event: { groupId: string; type: import("../../src/application/ports").EventType }) {
+        await harness.db.from("events").insert({ group_id: event.groupId, type: event.type });
+      },
+    };
+
+    const clickRes = await recordAffiliateClick(
+      { itemId: added.value.id },
+      { wishItems: wishes, events: eventAppender }
+    );
+    expect(clickRes.ok).toBe(true);
+    if (clickRes.ok) {
+      expect(clickRes.value.recorded).toBe(true);
+    }
+
+    const { data: dbEvents, error: eventErr } = await harness.db
+      .from("events")
+      .select("group_id, type")
+      .eq("group_id", groupId)
+      .eq("type", "affiliate_click");
+
+    expect(eventErr).toBeNull();
+    expect(dbEvents).toHaveLength(1);
+    expect(dbEvents![0]).toEqual({
+      group_id: groupId,
+      type: "affiliate_click",
+    });
+  });
 });

@@ -13,7 +13,7 @@ export type ResolveProductLinkOutput = {
 };
 
 export type ResolveProductLinkDeps = {
-  wishItems: Pick<WishItemRepository, "getVisibleLink">;
+  wishItems: Pick<WishItemRepository, "getLinkForRedirect">;
 };
 
 const ALLOWED_AFFILIATE_HOSTS = [
@@ -46,12 +46,9 @@ export function isAllowedRedirectUrl(targetUrl: string): boolean {
  */
 export async function resolveProductLink(
   input: ResolveProductLinkInput,
-  deps: ResolveProductLinkDeps,
-  access?: Parameters<WishItemRepository["getVisibleLink"]>[0]
+  deps: ResolveProductLinkDeps
 ): Promise<Result<ResolveProductLinkOutput, DomainError>> {
-  // Se o accessScope não foi passado diretamente, usa um scope de consulta ou delega ao repositório
-  const scope = access ?? { participantId: "", accessTokenHash: "" };
-  const res = await deps.wishItems.getVisibleLink(scope, input.itemId);
+  const res = await deps.wishItems.getLinkForRedirect(input.itemId);
   if (!res.ok) {
     return err(res.error);
   }

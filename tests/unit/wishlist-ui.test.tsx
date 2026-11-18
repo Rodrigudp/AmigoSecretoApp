@@ -255,4 +255,27 @@ describe("WishItem Component", () => {
     );
     expect(storeLink.getAttribute("href")).not.toContain("/r/");
   });
+
+  it("exibe link do Mercado Livre como link comum sem tag e sem aviso (decisão PO 18/11)", () => {
+    const mlItem: WishItemType = {
+      id: "ml-item-1",
+      title: "Cafeteira Italiana",
+      url: "https://produto.mercadolivre.com.br/MLB-123456-produto",
+      note: "6 xícaras",
+      productLink: {
+        href: "https://produto.mercadolivre.com.br/MLB-123456-produto",
+        affiliate: false,
+        store: null,
+      },
+    };
+
+    render(<WishList mode="owner" initialItems={[mlItem]} />);
+
+    const storeLink = screen.getByRole("link", { name: "Ver na loja" });
+    expect(storeLink.getAttribute("href")).toBe(
+      "https://produto.mercadolivre.com.br/MLB-123456-produto"
+    );
+    expect(screen.queryByText(/Programa de Afiliados e Criadores do Mercado Livre/)).toBeNull();
+    expect(screen.queryByText(/Link de afiliado/)).toBeNull();
+  });
 });

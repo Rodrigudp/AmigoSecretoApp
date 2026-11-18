@@ -24,7 +24,7 @@ export type RevealedResult = {
 
 export type DrawState = { status: "open" } | DrawReceipt;
 export type WishFields = { title: string; url: string | null; note: string | null };
-export type AffiliateStore = "amazon" | "mercadolivre";
+export type AffiliateStore = "amazon";
 export type ProductLink =
   | { href: string; affiliate: false; store: null }
   | { href: string; affiliate: true; store: AffiliateStore };
@@ -109,6 +109,13 @@ export interface WishItemRepository {
   deleteOwn(access: AccessScope, itemId: WishItemId): RepositoryResult<{ id: WishItemId }>;
   getVisibleLink(
     access: AccessScope,
+    itemId: WishItemId
+  ): RepositoryResult<{
+    groupId: GroupId;
+    url: string;
+    affiliateUrl: string | null;
+  }>;
+  getLinkForRedirect(
     itemId: WishItemId
   ): RepositoryResult<{
     groupId: GroupId;

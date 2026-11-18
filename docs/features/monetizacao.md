@@ -40,7 +40,7 @@ Observações:
 - Eventos são gravados no servidor, nunca pelo navegador direto.
 - Eventos de anúncio (impressão, clique) ficam com o painel do AdSense; não duplicamos.
 - `affiliate_click` leva só `group_id`, `type` e `created_at` (decisão do Orquestrador, ARQUITETURA §4). Sem `store`:
-  o painel do MON-03 mostra o total de cliques. A divisão por loja fica para depois, quando o Mercado Livre entrar na receita.
+  o painel do MON-03 mostra o total de cliques. Apenas a Amazon gera comissão (decisão do PO em 18/11; Mercado Livre removido do programa de afiliados do Papelzinho).
 - **Denominador de convites** (meta "convidados que entram", 70%): a fonte de convites ainda não está definida (CONTRATOS.md, seção final).
   Até lá, esse percentual fica indisponível no painel.
 

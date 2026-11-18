@@ -202,7 +202,7 @@ Vale para o dono da lista e, sem botões, para quem tirou a pessoa. Regras de ne
 | WSH-18 | Avisos ao salvar (o presente é salvo; botão "Entendi") | Encurtado: Presente salvo, sem link de afiliado: links encurtados não são convertidos. · Não é produto (busca, página inicial, categoria): Presente salvo, sem link de afiliado: este link não é de um produto. · Falha da loja: Presente salvo. Não foi possível gerar o link de afiliado desta loja. |
 | WSH-19 | Selo da loja | Link de afiliado · {domínio} (ex.: amazon.com.br) · link comum: só {domínio} |
 | WSH-20 | Divulgação literal da Amazon. Na lista, só se houver item com link de afiliado da Amazon. Em /sobre, na seção “Como o site se mantém”. | Como participante do Programa de Associados da Amazon, sou remunerado pelas compras qualificadas efetuadas |
-| WSH-21 | Divulgação, Mercado Livre (proposta; revisão do 24 Monetização; só se houver item ML afiliado) | O Papelzinho participa do Programa de Afiliados e Criadores do Mercado Livre e pode receber comissão por compras feitas pelos links. |
+| WSH-21 | (Removido pelo PO em 18/11: Mercado Livre retirado do programa de afiliados do Papelzinho) | — |
 | WSH-22 | Erros de rede e servidor | Sem conexão: GLB-08 · Carregar: Não foi possível carregar a sua lista. Tente de novo. · Salvar: Não foi possível salvar agora. Tente de novo. · botão: Tentar de novo |
 | WSH-23 | Outros códigos | WISH_ITEM_NOT_FOUND: Este presente não está mais na lista. Atualize a página. · PRODUCT_LINK_UNAVAILABLE: Este link não está mais disponível. · INVALID_LINK: ARE-06 |
 | WSH-24 | Visão de quem tirou (leitor) | Lista de desejos de {nome} · {n} presentes · vazia: Esta pessoa ainda não adicionou desejos. |
@@ -244,7 +244,7 @@ Operação repetida (duas abas, duplo clique): mostra DRW-06 sem aviso de erro.
 - Os textos "✎" viram o cartão DSN-03; E2E que citam textos acompanham.
 - WSH, REV e DRW entram em `copy.ts` com o cartão que implementar cada tela (LST-04, SRT-04, SRT-03).
 - `sorteio.md` usa "Sortear" e "participantes": o 23 Sorteio alinha as mensagens dele a DRW e REV.
-- WSH-21 (Mercado Livre): revisão do 24 Monetização; sem afiliado ativo do ML no lançamento, o texto não aparece.
+- WSH-21 (Mercado Livre): removido pelo PO em 18/11 (ML retirado do programa de afiliados; opera como link comum).
 - Título/descrição de "Como funciona" e FAQ: com o 25 Marketing (MKT-02/03).
 - Rodapé "Privacidade · Termos" (GLB-10): FE-DSN-4, com as páginas do MON-01.
 

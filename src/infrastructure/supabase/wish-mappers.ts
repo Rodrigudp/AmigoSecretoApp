@@ -1,12 +1,12 @@
-import type { AffiliateStore, ProductLink, WishItem } from "../../application/ports";
+import type { ProductLink, WishItem } from "../../application/ports";
 
 export function toProductLink(row: {
   url: string | null;
   affiliate_url: string | null;
   store: string | null;
 }): ProductLink | null {
-  if (row.affiliate_url && (row.store === "amazon" || row.store === "mercadolivre")) {
-    return { href: row.affiliate_url, affiliate: true, store: row.store as AffiliateStore };
+  if (row.affiliate_url && row.store === "amazon") {
+    return { href: row.affiliate_url, affiliate: true, store: "amazon" };
   }
   if (row.url) return { href: row.url, affiliate: false, store: null };
   return null;

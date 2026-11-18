@@ -22,8 +22,8 @@ describe("isAllowedRedirectUrl", () => {
 
 describe("resolveProductLink", () => {
   it("retorna a URL de destino de um item existente autorizado", async () => {
-    const mockWishRepo: Pick<WishItemRepository, "getVisibleLink"> = {
-      getVisibleLink: vi.fn().mockResolvedValue({
+    const mockWishRepo: Pick<WishItemRepository, "getLinkForRedirect"> = {
+      getLinkForRedirect: vi.fn().mockResolvedValue({
         ok: true,
         value: {
           groupId: "group-123",
@@ -49,8 +49,8 @@ describe("resolveProductLink", () => {
   });
 
   it("retorna erro quando o item não tem link de produto ou URL não é permitida", async () => {
-    const mockWishRepo: Pick<WishItemRepository, "getVisibleLink"> = {
-      getVisibleLink: vi.fn().mockResolvedValue({
+    const mockWishRepo: Pick<WishItemRepository, "getLinkForRedirect"> = {
+      getLinkForRedirect: vi.fn().mockResolvedValue({
         ok: true,
         value: {
           groupId: "group-123",
@@ -75,8 +75,8 @@ describe("resolveProductLink", () => {
 describe("recordAffiliateClick", () => {
   it("grava evento affiliate_click com apenas groupId e type (RNF05, sem dados pessoais)", async () => {
     const appendSpy = vi.fn().mockResolvedValue(undefined);
-    const mockWishRepo: Pick<WishItemRepository, "getVisibleLink"> = {
-      getVisibleLink: vi.fn().mockResolvedValue({
+    const mockWishRepo: Pick<WishItemRepository, "getLinkForRedirect"> = {
+      getLinkForRedirect: vi.fn().mockResolvedValue({
         ok: true,
         value: {
           groupId: "group-123",
@@ -101,8 +101,8 @@ describe("recordAffiliateClick", () => {
 
   it("não grava evento se o link não for de afiliado", async () => {
     const appendSpy = vi.fn().mockResolvedValue(undefined);
-    const mockWishRepo: Pick<WishItemRepository, "getVisibleLink"> = {
-      getVisibleLink: vi.fn().mockResolvedValue({
+    const mockWishRepo: Pick<WishItemRepository, "getLinkForRedirect"> = {
+      getLinkForRedirect: vi.fn().mockResolvedValue({
         ok: true,
         value: {
           groupId: "group-123",

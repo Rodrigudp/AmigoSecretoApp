@@ -3,7 +3,12 @@ import { createHmac, randomBytes } from "node:crypto";
 import type { DomainError } from "../domain/errors";
 import { err, ok, type Result } from "../shared/result";
 
-export type RateLimitAction = "create_group" | "join_group" | "run_draw" | "affiliate_redirect";
+export type RateLimitAction =
+  | "create_group"
+  | "join_group"
+  | "run_draw"
+  | "affiliate_redirect"
+  | "affiliate_click";
 export type RateLimitPolicy = { limit: number; windowMs: number };
 export type RateLimitReceipt = { remaining: number; resetAtMs: number };
 export type RateLimiter = {
@@ -18,6 +23,7 @@ export const DEFAULT_RATE_LIMIT_POLICIES: Record<RateLimitAction, RateLimitPolic
   join_group: { limit: 30, windowMs: 10 * 60_000 },
   run_draw: { limit: 10, windowMs: 10 * 60_000 },
   affiliate_redirect: { limit: 60, windowMs: 60_000 },
+  affiliate_click: { limit: 30, windowMs: 10 * 60_000 },
 };
 
 const DEFAULT_MAX_ENTRIES = 10_000;

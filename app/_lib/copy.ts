@@ -212,8 +212,6 @@ export const copy = {
     common: (domain: string) => domain,
   },
   WSH_20: amazonAssociateDisclosure,
-  WSH_21:
-    "O Papelzinho participa do Programa de Afiliados e Criadores do Mercado Livre e pode receber comissão por compras feitas pelos links.",
   WSH_22: {
     loadError: "Não foi possível carregar a sua lista. Tente de novo.",
     saveError: "Não foi possível salvar agora. Tente de novo.",
