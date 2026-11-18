@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { APP_NAME } from "./_lib/brand";
 import "./globals.css";
@@ -21,17 +22,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </a>
         <header className="border-b border-line">
           <div className="mx-auto flex min-h-16 w-full max-w-6xl items-center px-5 sm:px-8">
-            <Link
-              href="/"
-              className="inline-flex min-h-11 items-center gap-2.5 rounded-md font-bold tracking-tight"
-            >
-              <span
-                aria-hidden="true"
-                className="grid size-8 shrink-0 -rotate-6 place-items-center rounded-lg border border-[#e6bb56] bg-note text-sm font-bold text-text"
-              >
-                P
-              </span>
-              {APP_NAME}
+            <Link href="/" className="inline-flex min-h-11 max-w-full items-center rounded-md">
+              <Image
+                src="/brand/papelzinho-logo.png"
+                alt="Papelzinho"
+                width={1000}
+                height={194}
+                className="h-auto w-44 max-w-full sm:w-52"
+                priority
+              />
             </Link>
           </div>
         </header>
