@@ -10,8 +10,9 @@ A API v1 (`/api/v1/...`) expõe os casos de uso existentes em `src/application/`
 
 1. **Mesmos casos de uso (`src/application/`):** os endpoints reutilizam os casos de uso e ports existentes (`createServerClient()`).
 2. **Credencial exclusivamente em `Authorization: Bearer <token>`:**
-   - `<token>` é `inviteToken`, `accessToken` pessoal ou `adminToken` do organizador, conforme a rota.
-   - **Proibido** trafegar token (`inviteToken`, `accessToken`, `adminToken`, `expoPushToken`) em path de URL, query string ou log. Requisições a `/api/v1/*` com parâmetros de query sensíveis (`token`, `accessToken`, `adminToken`, `inviteToken`, `expoPushToken`, `key`, `secret`, `auth`) ou token na URL são recusadas imediatamente com `400 INVALID_INPUT`.
+   - `/api/v1/invite` e `/api/v1/invite/join` validam o `inviteToken` do Bearer. A rota `/api/v1/participant` e suas subrotas validam apenas `accessToken`. A rota `/api/v1/admin` e suas subrotas validam apenas `adminToken`. Um token de outro papel retorna `401 INVALID_LINK` sem tentativa no repositório do outro papel.
+   - Apenas `/api/v1/my-groups/summary` e `/api/v1/push-tokens` podem resolver o mesmo Bearer como participante ativo ou organizador. A resposta de sucesso informa `role` (`"participant"` ou `"organizer"`).
+   - **Proibido** enviar à API v1 qualquer token (`inviteToken`, `accessToken`, `adminToken`, `expoPushToken`) em path ou query string. Tokens também ficam fora dos logs. Requisições a `/api/v1/*` com parâmetros de query sensíveis (`token`, `accessToken`, `adminToken`, `inviteToken`, `expoPushToken`, `key`, `secret`, `auth`) ou token na URL são recusadas imediatamente com `400 INVALID_INPUT`.
    - O app extrai o token de Universal Links / App Links (`https://papelzinho.app/g/<inviteToken>`, `/p/<accessToken>`, `/admin/<adminToken>`), guarda `accessToken` e `adminToken` no `SecureStore` e chama a API v1 sempre via header `Authorization: Bearer <token>`.
 3. **Sigilo absoluto dos pares (RN03, RNF04):** nenhuma resposta inclui a lista de pares do sorteio. Apenas `POST /api/v1/participant/reveal` devolve o resultado individual (`recipientName` e `wishItems`) do próprio participante autenticado pelo Bearer token.
 4. **Sem monetização nem afiliado no app v1 (decisão APP-MON-01):**
@@ -20,8 +21,8 @@ A API v1 (`/api/v1/...`) expõe os casos de uso existentes em `src/application/`
    - **Não expõe** `affiliateUrl` nem `productLink` com tag de afiliado na API v1, e o app **não envia** eventos `affiliate_click`. Os links abrem no navegador externo do sistema (`expo-web-browser` / `Linking`), nunca em WebView com anúncio.
 5. **CORS fechado:** chamadas nativas não usam CORS de navegador. Nenhum header `Access-Control-Allow-Origin` é emitido; requisições `OPTIONS` recebem `403 Forbidden` (ou `405 Method Not Allowed`), bloqueando consumo cross-origin por sites de terceiros.
 6. **Headers de segurança e cache:** todas as respostas de `/api/v1/*` incluem `Cache-Control: private, no-store, max-age=0, must-revalidate`, `Referrer-Policy: no-referrer`, `X-Robots-Tag: noindex, nofollow` e `X-Content-Type-Options: nosniff`.
-7. **Redação e logs (`src/infrastructure/observability/redact.ts`):** `redact.ts` mascara `Bearer <token>` e `ExponentPushToken[...]` / `ExpoPushToken[...]` em strings, chaves com substring `token`/`auth` (`ALWAYS_REDACTED_SUBSTRINGS`, que já cobre `expoPushToken`) e campos de PII (`displayName`, `recipientName`, `name`, `title`, `url`, `note`). Nenhum handler loga headers brutos, body ou token; erros de infraestrutura passam por `logInfraError` / `sanitizeContext`.
-8. **Rate limit (SEC-03):** usa `getSharedRateLimiter()` e `extractClientIp(request.headers)` (`src/infrastructure/rate-limit.ts`): `create_group` (10 req / 10 min/IP), `join_group` (30 req / 10 min/IP) e `run_draw` (10 req / 10 min/IP).
+7. **Redação e logs (`src/infrastructure/observability/redact.ts`):** `redact.ts` deve mascarar `Bearer <token>` e tokens Expo em strings. Adicionar `Expo(nent)?PushToken\[[^\]]+\]` a `SENSITIVE_TEXT_REPLACEMENTS`. Também deve mascarar chaves com substring `token`/`auth` (`ALWAYS_REDACTED_SUBSTRINGS`, que já cobre `expoPushToken`) e campos de PII (`displayName`, `recipientName`, `name`, `title`, `url`, `note`). Nenhum handler loga headers brutos, body ou token; erros de infraestrutura passam por `logInfraError` / `sanitizeContext`.
+8. **Rate limit (SEC-03):** usa `getSharedRateLimiter()` e `extractClientIp(request.headers)` (`src/infrastructure/rate-limit.ts`). Todas as rotas compartilham `api_v1` (120 req / 10 min por IP). Escritas de desejos e tokens de push compartilham também `api_v1_write` (30 req / 10 min por IP). Os limites se somam às políticas específicas `create_group` (10 req / 10 min por IP), `join_group` (30 req / 10 min por IP) e `run_draw` (10 req / 10 min por IP). Exceder qualquer limite retorna `429 RATE_LIMITED`.
 
 ## 2. Formato padrão de erro
 
@@ -49,6 +50,7 @@ Todas as respostas de erro retornam o envelope JSON único:
 | `NOT_ENOUGH_PARTICIPANTS` | `409` | Tentativa de sortear com menos de 3 participantes ativos (RN01) | `copy.DRW_03` (`"Para sortear, precisa de pelo menos 3 pessoas."`) |
 | `DRAW_NOT_READY` | `409` | Tentativa de revelar resultado antes da realização do sorteio | `copy.ARE_02` (`"O sorteio ainda não foi realizado."`) |
 | `DRAW_MEMBERS_CHANGED` | `409` | `expectedParticipantCount` diverge do total ativo no sorteio | `copy.DRW_08.text` (`"O número de pessoas mudou. Atualize a página e confira antes de sortear."`) |
+| `PUSH_DEVICE_LIMIT` | `409` | Tentativa de registrar um sexto aparelho para a mesma credencial | Texto a validar com Design de Produto |
 | `RATE_LIMITED` | `429` | Limite de requisições por IP excedido (SEC-03) | `copy.GLB_09` (`"Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo."`) |
 | `INTERNAL_ERROR` | `500` | Falha inesperada de infraestrutura | `copy.GLB_08` (`"Sem conexão no momento. Verifique a internet e tente de novo."`) |
 
@@ -56,21 +58,21 @@ Todas as respostas de erro retornam o envelope JSON único:
 
 | Método | Rota | Caso de uso / Operação | Credencial (`Authorization: Bearer`) | Rate limit |
 | --- | --- | --- | --- | --- |
-| `POST` | `/api/v1/groups` | `createGroup` | Nenhuma (público) | `create_group` |
-| `GET` | `/api/v1/my-groups/summary` | Resumo por credencial (Meus grupos) | `Bearer <accessToken \| adminToken>` | — |
-| `GET` | `/api/v1/invite` | `getInviteViewUseCase` | `Bearer <inviteToken>` (+ opcional `X-Resume-Participant-Token`) | — |
-| `POST` | `/api/v1/invite/join` | `joinGroup` | `Bearer <inviteToken>` | `join_group` |
-| `GET` | `/api/v1/participant` | `getParticipantView` | `Bearer <accessToken>` | — |
-| `GET` | `/api/v1/participant/wishes` | `listWishItems` | `Bearer <accessToken>` | — |
-| `POST` | `/api/v1/participant/wishes` | `addWishItem` | `Bearer <accessToken>` | — |
-| `PATCH` | `/api/v1/participant/wishes/[itemId]` | `updateWishItem` | `Bearer <accessToken>` | — |
-| `DELETE` | `/api/v1/participant/wishes/[itemId]` | `removeWishItem` | `Bearer <accessToken>` | — |
-| `POST` | `/api/v1/participant/reveal` | `getMyResult` | `Bearer <accessToken>` | — |
-| `GET` | `/api/v1/admin` | `getAdminView` | `Bearer <adminToken>` | — |
-| `DELETE` | `/api/v1/admin/participants/[participantId]` | `removeParticipant` | `Bearer <adminToken>` | — |
-| `POST` | `/api/v1/admin/draw` | `runDraw` + disparo push "sorteio feito" | `Bearer <adminToken>` | `run_draw` |
-| `POST` | `/api/v1/push-tokens` | Registrar token de push do Expo | `Bearer <accessToken \| adminToken>` | — |
-| `DELETE` | `/api/v1/push-tokens` | Remover token de push do Expo | `Bearer <accessToken \| adminToken>` | — |
+| `POST` | `/api/v1/groups` | `createGroup` | Nenhuma (público) | `api_v1` + `create_group` |
+| `GET` | `/api/v1/my-groups/summary` | Resumo por credencial (Meus grupos) | `Bearer <accessToken \| adminToken>` | `api_v1` |
+| `GET` | `/api/v1/invite` | `getInviteViewUseCase` | `Bearer <inviteToken>` (+ opcional `X-Resume-Participant-Token`) | `api_v1` |
+| `POST` | `/api/v1/invite/join` | `joinGroup` | `Bearer <inviteToken>` | `api_v1` + `join_group` |
+| `GET` | `/api/v1/participant` | `getParticipantView` | `Bearer <accessToken>` | `api_v1` |
+| `GET` | `/api/v1/participant/wishes` | `listWishItems` | `Bearer <accessToken>` | `api_v1` |
+| `POST` | `/api/v1/participant/wishes` | `addWishItem` | `Bearer <accessToken>` | `api_v1` + `api_v1_write` |
+| `PATCH` | `/api/v1/participant/wishes/[itemId]` | `updateWishItem` | `Bearer <accessToken>` | `api_v1` + `api_v1_write` |
+| `DELETE` | `/api/v1/participant/wishes/[itemId]` | `removeWishItem` | `Bearer <accessToken>` | `api_v1` + `api_v1_write` |
+| `POST` | `/api/v1/participant/reveal` | `getMyResult` | `Bearer <accessToken>` | `api_v1` |
+| `GET` | `/api/v1/admin` | `getAdminView` | `Bearer <adminToken>` | `api_v1` |
+| `DELETE` | `/api/v1/admin/participants/[participantId]` | `removeParticipant` | `Bearer <adminToken>` | `api_v1` |
+| `POST` | `/api/v1/admin/draw` | `runDraw` + disparo push "sorteio feito" | `Bearer <adminToken>` | `api_v1` + `run_draw` |
+| `POST` | `/api/v1/push-tokens` | Registrar token de push do Expo | `Bearer <accessToken \| adminToken>` | `api_v1` + `api_v1_write` |
+| `DELETE` | `/api/v1/push-tokens` | Remover token de push do Expo | `Bearer <accessToken \| adminToken>` | `api_v1` + `api_v1_write` |
 
 ## 4. Especificação dos Endpoints
 
@@ -265,12 +267,14 @@ O identificador de push do aparelho (`ExponentPushToken[...]`) é um **dado pess
 - **Sem nome nem PII na tabela de push:** `push_tokens` não armazena `displayName`, telefone, nome do aparelho nem resultado do sorteio.
 - **Retenção e descarte automático:**
   1. **Expurgo de 60 dias (RN08 / OPS-02):** `ON DELETE CASCADE` a partir de `groups(id)` garante que todos os `push_tokens` do grupo são apagados junto com o grupo 60 dias após a data do encontro.
-  2. **Revogação de acesso:** ao remover um participante (`removeParticipant`) ou quando o usuário desativa notificações / remove o grupo no app (`DELETE /api/v1/push-tokens`), os registros correspondentes àquele `credential_hash` são excluídos imediatamente.
-  3. **Token inválido no Expo (`DeviceNotRegistered`):** se a API do Expo retornar `DeviceNotRegistered`, o servidor apaga o `expo_push_token` imediatamente.
+  2. **Revogação de acesso:** ao remover um participante (`removeParticipant`) ou quando o usuário desativa notificações / remove o grupo no app (`DELETE /api/v1/push-tokens`), os registros são excluídos imediatamente. A revogação exclui todos os tokens da credencial. O `DELETE` do app exclui só o token do aparelho informado para aquela credencial.
+  3. **Token inválido no Expo (`DeviceNotRegistered`):** verificar o retorno imediato do envio (ticket) e o recibo consultado depois. Ao detectar esse código, apagar os registros do token inválido e interromper novos envios a ele. [Documentação do Expo Push Service](https://docs.expo.dev/push-notifications/sending-notifications/).
+- **Política de privacidade:** registrar push após o aceite no sistema operacional, para os avisos solicitados pelo titular. Antes de publicar o app com push ativo, atualizar `/privacidade` para informar o uso do identificador Expo, a finalidade dos avisos, o conteúdo genérico e as regras de exclusão acima.
 
 ### 5.2. Endpoints de Push Tokens — `POST` e `DELETE /api/v1/push-tokens`
 
 - **Autenticação:** `Authorization: Bearer <accessToken | adminToken>` (obrigatório; o servidor calcula `credential_hash = sha256(token)` e valida que pertence a um participante ativo ou organizador de um grupo não expirado).
+- **Limite de aparelhos:** até cinco tokens distintos por credencial. Repetir o registro do mesmo token não consome vaga. O banco verifica o limite e grava na mesma operação atômica, inclusive com registros concorrentes.
 - **`POST /api/v1/push-tokens` (Registrar/atualizar token do Expo):**
   - **Request (`application/json`):**
     ```json
@@ -280,8 +284,8 @@ O identificador de push do aparelho (`ExponentPushToken[...]`) é um **dado pess
     }
     ```
     Validações Zod: `expoPushToken` (`^Expo(nent)?PushToken\[[A-Za-z0-9_-]+\]$`, máx. 200 chars), `platform` (`"ios" | "android"`).
-  - **Response `200 OK`:** `{ "registered": true }`
-  - **Erros:** `400 INVALID_INPUT`, `401 INVALID_LINK`.
+  - **Response `200 OK`:** `{ "registered": true, "role": "participant" }`
+  - **Erros:** `400 INVALID_INPUT`, `401 INVALID_LINK`, `409 PUSH_DEVICE_LIMIT`, `429 RATE_LIMITED`.
 - **`DELETE /api/v1/push-tokens` (Remover token do Expo para a credencial):**
   - **Request (`application/json`):**
     ```json
@@ -289,10 +293,12 @@ O identificador de push do aparelho (`ExponentPushToken[...]`) é um **dado pess
       "expoPushToken": "ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]"
     }
     ```
-  - **Response `200 OK`:** `{ "removed": true }`
-  - **Erros:** `400 INVALID_INPUT`, `401 INVALID_LINK`.
+  - **Response `200 OK`:** `{ "removed": true, "role": "participant" }`
+  - **Erros:** `400 INVALID_INPUT`, `401 INVALID_LINK`, `429 RATE_LIMITED`.
 
 ### 5.3. Disparo e conteúdo das notificações no servidor (APP-13 a APP-17)
+
+Ativar a segurança reforçada do Expo Push Service. O servidor autentica os envios ao Expo com `EXPO_ACCESS_TOKEN`, configurado no ambiente da VPS e como secret do GitHub Actions para workflows de servidor autorizados. O valor fica fora do app, do repositório e dos logs. [Autenticação no Expo Push Service](https://docs.expo.dev/push-notifications/sending-notifications/#additional-security).
 
 Nenhuma notificação push inclui nome do grupo, nome de participante, local do encontro, token ou resultado do sorteio (proteção de tela bloqueada, `app-telas.md` §Notificações push). O payload `data` carrega apenas `{ "groupId": "<groupId>", "type": "draw_done" | "exchange_reminder" }` para o app localizar a credencial já salva no `SecureStore` local.
 
@@ -302,7 +308,9 @@ Nenhuma notificação push inclui nome do grupo, nome de participante, local do 
    - **Corpo (`APP-14`):** `"Abra o Papelzinho para ver quem você tirou."`
    - **Data payload:** `{ "groupId": "<groupId>", "type": "draw_done" }`
 2. **Lembrete do encontro (job diário às 10:00 `America/Sao_Paulo`):**
-   - **Gatilho:** job diário no servidor (cron na VPS / route interna autenticada por segredo de servidor) seleciona grupos não expirados cujo `exchange_date` em `America/Sao_Paulo` seja `hoje + 2 dias` (`X = 2`).
+   - **Gatilho:** cron da VPS chama `POST /api/internal/push/exchange-reminders` às 10h em `America/Sao_Paulo`. O handler autentica um segredo exclusivo do cron (`PUSH_CRON_SECRET`) via `Authorization: Bearer <segredo>`, comparando os hashes de tamanho fixo com `timingSafeEqual`. O segredo fica no ambiente do servidor, fora de URL, query e logs.
+   - **Seleção:** grupos não expirados cujo `exchange_date` seja a data local da execução + 2 dias (`X = 2`).
+   - **Prevenção de duplicidade:** antes de enviar, inserir atomicamente uma marca única por `(group_id, reminder_date)`, em que `reminder_date` é a data local de envio. Só quem inserir a marca envia. Execuções concorrentes ou repetidas pulam marcas existentes. A marca expira com o grupo. Uma falha de resultado incerto no Expo pode deixar o aviso sem entrega. O cron mantém a marca para evitar um segundo disparo.
    - **Destinatários:** todos os `push_tokens` ativos do `group_id` (`participant` e `organizer`).
    - **Título (`APP-15`):** `"Encontro de amigo secreto"`
    - **Corpo (`APP-16`, para `X = 2`):** `"Faltam 2 dias para o encontro."` *(se acionado para `X = 1`, usa `APP-17`: `"Seu encontro é amanhã."`).*
