@@ -26,4 +26,8 @@ export class GroupSuccessPage {
   get goToAdmin() {
     return this.page.getByRole("link", { name: /ir para o painel do organizador/i });
   }
+
+  get adminSecrecyWarning() {
+    return this.page.getByText(/não compartilhe no grupo do whatsapp/i);
+  }
 }
