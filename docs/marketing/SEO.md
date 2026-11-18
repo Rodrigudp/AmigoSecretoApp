@@ -27,7 +27,7 @@ Publicáveis após aceite e HTTPS: home `/` e futura `/como-funciona`, ligadas e
 
 | Página | Title proposto | Meta description proposta |
 |---|---|---|
-| Home `/` | Amigo secreto online — Papelzinho | Organize seu amigo secreto sem cadastro e sem senha. Crie o grupo, compartilhe o convite e reúna as pessoas para o sorteio. |
+| Home `/` | Amigo secreto online — Papelzinho | Organize seu amigo secreto em 2 minutos, sem cadastro e sem senha. |
 | `/como-funciona` (proposta) | Como funciona o amigo secreto — Papelzinho | Veja como criar seu grupo, enviar o convite e participar do sorteio de amigo secreto pelo Papelzinho. |
 | Convite `/g/[inviteToken]` | Nome do grupo — Papelzinho | Seguir OG-01 em `docs/features/textos.md`; aplicação do texto final depende de DSN-03. |
 | Participante `/p/[accessToken]` | Área do participante — Papelzinho | Sem descrição proposta. |
@@ -39,7 +39,7 @@ O convite mantém nome do grupo conforme contrato vigente aprovado pela Seguran�
 
 **Como funciona, proposta:** 1. Organizador cria o grupo e guarda o link de organizador. 2. Compartilha apenas o convite. 3. Cada pessoa entra com o nome e guarda seu link pessoal. 4. Com pelo menos três pessoas, o organizador faz o sorteio; cada pessoa abre seu próprio resultado. Não compartilhar links pessoais nem de organizador.
 
-**FAQ visível:** Preciso de cadastro? Não. Quantas pessoas? Pelo menos três e até 100 por grupo. O organizador vê os pares? O painel não mostra os pares. Posso entrar depois do sorteio? Não: o grupo fecha para novas entradas. Como volto? Guarde o link pessoal. Conferir o estado de entrega antes de publicar.
+**FAQ visível:** Preciso de cadastro? Não. Quantas pessoas? O grupo aceita até 100 pessoas. Para fazer o sorteio, precisa de pelo menos três. O organizador vê os pares? O painel não mostra os pares. Posso entrar depois do sorteio? Não: o grupo fecha para novas entradas. Como volto? Guarde o link pessoal. Conferir o estado de entrega antes de publicar.
 
 ## Metadados, compartilhamento e indexação
 
@@ -52,7 +52,7 @@ O convite mantém nome do grupo conforme contrato vigente aprovado pela Seguran�
 
 ## Entrega e verificação — MKT-03
 
-**Implementado em 18/11/2026:** página `/como-funciona` (textos CF-01..CF-13 em `docs/features/textos.md`), metadados da home (GLB-04) e da página, `app/sitemap.ts` e `app/robots.ts`. A origem do canonical, do Open Graph e do sitemap vem de `APP_URL` (`app/_lib/site-url.ts`), sem domínio fixo. As páginas com token seguem `noindex` e fora do sitemap. Schema.org: `WebSite` na home e `WebPage` em `/como-funciona`. Imagem OG da home e da página: `public/images/og-invite-preview.png` (1200×630); uma imagem dedicada à home fica para o 16.
+**Implementado em 18/11/2026:** página `/como-funciona` (textos CF-01..CF-14 em `docs/features/textos.md`), metadados da home (GLB-04) e da página, `app/sitemap.ts` e `app/robots.ts`. A origem do canonical, do Open Graph e do sitemap vem de `APP_URL` (`app/_lib/site-url.ts`), sem domínio fixo. As páginas com token seguem `noindex` e fora do sitemap. Schema.org: `WebSite` na home e `WebPage` em `/como-funciona`. Imagem OG da home e da página: `public/images/og-invite-preview.png` (1200×630); uma imagem dedicada à home fica para o 16.
 
 1. Aprovar domínio e HTTPS, revisar segurança e decidir URL canônica; confirmar que páginas públicas existem e respondem corretamente.
 2. FE implementa página, metadados, schema, sitemap e robots; Designer revisa textos e Segurança revisa rotas com token e headers. Não alterar scripts de terceiros sem segurança.

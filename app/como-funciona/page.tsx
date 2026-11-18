@@ -27,7 +27,7 @@ const FAQ = [
   },
   {
     question: "Quantas pessoas podem participar?",
-    answer: "De 3 a 100 pessoas por grupo.",
+    answer: "O grupo aceita até 100 pessoas. Para fazer o sorteio, precisa de pelo menos três.",
   },
   {
     question: "O organizador vê os pares?",
@@ -79,8 +79,8 @@ export default function ComoFuncionaPage() {
 
       <Card tone="warning" title="Atenção: links privados">
         <p>
-          Não compartilhe o link de organizador nem o link pessoal. Quem tiver esses links pode
-          mudar o grupo.
+          Não compartilhe esses links. O link de organizador permite alterar o grupo; o link pessoal
+          dá acesso à sua área e ao seu resultado.
         </p>
       </Card>
 

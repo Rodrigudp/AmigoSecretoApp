@@ -8,8 +8,7 @@ import { getAppUrl } from "./_lib/site-url";
 
 export const metadata: Metadata = publicPageMetadata({
   title: "Amigo secreto online — Papelzinho",
-  description:
-    "Organize seu amigo secreto sem cadastro e sem senha. Crie o grupo, compartilhe o convite e reúna as pessoas para o sorteio.",
+  description: "Organize seu amigo secreto em 2 minutos, sem cadastro e sem senha.",
   path: "/",
 });
 

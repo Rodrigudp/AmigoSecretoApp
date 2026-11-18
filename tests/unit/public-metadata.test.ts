@@ -12,12 +12,14 @@ describe("public page metadata", () => {
     vi.stubEnv("APP_URL", "https://papelzinho.smartsolutionsbr.com.br");
     const metadata = publicPageMetadata({
       title: "Amigo secreto online — Papelzinho",
-      description: "Organize seu amigo secreto sem cadastro e sem senha.",
+      description: "Organize seu amigo secreto em 2 minutos, sem cadastro e sem senha.",
       path: "/",
     });
 
     expect(metadata.title).toBe("Amigo secreto online — Papelzinho");
-    expect(metadata.description).toBe("Organize seu amigo secreto sem cadastro e sem senha.");
+    expect(metadata.description).toBe(
+      "Organize seu amigo secreto em 2 minutos, sem cadastro e sem senha."
+    );
     expect(metadata.alternates?.canonical).toBe("https://papelzinho.smartsolutionsbr.com.br/");
     expect(metadata.openGraph).toMatchObject({
       type: "website",

@@ -251,12 +251,13 @@ Proposto pelo 25 Marketing em 18/11/2026; sujeito à aprovação do 16. Página 
 | CF-02 | Intro | (não existe) | **novo**: "Crie o grupo, envie o convite e faça o sorteio. Cada pessoa entra só com o nome." |
 | CF-03 | Passos | (não existe) | **novo**: 1. "O organizador cria o grupo e guarda o link de organizador." 2. "Compartilha apenas o convite." 3. "Cada pessoa entra com o nome e guarda o link pessoal." 4. "Com pelo menos três pessoas, o organizador faz o sorteio. Cada pessoa abre o próprio resultado." |
 | CF-04 | Aviso (título) | (não existe) | **novo**: "Atenção: links privados" |
-| CF-05 | Aviso (texto) | (não existe) | **novo**: "Não compartilhe o link de organizador nem o link pessoal. Quem tiver esses links pode mudar o grupo." |
+| CF-05 | Aviso (texto) | (não existe) | **novo**: "Não compartilhe esses links. O link de organizador permite alterar o grupo; o link pessoal dá acesso à sua área e ao seu resultado." |
 | CF-06 | Título FAQ | (não existe) | **novo**: "Perguntas frequentes" |
 | CF-07 | FAQ cadastro | (não existe) | **novo**: "Preciso de cadastro?" — "Não. Basta entrar pelo convite com o seu nome." |
-| CF-08 | FAQ pessoas | (não existe) | **novo**: "Quantas pessoas podem participar?" — "De 3 a 100 pessoas por grupo." |
+| CF-08 | FAQ pessoas | (não existe) | **novo**: "Quantas pessoas podem participar?" — "O grupo aceita até 100 pessoas. Para fazer o sorteio, precisa de pelo menos três." |
 | CF-09 | FAQ pares | (não existe) | **novo**: "O organizador vê os pares?" — "Não. O painel não mostra os pares." |
 | CF-10 | FAQ entrar depois | (não existe) | **novo**: "Posso entrar depois do sorteio?" — "Não. O grupo fecha para novas entradas." |
 | CF-11 | FAQ voltar | (não existe) | **novo**: "Como volto para a minha área?" — "Guarde o link pessoal." |
 | CF-12 | Botão | (não existe) | **novo**: "Criar grupo" |
 | CF-13 | Título da aba | (não existe) | **novo**: "Como funciona o amigo secreto — Papelzinho" |
+| CF-14 | Descrição da página (meta) | (não existe) | **novo**: "Veja como criar seu grupo, enviar o convite e participar do sorteio de amigo secreto pelo Papelzinho." |
