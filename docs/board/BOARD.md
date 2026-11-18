@@ -20,7 +20,11 @@ Atualizado em: 2026-11-18 · Iteração atual: **It-3 · Lista e sorteio (aberta
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar
-_(vazio)_
+- APP-API-01 · Contrato da API v1 para o app (Bearer, sem token em URL) + implementação sobre `src/application` · BE → SEC · 5 pts — responsável: 10 Back-end (ADR-005)
+- APP-FE-01 · Esqueleto Expo em `mobile/` (navegação, tema Estilo Notion, SecureStore, deep links) · FE → DSN · 3 pts — responsável: 11 Front-end
+- APP-DSN-01 · Especificação das telas do app (criar, entrar, área, lista, Revelar, painel) e notificações · DSN → ORQ · 3 pts — responsável: 16 Designer
+- APP-MON-01 · Pesquisa: AdMob e regras do Amazon Associados para uso em app (fontes oficiais) · LST → MON · 1 pt — responsável: 22 Lista
+- APP-OPS-01 · EAS Build/Submit no CI, assetlinks.json e apple-app-site-association no site, checklist das contas das lojas · OPS → SEC · 3 pts — responsável: 14 DevOps
 
 ## ⏳ Aguardando dependência
 _(vazio)_
@@ -216,3 +220,4 @@ _(vazio)_
 - 2026-11-18 · Orquestrador · REL-01 ok pelo PO. PEN-11: webhook do Discord salvo no .env.production da VPS (600) e no secret production do GitHub; alerta de teste entregue (204). Cron do watchdog ausente: pedido ao 14. Mergeados #69 (PEN-01/02) e #70 ("encontro" no lugar de "troca"). QA-05/QA-06 liberados ao 13 · aguardando Rodrigo: caixa suporte@ confirmada, IDs de afiliado (Amazon, ML)
 - 2026-11-18 · Orquestrador · Mercado Livre: conta de afiliado aprovada, mas o gerador de links é só manual (sem API) e os termos proíbem alterar links. Decisão: no lançamento ML fica sem comissão nas listas (passthrough do LST-03); pós-lançamento MKT-05 com links gerados à mão. AdSense: revisão do site pedida (status "Preparando"). Mergeados #71 (MON-01b), #75 (BUG-007), #76 (divulgação Amazon) · aguardando Rodrigo: cadastro do papelzinho.app como mídia no ML, confirmação da caixa suporte@
 - 2026-11-18 · Orquestrador · PO decidiu REMOVER o Mercado Livre do programa de afiliados (sem API, listas privadas não contam como mídia, cadastro de site indisponível). Só Amazon (papelzinho20-20). Remoção de código, textos e docs no #77 (22), com revisão do 15 e do 16. MKT-05 cancelado · nenhum
+- 2026-11-18 · Orquestrador · PO pediu a versão app para App Store e Play Store (objetivo original). ADR-005: Expo em mobile/, API v1 sobre os mesmos casos de uso, Bearer no SecureStore, App/Universal Links, push, AdMob. Site segue para 28/11 sem mudança. Cartões APP-* abertos · aguardando Rodrigo: contas Apple Developer e Google Play Console
