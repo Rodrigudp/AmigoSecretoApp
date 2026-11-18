@@ -423,7 +423,7 @@ export const copy = {
               p: "Cookies de anúncio e de medição de terceiros só são usados após o seu consentimento.",
             },
             {
-              p: "Quando houver anúncios e você aceitar, o Google e terceiros poderão usar cookies para exibi-los, inclusive com base em suas visitas anteriores a este e a outros sites. Para coletar dados, podem usar cookies, endereço IP e web beacons (pequenos recursos que registram o acesso a uma página).",
+              p: "Quando houver anúncios e você aceitar, o Google e fornecedores terceiros certificados pelo Google AdSense poderão usar cookies para exibi-los, inclusive com base em suas visitas anteriores a este e a outros sites. Para coletar dados, podem usar cookies, endereço IP e web beacons (pequenos recursos que registram o acesso a uma página).",
             },
             {
               p: "Você pode revogar sua escolha a qualquer momento pelo link Cookies no rodapé. Para recusar publicidade personalizada, acesse as opções abaixo:",
