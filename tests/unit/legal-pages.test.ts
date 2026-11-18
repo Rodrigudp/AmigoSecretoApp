@@ -28,6 +28,13 @@ describe("paginas legais (MON-01-APP)", () => {
     }
   });
 
+  it("nao repete a marca quando o titulo ja a contem", () => {
+    expect(sobre.title).toBe("Sobre o Papelzinho");
+    expect(legalMetadata({ title: "Sobre o Papelzinho", path: "/s", description: "d" }).title).toBe(
+      "Sobre o Papelzinho"
+    );
+  });
+
   it("usa o nome do app no titulo", () => {
     expect(privacidade.title).toBe(`${copy.LEG.privacidade.title} — Papelzinho`);
   });

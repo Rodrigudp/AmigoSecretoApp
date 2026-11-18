@@ -9,7 +9,7 @@ export function legalMetadata(input: {
   description: string;
 }): Metadata {
   const url = `${getAppUrl()}${input.path}`;
-  const title = `${input.title} — ${APP_NAME}`;
+  const title = input.title.includes(APP_NAME) ? input.title : `${input.title} — ${APP_NAME}`;
   return {
     title,
     description: input.description,
