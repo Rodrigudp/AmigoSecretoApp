@@ -25,7 +25,7 @@ Legenda da coluna **Final**: ✓ mantém o texto de hoje · ✎ muda (vira cart�
 | GLB-01 | Link de pular (primeiro foco) | Pular para o conteúdo | ✓ |
 | GLB-02 | Logo (alt) | Papelzinho | ✓ |
 | GLB-03 | Descrição do site (meta) | Organize seu amigo secreto em 2 minutos, sem cadastro e sem senha. | ✓ |
-| GLB-04 | Título da home (meta) | Papelzinho | ✎ proposta: "Papelzinho — amigo secreto online, sem cadastro" (MKT-02 confirma título final) |
+| GLB-04 | Título da home (meta) | Papelzinho | ✎ "Amigo secreto online — Papelzinho" (MKT-02, aprovado) |
 | GLB-05 | 404 título | Página não encontrada | ✓ |
 | GLB-06 | 404 texto / botão | Confira o endereço ou volte para a página inicial. / Voltar ao início | ✓ |
 | GLB-07 | Carregando | Carregando sua área... / Carregando painel… | ✎ "Carregando…" (com o caractere …) em todas |
