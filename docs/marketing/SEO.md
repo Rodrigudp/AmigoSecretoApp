@@ -4,7 +4,7 @@ Responsável: Marketing · revisão: Designer · 18/11/2026. Proposta para MKT-0
 
 ## Objetivo e situação
 
-Atender quem quer organizar amigo secreto para família, amigos ou equipe, com foco na utilidade e na clareza dos passos. Lançamento previsto em 28/11; crescimento prioritário por convites. O endereço previsto é IP:8090 por HTTP, provisório; não usar o antigo endereço Vercel como canônico definitivo. RNF03 exige HTTPS: a divergência deve ser resolvida por Orquestrador, DevOps e Segurança antes de divulgar links reais. Domínio e contas dependem do PO (PEN-09, PEN-03, PEN-04).
+Atender quem quer organizar amigo secreto para família, amigos ou equipe, com foco na utilidade e na clareza dos passos. Lançamento previsto em 28/11; crescimento prioritário por convites. IP:8090 em HTTP é somente para homologação interna; a alternativa provisória é `papelzinho.smartsolutionsbr.com.br`, dependente do DNS do PO (PEN-10) e da aprovação de HTTPS por DevOps e Segurança. Não usar o antigo endereço Vercel como canônico definitivo. Domínio próprio e contas dependem do PO (PEN-09, PEN-03, PEN-04).
 
 ## Pesquisa de termos
 
@@ -14,7 +14,7 @@ Consulta em 18/11/2026 às páginas citadas. A observação de linguagem em pág
 |---|---|---|
 | amigo secreto online | Fazer o sorteio; home, prioridade alta | [Migo Secreto](https://migosecreto.com/) usa o termo no título e descreve o fluxo online. |
 | sorteio de amigo secreto | Realizar a brincadeira; home, alta | [Amigo Secreto](https://www.amigosecreto.com.br/comunicacao/artigos/como-fazer-o-sorteio-de-amigo-secreto-online) explica como sortear. |
-| amigo oculto online | Nome alternativo; home, média | [Sortei](https://sortei.com.br/) usa “amigo oculto” no contexto de sorteio online. |
+| amigo oculto online | Nome alternativo para pesquisa, média; não usar na interface | [Sortei](https://sortei.com.br/) usa “amigo oculto” no contexto de sorteio online. |
 | amigo secreto pelo WhatsApp | Compartilhar convite; Como funciona, alta | [Migo Secreto](https://migosecreto.com/) descreve compartilhamento pelo WhatsApp. |
 | como fazer amigo secreto online | Aprender os passos; Como funciona, alta | [Amigo Secreto](https://www.amigosecreto.com.br/comunicacao/artigos/como-sortear-amigo-secreto-online-pelo-computador) publica guia passo a passo. |
 | amigo secreto sem cadastro | Evitar conta; home e FAQ, média | [QMIX](https://ferramentas.qmix.com.br/sorteio-de-amigo-secreto) descreve sorteio sem cadastro. |
@@ -29,15 +29,15 @@ Publicáveis após aceite e HTTPS: home `/` e futura `/como-funciona`, ligadas e
 |---|---|---|
 | Home `/` | Amigo secreto online — Papelzinho | Organize seu amigo secreto sem cadastro e sem senha. Crie o grupo, compartilhe o convite e reúna as pessoas para o sorteio. |
 | `/como-funciona` (proposta) | Como funciona o amigo secreto — Papelzinho | Veja como criar seu grupo, enviar o convite e participar do sorteio de amigo secreto pelo Papelzinho. |
-| Convite `/g/[inviteToken]` | Convite — Papelzinho | Você recebeu um convite para um amigo secreto. Abra o link para entrar no grupo. |
-| Participante `/p/[accessToken]` | Área do participante — Papelzinho | Acesse sua área pessoal do amigo secreto. |
-| Organizador `/admin/[adminToken]` | Painel do organizador — Papelzinho | Acesse o painel para organizar seu grupo de amigo secreto. |
+| Convite `/g/[inviteToken]` | Nome do grupo — Papelzinho | Manter o contrato vigente OG-01: “Você foi convidado para o amigo secreto 'X'. Toque para entrar e montar sua lista de presentes!” |
+| Participante `/p/[accessToken]` | Área do participante — Papelzinho | Sem descrição proposta. |
+| Organizador `/admin/[adminToken]` | Painel do organizador — Papelzinho | Sem descrição proposta. |
 
-Títulos e descrições das rotas privadas são genéricos; nomes e dados do grupo não devem aparecer em previews públicos, exceto eventual convite conforme desenho já aprovado pela Segurança. Metadados genéricos são proposta, não alteração do comportamento existente. Não prometa “grátis”, recursos não entregues ou conclusão em tempo garantido sem validação.
+O convite mantém nome do grupo conforme contrato vigente aprovado pela Segurança; participante e organizador não têm prévia proposta. Não prometa “grátis”, recursos não entregues ou conclusão em tempo garantido sem validação.
 
-**Home, sugestão de conteúdo:** “Faça seu amigo secreto com o Papelzinho”. Apoio: “Crie o grupo e envie o convite. Cada pessoa entra com seu nome, sem cadastro e sem senha.” Ação: “Criar grupo”. Link para Como funciona.
+**Home:** manter o H1 já em uso, “Amigo secreto começa aqui.”, e o texto de apoio atual. Incluir link para Como funciona quando a página existir.
 
-**Como funciona, proposta:** 1. Organizador cria o grupo e guarda o link de organizador. 2. Compartilha apenas o convite. 3. Cada pessoa entra com o nome e guarda seu link pessoal. 4. Com pelo menos três pessoas, o organizador realiza o sorteio; cada pessoa abre seu próprio resultado. Não compartilhar links pessoais nem de organizador.
+**Como funciona, proposta:** 1. Organizador cria o grupo e guarda o link de organizador. 2. Compartilha apenas o convite. 3. Cada pessoa entra com o nome e guarda seu link pessoal. 4. Com pelo menos três pessoas, o organizador faz o sorteio; cada pessoa abre seu próprio resultado. Não compartilhar links pessoais nem de organizador.
 
 **FAQ visível:** Preciso de cadastro? Não. Quantas pessoas? Pelo menos três e até 100 por grupo. O organizador vê os pares? O painel não mostra os pares. Posso entrar depois do sorteio? Não: o grupo fecha para novas entradas. Como volto? Guarde o link pessoal. Conferir o estado de entrega antes de publicar.
 
