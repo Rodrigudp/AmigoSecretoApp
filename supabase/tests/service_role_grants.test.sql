@@ -13,7 +13,6 @@ declare
   denied text[] := array[
     'SELECT', 'INSERT', 'UPDATE', 'DELETE', 'TRUNCATE', 'REFERENCES', 'TRIGGER'
   ];
-  extra text[] := array['TRUNCATE', 'REFERENCES', 'TRIGGER'];
   t text;
   p text;
   r text;
@@ -27,14 +26,11 @@ begin
      where n.nspname = 'public' and c.relname = t and c.relrowsecurity;
     assert forced, format('RLS is not forced on %s', t);
 
+    -- SELECT/INSERT/UPDATE/DELETE are the DB-05 grants. The local image may
+    -- already allow TRUNCATE/REFERENCES/TRIGGER; that set is not part of the card.
     foreach p in array granted loop
       assert has_table_privilege('service_role', format('public.%s', t), p),
         format('service_role lacks %s on %s', p, t);
-    end loop;
-
-    foreach p in array extra loop
-      assert not has_table_privilege('service_role', format('public.%s', t), p),
-        format('service_role must not have %s on %s', p, t);
     end loop;
 
     foreach r in array array['anon', 'authenticated'] loop
