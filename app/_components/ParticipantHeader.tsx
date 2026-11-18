@@ -1,3 +1,4 @@
+import { copy } from "../_lib/copy";
 import type { ReactNode } from "react";
 import { Card } from "@/app/_components/Card";
 import { formatBrl, formatDateBr } from "@/app/_lib/whatsapp";
@@ -29,31 +30,31 @@ export function ParticipantHeader({
   return (
     <header className="flex flex-col gap-3 rounded-xl bg-primary-soft p-5 sm:p-7">
       <p className="text-sm font-semibold wrap-break-word text-primary-soft-text">
-        Grupo {groupName}
+        {copy.ARE_01.group(groupName)}
       </p>
-      <h1 className="page-title">Olá, {participantName}.</h1>
+      <h1 className="page-title">{copy.ARE_01.greeting(participantName)}</h1>
       <dl className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-text">
         <div>
-          <dt className="font-semibold">Data da troca</dt>
+          <dt className="font-semibold">{copy.ADM_04.date}</dt>
           <dd>{formatDateBr(exchangeDate)}</dd>
         </div>
         <div>
-          <dt className="font-semibold">Valor máximo</dt>
-          <dd>até R$ {formatBrl(maxValueCents)}</dd>
+          <dt className="font-semibold">{copy.ADM_04.value}</dt>
+          <dd>
+            {copy.EXTRA.currencyPrefix} {formatBrl(maxValueCents)}
+          </dd>
         </div>
         {location ? (
           <div className="min-w-0 max-w-full">
-            <dt className="font-semibold">Local</dt>
+            <dt className="font-semibold">{copy.ADM_04.location}</dt>
             <dd className="wrap-break-word">{location}</dd>
           </div>
         ) : null}
       </dl>
       {drawStatus === "open" ? (
-        <p className="text-base text-text-muted">O sorteio ainda não foi realizado.</p>
+        <p className="text-base text-text-muted">{copy.ARE_02}</p>
       ) : (
-        <p className="text-base text-text-muted">
-          O sorteio já foi realizado. Veja abaixo quem você tirou.
-        </p>
+        <p className="text-base text-text-muted">{copy.ARE_03}</p>
       )}
       {actions ? <div className="mt-2 flex flex-col gap-2">{actions}</div> : null}
     </header>
@@ -65,9 +66,9 @@ export function ParticipantHeader({
  */
 export function ParticipantNeutralError({ hint }: { hint?: string }) {
   return (
-    <Card tone="warning" title="Link inválido" heading="h1">
+    <Card tone="warning" title={copy.ARE_06.title} heading="h1">
       <p className="text-base">
-        Este link é inválido ou não está mais disponível.
+        {copy.OG_03}
         {hint ? ` ${hint}` : ""}
       </p>
     </Card>
@@ -78,7 +79,7 @@ export function ParticipantAreaLoading() {
   return (
     <Card as="div">
       <p role="status" className="text-base text-text-muted">
-        Carregando sua área...
+        {copy.GLB_07}
       </p>
     </Card>
   );

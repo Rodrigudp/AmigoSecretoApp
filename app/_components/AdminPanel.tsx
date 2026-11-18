@@ -7,6 +7,7 @@ import { buildInviteMessage, formatBrl, formatDateBr, whatsappUrl } from "../_li
 import { Button, buttonClass } from "./Button";
 import { Card } from "./Card";
 import { CopyField } from "./CopyField";
+import { copy } from "../_lib/copy";
 
 type AdminPanelProps = {
   initialData: AdminGroup;
@@ -41,10 +42,10 @@ export function AdminPanel({
         setParticipantCount(res.participantCount);
         setConfirmingId(null);
       } else {
-        setErrorMessage(res.message ?? "Não foi possível remover o participante.");
+        setErrorMessage(res.message ?? copy.ADM_11);
       }
     } catch {
-      setErrorMessage("Erro de comunicação ao remover participante. Tente novamente.");
+      setErrorMessage(copy.GLB_08);
     } finally {
       setLoadingId(null);
     }
@@ -60,53 +61,55 @@ export function AdminPanel({
   return (
     <div className="grid gap-5 lg:grid-cols-[1.2fr_1.3fr] lg:items-start">
       <header className="grid gap-3 rounded-xl bg-primary-soft p-5 sm:p-7 lg:col-span-2">
-        <p className="text-sm font-semibold text-primary-soft-text">Painel do organizador</p>
+        <p className="text-sm font-semibold text-primary-soft-text">{copy.ADM_01}</p>
         <div className="flex min-w-0 flex-col items-start gap-3">
           <h1 className="page-title min-w-0">{group.name}</h1>
           {isDrawn ? (
             <span className="rounded-full bg-success-bg px-3 py-1 text-xs font-semibold text-success">
-              Sorteio Realizado em {new Date(draw.drawnAt).toLocaleDateString("pt-BR")}
+              {copy.ADM_03(new Date(draw.drawnAt).toLocaleDateString("pt-BR"))}
             </span>
           ) : (
             <span className="rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-primary-soft-text">
-              Aberto para inscrições
+              {copy.ADM_02}
             </span>
           )}
         </div>
       </header>
 
-      <Card title="Detalhes do grupo" className="lg:col-span-2">
+      <Card title={copy.ADM_04.title} className="lg:col-span-2">
         <dl className="grid grid-cols-1 gap-3 sm:grid-cols-3 text-sm">
           <div>
-            <dt className="text-text-muted">Data da troca</dt>
+            <dt className="text-text-muted">{copy.ADM_04.date}</dt>
             <dd className="font-medium text-text">{formatDateBr(group.exchangeDate)}</dd>
           </div>
           <div>
-            <dt className="text-text-muted">Valor máximo</dt>
-            <dd className="font-medium text-text">até R$ {formatBrl(group.maxValueCents)}</dd>
+            <dt className="text-text-muted">{copy.ADM_04.value}</dt>
+            <dd className="font-medium text-text">
+              {copy.EXTRA.currencyPrefix} {formatBrl(group.maxValueCents)}
+            </dd>
           </div>
           <div>
-            <dt className="text-text-muted">Local</dt>
-            <dd className="font-medium text-text">{group.location ?? "Não informado"}</dd>
+            <dt className="text-text-muted">{copy.ADM_04.location}</dt>
+            <dd className="font-medium text-text">{group.location ?? copy.ADM_04.missing}</dd>
           </div>
         </dl>
       </Card>
 
-      <Card title="Link do convite">
-        <p className="mb-3 text-sm">Envie o convite para quem vai participar.</p>
-        <CopyField label="Link do convite" value={inviteUrl} copyLabel="Copiar convite">
+      <Card title={copy.ADM_05.title}>
+        <p className="mb-3 text-sm">{copy.ADM_05.text}</p>
+        <CopyField label={copy.ADM_05.title} value={inviteUrl} copyLabel={copy.ADM_06.copy}>
           <a
             className={buttonClass("secondary")}
             href={whatsappUrl(buildInviteMessage(shareDetails, inviteUrl))}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Compartilhar no WhatsApp
+            {copy.ADM_06.share}
           </a>
         </CopyField>
       </Card>
 
-      <Card title={`Participantes (${participantCount} de 100)`} className="lg:row-span-2">
+      <Card title={copy.ADM_07.count(participantCount)} className="lg:row-span-2">
         {errorMessage && (
           <div
             role="alert"
@@ -116,9 +119,7 @@ export function AdminPanel({
           </div>
         )}
         {participants.length === 0 ? (
-          <p className="text-text-muted text-sm py-4 text-center">
-            Nenhum participante entrou ainda. Compartilhe o link de convite acima!
-          </p>
+          <p className="text-text-muted text-sm py-4 text-center">{copy.ADM_08}</p>
         ) : (
           <ul className="divide-y divide-line">
             {participants.map((p) => (
@@ -129,7 +130,7 @@ export function AdminPanel({
                 <div>
                   <span className="font-medium wrap-break-word text-text">{p.displayName}</span>
                   <span className="block text-xs text-text-muted">
-                    Entrou em {new Date(p.joinedAt).toLocaleDateString("pt-BR")}
+                    {copy.ADM_07.joined(new Date(p.joinedAt).toLocaleDateString("pt-BR"))}
                   </span>
                 </div>
                 {!isDrawn && (
@@ -137,8 +138,7 @@ export function AdminPanel({
                     {confirmingId === p.id ? (
                       <div className="flex flex-col gap-2 rounded-xl bg-warning-bg p-3 text-xs border border-warning">
                         <p className="font-medium text-warning">
-                          Tem certeza que deseja remover {p.displayName}? Essa pessoa não
-                          participará do sorteio.
+                          {copy.ADM_10.confirm(p.displayName)}
                         </p>
                         <div className="flex flex-wrap gap-2">
                           <Button
@@ -146,14 +146,14 @@ export function AdminPanel({
                             onClick={() => setConfirmingId(null)}
                             disabled={loadingId === p.id}
                           >
-                            Cancelar
+                            {copy.ADM_10.cancel}
                           </Button>
                           <Button
                             variant="danger"
                             onClick={() => handleConfirmRemove(p.id)}
                             loading={loadingId === p.id}
                           >
-                            Confirmar remoção
+                            {copy.ADM_10.accept}
                           </Button>
                         </div>
                       </div>
@@ -164,9 +164,9 @@ export function AdminPanel({
                           setErrorMessage(null);
                           setConfirmingId(p.id);
                         }}
-                        aria-label={`Remover ${p.displayName}`}
+                        aria-label={copy.ADM_09.label(p.displayName)}
                       >
-                        Remover
+                        {copy.ADM_09.text}
                       </Button>
                     )}
                   </div>
@@ -177,31 +177,23 @@ export function AdminPanel({
         )}
       </Card>
 
-      <Card title="Sorteio">
+      <Card title={copy.ADM_12.title}>
         {isDrawn ? (
           <div className="text-sm text-text">
-            <p className="font-medium text-success">✓ Sorteio realizado!</p>
-            <p className="text-text-muted mt-1">
-              Os participantes já podem conferir seus amigos secretos acessando seus links pessoais.
-              Por segurança, os pares nunca são enviados para este painel.
-            </p>
+            <p className="font-medium text-success">{copy.ADM_15}</p>
           </div>
         ) : (
           <div className="flex flex-col gap-3">
-            <p className="text-sm text-text-muted">
-              Quando todos tiverem entrado, faça o sorteio. Cada pessoa vê só quem tirou.
-            </p>
+            <p className="text-sm text-text-muted">{copy.ADM_12.text}</p>
             <div className="flex flex-col items-start gap-2">
               <Button disabled aria-describedby="draw-unavailable">
-                Realizar Sorteio
+                {copy.ADM_13}
               </Button>
               <p id="draw-unavailable" className="text-sm text-text-muted">
-                Em breve
+                {copy.EXTRA.upcoming}
               </p>
               {participantCount < 3 ? (
-                <p className="text-xs text-text-muted">
-                  São necessários pelo menos 3 participantes para sortear.
-                </p>
+                <p className="text-xs text-text-muted">{copy.ADM_14}</p>
               ) : null}
             </div>
           </div>
