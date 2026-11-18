@@ -36,4 +36,18 @@ describe("participant group details", () => {
     expect(screen.queryByText("Local")).toBeNull();
     expect(container.querySelector('[data-ads-allowed="false"]')).toBeTruthy();
   });
+  it("keeps the list and the hidden-result placeholder after the draw", () => {
+    render(
+      <ParticipantArea
+        view={{ ...view, group: { ...view.group, status: "drawn" } }}
+        adsAllowed={true}
+      />
+    );
+    expect(screen.getByRole("heading", { name: "Lista de desejos" })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Meu amigo secreto" })).toBeTruthy();
+    expect(
+      (screen.getByRole("button", { name: "Adicionar presente — em breve" }) as HTMLButtonElement)
+        .disabled
+    ).toBe(true);
+  });
 });

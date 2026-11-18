@@ -30,20 +30,19 @@ export function ParticipantArea({
         maxValueCents={view.group.maxValueCents}
         location={view.group.location}
       />
-      {view.group.status === "open" ? (
-        <Card title="Lista de desejos">
-          <p className="text-base">Em breve você poderá montar aqui a sua lista de desejos.</p>
-          <Button disabled className="mt-3">
-            Adicionar presente — em breve
-          </Button>
-        </Card>
-      ) : (
+      <Card title="Lista de desejos">
+        <p className="text-base">Em breve você poderá montar aqui a sua lista de desejos.</p>
+        <Button disabled className="mt-3">
+          Adicionar presente — em breve
+        </Button>
+      </Card>
+      {view.group.status === "drawn" ? (
         <Card title="Meu amigo secreto">
           <p className="text-base">
             Em breve o resultado aparecerá aqui, escondido até você tocar em revelar.
           </p>
         </Card>
-      )}
+      ) : null}
       {children}
     </div>
   );
