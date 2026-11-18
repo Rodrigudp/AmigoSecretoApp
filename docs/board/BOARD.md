@@ -32,7 +32,7 @@ _(vazio)_
 
 ## 👀 Em revisão
 - BE-02 · Adapter Supabase de criar grupo e entrar (no lugar dos stubs) · BE → DB · 2 pts · 19/11 — `f4a55e9`: adapter mantido, prévia não grava invite_opened, página grava 1×; CI 44218438759 verde (2 passed / 0 skipped); conflito só no BOARD.md; aguarda reaprovação do DB
-- PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — PR #27 rebasado na main (25703d3, sem conflito): handshake ADR-004 (/p/[accessToken] → /p/g/[groupId], probe ?ck=1 via route handler /api/p/hs, fallback sem cookie adsAllowed=false), get-participant-view com ports + stub TODO(BE-01), ParticipantHeader compartilhado; CI 3/3 verde (44217989432); revisão final pedida ao FE
+- PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — FE 17/11: #27 (`25703d3`) aprovado com 2 ajustes (cookie == token no ?ck=1; hint “Peça um novo link ao organizador.”); CI 44217989432 verde; ajustes pedidos ao PAR
 
 ## 🧪 Em teste (QA)
 _(vazio)_
@@ -145,6 +145,7 @@ _(vazio)_
 - 2026-11-17 · Orquestrador · GRP-05 mergeado: casos de uso #26 (`8296d6`) e tela #32 (`322f094`); o #29 fechou com a branch base · impedimento: PEN-08
 - 2026-11-17 · Orquestrador · PAR-04 (#27) conflita com a main nas duas páginas /p; rebase pedido ao Participantes · nenhum
 - 2026-11-17 · Orquestrador · PAR-04 rebaseado (`25703d3`); revisão pedida ao Front-end · nenhum
+- 2026-11-17 · Orquestrador · PAR-04: FE pediu 2 ajustes no #27; encaminhados ao Participantes · nenhum
 - 2026-11-17 · Orquestrador · OPS-04 no PR #28, CI verde, ambiente production criado · falta PEN-08 e a revisão da Segurança · impedimento: PEN-08
 - 2026-11-17 · Orquestrador · OPS-04 mergeado (#28, `5a0a4da`); CI 44217000044; deploy de migrations pulou sem os secrets · impedimento: PEN-08
 - 2026-11-17 · Orquestrador · BE-02 (#31) aprovado pelo Banco, mas conflita e a prévia gravaria invite_opened; rebase pedido ao Back-end · nenhum
