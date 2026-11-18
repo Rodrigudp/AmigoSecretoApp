@@ -21,7 +21,6 @@ export const copy = {
   GLB_07: "Carregando…",
   GLB_08: "Sem conexão no momento. Verifique a internet e tente de novo.",
   GLB_09: "Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo.",
-  GLB_10: "Privacidade · Termos",
   GLB_11: "✓ Link copiado!",
   GLB_12: "Não foi possível copiar. Toque no campo e copie o link.",
   HOM_01: { start: "Amigo secreto", end: "começa aqui." },
