@@ -24,21 +24,12 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 _(vazio)_
 
 ## ⏳ Aguardando dependência (It-2)
-- GRP-04 · Open Graph do convite + noindex/headers nas páginas com token · FE → SEC · 1 pt · 20/11 — depende de GRP-03
-- GRP-05 · Painel admin: lista, contador, remover antes do sorteio · GRP → QA · 3 pts · 21/11 — depende de PAR-02
-- PAR-03 · Tela de convite + tela do link pessoal · FE → PAR · 3 pts · 21/11 — depende de PAR-02, GRP-03 (WIP FE)
-- PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — depende de PAR-02 e SEC-06
 
 ## 🔨 Em andamento
-- OPS-02 · Expurgo automático 60 dias após a troca (pg_cron) · OPS → DB · 1 pt · 20/11 — adiantado do It-4 (ORQ 17/11)
 - SEC-03 · Rate limit (criar e entrar) + headers de segurança · SEC → OPS · 2 pts · 20/11 — desenho e headers já; rate limit após GRP-02
-- BE-01 · Cliente Supabase do servidor + harness de testes de integração · BE → DB · 1 pt · 18/11
 - QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — estrutura mobile 360px, page objects e fixtures entregues no draft PR #19; cenários fixme aguardando GRP-03 e PAR-03
 
 ## 👀 Em revisão
-- GRP-02 · Caso de uso `create-group` · GRP → BE · 2 pts · 19/11 — PR #18 (`feat/GRP-02-create-group`): ports injetados, Zod, data futura America/Sao_Paulo (clock), fake repo, 12 testes; lint/typecheck/test/build verdes; adapter Supabase após BE-01 e DB-04
-- GRP-03 · Tela criar grupo (`/`) + tela de sucesso · FE → GRP · 3 pts · 20/11 — PRs empilhados: #15 (lógica: schema, WhatsApp, action stub) e #16 (telas, base = #15; retargetar p/ main após o merge do #15); lint/typecheck/test/build verdes; ⏳ troca do stub após GRP-02
-- PAR-02 · Caso de uso `join-group` · PAR → BE · 2 pts · 19/11 — PR #13 (`feat/PAR-02-join-group`): caso de uso com ports injetados, Zod, fake repo, 8 testes; lint/typecheck/test/build verdes; adapter Supabase após BE-01 e DB-04
 
 ## 🧪 Em teste (QA)
 _(vazio)_
@@ -65,7 +56,7 @@ _(vazio)_
 - SRT-01 · Especificação do sorteio · SRT → ORQ · 1 pt · 19/11 — ✅ aprovado ORQ 17/11 (`docs/features/sorteio.md`); commit pendente até existir o repositório (SETUP-01)
 - SEC-02 · Modelo de ameaças STRIDE inicial · SEC → ORQ · 1 pt · 18/11 — ✅ aprovado ORQ 17/11 (`docs/arquitetura/AMEACAS.md`); follow-up ADR-004 no It-2; commit pendente até SETUP-01
 - QA-01 · Plano de testes com rastreabilidade · QA → ORQ · 2 pts · 18/11 — ✅ aprovado ORQ 17/11 (`docs/processo/PLANO_DE_TESTES.md`); 6 adições não bloqueantes incluídas; commit pendente até SETUP-01
-- MON-01 · Páginas para aprovação do AdSense · MON → SEC · 2 pts · 19/11 — ✅ Segurança aprovou revisão 2 (condicionada aos marcadores); ✅ ORQ liberou para Pronto 17/11; PR #1 `docs/MON-01-paginas-adsense` aguarda merge; marcadores `A PREENCHER PELO RODRIGO` em PEN-01..03
+- MON-01 · Páginas para aprovação do AdSense · MON → SEC · 2 pts · 19/11 — ✅ Segurança aprovou revisão 2 (condicionada aos marcadores); ✅ ORQ liberou para Pronto 17/11; mergeado PR #1 (9ebc5d1); domínio será corrigido para amigo-secreto-app-five.vercel.app; marcadores `A PREENCHER PELO RODRIGO` em PEN-01..03
 
 ## 🚀 Em produção
 _(vazio)_
@@ -121,4 +112,5 @@ _(vazio)_
 - 2026-11-17 · Feature Grupos · GRP-01 aprovado · GRP-02: caso de uso create-group implementado com fake repo, PR #18 aberto (`feat/GRP-02-create-group`, 363 linhas); lint/typecheck/test/build verdes; revisão pedida ao Back-end · nenhum
 - 2026-11-17 · Back-end · Contratos aprovados e já na main · SETUP-02: PR #4 aberto com ports, Result, env e testes locais verdes · aguarda vaga em revisão e revisão ORQ
 - 2026-11-17 · Segurança & LGPD · SEC-02 aprovado; revisões de DB-01/DB-02 e SETUP-04 (PR #3) aprovadas · SEC-01 implementado em `feat/SEC-01-tokens` (PR #7 aberto, 38 testes/lint/typecheck/build verdes, revisão pedida ao Back-end) · nenhum
-- 2026-11-17 · Segurança & LGPD · SEC-01 mergeado (PR #7); LST-01 aprovado · OPS-00 (PR #11) revisado e aprovado com recomendação; SEC-06 (ADR-004) entregue no PR #12 (`docs/SEC-06-adr-004`) e movido p/ Em revisão · nenhum
+- 2026-11-17 · Segurança & LGPD · SEC-01 mergeado (PR #7); LST-01 aprovado · OPS-00 (PR #11) revisado e aprovado com recomendação; SEC-06 (ADR-004) entregue no PR #12 (`docs/SEC-06-adr-004`) e movido p/ Em revisão · nenhum
+- 2026-11-17 · Orquestrador · Merges #13, #18, #1, #15, #16; Vercel configurada (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY e APP_URL em Production e Preview) e produção no ar · Decisões: DB-05 = GRANT explícito para service_role (opção A, sem auto_expose); APP_URL = domínio real amigo-secreto-app-five.vercel.app; migrations de produção pelo CI (OPS-04) · impedimento: PEN-08
