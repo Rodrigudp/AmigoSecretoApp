@@ -5,11 +5,10 @@ import { ParticipantAreaPage } from "./pages/participant-area.page";
 const NAMES = ["QA Ana", "QA Bruno", "QA Carla"];
 
 test.describe("HU05 - revelar o próprio resultado (CT-05)", () => {
-  test.fixme("resultado começa escondido e revela só o destinatário do titular", async ({
+  test("resultado começa escondido e revela só o destinatário do titular", async ({
     browser,
     groupFactory,
   }) => {
-    // Depende do SRT-03 (sorteio) e do SRT-04 (cartão Revelar).
     test.setTimeout(240_000);
     const group = await groupFactory.create(NAMES);
 
@@ -34,6 +33,7 @@ test.describe("HU05 - revelar o próprio resultado (CT-05)", () => {
     }
 
     await area.revealButton.click();
+    await expect(area.revealedPrefix).toBeVisible();
     const revealedText = await area.visibleText();
     const targets = NAMES.filter(
       (name) => name !== participant.name && revealedText.includes(name)

@@ -121,6 +121,29 @@ export const copy = {
     text: "Este link é inválido ou não está mais disponível. Peça um novo link ao organizador.",
   },
   ARE_07: "Abra o seu link pessoal para acessar esta área.",
+  REV_01: "Seu amigo secreto",
+  REV_02: "Quando o organizador fizer o sorteio, o seu amigo secreto aparece aqui.",
+  REV_03: {
+    text: "O sorteio foi feito. Toque para ver quem você tirou. Confira se ninguém está olhando a sua tela.",
+    action: "Revelar meu amigo secreto",
+    loading: "Revelando…",
+  },
+  REV_04: {
+    prefix: "Você tirou",
+    ariaName: (name: string) => `Você tirou ${name}`,
+    summary: (date: string, value: string, location: string | null) =>
+      location
+        ? `Troca em ${date} · até R$ ${value} · Local: ${location}`
+        : `Troca em ${date} · até R$ ${value}`,
+    secret: "Guarde segredo até a troca.",
+    hide: "Esconder",
+  },
+  REV_06: {
+    error: "Não foi possível carregar o seu resultado. Tente de novo.",
+    retry: "Tentar de novo",
+  },
+  REV_07:
+    "O sorteio foi refeito. O resultado anterior não vale mais. Toque em Revelar para ver o novo.",
   WSH_01: "Lista de desejos",
   WSH_02: (n: number) => (n === 1 ? "1 de 20 presentes" : `${n} de 20 presentes`),
   WSH_03: {

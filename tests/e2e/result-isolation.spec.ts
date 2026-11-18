@@ -29,11 +29,10 @@ function watch(page: Page) {
 }
 
 test.describe("RN03 / RNF04 - o resultado nunca vaza pares (CT-08)", () => {
-  test.fixme("painel, convite, respostas e área de cada pessoa não expõem pares alheios", async ({
+  test("painel, convite, respostas e área de cada pessoa não expõem pares alheios", async ({
     browser,
     groupFactory,
   }) => {
-    // Depende do SRT-03 (sorteio pelo painel), ainda não está na main.
     test.setTimeout(240_000);
     const group = await groupFactory.create(NAMES);
 
@@ -77,6 +76,7 @@ test.describe("RN03 / RNF04 - o resultado nunca vaza pares (CT-08)", () => {
 
       const mark = net.bodies.length;
       await area.revealButton.click();
+      await expect(area.revealedPrefix).toBeVisible();
       await expect(area.resultTitle).toBeVisible();
       await net.settle();
 
@@ -104,7 +104,7 @@ test.describe("RN03 / RNF04 - o resultado nunca vaza pares (CT-08)", () => {
     expect(new Set(revealed.values()).size).toBe(NAMES.length);
     for (const [owner, html] of pages) {
       for (const [donor, target] of revealed) {
-        if (donor === owner) continue;
+        if (donor === owner || target === owner) continue;
         expect(html, `${owner} não pode ver o par de ${donor}`).not.toContain(target);
       }
     }

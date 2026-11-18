@@ -31,11 +31,10 @@ test.describe("HU04 - sorteio pelo painel (CT-04)", () => {
     await context.close();
   });
 
-  test.fixme("organizador sorteia e vê só a confirmação, sem pares; menos de 3 é recusado", async ({
+  test("organizador sorteia e vê só a confirmação, sem pares; menos de 3 é recusado", async ({
     browser,
     groupFactory,
   }) => {
-    // Depende do SRT-03 (sorteio pelo painel), ainda não está na main.
     test.setTimeout(180_000);
     const group = await groupFactory.create(NAMES);
 

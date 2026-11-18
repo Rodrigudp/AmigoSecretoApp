@@ -21,7 +21,7 @@ export class ParticipantAreaPage {
 
   /** HU03: card da lista e formulário de item. */
   get wishListTitle(): Locator {
-    return this.page.getByRole("heading", { name: /(sua )?lista de desejos/i });
+    return this.page.getByRole("heading", { name: /^(sua )?lista de desejos$/i });
   }
 
   get addItemButton(): Locator {
@@ -42,11 +42,15 @@ export class ParticipantAreaPage {
 
   /** HU05: cartão do resultado. Fechado, mostra o botão; aberto, mostra o par. */
   get resultTitle(): Locator {
-    return this.page.getByRole("heading", { name: /meu amigo secreto/i });
+    return this.page.getByRole("heading", { name: /(seu|meu) amigo secreto/i });
   }
 
   get revealButton(): Locator {
-    return this.page.getByRole("button", { name: /^revelar$/i });
+    return this.page.getByRole("button", { name: /^revelar( meu amigo secreto)?$/i });
+  }
+
+  get revealedPrefix(): Locator {
+    return this.page.getByText(/^voc. tirou$/i);
   }
 
   /** Texto visível da página inteira, para afirmar o que (não) vazou. */
