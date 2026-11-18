@@ -21,25 +21,27 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar (It-2)
-- GRP-04 · Open Graph do convite + noindex/headers nas páginas com token · FE → SEC · 1 pt · 20/11 — dependência ok (PAR-03 na main); enviado ao FE 17/11
+_(vazio)_
 
 ## ⏳ Aguardando dependência (It-2)
-- OPS-04 · Aplicar migrations no Supabase de produção pelo CI (`supabase db push`) + APP_URL com o domínio real · OPS → SEC · 1 pt · 20/11 — enviado ao OPS 17/11; precisa de PEN-08 para rodar
+_(vazio)_
 
 ## 🔨 Em andamento
-- BE-02 · Adapter Supabase de criar grupo e entrar (no lugar dos stubs) · BE → DB · 2 pts · 19/11 — enviado ao BE 17/11; só create_group_once, findByInvite e join_group; admin e área do participante continuam stub
 - SEC-03 · Rate limit (criar e entrar) + headers de segurança · SEC → OPS · 2 pts · 20/11 — desenho e headers já; rate limit após GRP-02
 - QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — draft PR #19; CT-01 conferido no GRP-03 (661 ms, stub); CT-02 conferido no PAR-03 (742 ms, cookie ptk_, stub) e armado: no CI vira fixme enquanto a rota /g não existe; "Ana 2" segue fixme (RN07 não está no stub)
 
 ## 👀 Em revisão
-- PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — PR #27 (`feat/PAR-04-participant-area`): handshake ADR-004 (/p/[accessToken] → /p/g/[groupId], probe ?ck=1, fallback sem cookie adsAllowed=false), get-participant-view com ports + stub TODO(BE-01), ParticipantHeader compartilhado c/ PAR-03; CI 3/3 verde (44210288249)
-- GRP-05 · Painel admin: lista, contador, remover antes do sorteio · GRP → QA · 3 pts · 21/11 — QA 17/11: #26 aprovado (CI 44210246791); #29 reprovado: stub findAdminByHash abre o painel para qualquer token exceto "invalid"
-- OPS-02 · Expurgo automático 60 dias após a troca (pg_cron) · OPS → DB · 1 pt · 20/11 — ✅ DB; PR #21 conflita com a main no ci.yml; DevOps atualiza a branch
+- BE-02 · Adapter Supabase de criar grupo e entrar (no lugar dos stubs) · BE → DB · 2 pts · 19/11 — merge da main + `recordOpened` (metadata não grava; página grava 1×); aguarda CI e reaprovação do DB
+- PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — PR #27 (`267cb2e`) conflita com a main (add/add em /p/[accessToken] e /p/g/[groupId]); PAR-03 já na main; rebase pedido ao PAR 17/11; CI antigo 44210288249 verde
 
 ## 🧪 Em teste (QA)
 _(vazio)_
 
 ## 🏁 Pronto
+- OPS-04 · Aplicar migrations no Supabase de produção pelo CI (`supabase db push`) + APP_URL com o domínio real · OPS → SEC · 1 pt · 20/11 — ✅ SEC+ORQ; mergeado PR #28 (`5a0a4da`); CI 44217000044; o job pulou porque PEN-08 ainda está vazio
+- GRP-04 · Open Graph do convite + noindex/headers nas páginas com token · FE → SEC · 1 pt · 20/11 — ✅ SEC+ORQ; mergeado PR #30 (`b376f90`); CI da main 44216261190; a Vercel não publicou (limite diário do plano gratuito)
+- GRP-05 · Painel admin: lista, contador, remover antes do sorteio · GRP → QA · 3 pts · 21/11 — ✅ QA+ORQ; casos de uso no #26 (`8296d6`); tela no #32 (`322f094`); token desconhecido devolve INVALID_LINK; ainda é stub (token demo) até o adapter; CI da main 44215037513
+- OPS-02 · Expurgo automático 60 dias após a troca (pg_cron) · OPS → DB · 1 pt · 20/11 — ✅ DB+ORQ; mergeado PR #21 (`3d35962`); job diário 06:00 UTC; CI do PR 44209815039
 - BE-01 · Cliente Supabase do servidor + harness de testes de integração · BE → DB · 1 pt · 18/11 — ✅ DB+ORQ; mergeado PR #20 (`34a8f9a`); smoke 1 passed / 0 skipped (CI 44209620112)
 - PAR-03 · Tela de convite + tela do link pessoal · FE → PAR · 3 pts · 21/11 — ✅ PAR+ORQ; mergeados #24 (`7aa98d6`) e #25 (`4ae079c`); stub até o adapter; o cookie do link pessoal ainda é gravado na página, o PAR-04 move isso para o route handler
 - DB-05 · GRANT de tabelas/sequences para service_role (decisão ORQ: opção A) · DB → SEC · 1 pt · 19/11 — ✅ SEC+ORQ; mergeado PR #22 (6aab68e); anon/authenticated sem privilégio
@@ -70,7 +72,7 @@ _(vazio)_
 - MON-01 · Páginas para aprovação do AdSense · MON → SEC · 2 pts · 19/11 — ✅ Segurança aprovou revisão 2 (condicionada aos marcadores); ✅ ORQ; PR #1 (`9ebc5d1`) e domínio real no PR #23 (`ebc1e8a`, https://amigo-secreto-app-five.vercel.app); marcadores `A PREENCHER PELO RODRIGO` em PEN-01..03
 
 ## 🚀 Em produção
-- Site em https://amigo-secreto-app-five.vercel.app (main 34a8f9a): página inicial com o formulário; criar grupo ainda não grava (stub até o BE-02). Cliente do servidor na main. Banco de produção sem migrations até OPS-04/PEN-08
+- Site em https://amigo-secreto-app-five.vercel.app: a Vercel não publicou o `5a0a4da` (limite de 100 deploys/dia). O job de migrations está na main e pulou: faltam os secrets do PEN-08. Criar grupo ainda não grava.
 
 ---
 
@@ -117,11 +119,13 @@ _(vazio)_
 - 2026-11-17 · Front-end · UX-01 mergeado · GRP-03 implementado (PRs #15 e #16), revisão do 20 Grupos · nenhum (stub do GRP-02 no lugar do caso de uso)
 - 2026-11-17 · Front-end · GRP-03 mergeado · PAR-03: PRs #24 (lógica) e #25 (telas) abertos; revisão pedida ao 21 Participantes; QA avisado p/ HU02 · nenhum (stub tipado até BE-01/adapter)
 - 2026-11-17 · Front-end · PAR-03 · ✅ 21 aprovou #24/#25 (notas não bloqueantes BE-01 e handshake → PAR-04); aguarda merge ORQ · nenhum
+- 2026-11-17 · Front-end · PAR-03 mergeado · GRP-04: PR #30 aberto (OG + noindex/headers); revisão pedida à 15 Segurança · nenhum
+- 2026-11-17 · Front-end · GRP-04 · ✅ SEC aprovou #30 (sem ajustes obrigatórios); aguarda merge ORQ · nenhum
 - 2026-11-17 · Orquestrador · PAR-03 mergeado (#24 `7aa98d6`, #25 `4ae079c`) · GRP-04 para o Front-end · nenhum
 - 2026-11-17 · Sorteio · SRT-01 aprovado pelo ORQ · DOM-01 entregue no PR #8 e aprovado pelo QA e pela SEC · aguarda merge do ORQ
 - 2026-11-17 · Lista de desejos · — · LST-01: spec aprovada pela Monetização (✅ 17/11) e pela Segurança (✅ 17/11; notas de canRedirect e IPs reservados incorporadas); decisões do ORQ aplicadas; pronto p/ validação final do Orquestrador · impedimento: Rodrigo cadastrar o domínio como mídia no Programa de Afiliados do ML (D1)
 
-- 2026-11-17 · QA · QA-03 no PR #19 · revisão GRP-05: #26 aprovado, #29 reprovado (token inválido abre o painel) · nenhum
+- 2026-11-17 · QA · QA-03 no PR #19 · GRP-05: #26 aprovado e #29 reaprovado (35ad701, 111 testes) · nenhum
 - 2026-11-17 · QA · — · QA-01 elaborado e revisão solicitada · impedimentos: revisão 4/4, repositório Git e DOM-01 pendentes
 - 2026-11-17 · Segurança & LGPD · — · Revisões de MON-01 (r1 reprovada, r2 aprovada) e DB-01/DB-02 (ajustes enviados ao Banco); SEC-02 concluído em `docs/arquitetura/AMEACAS.md` (movido p/ Em revisão) · SEC-01 aguarda SETUP-02
 - 2026-11-17 · Feature Grupos · GRP-01 concluído (Pronto) · GRP-02 e GRP-03 mergeados; GRP-05 entregue em PRs empilhados #26 (casos de uso, 290L) e #29 (interface /admin/[token], AdminPanel, 371L); 110 testes, typecheck, lint e build verdes; CI 3 jobs verdes (44210246791); revisão pedida ao 13 QA · nenhum
@@ -134,3 +138,13 @@ _(vazio)_
 - 2026-11-17 · Back-end · BE-01: rebase #20 após DB-05 (`0d483d6`); CI 44209620112 smoke 1 passed / 0 skipped; reaprovação pedida ao 12 · nenhum
 - 2026-11-17 · Back-end · BE-01: 12 Banco aprovou PR #20 (`0d483d6`); Orquestrador avisado para merge · nenhum
 - 2026-11-17 · Orquestrador · BE-01 mergeado (#20, `34a8f9a`) · BE-02 (adapter de criar e entrar) para o Back-end · impedimento: PEN-08 para o banco de produção
+- 2026-11-17 · Back-end · BE-02: PR #31 aberto (`c4b7cb1`); adapters create/invite/join; CI 44212657904 com 2 passed / 0 skipped; revisão pedida ao 12 · nenhum
+- 2026-11-17 · Back-end · BE-02: 12 Banco aprovou PR #31 (`c4b7cb1`); Orquestrador avisado para merge · nenhum
+- 2026-11-17 · Orquestrador · OPS-02 mergeado (#21, `3d35962`) depois do rebase do DevOps · impedimento: PEN-08 para o banco de produção
+- 2026-11-17 · Orquestrador · GRP-05 mergeado: casos de uso #26 (`8296d6`) e tela #32 (`322f094`); o #29 fechou com a branch base · impedimento: PEN-08
+- 2026-11-17 · Orquestrador · PAR-04 (#27) conflita com a main nas duas páginas /p; rebase pedido ao Participantes · nenhum
+- 2026-11-17 · Orquestrador · OPS-04 no PR #28, CI verde, ambiente production criado · falta PEN-08 e a revisão da Segurança · impedimento: PEN-08
+- 2026-11-17 · Orquestrador · OPS-04 mergeado (#28, `5a0a4da`); CI 44217000044; deploy de migrations pulou sem os secrets · impedimento: PEN-08
+- 2026-11-17 · Orquestrador · BE-02 (#31) aprovado pelo Banco, mas conflita e a prévia gravaria invite_opened; rebase pedido ao Back-end · nenhum
+- 2026-11-17 · Back-end · BE-02: merge da main no #31; `generateMetadata` e peek sem `invite_opened`; página grava 1×; reaprovação pedida ao DB · nenhum
+- 2026-11-17 · Orquestrador · GRP-04 mergeado (#30, `b376f90`); CI 44216261190 verde; deploy da Vercel barrado pelo limite diário · nenhum

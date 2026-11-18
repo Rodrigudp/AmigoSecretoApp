@@ -38,10 +38,12 @@ const joinsByAccessToken = new Map<string, StoredJoin>();
 
 const MAX_PARTICIPANTS = 100;
 
-/** RF02/RF03: invite view from groups + invite_opened (no in-memory map). */
+/** RF02/RF03: invite view from groups (no in-memory map). */
 export async function getInviteViewUseCase(input: {
   inviteToken: string;
   resumeAccessToken?: string;
+  /** When true, records invite_opened. Metadata/crawlers must pass false. */
+  recordOpened?: boolean;
 }): Promise<Result<InviteView, DomainError>> {
   const { buildInviteClient } = await import("@/src/infrastructure/supabase/deps");
   const {
@@ -60,7 +62,9 @@ export async function getInviteViewUseCase(input: {
     return err({ code: "INVALID_LINK" });
   }
 
-  await recordInviteOpened(client, found.groupId);
+  if (input.recordOpened) {
+    await recordInviteOpened(client, found.groupId);
+  }
 
   const [activeCount, expiresAt] = await Promise.all([
     countActiveParticipants(client, found.groupId),

@@ -1,10 +1,24 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { createGroupUseCase } from "../../app/_lib/create-group-usecase";
 import { getInviteViewUseCase, joinGroupUseCase } from "../../app/_lib/participant-stubs";
+import type { Database } from "../../src/infrastructure/supabase/types";
 import { useIntegrationDatabase } from "./harness";
 
 const DAY_MS = 86_400_000;
+
+async function countInviteOpened(
+  db: SupabaseClient<Database>,
+  groupId: string
+): Promise<number | null> {
+  const { count } = await db
+    .from("events")
+    .select("id", { count: "exact", head: true })
+    .eq("group_id", groupId)
+    .eq("type", "invite_opened");
+  return count;
+}
 
 describe("create → invite → join adapters (BE-02)", () => {
   const harness = useIntegrationDatabase();
@@ -31,8 +45,21 @@ describe("create → invite → join adapters (BE-02)", () => {
       .single();
     expect(groupRow?.name).toBe("Amigo Secreto BE-02");
     expect(groupRow?.admin_token_hash).toMatch(/^[0-9a-f]{64}$/);
+    const groupId = groupRow!.id;
 
-    const invite = await getInviteViewUseCase({ inviteToken });
+    const preview = await getInviteViewUseCase({ inviteToken, recordOpened: false });
+    expect(preview.ok).toBe(true);
+    if (!preview.ok) return;
+    expect(preview.value.groupId).toBe(groupId);
+    expect(await countInviteOpened(harness.db, groupId)).toBe(0);
+
+    // Mirrors the page: peek without recording, then one real open (with optional resume).
+    await getInviteViewUseCase({ inviteToken, recordOpened: false });
+    const invite = await getInviteViewUseCase({
+      inviteToken,
+      resumeAccessToken: "missing-resume-token",
+      recordOpened: true,
+    });
     expect(invite.ok).toBe(true);
     if (!invite.ok) return;
     expect(invite.value.group).toMatchObject({
@@ -42,14 +69,9 @@ describe("create → invite → join adapters (BE-02)", () => {
       location: "Sala 2",
       status: "open",
     });
-    expect(invite.value.groupId).toBe(groupRow!.id);
-
-    const { count: openedCount } = await harness.db
-      .from("events")
-      .select("id", { count: "exact", head: true })
-      .eq("group_id", groupRow!.id)
-      .eq("type", "invite_opened");
-    expect(openedCount).toBe(1);
+    expect(invite.value.groupId).toBe(groupId);
+    expect(invite.value.returningParticipant).toBeNull();
+    expect(await countInviteOpened(harness.db, groupId)).toBe(1);
 
     const joined = await joinGroupUseCase({ inviteToken, displayName: "Ana" });
     expect(joined.ok).toBe(true);
@@ -59,7 +81,7 @@ describe("create → invite → join adapters (BE-02)", () => {
     const { data: participant } = await harness.db
       .from("participants")
       .select("display_name, access_token_hash")
-      .eq("group_id", groupRow!.id)
+      .eq("group_id", groupId)
       .single();
     expect(participant?.display_name).toBe("Ana");
     expect(participant?.access_token_hash).toMatch(/^[0-9a-f]{64}$/);

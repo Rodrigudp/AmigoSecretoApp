@@ -81,6 +81,22 @@ npx supabase stop
 npx supabase db reset
 ```
 
+### Deploy Automático de Migrações no GitHub Actions (CI/CD)
+
+O pipeline do CI aplica as migrações automaticamente no banco de dados de produção (`supabase db push`) em pushes na branch `main`, após a aprovação dos jobs de qualidade (`quality`) e banco local (`db`).
+
+Para habilitar a aplicação de migrações no banco remoto, configure os seguintes secrets no GitHub:
+
+1. **`SUPABASE_ACCESS_TOKEN`**:
+   - Acesse o painel do Supabase: **Account** > [Access Tokens](https://supabase.com/dashboard/account/tokens) > clique em **Generate new token**.
+2. **`SUPABASE_DB_PASSWORD`**:
+   - A senha do banco de dados PostgreSQL configurada na criação do projeto (pode ser redefinida no Supabase em **Project Settings** > **Database** > **Database password**).
+
+**Como cadastrar no GitHub:**
+- No repositório GitHub do projeto, acesse **Settings** > **Environments** > selecione ou crie o ambiente `production` e adicione os dois secrets em **Environment secrets** (ou adicione diretamente em **Settings** > **Secrets and variables** > **Actions** em **Repository secrets**).
+
+> **Aviso de segurança:** Se os secrets não estiverem configurados, o job pula a execução exibindo um aviso amigável (`::warning::`) e não quebra o build. O pipeline **nunca** executa comandos destrutivos (`db reset` ou `rollback`) contra o banco de produção.
+
 ## 🧪 Scripts Disponíveis
 
 | Comando                | Descrição                                                      |
