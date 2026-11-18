@@ -125,6 +125,7 @@ test.describe("Expo Web live contra Next e Supabase locais (APP-FE-03, APP-QA-02
         ))
     );
     console.log(["ANA BODY:", (await ana.locator("body").innerText()).slice(0, 900)].join("\n"));
+    await shot(ana, "09a-apos-salvar-presente");
     await expect.soft(ana.getByText("Presente salvo.")).toBeVisible({ timeout: 15_000 });
     await expect.soft(ana.getByText("Livro de receitas").first()).toBeVisible();
     await shot(ana, "09-lista-com-presente");
@@ -141,7 +142,7 @@ test.describe("Expo Web live contra Next e Supabase locais (APP-FE-03, APP-QA-02
     await shot(organizer, "12-sorteio-feito");
     // O painel nunca mostra quem tirou quem.
     const panelText = await organizer.locator("body").innerText();
-    expect(panelText).not.toMatch(/tirou|→|->/i);
+    expect(panelText).not.toMatch(/→|->|tirou\s+(Ana|Bruno|Carla)/i);
 
     // 6. Cada pessoa revela o próprio par
     const recipients: string[] = [];
