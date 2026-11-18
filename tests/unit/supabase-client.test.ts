@@ -53,4 +53,19 @@ describe("Supabase server client and integration harness (BE-01)", () => {
       expect.stringContaining("Skipping suite: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY")
     );
   });
+
+  it("refuses non-local SUPABASE_URL by default to protect remote databases", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const { probeIntegrationDatabase } = await import("../integration/harness");
+
+    const result = await probeIntegrationDatabase({
+      SUPABASE_URL: "https://project-ref.supabase.co",
+      SUPABASE_SERVICE_ROLE_KEY: "service-role-key",
+    });
+
+    expect(result).toEqual({ available: false, client: null });
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining("SUPABASE_URL must point to 127.0.0.1/localhost")
+    );
+  });
 });

@@ -3,14 +3,12 @@ import type { ServerSupabaseClient } from "../../src/infrastructure/supabase/cli
 
 vi.mock("server-only", () => ({}));
 
-const TABLES_IN_DELETE_ORDER = [
-  "pairs",
-  "draws",
-  "wish_items",
-  "events",
-  "participants",
-  "groups",
-] as const;
+/**
+ * `draws`, `pairs`, `participants`, and `wish_items` cascade from `groups`.
+ * `events.group_id` uses `ON DELETE SET NULL`, so `events` is deleted first.
+ */
+const TABLES_IN_DELETE_ORDER = ["events", "groups"] as const;
+const LOCAL_HOSTS = new Set(["127.0.0.1", "localhost", "[::1]"]);
 
 export function hasIntegrationEnv(
   source: Record<string, string | undefined> = process.env
@@ -18,6 +16,18 @@ export function hasIntegrationEnv(
   const url = source.SUPABASE_URL?.trim() ?? "";
   const key = source.SUPABASE_SERVICE_ROLE_KEY?.trim() ?? "";
   return url.length > 0 && key.length > 0;
+}
+
+export function isAllowedIntegrationUrl(rawUrl: string, allowRemote?: string): boolean {
+  if (allowRemote === "1") {
+    return true;
+  }
+  try {
+    const parsed = new URL(rawUrl);
+    return LOCAL_HOSTS.has(parsed.hostname);
+  } catch {
+    return false;
+  }
 }
 
 export async function createIntegrationClient(): Promise<ServerSupabaseClient> {
@@ -40,6 +50,13 @@ export async function probeIntegrationDatabase(
   if (!hasIntegrationEnv(source)) {
     console.warn(
       "[integration] Skipping suite: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are not set."
+    );
+    return { available: false, client: null };
+  }
+
+  if (!isAllowedIntegrationUrl(source.SUPABASE_URL ?? "", source.INTEGRATION_ALLOW_REMOTE)) {
+    console.warn(
+      "[integration] Skipping suite: SUPABASE_URL must point to 127.0.0.1/localhost (or set INTEGRATION_ALLOW_REMOTE=1)."
     );
     return { available: false, client: null };
   }

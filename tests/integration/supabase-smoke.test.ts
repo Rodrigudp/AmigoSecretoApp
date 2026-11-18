@@ -2,20 +2,25 @@
 import { describe, expect, it } from "vitest";
 import { useIntegrationDatabase } from "./harness";
 
+const DAY_MS = 86_400_000;
+
 describe("local Supabase integration smoke (BE-01, DB-04)", () => {
   const harness = useIntegrationDatabase();
 
   it("creates a group via create_group_once, joins via join_group, and reads back state", async () => {
     const inviteToken = "smoke-invite-token-0123456789abcdef";
+    const exchangeDate = new Date(Date.now() + 10 * DAY_MS).toISOString().slice(0, 10);
+    const expiresAt = new Date(Date.now() + 70 * DAY_MS).toISOString();
+
     const { data: created, error: createError } = await harness.db.rpc("create_group_once", {
       p_request_id: "c9bf9e57-1685-4c89-bafb-ff5af830be8a",
       p_name: "Amigo Secreto da Firma",
       p_max_value_cents: 10000,
-      p_exchange_date: "2026-12-20",
+      p_exchange_date: exchangeDate,
       p_location: "Escritório Central",
       p_invite_token: inviteToken,
       p_admin_token_hash: "a".repeat(64),
-      p_expires_at: "2027-02-18T23:59:59.999Z",
+      p_expires_at: expiresAt,
     });
 
     expect(createError).toBeNull();
