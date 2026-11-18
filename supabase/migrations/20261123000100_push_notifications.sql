@@ -50,6 +50,24 @@ declare
   registered_id uuid;
   registered_at timestamptz;
 begin
+  -- Lock the same rows modified by rotation or removal before writing a token.
+  perform 1 from public.groups g
+  where g.id = p_group_id and g.expires_at > clock_timestamp()
+    and (p_role = 'participant' or (p_role = 'organizer' and g.admin_token_hash = p_credential_hash))
+  for share;
+  if not found then
+    raise exception using errcode = 'P0001', message = 'INVALID_LINK';
+  end if;
+
+  if p_role = 'participant' then
+    perform 1 from public.participants p
+    where p.group_id = p_group_id and p.access_token_hash = p_credential_hash and p.removed_at is null
+    for share;
+    if not found then
+      raise exception using errcode = 'P0001', message = 'INVALID_LINK';
+    end if;
+  end if;
+
   -- Both RPCs serialize changes to the same credential, even before its first row exists.
   perform pg_advisory_xact_lock(hashtextextended(p_credential_hash, 0));
   registered_at := clock_timestamp();
@@ -108,3 +126,44 @@ revoke all on function public.register_push_token(uuid, text, text, text, text),
   public.unregister_push_tokens(text, text) from public, anon, authenticated, service_role;
 grant execute on function public.register_push_token(uuid, text, text, text, text),
   public.unregister_push_tokens(text, text) to service_role;
+
+create function public.revoke_participant_push_tokens()
+returns trigger
+language plpgsql
+security definer
+set search_path = pg_catalog, pg_temp
+as $$
+begin
+  delete from public.push_tokens
+  where group_id = old.group_id and role = 'participant' and credential_hash = old.access_token_hash;
+  return null;
+end;
+$$;
+
+create function public.revoke_organizer_push_tokens()
+returns trigger
+language plpgsql
+security definer
+set search_path = pg_catalog, pg_temp
+as $$
+begin
+  delete from public.push_tokens
+  where group_id = old.id and role = 'organizer' and credential_hash = old.admin_token_hash;
+  return null;
+end;
+$$;
+
+create trigger participants_revoke_push_tokens
+  after update of removed_at, access_token_hash on public.participants
+  for each row
+  when (old.access_token_hash is distinct from new.access_token_hash
+    or (old.removed_at is null and new.removed_at is not null))
+  execute function public.revoke_participant_push_tokens();
+
+create trigger groups_revoke_push_tokens
+  after update of admin_token_hash on public.groups
+  for each row when (old.admin_token_hash is distinct from new.admin_token_hash)
+  execute function public.revoke_organizer_push_tokens();
+
+revoke all on function public.revoke_participant_push_tokens(), public.revoke_organizer_push_tokens()
+  from public, anon, authenticated, service_role;

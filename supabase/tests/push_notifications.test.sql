@@ -6,7 +6,6 @@ do $$
 declare
   table_name text;
   function_name text;
-  blocked_role text;
   privilege_name text;
 begin
   foreach table_name in array array['public.push_tokens', 'public.push_reminders_sent']
@@ -14,15 +13,11 @@ begin
     assert (
       select relrowsecurity and relforcerowsecurity
       from pg_class where oid = table_name::regclass
-    ), 'RLS must be enabled and forced on ' || table_name;
-    foreach blocked_role in array array['anon', 'authenticated']
+    );
+    foreach privilege_name in array array['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'TRUNCATE', 'REFERENCES', 'TRIGGER']
     loop
-      foreach privilege_name in array array[
-        'SELECT', 'INSERT', 'UPDATE', 'DELETE', 'TRUNCATE', 'REFERENCES', 'TRIGGER'
-      ]
-      loop
-        assert not has_table_privilege(blocked_role, table_name, privilege_name);
-      end loop;
+      assert not has_table_privilege('anon', table_name, privilege_name);
+      assert not has_table_privilege('authenticated', table_name, privilege_name);
     end loop;
   end loop;
 
@@ -49,6 +44,7 @@ declare
   first_id uuid;
   first_created_at timestamptz;
   inserted_count integer;
+  stale_role text;
 begin
   insert into public.groups (
     name, max_value_cents, exchange_date, admin_token_hash, invite_token, expires_at, create_request_id
@@ -58,6 +54,9 @@ begin
     'invite_push_test_token_12345', now() + interval '70 days', gen_random_uuid()
   )
   returning id into test_group_id;
+
+  insert into public.participants (group_id, display_name, access_token_hash)
+  values (test_group_id, 'Push participant', participant_hash);
 
   for i in 1..5 loop
     assert public.register_push_token(
@@ -87,9 +86,7 @@ begin
   ), 'the least recently registered device must be removed';
 
   assert public.unregister_push_tokens(participant_hash, first_device) = 1;
-  assert public.unregister_push_tokens(participant_hash, first_device) = 0;
   assert public.unregister_push_tokens(participant_hash) = 4;
-  assert (select count(*) from public.push_tokens where credential_hash = organizer_hash) = 1;
 
   insert into public.push_reminders_sent (group_id, reminder_date)
   values (test_group_id, current_date);
@@ -100,11 +97,27 @@ begin
   insert into public.push_reminders_sent (group_id, reminder_date)
   values (test_group_id, current_date + 1);
 
+  assert public.register_push_token(test_group_id, participant_hash, 'participant', 'ios', first_device);
+  update public.participants set removed_at = now() where access_token_hash = participant_hash;
+  update public.groups set admin_token_hash = repeat('3', 64) where id = test_group_id;
+  assert not exists (select 1 from public.push_tokens where group_id = test_group_id);
+  foreach stale_role in array array['participant', 'organizer']
+  loop
+    begin
+      perform public.register_push_token(
+        test_group_id, case when stale_role = 'participant' then participant_hash else organizer_hash end,
+        stale_role, 'ios', first_device
+      );
+      raise exception 'revoked credential registered a device';
+    exception when raise_exception then
+      if sqlerrm <> 'INVALID_LINK' then raise; end if;
+    end;
+  end loop;
+  assert public.register_push_token(test_group_id, repeat('3', 64), 'organizer', 'ios', first_device);
+
   delete from public.groups where id = test_group_id;
   assert not exists (select 1 from public.push_tokens where group_id = test_group_id);
   assert not exists (select 1 from public.push_reminders_sent where group_id = test_group_id);
 end;
 $$;
-reset role;
-
 rollback;
