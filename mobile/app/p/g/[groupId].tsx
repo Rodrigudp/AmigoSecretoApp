@@ -6,6 +6,7 @@ import { ApiError } from "../../../src/v1/client";
 import type { Participant } from "../../../src/v1/contract";
 import { Action, Body, Card, errorText, formatDate, Page } from "../../../src/v1/ui";
 import { cachedWishes, forgetWishes, syncWishes, type WishCache } from "../../../src/v1/wish-cache";
+import { RevealCard } from "../../../src/v1/reveal";
 import { WishList } from "../../../src/v1/wish-list";
 
 export default function ParticipantGroup() {
@@ -44,6 +45,7 @@ export default function ParticipantGroup() {
   const view = participant?.view;
   return <Page title={view?.group.name ?? "Área do participante"}>
     {view && <Card><Body>Olá, {view.displayName}.</Body><Body>Encontro em {formatDate(view.group.exchangeDate)}</Body></Card>}
+    {view && credential && <RevealCard key={groupId} credential={credential} group={view.group} />}
     {error && <Card><Body alert>{cache ? "Sem conexão. Você está vendo a lista salva neste aparelho." : error}</Body>
       <Action secondary label="Tentar de novo" run={() => setRetry(retry + 1)} /></Card>}
     {cache && credential ? <WishList key={groupId} credential={credential} cache={cache} onCache={setCache}/>
