@@ -26,8 +26,7 @@ function emitChange() {
   for (const fn of listeners) fn();
 }
 
-function onStorage(event: StorageEvent) {
-  if (event.key !== STORAGE_KEY && event.key !== null) return;
+function refreshConsent() {
   const wasGranted = lastNotifiedConsent === "granted";
   emitChange();
   if (wasGranted && lastNotifiedConsent !== "granted") {
@@ -35,15 +34,23 @@ function onStorage(event: StorageEvent) {
   }
 }
 
+function onStorage(event: StorageEvent) {
+  if (event.key === STORAGE_KEY || event.key === null) refreshConsent();
+}
+
 function subscribe(cb: () => void) {
   if (listeners.size === 0) {
     lastNotifiedConsent = readFromStorage();
     window.addEventListener("storage", onStorage);
+    window.addEventListener("pageshow", refreshConsent);
   }
   listeners.add(cb);
   return () => {
     listeners.delete(cb);
-    if (listeners.size === 0) window.removeEventListener("storage", onStorage);
+    if (listeners.size === 0) {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("pageshow", refreshConsent);
+    }
   };
 }
 

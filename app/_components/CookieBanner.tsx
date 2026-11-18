@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Link from "next/link";
 import { useAdConsent, setAdConsent } from "../_lib/consent";
 import { copy } from "../_lib/copy";
 
@@ -41,9 +40,9 @@ export function CookieBanner({ adsEnabled }: { adsEnabled: boolean }) {
       <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
         <p className="flex-1 text-sm text-text">
           {copy.CKB_02}{" "}
-          <Link href="/privacidade" className="underline">
+          <a href="/privacidade" className="underline">
             {copy.CKB_05}
-          </Link>
+          </a>
         </p>
         <div className="flex shrink-0 gap-3">
           <button

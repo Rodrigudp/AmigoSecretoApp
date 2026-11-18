@@ -53,22 +53,13 @@ describe("CookieBanner", () => {
     expect(screen.getByRole("dialog")).toBeTruthy();
   });
 
-  it("stores 'granted' and hides the banner when user clicks accept", () => {
-    const { rerender } = render(<CookieBanner adsEnabled={true} />);
-    const acceptBtn = screen.getByText("Aceitar");
-    fireEvent.click(acceptBtn);
-    expect(localStorage.getItem("pz_ad_consent")).toBe("granted");
-    // Re-render to check the banner disappears
-    rerender(<CookieBanner adsEnabled={true} />);
-    expect(screen.queryByRole("dialog")).toBeNull();
-  });
-
-  it("stores 'denied' and hides the banner when user clicks decline", () => {
-    const { rerender } = render(<CookieBanner adsEnabled={true} />);
-    const declineBtn = screen.getByText("Recusar");
-    fireEvent.click(declineBtn);
-    expect(localStorage.getItem("pz_ad_consent")).toBe("denied");
-    rerender(<CookieBanner adsEnabled={true} />);
+  it.each([
+    ["Aceitar", "granted"],
+    ["Recusar", "denied"],
+  ])("stores the choice for %s and hides the banner", (label, value) => {
+    render(<CookieBanner adsEnabled />);
+    fireEvent.click(screen.getByRole("button", { name: label }));
+    expect(localStorage.getItem("pz_ad_consent")).toBe(value);
     expect(screen.queryByRole("dialog")).toBeNull();
   });
 
