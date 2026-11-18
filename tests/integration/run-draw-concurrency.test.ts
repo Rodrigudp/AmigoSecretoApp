@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { useIntegrationDatabase } from "./harness";
 
 const DAY_MS = 86_400_000;
@@ -76,6 +76,22 @@ describe("run_draw concurrency (SRT-02)", () => {
       .eq("group_id", groupId)
       .eq("type", "draw_performed");
     expect(events.data).toHaveLength(1);
+  });
+
+  it("calls the push hook only for the committed draw", async () => {
+    const { createDrawRepository } = await import("@/src/infrastructure/supabase/draw-repository");
+    const { groupId, ids } = await seedGroup(5);
+    const onFirstDraw = vi.fn();
+    const draws = createDrawRepository(harness.db, onFirstDraw);
+    const admin = { groupId, adminTokenHash: ADMIN_HASH };
+    const pairs = ids.map((giverId, i) => ({ giverId, receiverId: ids[(i + 1) % ids.length] }));
+
+    const receipts = await Promise.all([
+      draws.commitFirstDraw(admin, ids, pairs),
+      draws.commitFirstDraw(admin, ids, pairs),
+    ]);
+    expect(receipts.every((result) => result.ok)).toBe(true);
+    expect(onFirstDraw).toHaveBeenCalledExactlyOnceWith(groupId);
   });
 
   it("a removal racing the draw never leaves a removed participant with a pair", async () => {

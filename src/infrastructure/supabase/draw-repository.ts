@@ -122,7 +122,10 @@ function mapSnapshotToResult(giver: SnapshotGiverRow | null, includeOriginalUrl 
   return ok(value);
 }
 
-export function createDrawRepository(client: ServerSupabaseClient): DrawRepository {
+export function createDrawRepository(
+  client: ServerSupabaseClient,
+  onFirstDraw?: (groupId: string) => void
+): DrawRepository {
   const rpcClient = client as unknown as RunDrawRpcClient;
 
   return {
@@ -180,6 +183,7 @@ export function createDrawRepository(client: ServerSupabaseClient): DrawReposito
       if (error) return err(mapRpcError(error));
       const row = data?.[0];
       if (!row) return err({ code: "INVALID_INPUT" });
+      if (!row.was_replay) onFirstDraw?.(admin.groupId);
       return ok({ status: "drawn", drawnAt: row.drawn_at });
     },
 
