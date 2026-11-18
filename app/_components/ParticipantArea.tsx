@@ -25,6 +25,9 @@ export function ParticipantArea({
         groupName={view.group.name}
         participantName={view.displayName}
         drawStatus={view.group.status}
+        exchangeDate={view.group.exchangeDate}
+        maxValueCents={view.group.maxValueCents}
+        location={view.group.location}
       />
       {view.group.status === "open" ? (
         <Card title="Lista de desejos">

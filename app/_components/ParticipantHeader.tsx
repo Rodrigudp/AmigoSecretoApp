@@ -1,10 +1,14 @@
 import type { ReactNode } from "react";
 import { Card } from "@/app/_components/Card";
+import { formatBrl, formatDateBr } from "@/app/_lib/whatsapp";
 
 export type ParticipantHeaderProps = {
   groupName: string;
   participantName: string;
   drawStatus: "open" | "drawn";
+  exchangeDate: string;
+  maxValueCents: number;
+  location: string | null;
   actions?: ReactNode;
 };
 
@@ -17,6 +21,9 @@ export function ParticipantHeader({
   groupName,
   participantName,
   drawStatus,
+  exchangeDate,
+  maxValueCents,
+  location,
   actions,
 }: ParticipantHeaderProps) {
   return (
@@ -25,6 +32,22 @@ export function ParticipantHeader({
         Grupo {groupName}
       </p>
       <h1 className="page-title">Olá, {participantName}.</h1>
+      <dl className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-text">
+        <div>
+          <dt className="font-semibold">Data da troca</dt>
+          <dd>{formatDateBr(exchangeDate)}</dd>
+        </div>
+        <div>
+          <dt className="font-semibold">Valor sugerido</dt>
+          <dd>até R$ {formatBrl(maxValueCents)}</dd>
+        </div>
+        {location ? (
+          <div>
+            <dt className="font-semibold">Local</dt>
+            <dd className="wrap-break-word">{location}</dd>
+          </div>
+        ) : null}
+      </dl>
       {drawStatus === "open" ? (
         <p className="text-base text-text-muted">O sorteio ainda não foi realizado.</p>
       ) : (

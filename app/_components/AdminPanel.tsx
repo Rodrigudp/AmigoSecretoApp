@@ -61,14 +61,14 @@ export function AdminPanel({
     <div className="grid gap-5 lg:grid-cols-[1.2fr_1.3fr] lg:items-start">
       <header className="grid gap-3 rounded-xl bg-primary-soft p-5 sm:p-7 lg:col-span-2">
         <p className="text-sm font-semibold text-primary-soft-text">Painel do Organizador</p>
-        <div className="flex min-w-0 flex-wrap items-center justify-between gap-3">
+        <div className="flex min-w-0 flex-col items-start gap-3">
           <h1 className="page-title min-w-0">{group.name}</h1>
           {isDrawn ? (
             <span className="rounded-full bg-success-bg px-3 py-1 text-xs font-semibold text-success">
               Sorteio Realizado em {new Date(draw.drawnAt).toLocaleDateString("pt-BR")}
             </span>
           ) : (
-            <span className="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary-soft-text">
+            <span className="rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-primary-soft-text">
               Aberto para inscrições
             </span>
           )}
@@ -199,7 +199,7 @@ export function AdminPanel({
                 </p>
               </div>
             ) : (
-              <Button variant="primary">Realizar Sorteio</Button>
+              <Button disabled>Realizar Sorteio</Button>
             )}
           </div>
         )}
