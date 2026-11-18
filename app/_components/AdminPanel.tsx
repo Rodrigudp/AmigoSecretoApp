@@ -82,7 +82,7 @@ export function AdminPanel({
             <dd className="font-medium text-text">{formatDateBr(group.exchangeDate)}</dd>
           </div>
           <div>
-            <dt className="text-text-muted">Valor sugerido</dt>
+            <dt className="text-text-muted">Valor máximo</dt>
             <dd className="font-medium text-text">até R$ {formatBrl(group.maxValueCents)}</dd>
           </div>
           <div>
@@ -93,7 +93,7 @@ export function AdminPanel({
       </Card>
 
       <Card title="Link do convite">
-        <p className="mb-3 text-sm">Compartilhe o convite com os amigos que vão participar:</p>
+        <p className="mb-3 text-sm">Envie o convite para quem vai participar.</p>
         <CopyField label="Link do convite" value={inviteUrl} copyLabel="Copiar convite">
           <a
             className={buttonClass("secondary")}
@@ -189,7 +189,7 @@ export function AdminPanel({
         ) : (
           <div className="flex flex-col gap-3">
             <p className="text-sm text-text-muted">
-              Quando todos tiverem entrado, dispare o sorteio para definir quem tira quem.
+              Quando todos tiverem entrado, faça o sorteio. Cada pessoa vê só quem tirou.
             </p>
             <div className="flex flex-col items-start gap-2">
               <Button disabled aria-describedby="draw-unavailable">

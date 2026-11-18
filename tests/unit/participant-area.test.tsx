@@ -19,6 +19,7 @@ describe("participant group details", () => {
   it("shows date, value and location", () => {
     render(<ParticipantArea view={view} adsAllowed={true} />);
     expect(screen.getByText("24/12/2026")).toBeTruthy();
+    expect(screen.getByText("Valor máximo")).toBeTruthy();
     expect(screen.getByText("até R$ 50,00")).toBeTruthy();
     expect(screen.getByText("Casa da avó")).toBeTruthy();
     expect(

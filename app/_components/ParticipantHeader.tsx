@@ -38,7 +38,7 @@ export function ParticipantHeader({
           <dd>{formatDateBr(exchangeDate)}</dd>
         </div>
         <div>
-          <dt className="font-semibold">Valor sugerido</dt>
+          <dt className="font-semibold">Valor máximo</dt>
           <dd>até R$ {formatBrl(maxValueCents)}</dd>
         </div>
         {location ? (

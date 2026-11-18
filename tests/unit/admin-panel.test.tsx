@@ -30,6 +30,13 @@ describe("AdminPanel UI (GRP-05)", () => {
     expect(screen.getByText("Aberto para inscrições")).toBeTruthy();
     expect(screen.getByText("Em breve")).toBeTruthy();
     expect(screen.getByText("25/12/2026")).toBeTruthy();
+    expect(screen.getByText("Valor máximo")).toBeTruthy();
+    expect(screen.getByText("Envie o convite para quem vai participar.")).toBeTruthy();
+    expect(
+      screen.getByText(
+        "Quando todos tiverem entrado, faça o sorteio. Cada pessoa vê só quem tirou."
+      )
+    ).toBeTruthy();
     expect(screen.getByText(/Nenhum participante entrou ainda/)).toBeTruthy();
     expect(
       (screen.getByRole("button", { name: "Realizar Sorteio" }) as HTMLButtonElement).disabled
