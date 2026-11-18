@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+
 import { Suspense } from "react";
 import { copy } from "./_lib/copy";
 import { APP_NAME } from "./_lib/brand";
@@ -29,7 +29,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </a>
         <header className="border-b border-line">
           <div className="mx-auto flex min-h-16 w-full max-w-6xl items-center px-5 sm:px-8">
-            <Link href="/" className="inline-flex min-h-11 max-w-full items-center rounded-md">
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+            <a href="/" className="inline-flex min-h-11 max-w-full items-center rounded-md">
               <Image
                 src="/brand/papelzinho-logo.png"
                 alt={copy.GLB_02}
@@ -38,7 +39,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 className="h-auto w-44 max-w-full sm:w-52"
                 priority
               />
-            </Link>
+            </a>
           </div>
         </header>
         {children}
