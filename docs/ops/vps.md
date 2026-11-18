@@ -242,17 +242,66 @@ sudo tail -f /var/log/nginx/error.log
 
 ---
 
-## 8. Configuração Futura de Domínio Próprio e SSL (Certbot)
+## 8. Configuração de Domínio e HTTPS (RNF03, PEN-10 e PEN-09)
 
-Quando um domínio próprio (ex: `papelzinho.com.br`) for apontado para o IP da VPS:
+Conforme decisão técnica registrada no `BOARD.md` (`a1b0b30`), o **RNF03** exige terminação HTTPS antes do lançamento do app para participantes reais. A porta `8090` em HTTP permanece estritamente para homologação interna e testes técnicos.
 
-1. Abra `/etc/nginx/sites-available/papelzinho.conf`.
-2. Descomente o bloco de redirecionamento HTTP -> HTTPS e o bloco SSL na porta 443 configurados no template do arquivo.
-3. Gere os certificados com Let's Encrypt:
+A VPS já possui certificados Let's Encrypt para `smartsolutionsbr.com.br` e seus subdomínios (`midia.` e `whatsapp.`). Para o Papelzinho, foi definido o subdomínio oficial sem custo:
+👉 **`papelzinho.smartsolutionsbr.com.br`** (pendência de apontamento DNS em `PEN-10`).
+
+Futuramente, após aquisição do domínio próprio `papelzinho.app` (`PEN-09`), a mesma estrutura será estendida.
+
+### Ordem Obrigatória de Execução
+
+1. **Propagação de DNS (PEN-10 pelo PO):**
+   Criar na zona DNS de `smartsolutionsbr.com.br` o registro tipo `A`:
+   `papelzinho` → `2.25.252.45` (ou IP público correspondente da VPS).
+   Aguarde a propagação antes de rodar o Certbot:
    ```bash
-   sudo certbot --nginx -d papelzinho.com.br -d www.papelzinho.com.br
+   dig +short papelzinho.smartsolutionsbr.com.br
    ```
-4. Teste e recarregue o Nginx:
+
+2. **Ativar Configuração do Domínio no Nginx:**
+   O arquivo `ops/nginx-papelzinho-domain.conf` foi criado de forma totalmente isolada (sem alterar nenhum site existente na VPS):
+   ```bash
+   sudo cp /home/smartops/papelzinho/ops/nginx-papelzinho-domain.conf /etc/nginx/sites-available/papelzinho-domain.conf
+   sudo ln -sf /etc/nginx/sites-available/papelzinho-domain.conf /etc/nginx/sites-enabled/
+   ```
+
+3. **Emitir Certificado SSL com Certbot:**
+   Com o DNS devidamente propagado para a VPS, execute:
+   ```bash
+   sudo certbot --nginx -d papelzinho.smartsolutionsbr.com.br
+   ```
+
+4. **Validar Sintaxe e Recarregar Nginx:**
+   ```bash
+   sudo nginx -t
+   sudo systemctl reload nginx
+   ```
+
+5. **Atualizar Variáveis de Produção:**
+   No arquivo `/home/smartops/papelzinho/.env.production` (e `.env.local`), configure:
+   ```env
+   APP_URL=https://papelzinho.smartsolutionsbr.com.br
+   ```
+   E recarregue o processo no PM2:
+   ```bash
+   pm2 reload ecosystem.config.cjs --update-env
+   ```
+
+---
+
+### Domínio Próprio Futuro: `papelzinho.app` (PEN-09)
+
+O template completo com o bloco para `papelzinho.app` já consta comentado ao final de `ops/nginx-papelzinho-domain.conf`. Quando o domínio for adquirido pelo PO:
+1. Apontar DNS de `papelzinho.app` para a VPS.
+2. Descomentar os blocos do `papelzinho.app` em `/etc/nginx/sites-available/papelzinho-domain.conf`.
+3. Executar o Certbot:
+   ```bash
+   sudo certbot --nginx -d papelzinho.app -d www.papelzinho.app
+   ```
+4. Testar e recarregar:
    ```bash
    sudo nginx -t && sudo systemctl reload nginx
    ```
