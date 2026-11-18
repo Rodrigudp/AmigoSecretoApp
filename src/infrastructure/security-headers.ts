@@ -26,7 +26,7 @@ const ADSENSE_FRAMES = [
   "https://*.adtrafficquality.google",
   "https://www.google.com",
 ];
-const EXTRA_SENSITIVE_ROUTES = ["/r/:path*", "/owner/:path*"] as const;
+const EXTRA_SENSITIVE_ROUTES = ["/r/:path*", "/owner/:path*", "/api/v1/:path*"] as const;
 
 /** Builds the Content-Security-Policy header string for the given feature flags. */
 export function buildContentSecurityPolicy({ adsEnabled, isDev = false }: CspOptions): string {

@@ -8,6 +8,7 @@ import type { WishItemRepository } from "../../application/ports";
 import type { RemoveParticipantDeps } from "../../application/remove-participant";
 import type { RunDrawDeps } from "../../application/run-draw";
 import { env } from "../../shared/env";
+import { scheduleDrawPush } from "../notifications/draw-push";
 import { secureRandomInt } from "../random";
 import { tokenService } from "../tokens";
 import { createServerClient } from "./client";
@@ -40,7 +41,7 @@ export function buildAdminDeps(): GetAdminViewDeps & RemoveParticipantDeps & Run
   const client = createServerClient();
   return {
     groups: createGroupRepository(client),
-    draws: createDrawRepository(client),
+    draws: createDrawRepository(client, (groupId) => scheduleDrawPush(client, groupId)),
     tokens: tokenService,
     rng: secureRandomInt,
     appUrl: env.APP_URL,

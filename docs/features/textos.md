@@ -309,6 +309,12 @@ Os fluxos e wireframes estão em [app-telas.md](app-telas.md). Os IDs anteriores
 | APP-22 | Prévia, participante | Em breve, você poderá ver quem tirou e editar sua lista de desejos aqui. |
 | APP-23 | Prévia, organizador | Em breve, você poderá organizar seu grupo por aqui. |
 | APP-24 | Prévia, rota desconhecida | Confira o endereço ou volte a Meus grupos. |
+| APP-25 | Ação, desativar push | Desativar avisos |
+| APP-26 | Push desativado | Avisos deste grupo desativados neste aparelho. |
+| APP-27 | Erro ao desativar push | Não foi possível desativar os avisos. Tente de novo. |
+| APP-28 | Erro ao consultar push | Não foi possível consultar os avisos. Tente de novo. |
+| APP-29 | Ativação de push sem confirmação | Não foi possível confirmar a ativação dos avisos. Você pode desativar ou tentar de novo. |
+| APP-30 | Ação, nova tentativa de ativar push | Tentar ativar de novo |
 
 ### APP-LEG-01 — Política de privacidade e termos do app móvel
 

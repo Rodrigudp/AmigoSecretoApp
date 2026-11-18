@@ -29,7 +29,7 @@ export type ProductLink =
   | { href: string; affiliate: false; store: null }
   | { href: string; affiliate: true; store: AffiliateStore };
 export type WishItem = WishFields & { id: WishItemId; productLink: ProductLink | null };
-export type RevealedWishItem = Omit<WishItem, "url">;
+export type RevealedWishItem = Omit<WishItem, "url"> & { url?: string | null };
 export type SaveWishItemOutput = { item: WishItem; warning: "AFFILIATE_UNAVAILABLE" | null };
 
 export type PublicGroup = GroupDetails & { status: GroupStatus };
@@ -133,7 +133,10 @@ export interface DrawRepository {
     expectedParticipantIds: readonly ParticipantId[],
     pairs: readonly Pair[]
   ): RepositoryResult<DrawReceipt>;
-  getCurrentResult(access: AccessScope): RepositoryResult<RevealedResult>;
+  getCurrentResult(
+    access: AccessScope,
+    options?: { includeOriginalUrl?: boolean }
+  ): RepositoryResult<RevealedResult>;
 }
 
 export interface TokenService {

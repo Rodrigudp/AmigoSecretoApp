@@ -4,6 +4,8 @@ import type { DomainError } from "../domain/errors";
 import { err, ok, type Result } from "../shared/result";
 
 export type RateLimitAction =
+  | "api_v1"
+  | "api_v1_write"
   | "create_group"
   | "join_group"
   | "run_draw"
@@ -20,6 +22,8 @@ export type RateLimiter = {
 type Bucket = { count: number; resetAtMs: number };
 
 export const DEFAULT_RATE_LIMIT_POLICIES: Record<RateLimitAction, RateLimitPolicy> = {
+  api_v1: { limit: 120, windowMs: 10 * 60_000 },
+  api_v1_write: { limit: 30, windowMs: 10 * 60_000 },
   create_group: { limit: 10, windowMs: 10 * 60_000 },
   join_group: { limit: 30, windowMs: 10 * 60_000 },
   run_draw: { limit: 10, windowMs: 10 * 60_000 },
