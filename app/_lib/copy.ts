@@ -50,7 +50,7 @@ export const copy = {
   HOM_04: { title: "Criar grupo", help: "Os dados abaixo vão no convite." },
   HOM_05: { label: "Nome do grupo", placeholder: "Ex.: Família Silva" },
   HOM_06: { label: "Valor máximo do presente (R$)", placeholder: "Ex.: 50,00" },
-  HOM_07: { label: "Data do encontro", hint: "Ex.: 24/12/2026" },
+  HOM_07: { label: "Data do encontro", hint: "dd/mm/yyyy" },
   HOM_08: { label: "Local do encontro (opcional)", placeholder: "Ex.: Casa da Vó Maria" },
   HOM_09: { action: "Criar grupo", loading: "Criando…" },
   HOM_10: "Confira os campos destacados",

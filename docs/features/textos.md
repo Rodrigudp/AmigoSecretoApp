@@ -52,7 +52,7 @@ Legenda da coluna **Final**: ✓ mantém o texto de hoje · ✎ muda (vira cart�
 | HOM-04 | Título do formulário / apoio | Criar grupo / Os dados abaixo vão no convite. | ✓ |
 | HOM-05 | Rótulo nome | Nome do grupo (ex.: Família Silva) | ✓ |
 | HOM-06 | Rótulo valor | Valor máximo do presente (R$) (ex.: 50,00) | ✓ |
-| HOM-07 | Rótulo data | Data do encontro (ex.: 24/12/2026) | ✎ substitui "Data da troca". |
+| HOM-07 | Rótulo data | Data do encontro (dica de formato: `dd/mm/yyyy`) | ✎ substitui "Data da troca". |
 | HOM-08 | Rótulo local | Local do encontro (opcional) (ex.: Casa da Vó Maria) | ✎ substitui "Local da troca". |
 | HOM-09 | Botão / enviando | Criar grupo → / Criando… | ✓ |
 | HOM-10 | Resumo de erro (campos) | Não foi possível criar o grupo + "Confira os campos destacados." | ✎ título "Confira os campos destacados", sem corpo |
