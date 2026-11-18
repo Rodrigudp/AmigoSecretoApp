@@ -159,24 +159,25 @@ O plano de capturas segue o visual nativo especificado em `docs/features/app-tel
 | **2** | **Compartilhar convite** (Confirmação pós-criação) | **Compartilhe o convite** | Envie para o grupo pelo WhatsApp ou por outro aplicativo. | Cartão de confirmação "Grupo criado", botão em destaque "Compartilhar convite" (acionando a folha/menu de compartilhamento nativo do sistema operacional, exibindo WhatsApp e outros apps como opção de envio) e botão secundário "Copiar link". |
 | **3** | **Meus grupos** (`mobile/app/index.tsx`) | **Todos os seus grupos reunidos** | Acompanhe família, amigos e trabalho no mesmo aparelho. | Tela inicial com logo Papelzinho, botão "Criar grupo" no topo e dois cartões de grupos salvos no SecureStore: "Família Silva" (Organizador · Entradas abertas · Encontro em 20/12/2026) e "Turma da Escola" (Participante · Sorteio feito · Encontro em 22/12/2026). |
 | **4** | **Painel do organizador** (`mobile/app/admin/[adminToken].tsx`) | **Sorteio protegido** | Com 3 ou mais pessoas, faça o sorteio. O painel do organizador não mostra os pares. | Estado estritamente **pré-sorteio** (sem avisos de encerramento de entradas ou de pós-sorteio): detalhes do grupo (data do encontro, valor máximo, local opcional), botões de convite ("Compartilhar convite" e "Copiar link"), contador de participantes ("Participantes (3 de 100)"), lista com nomes fictícios ("Ana", "Rafael", "Joana") com botão "Remover", e o botão ativo "Fazer o sorteio". |
-| **5** | **Área do participante** (`mobile/app/p/[...path].tsx`) | **Descubra quem tirou e dê dicas** | Cada pessoa vê só quem tirou. Monte sua lista de presentes. | Área do participante após sorteio com rótulos reais de interface: cartão de revelação fechado com botão de ação **"Revelar meu amigo secreto"** (sem exibir o resultado na foto de vitrine); seção intitulada **"Lista de desejos"** com 2 itens fictícios cadastrados e botão **"Adicionar presente"**. |
+| **5** | **Área do participante** (`mobile/app/p/g/[groupId].tsx`) | **Descubra quem tirou e dê dicas** | Cada pessoa vê só quem tirou. Monte sua lista de presentes. | Área do participante após sorteio com rótulos reais de interface: cartão de revelação fechado com botão de ação **"Revelar meu amigo secreto"** (sem exibir o resultado na foto de vitrine); seção intitulada **"Lista de desejos"** com 2 itens fictícios cadastrados e botão **"Adicionar presente"**. |
 
 ---
 
 ## 5. Questionários de Privacidade das Lojas
 
-As respostas abaixo refletem a arquitetura sem cadastro do Papelzinho, a política publicada em `https://papelzinho.app/privacidade` e o contrato da API v1 (`docs/arquitetura/API-V1.md` §5). Submetido para revisão e validação da Segurança (15 Segurança & LGPD).
+As respostas abaixo refletem fielmente a arquitetura sem cadastro do Papelzinho, a política publicada em `https://papelzinho.app/privacidade` e o contrato da API v1 (`docs/arquitetura/API-V1.md` §5). Submetido para revisão e validação final da Segurança (15 Segurança & LGPD).
 
-### Tratamento Técnico por Prestadores de Serviço (Service Providers)
-O aplicativo Papelzinho opera exclusivamente com parceiros de infraestrutura contratados como operadores técnicos e prestadores de serviço (Service Providers / Data Processors):
-- **Supabase:** armazenamento de dados em banco relacional criptografado e execução da API v1.
-- **Expo (EAS Push Notifications):** tráfego e entrega técnica de notificações push aos serviços oficiais da Apple (APNs) e Google (FCM).
-
-Conforme as diretrizes oficiais de ambas as lojas — [Apple App Store Privacy Details](https://developer.apple.com/app-store/app-privacy-details/) (seção *Service Providers*) e [Google Play Data Safety](https://support.google.com/googleplay/android-developer/answer/10787469) (seção *Data sharing: Service Providers*) —, o envio de dados a prestadores de serviços que atuam estritamente sob contrato e em nome do desenvolvedor **não é considerado compartilhamento de dados com terceiros (Data Sharing)**. Portanto, em ambas as fichas declara-se **NÃO** para compartilhamento ou venda externa de dados.
+### Arquitetura de Infraestrutura e Processamento de Dados
+O aplicativo Papelzinho opera com a seguinte infraestrutura técnica:
+- **Servidor do Papelzinho (Next.js):** hospeda a aplicação web e executa as rotas da API v1 consumidas pelo aplicativo móvel.
+- **Supabase:** banco de dados PostgreSQL relacional gerenciado e criptografado para persistência de dados.
+- **Expo (EAS Push Notifications):** serviço de mensageria para tráfego e entrega técnica de notificações push aos serviços oficiais da Apple (APNs) e Google (FCM).
 
 ---
 
 ### 5.1. Apple App Store — Rótulo de Privacidade (App Privacy Details)
+
+> **Diretriz da Apple:** Nas regras da App Store ([Apple App Privacy Details](https://developer.apple.com/app-store/app-privacy-details/)), não existe a exceção de que prestador de serviço não seja compartilhamento. A Apple exige que toda coleta realizada pelo próprio aplicativo ou por bibliotecas/parceiros integrados (como Expo e Supabase) seja declarada. Declara-se, portanto, a coleta dos dados para a finalidade de Funcionalidade do App (`App Functionality`), com o respectivo vínculo ao participante (`Data Linked to You`) e categoricamente sem rastreamento (`No Tracking`).
 
 #### A. O app realiza rastreamento de usuários (Data Used to Track You)?
 - **Resposta:** **NÃO**.
@@ -184,7 +185,7 @@ Conforme as diretrizes oficiais de ambas as lojas — [Apple App Store Privacy D
 
 #### B. Os dados coletados são vinculados à pessoa (Data Linked to You)?
 - **Resposta:** **SIM**.
-- **Justificativa:** Embora o Papelzinho não exija cadastro, senha ou dados civis (CPF, e-mail), perante a modelagem da Apple os dados operacionais coletados (token push, nome e lista de desejos) ficam vinculados ao mesmo registro do participante no grupo.
+- **Justificativa:** Embora o Papelzinho não exija cadastro, senha ou dados civis (CPF, e-mail), perante a modelagem da Apple os dados operacionais coletados (token push gerenciado pelo Expo, nome e lista de desejos armazenados no banco Supabase) ficam vinculados ao mesmo registro do participante no grupo.
 
 #### C. Detalhamento dos dados vinculados à pessoa (Data Linked to You):
 
@@ -194,7 +195,7 @@ Conforme as diretrizes oficiais de ambas as lojas — [Apple App Store Privacy D
    - **Finalidade:** **Funcionalidade do App (App Functionality)** — enviar avisos de sorteio realizado e lembrete da data do encontro.
    - **Vinculado à pessoa (Data Linked to You)?** **SIM**.
    - **Usado para rastreamento (Tracking)?** **NÃO**.
-   - **Observação:** O registro só ocorre se o usuário autorizar explicitamente a permissão de notificações do sistema operacional. O participante pode a qualquer momento clicar em "Desativar avisos" na área pessoal do app (`mobile/app/p/[...path].tsx`), o que revoga e apaga imediatamente o cadastro deste aparelho no servidor.
+   - **Observação:** O registro só ocorre se o usuário autorizar explicitamente a permissão de notificações do sistema operacional. O participante pode a qualquer momento clicar em "Desativar avisos" na área pessoal do app (`mobile/app/p/g/[groupId].tsx`), o que revoga e apaga imediatamente o cadastro deste aparelho no servidor.
 
 2. **Informações de Contato (Contact Info) — Nome (Name):**
    - **Coletado?** **SIM**.
@@ -214,7 +215,7 @@ Conforme as diretrizes oficiais de ambas as lojas — [Apple App Store Privacy D
 
 1. **Diagnóstico e Dados de Uso (Diagnostics / Usage Data):**
    - **Coletado?** **SIM** (apenas dados técnicos operacionais agregados).
-   - **Qual dado:** Registros de requisições anônimas à API (status HTTP, contadores operacionais agregados).
+   - **Qual dado:** Registros anônimos de requisições ao servidor Next.js da API (status HTTP, contadores operacionais agregados).
    - **Finalidade:** **Funcionalidade do App (App Functionality)** e manutenção da estabilidade do serviço.
    - **Vinculado à pessoa?** **NÃO**.
    - **Usado para rastreamento?** **NÃO**.
@@ -223,11 +224,13 @@ Conforme as diretrizes oficiais de ambas as lojas — [Apple App Store Privacy D
 
 ### 5.2. Google Play Store — Seção de Segurança de Dados (Data Safety Section)
 
+> **Diretriz do Google Play sobre Prestadores de Serviço:** Conforme as diretrizes oficiais do Google Play ([Google Play Data Safety Help](https://support.google.com/googleplay/android-developer/answer/10787469), seção *Data sharing / Service Providers*), a transferência de dados para parceiros técnicos (como Supabase para banco de dados e Expo para push) **não é considerada compartilhamento de dados (Data Sharing)** quando o prestador processa os dados estritamente em nome do desenvolvedor e sob suas instruções contratuais. Portanto, na seção de compartilhamento declara-se **NÃO**.
+
 #### A. Coleta e Compartilhamento de Dados (Data Collection and Sharing)
 - **O app coleta ou compartilha algum dos tipos de dados de usuários necessários?** **SIM** (coleta apenas; não compartilha dados com terceiros).
-- **Todos os dados coletados pelo app são criptografados em trânsito?** **SIM** (todas as comunicações entre o app e os servidores utilizam exclusivamente HTTPS/TLS criptografado).
+- **Todos os dados coletados pelo app são criptografados em trânsito?** **SIM** (todas as comunicações entre o app, o servidor Next.js e o banco utilizam exclusivamente HTTPS/TLS criptografado).
 - **O app oferece aos usuários uma forma de solicitar a exclusão de seus dados?** **SIM**, operacionalizado por três canais e mecanismos complementares:
-  1. **Revogação imediata do push no app:** A pessoa participante usa a opção "Desativar avisos" na área pessoal do app (`mobile/app/p/[...path].tsx`), o que revoga e apaga imediatamente o cadastro deste aparelho e seu token push no servidor.
+  1. **Revogação imediata do push no app:** A pessoa participante usa a opção "Desativar avisos" na área pessoal do app (`mobile/app/p/g/[groupId].tsx`), o que revoga e apaga imediatamente o cadastro deste aparelho e seu token push no servidor.
   2. **Canal de exclusão sob demanda:** A pessoa usuária pode solicitar a exclusão antecipada de seus dados a qualquer momento pelo canal oficial de suporte via e-mail: `suporte@papelzinho.app`.
   3. **Exclusão automática por ciclo de vida:** Todos os dados do grupo (participantes, nomes, listas de desejos e metadados) são permanentemente expurgados do banco de dados 60 dias após a data do encontro (sem prometer prazo fixo contado da data de coleta, visto que os dados acompanham o ciclo de vida do evento; a v1 do app não possui recurso manual de "remover grupo").
 
@@ -236,7 +239,7 @@ Conforme as diretrizes oficiais de ambas as lojas — [Apple App Store Privacy D
 1. **Informações pessoais (Personal info):**
    - **Dado:** Nome (`Name`).
    - **Coletado:** Sim (nome informal ou apelido fornecido ao participar de um grupo).
-   - **Compartilhado:** Não. Provedores de nuvem (Supabase) atuam estritamente como prestadores de serviços de processamento sob contrato.
+   - **Compartilhado:** Não. O banco de dados (Supabase) atua estritamente como prestador de serviço de processamento sob contrato e em nome do desenvolvedor.
    - **Finalidade:** Funcionalidade do app (`App functionality`).
    - **Opcional ou Obrigatório:** Obrigatório para participar do sorteio no grupo.
 
@@ -250,7 +253,7 @@ Conforme as diretrizes oficiais de ambas as lojas — [Apple App Store Privacy D
 3. **IDs do dispositivo ou outros (Device or other IDs):**
    - **Dado:** ID do dispositivo (token de notificação push `ExpoPushToken`).
    - **Coletado:** Sim (apenas com permissão explícita de notificação concedida no aparelho).
-   - **Compartilhado:** Não. O envio do token ao Expo atua exclusivamente como prestador de serviço técnico de infraestrutura para despacho de notificações aos serviços FCM/APNs, não constituindo compartilhamento com terceiros conforme as diretrizes do Google Play ([Google Play Data Safety Help](https://support.google.com/googleplay/android-developer/answer/10787469)).
+   - **Compartilhado:** Não. O envio do token ao Expo ocorre exclusivamente na qualidade de prestador de serviço técnico para despacho de notificações aos serviços FCM/APNs sob instruções do desenvolvedor, enquadrando-se na exceção oficial de Service Providers do Google Play.
    - **Finalidade:** Funcionalidade do app (`App functionality`).
    - **Opcional ou Obrigatório:** Opcional (o usuário pode recusar notificações e utilizar o app normalmente).
 
@@ -263,7 +266,8 @@ Conforme as diretrizes oficiais de ambas as lojas — [Apple App Store Privacy D
 
 ## 6. Checklist de Validação Pré-Submissão
 
-- [ ] URLs de suporte (`suporte@papelzinho.app`) e privacidade (`https://papelzinho.app/privacidade`) ativas e acessíveis.
+- [ ] Caixa de entrada e recebimento de e-mails de suporte (`suporte@papelzinho.app`) confirmados pelo Rodrigo antes da submissão às lojas.
+- [ ] URL da política de privacidade (`https://papelzinho.app/privacidade`) ativa e acessível publicamente.
 - [ ] Endpoints de verificação de Universal Links (`/.well-known/apple-app-site-association`) e App Links (`/.well-known/assetlinks.json`) validados em produção.
 - [ ] Contas de desenvolvedor ativas (Apple Developer Program e Google Play Console com período de testes fechados de 14 dias concluído).
 - [ ] Versão de build compilada via EAS Build sem referências a SDKs de publicidade ou bibliotecas de rastreamento de terceiros.
