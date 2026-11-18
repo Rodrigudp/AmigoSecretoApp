@@ -9,48 +9,7 @@ import type {
   PublicGroup,
 } from "../../application/ports";
 import type { ServerSupabaseClient } from "./client";
-import { logInfraError } from "./log-infra-error";
 import { mapRpcError } from "./rpc-error";
-
-type PushTokensDeleteClient = {
-  from(table: "push_tokens"): {
-    delete(): {
-      eq(
-        column: string,
-        value: string
-      ): {
-        eq(
-          column: string,
-          value: string
-        ): PromiseLike<{ error: { code?: string; message?: string } | null }>;
-      };
-    };
-  };
-};
-
-async function revokePushTokensForCredential(
-  client: ServerSupabaseClient,
-  groupId: string,
-  credentialHash: string | null | undefined
-): Promise<void> {
-  if (!credentialHash) return;
-  try {
-    const pushClient = client as unknown as PushTokensDeleteClient;
-    const { error } = await pushClient
-      .from("push_tokens")
-      .delete()
-      .eq("group_id", groupId)
-      .eq("credential_hash", credentialHash);
-    // Ignore PGRST205 if DB-APP-01 migration has not been applied yet.
-    if (error && error.code !== "PGRST205") {
-      logInfraError("removeParticipant.revokePushTokens", error);
-    }
-  } catch (cause) {
-    logInfraError("removeParticipant.revokePushTokens", {
-      message: cause instanceof Error ? cause.message : "unknown",
-    });
-  }
-}
 
 function toPublicGroup(row: {
   name: string;
@@ -182,7 +141,7 @@ export function createGroupRepository(client: ServerSupabaseClient): GroupReposi
 
       const { data: participant, error: findError } = await client
         .from("participants")
-        .select("id, access_token_hash")
+        .select("id")
         .eq("id", participantId)
         .eq("group_id", admin.groupId)
         .is("removed_at", null)
@@ -201,8 +160,6 @@ export function createGroupRepository(client: ServerSupabaseClient): GroupReposi
         const mapped = mapRpcError(updateError);
         return err({ code: mapped.code === "GROUP_CLOSED" ? "GROUP_CLOSED" : "INVALID_LINK" });
       }
-
-      await revokePushTokensForCredential(client, admin.groupId, participant.access_token_hash);
 
       const count = await countActiveParticipants(client, admin.groupId);
       return ok({ participantCount: count });
