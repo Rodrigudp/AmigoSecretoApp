@@ -31,6 +31,9 @@ fi
 cd "$APP_DIR"
 
 # 2. Preserve environment variables
+OLD_UMASK=$(umask)
+umask 077
+
 if [ ! -f "$APP_DIR/.env.production" ]; then
   if [ -f "/home/smartops/amigo-secreto/.env.production" ]; then
     log "Copying .env.production from existing amigo-secreto directory..."
@@ -49,6 +52,7 @@ chmod 600 "$APP_DIR/.env.production"
 # Also symlink or copy to .env.local for Next.js build
 cp "$APP_DIR/.env.production" "$APP_DIR/.env.local"
 chmod 600 "$APP_DIR/.env.local"
+umask "$OLD_UMASK"
 
 # 3. Record previous commit for rollback
 PREV_COMMIT=$(git rev-parse HEAD 2>/dev/null || echo "")
@@ -58,12 +62,13 @@ git fetch origin "$BRANCH"
 git checkout "$BRANCH"
 git reset --hard "origin/$BRANCH"
 
+CURRENT_FULL_COMMIT=$(git rev-parse HEAD)
 CURRENT_COMMIT=$(git rev-parse --short HEAD)
 log "Deploying commit: $CURRENT_COMMIT"
 
 rollback() {
   err "Deployment failed! Initiating rollback..."
-  if [ -n "$PREV_COMMIT" ] && [ "$PREV_COMMIT" != "$CURRENT_COMMIT" ]; then
+  if [ -n "$PREV_COMMIT" ] && [ "$PREV_COMMIT" != "$CURRENT_FULL_COMMIT" ]; then
     log "Rolling back to commit: $PREV_COMMIT..."
     git checkout "$PREV_COMMIT"
     npm ci

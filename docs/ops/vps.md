@@ -13,9 +13,13 @@ Devido ao limite de 100 deploys/24h da Vercel no plano gratuito e à necessidade
 - **Gerenciador de Processos:** PM2 em modo `fork` com 1 instância (`exec_mode: "fork"`, `instances: 1`).
   > **Nota de Segurança & Rate Limit:** O rate limiting do projeto (SEC-03) opera em memória (`globalThis`). Executar em modo `fork` com 1 processo único garante que a contagem de requisições por IP seja centralizada e consistente.
 - **Porta Local da Aplicação:** `127.0.0.1:3010` (processo PM2 `papelzinho`).
+  > **Nota de Portas:** A porta local 3010 é de uso exclusivo do Papelzinho (anteriormente executado via `nohup` em `/home/smartops/amigo-secreto` e agora consolidado sob o PM2 em `/home/smartops/papelzinho`).
 - **Reverse Proxy:** Nginx escutando na porta pública **`8090`** (`http://<IP_DA_VPS>:8090`).
-  > **Preservação de Serviços:** A porta 8090 foi escolhida para não conflitar com nenhum dos serviços já existentes na VPS (portas 22, 80, 443, 3005, 3010, 3030, 3085, 3306, 33060, 5000, 5555, 8080, 8082, 8443, 8790).
-- **Cabeçalhos HTTP & Rate Limit:** O Nginx repassa `X-Real-IP: $remote_addr` e `X-Forwarded-For: $proxy_add_x_forwarded_for`. Os cabeçalhos de segurança (CSP, HSTS, etc.) são gerados diretamente pelo Next.js (`next.config.ts`), evitando duplicação.
+  > **Preservação de Serviços:** A porta 8090 foi escolhida para não conflitar com nenhum dos serviços já existentes na VPS (portas 22, 80, 443, 3005, 3030, 3085, 3306, 33060, 5000, 5555, 8080, 8082, 8443, 8790).
+  > 
+  > **GATE DE SEGURANÇA & LGPD (Art. 46 — OBRIGATÓRIO ANTES DO GO-LIVE):**
+  > O endpoint HTTP na porta `:8090` é **restrito à fase de homologação, testes técnicos e smoke tests**. Em conexões HTTP puras, tokens de URL (`/p/[token]`, `/owner/[token]`) e cookies de autenticação (`ptk_<groupId>`, cuja flag `Secure` é omitida pelo runtime quando `APP_URL` começa com `http://`) trafegam em texto claro pela rede. A ativação de domínio com terminação HTTPS (Certbot / SSL — Seção 8) e a definição de `APP_URL=https://...` no `.env.production` são **obrigatórias antes da abertura do sistema a participantes reais**.
+- **Cabeçalhos HTTP & Rate Limit:** O Nginx repassa `X-Real-IP: $remote_addr` e `X-Forwarded-For: $proxy_add_x_forwarded_for`. Os cabeçalhos de segurança (CSP, HSTS, etc.) são gerados diretamente pelo Next.js (`next.config.ts`), evitando duplicação. Além disso, `server_tokens off;` está ativo e o logging em `access.log` para rotas sensíveis (`/p/`, `/owner/`, `/r/`, `/admin/`) é desabilitado para não persistir tokens nem IPs em disco.
 - **Vercel Decoupling:** `vercel.json` foi configurado com `"git": { "deploymentEnabled": false }`, cessando deploys automáticos na Vercel a cada commit.
 
 ---
@@ -57,8 +61,11 @@ git checkout main
 Se já existir um arquivo configurado na pasta `/home/smartops/amigo-secreto`, copie-o:
 
 ```bash
+# Definir umask restritiva antes da criação dos arquivos para evitar leitura por outros usuários
+umask 077
+
 if [ -f "/home/smartops/amigo-secreto/.env.production" ]; then
-  cp /home/smartops/amigo-secreto/.env.production /home/smartops/papelzinho/.env.production
+  cp "/home/smartops/amigo-secreto/.env.production" "/home/smartops/papelzinho/.env.production"
 else
   # Crie o arquivo manualmente com as variáveis de produção
   nano /home/smartops/papelzinho/.env.production
@@ -151,8 +158,9 @@ Acesse o repositório no GitHub: **Settings > Environments > production > Secret
 | `VPS_USER` | Usuário SSH do sistema | `smartops` |
 | `VPS_SSH_KEY` | Chave privada SSH autorizada no servidor | Conteúdo de `~/.ssh/id_rsa` |
 | `VPS_SSH_PORT` | Porta SSH (opcional, padrão `22`) | `22` |
+| `VPS_SSH_KNOWN_HOSTS` | Chave pública do host para validação MITM (`StrictHostKeyChecking=yes`) | Saída de `ssh-keyscan -p 22 -H <IP_DA_VPS>` |
 
-> **Nota:** Caso as secrets da VPS não estejam configuradas, o job `deploy-vps` emitirá um aviso informativo (`::warning::`) e concluirá sem quebrar o pipeline.
+> **Nota de Segurança:** O pipeline de CI utiliza `StrictHostKeyChecking=yes` com a secret `VPS_SSH_KNOWN_HOSTS` e registra um `trap` automático para expurgar a chave privada do runner efêmero ao término da execução, prevenindo ataques Man-in-the-Middle (MITM). Caso as secrets da VPS não estejam configuradas, o job `deploy-vps` emitirá um aviso informativo (`::warning::`) e concluirá sem quebrar o pipeline.
 
 ---
 
