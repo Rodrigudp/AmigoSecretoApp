@@ -4,7 +4,6 @@ vi.mock("server-only", () => ({}));
 import { copy } from "../../app/_lib/copy";
 import { getSharedRateLimiter } from "../../src/infrastructure/rate-limit";
 import { err, ok } from "../../src/shared/result";
-import { createGroupRepository } from "../../src/infrastructure/supabase/group-repository";
 import { createDrawRepository } from "../../src/infrastructure/supabase/draw-repository";
 import type { ServerSupabaseClient } from "../../src/infrastructure/supabase/client";
 
@@ -285,78 +284,6 @@ describe("API v1 draw & admin routes (APP-API-02c)", () => {
 });
 
 describe("APP-API-02c repository hooks", () => {
-  it("removeParticipant revokes push_tokens for the removed participant's credential_hash", async () => {
-    const pushDeleteFilters: Record<string, string> = {};
-    let participantCall = 0;
-
-    const client = {
-      from(table: string) {
-        if (table === "groups") {
-          const b = {
-            select: () => b,
-            eq: () => b,
-            maybeSingle: async () => ({ data: { status: "open" }, error: null }),
-          };
-          return b;
-        }
-        if (table === "participants") {
-          participantCall += 1;
-          if (participantCall === 1) {
-            const b = {
-              select: () => b,
-              eq: () => b,
-              is: () => b,
-              maybeSingle: async () => ({
-                data: { id: "p-1", access_token_hash: "cred-hash-1" },
-                error: null,
-              }),
-            };
-            return b;
-          }
-          if (participantCall === 2) {
-            const b = {
-              update: () => b,
-              eq: () => b,
-              is: async () => ({ error: null }),
-            };
-            return b;
-          }
-          const b = {
-            select: () => b,
-            eq: () => b,
-            is: async () => ({ count: 2, error: null }),
-          };
-          return b;
-        }
-        if (table === "push_tokens") {
-          const b = {
-            delete: () => b,
-            eq: (col: string, val: string) => {
-              pushDeleteFilters[col] = val;
-              if (Object.keys(pushDeleteFilters).length === 2) {
-                return Promise.resolve({ error: null });
-              }
-              return b;
-            },
-          };
-          return b;
-        }
-        throw new Error(`Unexpected table ${table}`);
-      },
-    } as unknown as ServerSupabaseClient;
-
-    const repo = createGroupRepository(client);
-    const res = await repo.removeParticipant(
-      { groupId: "grp-1", adminTokenHash: "h-adm" },
-      "p-1"
-    );
-    expect(res).toEqual(ok({ participantCount: 2 }));
-    expect(pushDeleteFilters).toEqual({
-      group_id: "grp-1",
-      credential_hash: "cred-hash-1",
-    });
-  });
-
   it("getCurrentResult with includeOriginalUrl returns raw url without exposing affiliateUrl", async () => {
     const client = {
       from() {

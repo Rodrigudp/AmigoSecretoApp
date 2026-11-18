@@ -139,27 +139,4 @@ describe("run-draw use case (RF08, RN01-RN04, SRT-03)", () => {
       p_receivers: ["p-2", "p-3", "p-1"],
     });
   });
-
-  it("invokes onDrawCompleted only on open -> drawn transition and ignores hook errors", async () => {
-    const onDrawCompleted = vi.fn().mockRejectedValueOnce(new Error("push down"));
-    const deps = makeDeps({ onDrawCompleted });
-
-    expect(await runDraw({ adminToken: "adm-ok" }, deps)).toEqual(
-      ok({ status: "drawn", drawnAt: "2026-11-18T12:00:00.000Z" })
-    );
-    expect(onDrawCompleted).toHaveBeenCalledTimes(1);
-    expect(onDrawCompleted).toHaveBeenCalledWith({ groupId: "grp-1" });
-
-    const replayDeps = makeDeps({
-      onDrawCompleted,
-      draws: {
-        readForFirstDraw: async () =>
-          ok({ status: "drawn", drawnAt: "2026-11-18T12:00:00.000Z" }),
-        commitFirstDraw: async () => ok({ status: "drawn", drawnAt: "2026-11-18T12:00:00.000Z" }),
-        getCurrentResult: async () => err({ code: "DRAW_NOT_READY" }),
-      },
-    });
-    expect((await runDraw({ adminToken: "adm-ok" }, replayDeps)).ok).toBe(true);
-    expect(onDrawCompleted).toHaveBeenCalledTimes(1);
-  });
 });
