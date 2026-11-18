@@ -1,6 +1,14 @@
 import { Link, useFocusEffect } from "expo-router";
 import { useCallback, useRef, type ComponentRef } from "react";
-import { AccessibilityInfo, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  AccessibilityInfo,
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { mockApi, type Section } from "./api";
 import { fonts, palette } from "./theme";
@@ -26,22 +34,31 @@ export function Screen({ section }: { section: Section }) {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.page}>
-          <View style={styles.header}>
-            <View accessible={false} style={styles.paper} />
-            <Text style={styles.brand}>Papelzinho</Text>
-          </View>
+          <Image
+            source={require("../assets/papelzinho-logo.png")}
+            accessibilityLabel="Papelzinho"
+            style={styles.logo}
+            resizeMode="contain"
+          />
+          {!isHome && (
+            <Link href="/" dismissTo style={styles.link}>
+              {mockApi.getScreen("home").title}
+            </Link>
+          )}
           <View style={[styles.card, section === "invitation" && styles.invitation]}>
-            <View ref={heading} accessible accessibilityRole="header" tabIndex={-1}>
+            <View
+              ref={heading}
+              accessible
+              accessibilityRole="header"
+              accessibilityLabel={title}
+              tabIndex={-1}
+            >
               <Text style={styles.title}>{title}</Text>
             </View>
             <Text style={styles.message}>{message}</Text>
-            {isHome ? (
+            {isHome && (
               <Link href="/create" style={[styles.link, styles.primary]}>
-                Criar grupo
-              </Link>
-            ) : (
-              <Link href="/" dismissTo style={styles.link}>
-                Meus grupos
+                {mockApi.getScreen("create").title}
               </Link>
             )}
           </View>
@@ -55,17 +72,7 @@ const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: palette.background },
   scroll: { paddingHorizontal: 16, paddingVertical: 32 },
   page: { width: "100%", maxWidth: 640, alignSelf: "center", gap: 24 },
-  header: { flexDirection: "row", alignItems: "center", gap: 12 },
-  paper: {
-    width: 18,
-    height: 20,
-    borderRadius: 3,
-    borderWidth: 1,
-    borderColor: palette.line,
-    backgroundColor: palette.note,
-    transform: [{ rotate: "-8deg" }],
-  },
-  brand: { fontFamily: fonts.strong, fontSize: 18, color: palette.text },
+  logo: { width: 166, height: 32 },
   card: {
     backgroundColor: palette.surface,
     borderRadius: 12,

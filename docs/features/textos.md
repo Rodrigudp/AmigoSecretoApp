@@ -303,3 +303,9 @@ Os fluxos e wireframes estão em [app-telas.md](app-telas.md). Os IDs anteriores
 | APP-16 | Push, lembrete, corpo, plural | Faltam {dias} dias para o encontro. |
 | APP-17 | Push, lembrete, corpo, singular | Seu encontro é amanhã. |
 | APP-18 | Notificação sem acesso válido | Este grupo não está disponível neste aparelho. Abra seu link pessoal ou peça ajuda ao organizador. |
+| APP-19 | Prévia, criar grupo | Em breve, você poderá criar um grupo pelo app. |
+| APP-20 | Prévia, convite | Em breve, você poderá entrar no grupo por aqui. |
+| APP-21 | Prévia, participante, título | Área do participante |
+| APP-22 | Prévia, participante | Em breve, você poderá ver quem tirou e editar sua lista de desejos aqui. |
+| APP-23 | Prévia, organizador | Em breve, você poderá organizar seu grupo por aqui. |
+| APP-24 | Prévia, rota desconhecida | Confira o endereço ou volte a Meus grupos. |
