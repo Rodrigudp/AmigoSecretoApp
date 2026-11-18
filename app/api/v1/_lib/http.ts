@@ -18,7 +18,6 @@ const errors = {
   NOT_ENOUGH_PARTICIPANTS: [409, copy.DRW_03],
   DRAW_NOT_READY: [409, copy.ARE_02],
   DRAW_MEMBERS_CHANGED: [409, copy.DRW_08.text],
-  PUSH_DEVICE_LIMIT: [409, "Remova um aparelho para ativar notificações neste."],
   RATE_LIMITED: [429, copy.GLB_09],
   INTERNAL_ERROR: [500, copy.GLB_08],
 } as const;
