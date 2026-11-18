@@ -24,15 +24,13 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 - DSN-03 + FE-DSN-3 · Centralizar textos (DSN-01) + A-05 e A-07 · FE → DSN + QA · 3 pts · 21/11 — responsável: 11 Front-end; revisão do 16 e do 13 QA (strings dos E2E); inclui texto do WhatsApp/OG sem a promessa da lista até a LST-04 e o aviso GLB-12
 - MKT-03 · Página "Como funciona"/FAQ + SEO técnico (sitemap.xml, robots.txt, metadados, schema.org) · MKT → FE + SEC + DSN · 3 pts · 24/11 — responsável: 25 Marketing; URLs pelo APP_URL (domínio vai mudar para papelzinho.app); páginas com token seguem noindex; Lighthouse SEO ≥ 90. Depois: MKT-04
 
-- BE-03 · Adapters Supabase do painel do organizador (getAdminView, removeParticipant) e da área do participante (findActiveByHash, get-participant-view) no lugar dos stubs · BE → DB · 3 pts · 20/11 — responsável: 10 Back-end; BLOQUEIA o lançamento (grupo real não aparece no painel nem na área); PRs < 400 linhas (painel e área separados se precisar); migration nova só se indispensável
-
 ## ⏳ Aguardando dependência (It-2)
 - FE-DSN-4 · A-06, A-10 + rodapé "Privacidade · Termos" (LGPD, obrigatório antes do lançamento) · FE → DSN · 1 pt · 22/11 — após MON-01 (páginas) e textos GLB do 16
 
 ## 🔨 Em andamento
 
 ## 👀 Em revisão
-_(vazio)_
+- BE-03 · Adapters Supabase do painel do organizador (getAdminView, removeParticipant) e da área do participante (findActiveByHash, get-participant-view) no lugar dos stubs · BE → DB · 3 pts · 20/11 — PR aberto; demo-admin-token removido de produção; aguarda CI e parecer do 12
 
 ## 🧪 Em teste (QA)
 _(vazio)_
@@ -185,3 +183,4 @@ _(vazio)_
 - 2026-11-18 · Orquestrador · MKT-03 liberado ao 25 (caminho crítico do lançamento); MKT-04 em seguida, MKT-05 depois · nenhum
 - 2026-11-18 · Orquestrador · BUG criar grupo em produção: banco vazio porque o job de migrations pula sem PEN-08. Apliquei à mão no SQL Editor as 5 migrations (até 20261121000100) e o histórico em supabase_migrations.schema_migrations. Criar e entrar testados no site; grupo e eventos de teste apagados · PEN-08 segue para migrations novas
 - 2026-11-18 · Orquestrador · Lacuna achada na revisão geral: painel do organizador e área do participante ainda em stub em produção. BE-03 criado para o 10 Back-end, prioridade máxima · nenhum
+- 2026-11-18 · Back-end · BE-03: adapters reais do painel e da área; demo-admin-token fora de produção; PR e revisão ao 12 · nenhum

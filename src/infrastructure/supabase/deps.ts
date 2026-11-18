@@ -1,6 +1,9 @@
 import "server-only";
 import type { CreateGroupDeps } from "../../application/create-group";
+import type { GetAdminViewDeps } from "../../application/get-admin-view";
+import type { GetParticipantViewDeps } from "../../application/get-participant-view";
 import type { JoinGroupDeps } from "../../application/join-group";
+import type { RemoveParticipantDeps } from "../../application/remove-participant";
 import { env } from "../../shared/env";
 import { tokenService } from "../tokens";
 import { createServerClient } from "./client";
@@ -24,6 +27,23 @@ export function buildJoinGroupDeps(): JoinGroupDeps {
     participants: createParticipantRepository(client),
     tokens: tokenService,
     appUrl: env.APP_URL,
+  };
+}
+
+export function buildAdminDeps(): GetAdminViewDeps & RemoveParticipantDeps {
+  const client = createServerClient();
+  return {
+    groups: createGroupRepository(client),
+    tokens: tokenService,
+    appUrl: env.APP_URL,
+  };
+}
+
+export function buildParticipantViewDeps(): GetParticipantViewDeps {
+  const client = createServerClient();
+  return {
+    participants: createParticipantRepository(client),
+    tokens: tokenService,
   };
 }
 

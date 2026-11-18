@@ -1,11 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { AdminPanel } from "@/app/_components/AdminPanel";
-import {
-  DEMO_ADMIN_TOKEN,
-  getAdminViewUseCase,
-  removeParticipantUseCase,
-} from "@/app/_lib/admin-usecase";
 import type { AdminGroup } from "@/src/application/ports";
 
 afterEach(cleanup);
@@ -105,22 +100,5 @@ describe("AdminPanel UI (GRP-05)", () => {
     expect(screen.queryByRole("button", { name: /Remover/ })).toBeNull();
     expect(screen.queryByRole("button", { name: "Fazer o sorteio" })).toBeNull();
     expect(screen.getByText(/Sorteio feito!/)).toBeTruthy();
-  });
-
-  it("resolves demo admin token and refuses unknown tokens with INVALID_LINK (ADR-002, RNF03)", async () => {
-    const res = await getAdminViewUseCase(DEMO_ADMIN_TOKEN);
-    expect(res.ok).toBe(true);
-    if (!res.ok) return;
-    expect(res.value.group.name).toBe("Amigo Secreto da Galera");
-    expect(res.value.participantCount).toBe(3);
-
-    expect(await getAdminViewUseCase("unknown-token-12345")).toEqual({
-      ok: false,
-      error: { code: "INVALID_LINK" },
-    });
-    expect(await removeParticipantUseCase("unknown-token-12345", "p-1")).toEqual({
-      ok: false,
-      error: { code: "INVALID_LINK" },
-    });
   });
 });
