@@ -164,6 +164,9 @@ isOneToOne: false
 { Args: { "p_access_token_hash": string,"p_display_name": string,"p_invite_token": string }; Returns: {
               "display_name": string,"expires_at": string,"group_id": string,"participant_id": string
             }[]
+                           },
+"purge_expired_groups":
+{ Args: Record<PropertyKey, never>; Returns: number
                            }
           }
           Enums: {
