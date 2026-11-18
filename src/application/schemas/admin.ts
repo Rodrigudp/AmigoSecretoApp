@@ -18,3 +18,13 @@ export const removeParticipantInputSchema = z.object({
 });
 
 export type RemoveParticipantInput = z.infer<typeof removeParticipantInputSchema>;
+
+/**
+ * Input schema for `run-draw` (RF08, HU04, SRT-03).
+ */
+export const runDrawInputSchema = z.object({
+  adminToken: z.string().trim().min(1, "INVALID_LINK").max(200),
+  expectedParticipantCount: z.number().int().nonnegative().optional(),
+});
+
+export type RunDrawInput = z.infer<typeof runDrawInputSchema>;

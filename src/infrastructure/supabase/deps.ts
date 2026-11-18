@@ -5,9 +5,12 @@ import type { GetParticipantViewDeps } from "../../application/get-participant-v
 import type { JoinGroupDeps } from "../../application/join-group";
 import type { WishItemRepository } from "../../application/ports";
 import type { RemoveParticipantDeps } from "../../application/remove-participant";
+import type { RunDrawDeps } from "../../application/run-draw";
 import { env } from "../../shared/env";
+import { secureRandomInt } from "../random";
 import { tokenService } from "../tokens";
 import { createServerClient } from "./client";
+import { createDrawRepository } from "./draw-repository";
 import { createGroupRepository } from "./group-repository";
 import { createParticipantRepository } from "./participant-repository";
 import { createWishItemRepository } from "./wish-item-repository";
@@ -32,11 +35,13 @@ export function buildJoinGroupDeps(): JoinGroupDeps {
   };
 }
 
-export function buildAdminDeps(): GetAdminViewDeps & RemoveParticipantDeps {
+export function buildAdminDeps(): GetAdminViewDeps & RemoveParticipantDeps & RunDrawDeps {
   const client = createServerClient();
   return {
     groups: createGroupRepository(client),
+    draws: createDrawRepository(client),
     tokens: tokenService,
+    rng: secureRandomInt,
     appUrl: env.APP_URL,
   };
 }
