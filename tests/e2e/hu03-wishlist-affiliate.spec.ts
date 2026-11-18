@@ -6,6 +6,7 @@ test("HU03 - lista funciona sem expor o token na rota do participante", async ({
   groupFactory,
 }) => {
   test.setTimeout(180_000);
+  page.setDefaultTimeout(15_000);
   const group = await groupFactory.create(["QA Ana"]);
   const { personalUrl } = group.participants[0];
   const accessToken = new URL(personalUrl).pathname.split("/").at(-1);

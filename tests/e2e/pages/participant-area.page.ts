@@ -29,7 +29,7 @@ export class ParticipantAreaPage {
   }
 
   get itemTitleField(): Locator {
-    return this.page.getByLabel(/^nome do presente$/i);
+    return this.page.getByRole("textbox", { name: "Nome do presente", exact: true });
   }
 
   get itemLinkField(): Locator {
