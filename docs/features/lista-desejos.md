@@ -16,7 +16,7 @@
 
 | # | Decisão | Dono | Recomendação |
 | --- | --- | --- | --- |
-| D1 | Cadastrar o domínio público como mídia aprovada no Programa de Afiliados e Criadores do Mercado Livre e confirmar no painel de afiliados como gerar o Link Especial (ferramenta/API). Sem isso, adapter do ML fica desligado. | Rodrigo | Cadastrar antes de 22/11; se não houver geração programática, ML entra como link comum |
+| D1 | Cadastrar o domínio público como mídia aprovada no Programa de Afiliados e Criadores do Mercado Livre e confirmar no painel de afiliados como gerar o Link Especial (ferramenta/API). Sem isso, adapter do ML fica desligado. | Rodrigo | **Encerrado pelo PO em 18/11:** Mercado Livre removido do programa de afiliados do Papelzinho. Apenas Amazon gera comissão. Links do ML são tratados como links comuns sem tag/aviso. |
 | D2 | Contagem de clique: `/r/[itemId]` (redirect) ou link direto + evento por `sendBeacon` | ORQ + SEC + MON | **Fechada em 17/11: `beacon` é o padrão** (MON aprovou; clique perdido quando o beacon falha é aceitável na métrica agregada). `/r/` fica implementado e desligado por flag |
 | D3 | Lista somente leitura depois do sorteio? | ORQ | **Fechada em 17/11: não.** A lista continua editável depois do sorteio; quem tirou vê a versão atual. |
 | D4 | RF12 entra no MVP? (backlog diz pós-MVP) | ORQ + Rodrigo | Fora do MVP; seção pronta atrás de flag `SUGGESTIONS_ENABLED` |

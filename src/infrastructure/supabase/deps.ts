@@ -69,8 +69,23 @@ export function buildGetMyResultDeps(): GetMyResultDeps {
   };
 }
 
+import { CompositeAffiliateLinkService } from "../affiliates/affiliate-adapters";
+
 export function buildWishItemRepository(): WishItemRepository {
   return createWishItemRepository(createServerClient());
+}
+
+export function buildAffiliateLinkService() {
+  return new CompositeAffiliateLinkService();
+}
+
+export function buildEventAppendService() {
+  const client = createServerClient();
+  return {
+    async append(event: { groupId: string; type: import("../../application/ports").EventType }) {
+      await client.from("events").insert({ group_id: event.groupId, type: event.type });
+    },
+  };
 }
 
 export function buildInviteClient() {

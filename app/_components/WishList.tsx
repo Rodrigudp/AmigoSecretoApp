@@ -168,14 +168,10 @@ function WishListAddBlock({
   );
 }
 
-function AffiliateDisclosures({ hasAmazon, hasML }: { hasAmazon: boolean; hasML: boolean }) {
+function AffiliateDisclosures({ hasAmazon }: { hasAmazon: boolean }) {
+  if (!hasAmazon) return null;
   return (
-    <>
-      {hasAmazon && (
-        <p className="mt-2 border-t border-line pt-3 text-base text-text-muted">{copy.WSH_20}</p>
-      )}
-      {hasML && <p className="text-base text-text-muted">{copy.WSH_21}</p>}
-    </>
+    <p className="mt-2 border-t border-line pt-3 text-base text-text-muted">{copy.WSH_20}</p>
   );
 }
 
@@ -247,9 +243,6 @@ export function WishList({
 
   const hasAmazonAffiliate = items.some(
     (i) => i.productLink?.affiliate && i.productLink.store === "amazon"
-  );
-  const hasMLAffiliate = items.some(
-    (i) => i.productLink?.affiliate && i.productLink.store === "mercadolivre"
   );
 
   async function handleAdd(data: WishFormData) {
@@ -409,7 +402,7 @@ export function WishList({
           onAdd={() => setIsAdding(true)}
         />
 
-        <AffiliateDisclosures hasAmazon={hasAmazonAffiliate} hasML={hasMLAffiliate} />
+        <AffiliateDisclosures hasAmazon={hasAmazonAffiliate} />
       </div>
     </Card>
   );

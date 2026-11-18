@@ -144,6 +144,24 @@ class InMemoryWishItemRepo implements WishItemRepository {
       affiliateUrl: item.affiliateUrl,
     });
   }
+
+  async getLinkForRedirect(
+    itemId: WishItemId
+  ): RepositoryResult<{
+    groupId: string;
+    url: string;
+    affiliateUrl: string | null;
+  }> {
+    const item = this.items.find((i) => i.id === itemId);
+    if (!item || !item.url) {
+      return err({ code: "PRODUCT_LINK_UNAVAILABLE" });
+    }
+    return ok({
+      groupId: "g-1",
+      url: item.url,
+      affiliateUrl: item.affiliateUrl,
+    });
+  }
 }
 
 class FakeTokenService implements TokenService {
