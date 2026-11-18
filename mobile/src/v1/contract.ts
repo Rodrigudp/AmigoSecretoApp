@@ -107,4 +107,5 @@ export interface ApiV1 {
     credential: string,
     input: PushRegistration
   ): Promise<{ registered: true; role: Role }>;
+  revokePush(credential: string, expoPushToken: string): Promise<{ removed: true; role: Role }>;
 }

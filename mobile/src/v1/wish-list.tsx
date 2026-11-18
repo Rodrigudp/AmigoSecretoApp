@@ -126,15 +126,15 @@ export function WishList({ credential, cache, onCache }: {
   return <Card>
     <Body>Lista de desejos</Body>
     <Body>{items.length} de 20 presentes</Body>
-    {!items.length && <Body>Você ainda não adicionou presentes.</Body>}
+    {!items.length && <Body>Sua lista está vazia. Adicione ideias de presente para quem tirar você.</Body>}
     {items.map((item) => <Card key={item.id}>
       <View ref={control(`title:${item.id}`)} accessible accessibilityLabel={item.title} tabIndex={-1}><Body>{item.title}</Body></View>
       {item.note && <Body>{item.note}</Body>}
       <OpenWishLink item={item} onError={setError} />
       {confirm === item.id ? <>
-        <Body>Apagar {item.title} da sua lista?</Body>
+        <Body>Apagar “{item.title}”? Não dá para desfazer.</Body>
         <Action controlRef={control("cancel-remove")} secondary label="Cancelar" run={() => { setConfirm(null); focus(`remove:${item.id}`); }} />
-        <Action label="Confirmar apagar" disabled={busy} run={() => remove(item.id)} />
+        <Action label="Sim, apagar" disabled={busy} run={() => remove(item.id)} />
       </> : <>
         <Action controlRef={control(`edit:${item.id}`)} secondary label={`Editar ${item.title}`} disabled={busy || pendingIds.has(item.id)} run={() => open(item)} />
         <Action controlRef={control(`remove:${item.id}`)} secondary label={`Apagar ${item.title}`} disabled={busy || pendingIds.has(item.id)} run={() => { setConfirm(item.id); focus("cancel-remove"); }} />
@@ -142,16 +142,16 @@ export function WishList({ credential, cache, onCache }: {
     </Card>)}
     {editing ? <Card>
       <Body>{editing === "new" ? "Novo presente" : "Editar presente"}</Body>
-      <Field ref={titleField} label="Nome do presente" value={draft.title} maxLength={120}
-        error={titleError ? "Informe o nome do presente." : undefined}
+      <Field ref={titleField} label="Nome do presente" value={draft.title} maxLength={80}
+        error={titleError ? "Escreva o nome do presente." : undefined}
         onChangeText={(title) => { setTitleError(false); setDraft({ ...draft, title }); }} />
       <Field ref={urlField} label="Link da loja (opcional)" value={draft.url} maxLength={2048}
         keyboardType="url" autoCapitalize="none" error={urlError ? "Use um link que comece com https://." : undefined}
         onBlur={() => setUrlError(!!draft.url.trim() && !httpsUrl(draft.url.trim()))}
         onChangeText={(url) => { setUrlError(false); setDraft({ ...draft, url }); }} />
-      <Field label="Observação (opcional)" value={draft.note} maxLength={250}
+      <Field label="Observação (opcional)" value={draft.note} maxLength={200}
         multiline onChangeText={(note) => setDraft({ ...draft, note })} />
-      <Action label={busy ? "Salvando…" : "Salvar presente"} disabled={busy} run={save} />
+      <Action label={busy ? "Salvando…" : editing === "new" ? "Salvar presente" : "Salvar alterações"} disabled={busy} run={save} />
       <Action secondary label="Cancelar" disabled={busy} run={() => { setEditing(null); focus(editing === "new" ? "add" : `edit:${editing}`); }} />
     </Card> : <Action controlRef={control("add")} label="Adicionar presente" disabled={items.length >= 20 || busy} run={() => open()} />}
     {items.length >= 20 && <Body>Você chegou a 20 presentes. Apague um para adicionar outro.</Body>}

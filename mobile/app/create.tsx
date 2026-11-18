@@ -4,6 +4,9 @@ import { router } from "expo-router";
 import { useRef, useState, type ComponentRef } from "react";
 import { Share, type TextInput } from "react-native";
 import { acceptAccess } from "../src/v1/access";
+import type { GroupDetails } from "../src/v1/contract";
+import { DatePicker } from "../src/v1/date-picker";
+import { invitationMessage } from "../src/v1/share-copy";
 import { api } from "../src/v1/api";
 import { Action, Body, Card, errorText, Field, Page } from "../src/v1/ui";
 
@@ -26,7 +29,7 @@ export default function Create() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
-  const [created, setCreated] = useState<{ groupId: string; inviteUrl: string } | null>(null);
+  const [created, setCreated] = useState<{ groupId: string; inviteToken: string; inviteUrl: string; group: GroupDetails } | null>(null);
   const inFlight = useRef(false);
   const request = useRef<{ data: string; id: string }>(null);
   const nameField = useRef<ComponentRef<typeof TextInput>>(null);
@@ -51,7 +54,7 @@ export default function Create() {
     try {
       const result = await api.create({ ...input, requestId: request.current.id });
       const access = await acceptAccess("organizer", result.adminToken);
-      setCreated({ groupId: access.groupId, inviteUrl: result.inviteUrl });
+      setCreated({ groupId: access.groupId, inviteUrl: result.inviteUrl, inviteToken: result.inviteToken, group: input });
     } catch (failure) {
       setError(errorText(failure));
     } finally {
@@ -64,10 +67,13 @@ export default function Create() {
     <Page title="Grupo criado">
       <Card>
         <Body>Envie o convite para quem vai participar.</Body>
-        <Action label="Compartilhar convite" run={() => void Share.share({ message: created.inviteUrl }).catch(() => setNotice("Não foi possível compartilhar o convite."))} />
+        <Action label="Compartilhar convite" run={() => void Share.share({ message: invitationMessage(created.group, created.inviteUrl) }).catch(() => setNotice("Não foi possível compartilhar o convite."))} />
         <Action secondary label="Copiar link" run={() => void Clipboard.setStringAsync(created.inviteUrl).then((ok) => setNotice(ok ? "Link copiado." : "Não foi possível copiar o link.")).catch(() => setNotice("Não foi possível copiar o link."))} />
         {notice && <Body alert>{notice}</Body>}
         <Action secondary label="Abrir o painel" run={() => router.replace(`/admin/group/${created.groupId}`)} />
+      </Card>
+      <Card><Body>Entre pelo convite com o seu nome para entrar no sorteio.</Body>
+        <Action secondary label="Entrar no grupo" run={() => router.push({ pathname: "/g/[inviteToken]", params: { inviteToken: created.inviteToken } })} />
       </Card>
     </Page>
   );
@@ -82,6 +88,8 @@ export default function Create() {
           keyboardType="decimal-pad" error={submitted && !maxValueCents ? "Informe um valor maior que zero." : undefined} />
         <Field ref={dateField} label="Data do encontro" value={date} onChangeText={setDate} placeholder="dd/mm/yyyy"
           maxLength={10} error={submitted && !exchangeDate ? "Informe uma data futura no formato dd/mm/yyyy." : undefined} />
+        <Body>Formato: dd/mm/yyyy</Body>
+        <DatePicker value={date} onChange={setDate} />
         <Field label="Local do encontro (opcional)" value={location} onChangeText={setLocation} maxLength={120} />
         {error && <Body alert>{error}</Body>}
         <Action label={pending ? "Criando…" : "Criar grupo"} disabled={pending} run={() => void submit()} />
