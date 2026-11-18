@@ -179,7 +179,7 @@ export const copy = {
               p: "O Papelzinho é um site gratuito para organizar a troca de presentes entre amigos e família.",
             },
             {
-              p: "O organizador cria um grupo, compartilha o link no WhatsApp, cada pessoa entra só com o nome, monta a própria lista de desejos e, no dia marcado, descobre com sigilo quem tirou.",
+              p: "O organizador cria um grupo, compartilha o link no WhatsApp, cada pessoa entra só com o nome, monta a própria lista de desejos e, no dia marcado, vê, só ela, quem tirou.",
             },
             {
               p: "Não é preciso criar conta nem senha. Ninguém vê o resultado do sorteio além da própria pessoa.",
@@ -197,7 +197,7 @@ export const copy = {
       ],
     },
     privacidade: {
-      title: "Política de privacidade do Papelzinho",
+      title: "Política de privacidade",
       description:
         "Quais dados o Papelzinho coleta, para quê, por quanto tempo e como você exerce seus direitos.",
       sections: [
@@ -236,7 +236,7 @@ export const copy = {
             {
               ul: [
                 "Fazer o sorteio e mostrar o resultado somente para quem tem o link pessoal.",
-                "Mostrar a lista de desejos aos colegas do grupo.",
+                "Mostrar a lista de desejos somente para quem tirou você.",
                 "Medir, de forma agregada, quantos grupos e participantes usam o site.",
                 "Exibir anúncios. Quando houver anúncios, pediremos o seu consentimento antes.",
               ],
@@ -327,7 +327,7 @@ export const copy = {
       ],
     },
     termos: {
-      title: "Termos de uso do Papelzinho",
+      title: "Termos de uso",
       description: "Regras de uso do Papelzinho.",
       sections: [
         {
