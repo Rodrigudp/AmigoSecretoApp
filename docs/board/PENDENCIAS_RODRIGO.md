@@ -5,8 +5,8 @@ Nenhum deles bloqueia o time: os agentes usam o marcador `A PREENCHER PELO RODRI
 
 | ID | Pendência | Onde é usada | Cartão | Status |
 | --- | --- | --- | --- | --- |
-| PEN-01 | E-mail de contato | Páginas de contato e privacidade | MON-01 | A PREENCHER PELO RODRIGO |
-| PEN-02 | Nome do controlador dos dados (pessoa ou empresa) | Política de privacidade (LGPD) | MON-01 | A PREENCHER PELO RODRIGO |
+| PEN-01 | E-mail de contato | Páginas de contato e privacidade | MON-01 | ✅ `suporte@papelzinho.app` (18/11; caixa na Hostinger a confirmar pelo PO) |
+| PEN-02 | Nome do controlador dos dados (pessoa ou empresa) | Política de privacidade (LGPD) | MON-01 | ✅ Rodrigo Del Padre, pessoa física (18/11) |
 | PEN-03 | ID do editor AdSense (`pub-…`) e envio do pedido de aprovação | `ads.txt`, MON-01, MON-02 | MON-01 | ID ✅ `pub-2752974850416759` (conta criada pelo PO, 18/11; site papelzinho.app cadastrado, "Precisa de revisão"). Verificação por meta tag + ads.txt no MON-02a. Pedir revisão ao Google só depois de PEN-01/02 nas páginas |
 | PEN-04 | Cadastro do domínio como mídia no Programa de Afiliados do Mercado Livre | Links de afiliado do ML | LST-03 | A PREENCHER PELO RODRIGO |
 | PEN-05 | Chaves do Supabase (anon, service role) e senha do banco em `.env.local` e na Vercel; `supabase login` na CLI | SETUP-03, SETUP-04 | SETUP-04 | ✅ Feito 17/11 na Vercel (URL, service role, Production e Preview); `.env.local` e `supabase login` só se for rodar local |

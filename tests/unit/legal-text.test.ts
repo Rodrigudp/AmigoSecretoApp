@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { copy } from "../../app/_lib/copy";
 
-const PENDING = "A PREENCHER PELO RODRIGO";
+const CONTACT = "suporte@papelzinho.app";
 
 describe("textos das paginas legais (MON-01-APP)", () => {
-  it("mantem o marcador de pendencia nas paginas que dependem do Rodrigo", () => {
-    expect(JSON.stringify(copy.LEG.privacidade.sections[0])).toContain(PENDING);
-    expect(JSON.stringify(copy.LEG.contato.sections[0])).toContain(PENDING);
+  it("mostra controlador e contato reais (PEN-01/02)", () => {
+    expect(JSON.stringify(copy.LEG.privacidade.sections[0])).toContain("Rodrigo Del Padre");
+    expect(JSON.stringify(copy.LEG.contato.sections[0])).toContain(CONTACT);
   });
 
   it("nao deixa placeholders de template no texto", () => {

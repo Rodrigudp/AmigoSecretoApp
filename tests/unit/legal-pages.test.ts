@@ -7,7 +7,7 @@ import { metadata as privacidade } from "../../app/privacidade/page";
 import { metadata as termos } from "../../app/termos/page";
 import { metadata as contato } from "../../app/contato/page";
 
-const PENDING = "A PREENCHER PELO RODRIGO";
+const CONTACT = "suporte@papelzinho.app";
 
 function allText(section: { heading: string; blocks: readonly unknown[] }): string {
   return JSON.stringify(section);
@@ -45,9 +45,10 @@ describe("paginas legais (MON-01-APP)", () => {
     expect(meta.description).toBe("d");
   });
 
-  it("mantem o marcador de pendencia nas paginas que dependem do Rodrigo", () => {
-    expect(allText(copy.LEG.privacidade.sections[0])).toContain(PENDING);
-    expect(allText(copy.LEG.contato.sections[0])).toContain(PENDING);
+  it("mostra controlador e contato reais (PEN-01/02)", () => {
+    expect(allText(copy.LEG.privacidade.sections[0])).toContain("Rodrigo Del Padre");
+    expect(allText(copy.LEG.privacidade.sections[0])).toContain(CONTACT);
+    expect(allText(copy.LEG.contato.sections[0])).toContain(CONTACT);
   });
 
   it("nao deixa placeholders de template no texto", () => {

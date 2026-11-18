@@ -324,7 +324,6 @@ export const copy = {
   LEG: {
     updated: "18/11/2026",
     updatedLabel: "Última atualização:",
-    pending: "A PREENCHER PELO RODRIGO",
     sobre: {
       title: "Sobre o Papelzinho",
       description: "Como o Papelzinho funciona e como o site se mantém.",
@@ -361,7 +360,7 @@ export const copy = {
         {
           heading: "Quem é o responsável pelos dados",
           blocks: [
-            { p: "Controlador: A PREENCHER PELO RODRIGO. Contato: A PREENCHER PELO RODRIGO." },
+            { p: "Controlador: Rodrigo Del Padre, pessoa física. Contato: suporte@papelzinho.app." },
           ],
         },
         {
@@ -475,7 +474,7 @@ export const copy = {
                 },
                 {
                   label: "Pedidos pelo contato:",
-                  text: "escreva para A PREENCHER PELO RODRIGO. Respondemos em até 15 dias.",
+                  text: "escreva para suporte@papelzinho.app. Respondemos em até 15 dias.",
                 },
               ],
             },
@@ -536,7 +535,7 @@ export const copy = {
           heading: "Canais",
           blocks: [
             {
-              p: "Dúvidas e sugestões: escreva para A PREENCHER PELO RODRIGO. Respondemos em até 5 dias úteis.",
+              p: "Dúvidas e sugestões: escreva para suporte@papelzinho.app. Respondemos em até 5 dias úteis.",
             },
             {
               p: "Pedidos sobre seus dados pessoais: respondemos em até 15 dias, conforme a política de privacidade.",

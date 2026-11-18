@@ -16,15 +16,14 @@ function sourceFiles(dir: string): string[] {
 }
 
 test.describe("REL-02 - nenhum texto pendente do Rodrigo no release", () => {
-  // fixme até o REL-02 (go-live): hoje o marcador ainda é esperado nas páginas do MON-01-APP.
-  test.fixme("app/ não contém 'A PREENCHER PELO RODRIGO'", () => {
+  test("app/ não contém 'A PREENCHER PELO RODRIGO'", () => {
     const hits = sourceFiles(join(process.cwd(), "app")).filter((file) =>
       readFileSync(file, "utf8").includes(MARKER)
     );
     expect(hits, `substitua o texto pendente em: ${hits.join(", ")}`).toEqual([]);
   });
 
-  test.fixme("páginas públicas não servem 'A PREENCHER PELO RODRIGO'", async ({ page }) => {
+  test("páginas públicas não servem 'A PREENCHER PELO RODRIGO'", async ({ page }) => {
     for (const path of PUBLIC_PAGES) {
       const response = await page.goto(path);
       expect(response?.status(), path).toBe(200);
