@@ -5,7 +5,21 @@
     "version": "0.1.0",
     "scheme": "papelzinho",
     "userInterfaceStyle": "light",
-    "plugins": ["expo-router", "expo-secure-store", "expo-notifications"],
+    "icon": "./assets/icon-ios.png",
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      ["expo-notifications", { "icon": "./assets/notification-icon.png" }],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 168,
+          "resizeMode": "contain",
+          "backgroundColor": "#F6F5F4"
+        }
+      ]
+    ],
     "web": {
       "bundler": "metro"
     },
@@ -15,6 +29,12 @@
     },
     "android": {
       "package": "app.papelzinho",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon-android-foreground.png",
+        "backgroundImage": "./assets/icon-android-background.png",
+        "backgroundColor": "#F6F5F4",
+        "monochromeImage": "./assets/icon-android-monochrome.png"
+      },
       "intentFilters": [
         {
           "action": "VIEW",
