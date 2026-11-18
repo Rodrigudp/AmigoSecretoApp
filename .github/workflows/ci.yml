@@ -3,8 +3,11 @@ name: CI
 on:
   push:
     branches: [main]
+    paths-ignore: ["docs/**", "**/*.md"]
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore: ["docs/**", "**/*.md"]
 
 permissions:
   contents: read
@@ -15,6 +18,7 @@ concurrency:
 
 jobs:
   quality:
+    if: github.event_name == 'push' || github.event.pull_request.draft == false
     name: Quality (Lint, Types, Unit Tests, Build)
     runs-on: ubuntu-latest
     timeout-minutes: 8
@@ -52,6 +56,7 @@ jobs:
         run: npm run build
 
   db:
+    if: github.event_name == 'push' || github.event.pull_request.draft == false
     name: Database (Supabase Migrations, Tests & Rollback)
     runs-on: ubuntu-latest
     timeout-minutes: 8
@@ -121,6 +126,7 @@ jobs:
           supabase db reset
 
   e2e:
+    if: github.event_name == 'push' || github.event.pull_request.draft == false
     name: E2E Tests (Playwright Mobile)
     runs-on: ubuntu-latest
     timeout-minutes: 15
