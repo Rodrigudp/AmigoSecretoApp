@@ -207,8 +207,8 @@ jobs:
             echo "Os segredos \`SUPABASE_ACCESS_TOKEN\` e/ou \`SUPABASE_DB_PASSWORD\` não estão configurados no ambiente \`production\` do GitHub Actions." >> "$GITHUB_STEP_SUMMARY"
             echo "" >> "$GITHUB_STEP_SUMMARY"
             echo "> **Atenção:** Conforme política operacional documentada em \`docs/ops/vps.md\`, as migrations de produção devem ser aplicadas **manualmente pelo Orquestrador (Tech Lead)** via Supabase SQL Editor e registradas em \`supabase_migrations.schema_migrations\` até a resolução formal da pendência PEN-08 pelo PO." >> "$GITHUB_STEP_SUMMARY"
-            echo "::error::PEN-08: SUPABASE_ACCESS_TOKEN ou SUPABASE_DB_PASSWORD ausentes no ambiente production. Migrations não aplicadas automaticamente."
-            exit 1
+            echo "::warning::PEN-08: SUPABASE_ACCESS_TOKEN ou SUPABASE_DB_PASSWORD ausentes no ambiente production. Migrations não aplicadas automaticamente; aplicar à mão (docs/ops/vps.md §4.1)."
+            exit 0
           fi
           supabase link --project-ref ulthbrfwsvmazgdvrcyw
           supabase db push --password "$SUPABASE_DB_PASSWORD" --yes
