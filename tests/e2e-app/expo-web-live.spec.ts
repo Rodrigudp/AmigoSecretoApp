@@ -33,7 +33,9 @@ test.describe("Expo Web live contra Next e Supabase locais (APP-FE-03, APP-QA-02
       if (!url.pathname.startsWith("/api/v1/")) return;
       const body = response.status() >= 400 ? await response.text().catch(() => "") : "";
       const code = /"code":"([A-Z_]+)"/.exec(body)?.[1] ?? "";
-      calls.push(`${response.request().method()} ${url.pathname.replace(/[A-Za-z0-9_-]{36,}/g, ":id")} ${response.status()} ${code}`);
+      calls.push(
+        `${response.request().method()} ${url.pathname.replace(/[A-Za-z0-9_-]{36,}/g, ":id")} ${response.status()} ${code}`
+      );
     });
     test.info().attach("api-calls", { body: "", contentType: "text/plain" });
     let inviteToken = "";
@@ -105,11 +107,8 @@ test.describe("Expo Web live contra Next e Supabase locais (APP-FE-03, APP-QA-02
     await shot(ana, "08-novo-presente");
     await ana.getByRole("button", { name: "Salvar presente" }).click();
     await ana.waitForTimeout(8000);
-    console.log("API CALLS:
-" + calls.join("
-"));
-    console.log("ANA BODY:
-" + (await ana.locator("body").innerText()).slice(0, 900));
+    console.log(["API CALLS:", ...calls].join("\n"));
+    console.log(["ANA BODY:", (await ana.locator("body").innerText()).slice(0, 900)].join("\n"));
     await expect(ana.getByText("Presente salvo.")).toBeVisible({ timeout: 30_000 });
     await expect(ana.getByText("Livro de receitas").first()).toBeVisible();
     await shot(ana, "09-lista-com-presente");
