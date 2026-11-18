@@ -20,6 +20,8 @@ Atualizado em: 2026-11-18 · Iteração atual: **It-3 · Lista e sorteio (aberta
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar
+- BUG-010 · S2 · App: "Salvar presente" fica em "Salvando…" com POST 201 e chave duplicada do item no React (Expo Web live; lógica igual no nativo) · FE → QA · responsável: 11 Front-end (apoio 22)
+- BUG-011 · S4 · App: aviso "Unexpected text node: ." em /g, /p e /admin; e recarregar após "Grupo criado" volta ao formulário · FE → QA · responsável: 11 Front-end
 - APP-QA-02 · Aceite do app com API real: contrato v1 (feito no #110) + interface no Expo Web em modo live contra Next/Supabase locais após o BUG-008 (#113), prints e bugs · QA → ORQ · 2 pts — responsável: 13 QA
 - APP-DSN-03 · 5 capturas das lojas (1080×1920; 1290×2796; 1242×2208) a partir do app real com dados fictícios, em docs/marketing/capturas/ · DSN → MKT · 2 pts — responsável: 16 Designer
 - APP-LEG-01 · /privacidade e /termos cobrindo o app (SecureStore, push opcional, push_tokens, v1 sem anúncio) · MON → SEC + DSN · 1 pt — responsável: 24 Monetização
