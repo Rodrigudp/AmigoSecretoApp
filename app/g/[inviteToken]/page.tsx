@@ -6,6 +6,7 @@ import { JOIN_MESSAGES } from "../../_lib/join-messages";
 import { getInviteViewUseCase } from "../../_lib/participant-stubs";
 import { readPersonalCookie } from "../../_lib/personal-cookie";
 import { invalidInviteMetadata, inviteOpenGraphMetadata } from "../../_lib/token-page-meta";
+import { copy } from "../../_lib/copy";
 
 /** Cookie + invite token are request-time (Cache Components). */
 export const instant = false;
@@ -31,7 +32,7 @@ export default async function InvitePage({ params }: PageProps) {
   // Peek without recording so a resume cookie reload still records once below.
   const base = await getInviteViewUseCase({ inviteToken, recordOpened: false });
   if (!base.ok) {
-    return <Blocked title="Link indisponível" body={JOIN_MESSAGES.invalidLink} />;
+    return <Blocked title={copy.CNV_10.title} body={JOIN_MESSAGES.invalidLink} />;
   }
 
   const resumeAccessToken = await readPersonalCookie(base.value.groupId);
@@ -41,7 +42,7 @@ export default async function InvitePage({ params }: PageProps) {
     recordOpened: true,
   });
   if (!view.ok) {
-    return <Blocked title="Link indisponível" body={JOIN_MESSAGES.invalidLink} />;
+    return <Blocked title={copy.CNV_10.title} body={JOIN_MESSAGES.invalidLink} />;
   }
 
   const { group, isFull, returningParticipant } = view.value;

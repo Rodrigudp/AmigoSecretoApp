@@ -12,7 +12,7 @@ export class InvitePage {
   }
 
   get joinButton() {
-    return this.page.getByRole("button", { name: /^entrar$/i });
+    return this.page.getByRole("button", { name: /^entrar no grupo$/i });
   }
 
   get closedMessage() {

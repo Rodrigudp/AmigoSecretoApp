@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { copy } from "../_lib/copy";
 import type { FormEvent } from "react";
 import type { CreateGroupActionResult } from "../actions";
 import { validateCreateGroup, parseMoneyToCents } from "../_lib/create-group-schema";
@@ -33,6 +34,7 @@ export function CreateGroupForm({ action }: Props) {
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [created, setCreated] = useState<Created | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const set = (field: keyof typeof EMPTY) => (e: { target: { value: string } }) =>
     setValues((v) => ({ ...v, [field]: e.target.value }));
@@ -60,7 +62,7 @@ export function CreateGroupForm({ action }: Props) {
         showErrors(result.errors ?? {}, result.message);
       }
     } catch {
-      setMessage("Sem conexão no momento. Verifique a internet e tente de novo.");
+      setMessage(copy.GLB_08);
     } finally {
       setLoading(false);
     }
@@ -68,9 +70,11 @@ export function CreateGroupForm({ action }: Props) {
 
   function showErrors(fieldErrors: FieldErrors, summary?: string) {
     setErrors(fieldErrors);
-    setMessage(
-      Object.keys(fieldErrors).length ? "Confira os campos destacados." : (summary ?? null)
+    const first = (["name", "maxValue", "exchangeDate", "location"] as const).find(
+      (field) => fieldErrors[field]
     );
+    setMessage(first ? copy.HOM_10 : (summary ?? null));
+    if (first) formRef.current?.querySelector<HTMLInputElement>(`[name="${first}"]`)?.focus();
   }
 
   if (created) return <GroupCreated {...created} />;
@@ -80,18 +84,18 @@ export function CreateGroupForm({ action }: Props) {
       <div className="flex min-w-0 flex-col gap-6 lg:pt-4">
         <header className="flex flex-col gap-4">
           <h1 className="text-[clamp(2.125rem,5.8vw,4.375rem)] leading-[1.08] font-bold tracking-[-0.06em]">
-            <span className="inline-block rounded-xl bg-peach px-2 pb-1">Amigo secreto</span>{" "}
-            <span className="mt-1 block">começa aqui.</span>
+            <span className="inline-block rounded-xl bg-peach px-2 pb-1">{copy.HOM_01.start}</span>{" "}
+            <span className="mt-1 block">{copy.HOM_01.end}</span>
           </h1>
           <p className="max-w-md font-accent text-xl leading-snug text-text-muted sm:text-2xl">
-            Organize a troca em dois minutos. Cada pessoa entra pelo convite, só com o nome.
+            {copy.HOM_02}
           </p>
         </header>
         <ol
-          aria-label="Como funciona"
+          aria-label={copy.EXTRA.stepsLabel}
           className="flex flex-wrap gap-x-4 gap-y-2 text-sm font-medium lg:mt-2"
         >
-          {["Crie o grupo", "Envie o convite", "Faça o sorteio"].map((step, index) => (
+          {copy.HOM_03.map((step, index) => (
             <li key={step} className="flex items-center gap-2">
               <span className="grid size-7 shrink-0 place-items-center rounded-md bg-note font-semibold">
                 {index + 1}
@@ -102,6 +106,7 @@ export function CreateGroupForm({ action }: Props) {
         </ol>
       </div>
       <form
+        ref={formRef}
         onSubmit={onSubmit}
         noValidate
         aria-labelledby="create-group-title"
@@ -109,36 +114,45 @@ export function CreateGroupForm({ action }: Props) {
       >
         <div className="border-b border-line pb-4">
           <h2 id="create-group-title" className="text-2xl font-bold tracking-tight">
-            Criar grupo
+            {copy.HOM_04.title}
           </h2>
-          <p className="mt-1 text-sm text-text-muted">Os dados abaixo vão no convite.</p>
+          <p className="mt-1 text-sm text-text-muted">{copy.HOM_04.help}</p>
         </div>
         {message ? (
-          <Card tone="danger" title="Não foi possível criar o grupo">
-            <p role="alert">{message}</p>
-          </Card>
+          message === copy.HOM_10 ? (
+            <div role="alert">
+              <Card tone="danger" title={message} />
+            </div>
+          ) : (
+            <Card tone="danger" title={copy.EXTRA.createErrorTitle}>
+              <p role="alert">{message}</p>
+            </Card>
+          )
         ) : null}
         <Input
-          label="Nome do grupo"
+          name="name"
+          label={copy.HOM_05.label}
           required
           maxLength={60}
-          placeholder="Ex.: Família Silva"
+          placeholder={copy.HOM_05.placeholder}
           value={values.name}
           onChange={set("name")}
           error={errors.name}
         />
         <Input
-          label="Valor máximo do presente (R$)"
+          name="maxValue"
+          label={copy.HOM_06.label}
           required
           inputMode="decimal"
-          placeholder="Ex.: 50,00"
+          placeholder={copy.HOM_06.placeholder}
           value={values.maxValue}
           onChange={set("maxValue")}
           onBlur={formatMoneyOnBlur}
           error={errors.maxValue}
         />
         <Input
-          label="Data da troca de presentes"
+          name="exchangeDate"
+          label={copy.HOM_07}
           required
           type="date"
           value={values.exchangeDate}
@@ -146,15 +160,16 @@ export function CreateGroupForm({ action }: Props) {
           error={errors.exchangeDate}
         />
         <Input
-          label="Local da troca (opcional)"
+          name="location"
+          label={copy.HOM_08.label}
           maxLength={120}
-          placeholder="Ex.: Casa da Vó Maria"
+          placeholder={copy.HOM_08.placeholder}
           value={values.location}
           onChange={set("location")}
           error={errors.location}
         />
         <Button type="submit" loading={loading} className="mt-2 self-start">
-          {loading ? "Criando…" : "Criar grupo"}
+          {loading ? copy.HOM_09.loading : copy.HOM_09.action}
           {loading ? null : <span aria-hidden="true">→</span>}
         </Button>
       </form>

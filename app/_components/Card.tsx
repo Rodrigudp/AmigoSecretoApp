@@ -28,16 +28,15 @@ export function Card({
   className = "",
   children,
 }: CardProps) {
+  const hasBody = children != null && children !== false;
+  const titleClass =
+    Heading === "h1"
+      ? `page-title${hasBody ? " mb-3" : ""}`
+      : `text-lg font-semibold tracking-tight wrap-break-word${hasBody ? " mb-3" : ""}`;
   return (
     <Tag data-tone={tone} className={`paper-panel min-w-0 ${tones[tone]} ${className}`.trim()}>
       {title ? (
-        <Heading
-          className={
-            Heading === "h1"
-              ? "page-title mb-3"
-              : "mb-3 text-lg font-semibold tracking-tight wrap-break-word"
-          }
-        >
+        <Heading className={titleClass}>
           <span aria-hidden="true">{icons[tone]}</span>
           {title}
         </Heading>

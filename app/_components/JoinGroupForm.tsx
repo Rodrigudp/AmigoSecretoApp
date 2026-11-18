@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { copy } from "../_lib/copy";
 import type { FormEvent } from "react";
 import type { JoinGroupActionResult } from "../actions";
 import { JOIN_MESSAGES } from "../_lib/join-messages";
@@ -28,6 +29,15 @@ export function JoinGroupForm({ inviteToken, groupName, resumeName, resumeHref, 
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [joined, setJoined] = useState<Joined | null>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+
+  function showFailure(result: Extract<JoinGroupActionResult, { ok: false }>) {
+    setErrors(result.errors ?? {});
+    if (result.errors?.displayName) {
+      setMessage(copy.CNV_06);
+      nameRef.current?.focus();
+    } else setMessage(result.message ?? JOIN_MESSAGES.generic);
+  }
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -35,7 +45,8 @@ export function JoinGroupForm({ inviteToken, groupName, resumeName, resumeHref, 
     const local = validateJoinGroup({ inviteToken, displayName });
     if (!local.ok) {
       setErrors(local.errors);
-      setMessage("Confira o campo destacado.");
+      setMessage(copy.CNV_06);
+      nameRef.current?.focus();
       return;
     }
 
@@ -46,11 +57,10 @@ export function JoinGroupForm({ inviteToken, groupName, resumeName, resumeHref, 
       if (result.ok) {
         setJoined(result);
       } else {
-        setErrors(result.errors ?? {});
-        setMessage(result.message ?? JOIN_MESSAGES.generic);
+        showFailure(result);
       }
     } catch {
-      setMessage("Sem conexão no momento. Verifique a internet e tente de novo.");
+      setMessage(copy.GLB_08);
     } finally {
       setLoading(false);
     }
@@ -79,22 +89,29 @@ export function JoinGroupForm({ inviteToken, groupName, resumeName, resumeHref, 
       <InviteHeader groupName={groupName} />
       <form onSubmit={onSubmit} noValidate className="paper-panel flex flex-col gap-4">
         {message ? (
-          <Card tone="danger" title="Não foi possível entrar">
-            <p role="alert">{message}</p>
-          </Card>
+          message === copy.CNV_06 ? (
+            <div role="alert">
+              <Card tone="danger" title={message} />
+            </div>
+          ) : (
+            <Card tone="danger" title={copy.EXTRA.joinErrorTitle}>
+              <p role="alert">{message}</p>
+            </Card>
+          )
         ) : null}
         <Input
-          label="Como você se chama?"
+          ref={nameRef}
+          label={copy.CNV_03.label}
           required
           maxLength={40}
           autoComplete="nickname"
-          placeholder="Ex.: Ana"
+          placeholder={copy.CNV_03.placeholder}
           value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
           error={errors.displayName}
         />
         <Button type="submit" loading={loading} className="self-start">
-          {loading ? "Entrando…" : "Entrar"}
+          {loading ? copy.CNV_04.loading : copy.CNV_04.action}
         </Button>
       </form>
     </div>
@@ -104,9 +121,9 @@ export function JoinGroupForm({ inviteToken, groupName, resumeName, resumeHref, 
 function InviteHeader({ groupName }: { groupName: string }) {
   return (
     <header className="grid gap-3 rounded-xl bg-note p-5 sm:p-7">
-      <p className="text-sm font-semibold">Você foi convidado</p>
+      <p className="text-sm font-semibold">{copy.CNV_01}</p>
       <h1 className="page-title">{groupName}</h1>
-      <p className="font-accent text-lg">Entre só com o seu nome. Sem cadastro e sem senha.</p>
+      <p className="font-accent text-lg">{copy.CNV_02}</p>
     </header>
   );
 }

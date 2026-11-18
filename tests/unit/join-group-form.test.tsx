@@ -5,7 +5,7 @@ import { JOIN_MESSAGES } from "@/app/_lib/join-messages";
 
 afterEach(cleanup);
 
-const submit = () => fireEvent.click(screen.getByRole("button", { name: /^Entrar$/ }));
+const submit = () => fireEvent.click(screen.getByRole("button", { name: /^Entrar no grupo$/ }));
 
 describe("JoinGroupForm", () => {
   it("empty state: shows the name field and no errors", () => {
@@ -36,6 +36,7 @@ describe("JoinGroupForm", () => {
     submit();
     expect(action).not.toHaveBeenCalled();
     expect(screen.getByText(JOIN_MESSAGES.nameRequired)).toBeTruthy();
+    expect(document.activeElement).toBe(screen.getByLabelText(/Como você se chama/));
     expect(screen.getByLabelText(/Como você se chama/).getAttribute("aria-invalid")).toBe("true");
   });
 
@@ -81,7 +82,7 @@ describe("JoinGroupForm", () => {
     submit();
     await screen.findByText(/Você entrou, Ana\./);
     expect(screen.getByText(JOIN_MESSAGES.personalHint)).toBeTruthy();
-    expect(screen.getByRole("button", { name: "Copiar" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Copiar link" })).toBeTruthy();
     const wa = screen.getByRole("link", { name: "Salvar no WhatsApp" });
     expect(wa.getAttribute("href")).toContain("https://wa.me/?text=");
     expect(decodeURIComponent(wa.getAttribute("href")!)).toContain("https://x.test/p/token-abc");

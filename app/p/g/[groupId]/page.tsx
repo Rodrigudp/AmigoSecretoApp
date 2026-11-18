@@ -7,6 +7,7 @@ import {
 } from "@/app/_components/ParticipantHeader";
 import { ParticipantArea } from "@/app/_components/ParticipantArea";
 import { cookieNameFor, resolveParticipantByToken } from "@/app/_lib/participant-view-usecase";
+import { copy } from "@/app/_lib/copy";
 
 export const metadata = {
   robots: { index: false, follow: false },
@@ -37,15 +38,15 @@ async function ParticipantEntry({ paramsPromise }: { paramsPromise: PageProps["p
 
   if (!cookieToken) {
     return (
-      <Card tone="warning" title="Link pessoal necessário" heading="h1">
-        <p className="text-base">Abra seu link pessoal para ver esta área.</p>
+      <Card tone="warning" title={copy.EXTRA.personalRequired} heading="h1">
+        <p className="text-base">{copy.ARE_07}</p>
       </Card>
     );
   }
 
   const resolved = await resolveParticipantByToken(cookieToken);
   if (!resolved.ok || resolved.value.groupId !== groupId) {
-    return <ParticipantNeutralError hint="Peça um novo link ao organizador." />;
+    return <ParticipantNeutralError hint={copy.EXTRA.invalidHint} />;
   }
 
   return <ParticipantArea view={resolved.value.view} adsAllowed />;

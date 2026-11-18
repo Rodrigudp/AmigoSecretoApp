@@ -8,6 +8,7 @@ import {
 import { ParticipantArea } from "@/app/_components/ParticipantArea";
 import { decideParticipantAccess } from "@/app/_lib/participant-access";
 import { cookieNameFor, resolveParticipantByToken } from "@/app/_lib/participant-view-usecase";
+import { copy } from "@/app/_lib/copy";
 
 export const metadata = {
   robots: { index: false, follow: false },
@@ -57,7 +58,7 @@ async function ParticipantEntry({
 
   switch (decision.kind) {
     case "invalid":
-      return <ParticipantNeutralError hint="Peça um novo link ao organizador." />;
+      return <ParticipantNeutralError hint={copy.EXTRA.invalidHint} />;
     case "canonical":
       redirect(`/p/g/${decision.groupId}`);
     case "probe":

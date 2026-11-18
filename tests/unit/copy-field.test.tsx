@@ -30,6 +30,9 @@ describe("link actions", () => {
     fireEvent.click(screen.getByRole("button", { name: "Copiar" }));
     const input = screen.getByLabelText("Link pessoal") as HTMLInputElement;
     await waitFor(() => expect(document.activeElement).toBe(input));
+    expect(screen.getByRole("alert").textContent).toBe(
+      "Não foi possível copiar. Toque no campo e copie o link."
+    );
     expect(input.selectionStart).toBe(0);
     expect(input.selectionEnd).toBe(input.value.length);
   });

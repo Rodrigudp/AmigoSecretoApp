@@ -1,9 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import { cookieNameFor, resolveParticipantByToken } from "@/app/_lib/participant-view-usecase";
+import { copy } from "@/app/_lib/copy";
 
-const NEUTRAL_ERROR_HTML =
-  '<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Link inválido</title><body style="font-family: system-ui; padding: 2rem; font-size: 1.0625rem;"><p>Este link é inválido ou não está mais disponível.</p></body></html>';
+const NEUTRAL_ERROR_HTML = `<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${copy.ARE_06.title}</title><body style="font-family: system-ui; padding: 2rem; font-size: 1.0625rem;"><p>${copy.ARE_06.text}</p></body></html>`;
 
 function neutralError(): NextResponse {
   return new NextResponse(NEUTRAL_ERROR_HTML, {

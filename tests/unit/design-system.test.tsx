@@ -111,6 +111,13 @@ describe("Card", () => {
     );
     const h = screen.getByRole("heading", { name: /Link do organizador/ });
     expect(h.textContent).toContain("⚠");
+    expect(h.className).toContain("mb-3");
     expect(h.closest("section")?.getAttribute("data-tone")).toBe("warning");
+  });
+
+  it("drops the gap under a title-only card", () => {
+    render(<Card tone="danger" title="Confira os campos destacados" />);
+    const h = screen.getByRole("heading", { name: /Confira os campos destacados/ });
+    expect(h.className.split(" ")).not.toContain("mb-3");
   });
 });
