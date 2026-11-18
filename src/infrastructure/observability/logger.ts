@@ -29,7 +29,7 @@ export function logMessage(
   }
 
   const sanitizedMessage = maskSensitiveUrl(message);
-  const sanitizedContext = context ? sanitizeContext(context) : undefined;
+  const sanitizedContext = context ? (sanitizeContext(context) as Record<string, unknown>) : undefined;
   const sanitizedError = formatError(error);
 
   const logEntry = {
@@ -52,12 +52,13 @@ export function logMessage(
   }
 
   // Disparo automático de alerta para eventos de severidade máxima (S1)
+  // Garante que context e error estejam devidamente sanitizados antes do envio externo
   if (level === "critical") {
     sendS1Alert({
       title: `[S1] ${sanitizedMessage}`,
       message: sanitizedError?.message || sanitizedMessage,
-      error,
-      context,
+      error: sanitizedError,
+      context: sanitizedContext,
     }).catch(() => {
       // Ignora falhas de rede no envio assíncrono para não interromper a execução
     });

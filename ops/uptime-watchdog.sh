@@ -58,7 +58,7 @@ else
   log "Aplicação CONTINUA fora do ar após tentativa de reload do PM2!"
 fi
 
-# 4. Disparar Alerta S1 se webhook configurado
+# 4. Disparar Alerta S1 se webhook configurado (usando stdin no curl para ocultar ALERT_URL de ps/proc)
 if [ -n "$ALERT_URL" ]; then
   STATUS_MSG="Aplicação Papelzinho falhou na VPS e foi reiniciada automaticamente com SUCESSO."
   COLOR=15769600 # Amarelo / Atenção
@@ -87,7 +87,8 @@ if [ -n "$ALERT_URL" ]; then
 EOF
 )
 
-  curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$ALERT_URL" >/dev/null || true
+  # Passa a URL via config stdin (-K -) para não expor o segredo na lista de processos
+  printf 'url = "%s"\n' "$ALERT_URL" | curl -s -S -X POST -H "Content-Type: application/json" -d "$PAYLOAD" -K - >/dev/null || true
 fi
 
 if [ "$RECOVERED" = false ]; then

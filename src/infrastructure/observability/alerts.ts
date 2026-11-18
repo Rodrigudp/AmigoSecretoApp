@@ -21,34 +21,39 @@ export interface AlertResult {
 const recentAlerts = new Map<string, number>();
 const DEBOUNCE_WINDOW_MS = 5 * 60 * 1000;
 
-export async function sendS1Alert(params: S1AlertParams): Promise<AlertResult> {
-  const url = params.webhookUrl || process.env.ALERT_WEBHOOK_URL;
-  if (!url) {
-    return { sent: false, reason: "ALERT_WEBHOOK_URL_NOT_CONFIGURED", provider: "none" };
+export function clearDebounceCacheForTesting(): void {
+  recentAlerts.clear();
+}
+
+function pruneAndCheckThrottle(alertKey: string, now: number, isTest?: boolean): boolean {
+  for (const [key, timestamp] of recentAlerts.entries()) {
+    if (now - timestamp > DEBOUNCE_WINDOW_MS) {
+      recentAlerts.delete(key);
+    }
   }
 
-  const alertKey = `${params.title}:${params.message}`;
-  const now = Date.now();
+  if (isTest) {
+    return false;
+  }
+
   const lastSent = recentAlerts.get(alertKey);
+  return Boolean(lastSent && now - lastSent < DEBOUNCE_WINDOW_MS);
+}
 
-  if (!params.isTest && lastSent && now - lastSent < DEBOUNCE_WINDOW_MS) {
-    return { sent: false, reason: "ALERT_THROTTLED_RECENTLY", provider: "none" };
-  }
-
-  const provider = detectProvider(url);
-  const payload = buildAlertPayload(params, provider);
-
+async function dispatchPayload(
+  url: string,
+  payload: Record<string, unknown>,
+  provider: "discord" | "slack" | "telegram" | "generic"
+): Promise<AlertResult> {
   try {
     const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(5000),
     });
 
     if (response.ok) {
-      if (!params.isTest) {
-        recentAlerts.set(alertKey, now);
-      }
       return { sent: true, statusCode: response.status, provider };
     }
 
@@ -62,6 +67,30 @@ export async function sendS1Alert(params: S1AlertParams): Promise<AlertResult> {
     const errorMsg = err instanceof Error ? err.message : String(err);
     return { sent: false, reason: errorMsg, provider };
   }
+}
+
+export async function sendS1Alert(params: S1AlertParams): Promise<AlertResult> {
+  const url = params.webhookUrl || process.env.ALERT_WEBHOOK_URL;
+  if (!url) {
+    return { sent: false, reason: "ALERT_WEBHOOK_URL_NOT_CONFIGURED", provider: "none" };
+  }
+
+  const alertKey = `${params.title}:${params.message}`;
+  const now = Date.now();
+
+  if (pruneAndCheckThrottle(alertKey, now, params.isTest)) {
+    return { sent: false, reason: "ALERT_THROTTLED_RECENTLY", provider: "none" };
+  }
+
+  const provider = detectProvider(url);
+  const payload = buildAlertPayload(params, provider);
+  const result = await dispatchPayload(url, payload, provider);
+
+  if (result.sent && !params.isTest) {
+    recentAlerts.set(alertKey, now);
+  }
+
+  return result;
 }
 
 export async function sendTestAlert(webhookUrl?: string): Promise<AlertResult> {
@@ -166,14 +195,21 @@ function formatSlackPayload(
   };
 }
 
-function formatTelegramPayload(
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+export function formatTelegramPayload(
   title: string,
   message: string,
   env: string,
   timestamp: string
 ): Record<string, unknown> {
   return {
-    text: `🚨 *${title}*\n\n${message}\n\n*Ambiente:* ${env}\n*Horário:* ${timestamp}`,
-    parse_mode: "Markdown",
+    text: `🚨 <b>${escapeHtml(title)}</b>\n\n${escapeHtml(message)}\n\n<b>Ambiente:</b> ${escapeHtml(env)}\n<b>Horário:</b> ${escapeHtml(timestamp)}`,
+    parse_mode: "HTML",
   };
 }

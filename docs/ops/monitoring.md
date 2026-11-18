@@ -79,23 +79,19 @@ Este documento especifica a arquitetura de observabilidade, monitoramento de dis
 
 ## 4. Teste do Alerta S1
 
-Para verificar que os alertas chegam corretamente ao Rodrigo:
+Para verificar que os alertas chegam corretamente ao Rodrigo, execute o teste via CLI (não expomos rota HTTP de teste para evitar qualquer risco de SSRF ou exposição de chaves mestre):
 
-### Via Terminal (CLI):
+### Localmente (com a URL do webhook):
 ```bash
 npm run alert:test <URL_DO_WEBHOOK>
 ```
-Ou na VPS:
+
+### Na VPS (utilizando `ALERT_WEBHOOK_URL` do `.env.production`):
 ```bash
+cd /home/smartops/papelzinho
 node scripts/send-test-alert.mjs
 ```
 
-### Via Requisição de API (Interna):
-```bash
-curl -X POST https://papelzinho.app/api/admin/test-alert \
-  -H "Authorization: Bearer <SUPABASE_SERVICE_ROLE_KEY>" \
-  -H "Content-Type: application/json"
-```
 
 ---
 
