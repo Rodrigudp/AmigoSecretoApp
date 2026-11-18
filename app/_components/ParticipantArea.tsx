@@ -2,6 +2,7 @@ import { copy } from "../_lib/copy";
 import type { ReactNode } from "react";
 import { Card } from "@/app/_components/Card";
 import { ParticipantHeader } from "@/app/_components/ParticipantHeader";
+import { AdSlot } from "@/app/_components/AdSlot";
 import { WishList } from "@/app/_components/WishList";
 import type { ParticipantView } from "@/src/application/ports";
 
@@ -53,6 +54,12 @@ export function ParticipantArea({
         drawStatus={view.group.status}
         accessToken={accessToken}
         groupId={groupId}
+      />
+      <AdSlot
+        enabled={process.env.ADS_ENABLED === "true"}
+        adsAllowed={adsAllowed && !accessToken}
+        client={process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? ""}
+        slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT ?? ""}
       />
       {children}
     </div>

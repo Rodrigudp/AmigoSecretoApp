@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+
 import { useState } from "react";
 import { copy } from "../_lib/copy";
 import { useAdConsent, setAdConsent } from "../_lib/consent";
@@ -47,45 +47,45 @@ export function Footer({ adsEnabled }: { adsEnabled?: boolean }) {
         <nav aria-label={copy.FTR_02}>
           <ul className="flex flex-wrap items-center justify-center gap-x-2">
             <li>
-              <Link
+              <a
                 href="/sobre"
                 className="inline-flex min-h-11 items-center px-1 underline hover:text-text"
               >
                 {copy.FTR_01.about}
-              </Link>
+              </a>
             </li>
             <li aria-hidden="true" className="select-none text-text-muted/60">
               ·
             </li>
             <li>
-              <Link
+              <a
                 href="/privacidade"
                 className="inline-flex min-h-11 items-center px-1 underline hover:text-text"
               >
                 {copy.FTR_01.privacy}
-              </Link>
+              </a>
             </li>
             <li aria-hidden="true" className="select-none text-text-muted/60">
               ·
             </li>
             <li>
-              <Link
+              <a
                 href="/termos"
                 className="inline-flex min-h-11 items-center px-1 underline hover:text-text"
               >
                 {copy.FTR_01.terms}
-              </Link>
+              </a>
             </li>
             <li aria-hidden="true" className="select-none text-text-muted/60">
               ·
             </li>
             <li>
-              <Link
+              <a
                 href="/contato"
                 className="inline-flex min-h-11 items-center px-1 underline hover:text-text"
               >
                 {copy.FTR_01.contact}
-              </Link>
+              </a>
             </li>
             {adsEnabled && <CookiePreferences />}
           </ul>
