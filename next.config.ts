@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_SERVER } from "next/constants";
 import { parseEnv } from "./src/shared/env-schema";
+import { TOKEN_HTTP_HEADERS } from "./app/_lib/token-page-meta";
+import { TOKEN_ROUTE_SOURCES } from "./app/_lib/token-paths";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {
@@ -13,6 +14,12 @@ const nextConfig: NextConfig = {
         as: "*.css",
       },
     },
+  },
+  async headers() {
+    return TOKEN_ROUTE_SOURCES.map((source) => ({
+      source,
+      headers: TOKEN_HTTP_HEADERS,
+    }));
   },
 };
 

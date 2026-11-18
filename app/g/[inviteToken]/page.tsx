@@ -1,14 +1,27 @@
+import type { Metadata } from "next";
 import { joinGroupAction } from "../../actions";
 import { JoinGroupForm } from "../../_components/JoinGroupForm";
 import { Card } from "../../_components/Card";
 import { JOIN_MESSAGES } from "../../_lib/join-messages";
 import { getInviteViewUseCase } from "../../_lib/participant-stubs";
 import { readPersonalCookie } from "../../_lib/personal-cookie";
+import { invalidInviteMetadata, inviteOpenGraphMetadata } from "../../_lib/token-page-meta";
 
 /** Cookie + invite token are request-time (Cache Components). */
 export const instant = false;
 
 type PageProps = { params: Promise<{ inviteToken: string }> };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { inviteToken: rawToken } = await params;
+  const inviteToken = decodeURIComponent(rawToken);
+  const view = await getInviteViewUseCase({ inviteToken });
+  if (!view.ok) return invalidInviteMetadata();
+  return inviteOpenGraphMetadata({
+    groupName: view.value.group.name,
+    inviteToken,
+  });
+}
 
 export default async function InvitePage({ params }: PageProps) {
   const { inviteToken: rawToken } = await params;
