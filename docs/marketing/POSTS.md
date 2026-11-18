@@ -19,17 +19,17 @@ Cada item abaixo é um roteiro pronto para o Rodrigo publicar em Instagram, TikT
 | # | Canal | Roteiro / texto |
 |---|-------|-----------------|
 | 1 | Instagram / Reels | "Seu amigo secreto começa aqui. Crie o grupo em 2 minutos, sem cadastro e sem senha. Cada pessoa entra só com o nome. <br><br>Crie o seu grupo: https://papelzinho.app" |
-| 2 | Instagram / Reels | "Convide todo mundo para a troca. Compartilhe o convite, cada um entra com o nome e você faz o sorteio quando estiver todo mundo. <br><br>https://papelzinho.app" |
-| 3 | Instagram / Reels | "Valor máximo: você combina. Data da troca: você escolhe. O Papelzinho organiza convite e sorteio. <br><br>https://papelzinho.app" |
+| 2 | Instagram / Reels | "Convide todo mundo para o amigo secreto. Compartilhe o convite, cada um entra com o nome e você faz o sorteio quando estiver todo mundo. <br><br>https://papelzinho.app" |
+| 3 | Instagram / Reels | "Valor máximo: você combina. Data do encontro: você escolhe. O Papelzinho organiza convite e sorteio. <br><br>https://papelzinho.app" |
 | 4 | Status do WhatsApp | "Amigo secreto sem cadastro e sem senha. Cada pessoa entra só com o nome pelo convite. Crie o seu grupo: https://papelzinho.app 🎁" |
 | 5 | Status do WhatsApp | "Guarde seu link pessoal. É por ele que você vê quem tirou no sorteio. Não compartilhe com ninguém. <br><br>https://papelzinho.app" |
 | 6 | TikTok / Reels | Passo a passo em 4 telas: 1. O organizador cria o grupo. 2. Envia o convite. 3. Cada pessoa entra com o nome. 4. Faz o sorteio. <br><br>Legenda: Crie o seu grupo: https://papelzinho.app |
 | 7 | Instagram / Reels | "O grupo fecha depois do sorteio. Convite cedo para organizar a tempo. <br><br>https://papelzinho.app" |
 | 8 | TikTok / Reels | "Quem organiza não compartilha o link do organizador. Apenas o convite vai para o grupo. <br><br>https://papelzinho.app" |
 | 9 | Instagram / Reels | "De 3 a 100 pessoas por grupo. O sorteio é só seu: cada pessoa vê só o próprio par e o painel não mostra os pares. <br><br>https://papelzinho.app" |
-| 10 | Status do WhatsApp | "Família, amigos, equipe de trabalho. Qualquer troca combina com o Papelzinho. <br><br>Crie o seu grupo: https://papelzinho.app 🎁" |
+| 10 | Status do WhatsApp | "Família, amigos, equipe de trabalho. Qualquer amigo secreto combina com o Papelzinho. <br><br>Crie o seu grupo: https://papelzinho.app 🎁" |
 | 11 | Instagram / Reels | "Primeiro Natal do Papelzinho. Organize a troca de presentes da sua família sem cadastro e sem senha. <br><br>https://papelzinho.app" |
-| 12 | TikTok / Reels | "Link pronto, grupo reunido, troca organizada. Crie o seu amigo secreto em 2 minutos. <br><br>https://papelzinho.app" |
+| 12 | TikTok / Reels | "Link pronto, grupo reunido, encontro marcado. Crie o seu amigo secreto em 2 minutos. <br><br>https://papelzinho.app" |
 
 ## 3. Texto de divulgação para grupos (WhatsApp)
 
@@ -40,7 +40,7 @@ Oi, pessoal! Criei um amigo secreto no Papelzinho: *NOME DO GRUPO* 🎁
 
 Troca de presentes: DATA (ex.: 24/12/2026)
 Valor máximo do presente: VALOR (ex.: R$ 50,00)
-LOCAL (opcional: ex.: Casa da Vó Maria)
+Local do encontro (opcional: ex.: Casa da Vó Maria)
 
 Entre pelo convite, só com o seu nome. Sem cadastro e sem senha:
 LINK DO CONVITE (https://papelzinho.app/g/...)
@@ -48,7 +48,7 @@ LINK DO CONVITE (https://papelzinho.app/g/...)
 Guarde seu link pessoal depois de entrar. É por ele que você vê quem tirou no sorteio. Não compartilhe o link de organizador — ele é só seu.
 ```
 
-Como usar: substitua `NOME DO GRUPO`, `DATA`, `VALOR`, `LOCAL` e `LINK DO CONVITE`. A linha de Local some quando não houver local.
+Como usar: substitua `NOME DO GRUPO`, `DATA`, `VALOR`, `LOCAL` e `LINK DO CONVITE`. A linha do local do encontro some quando não houver local.
 
 ## 4. Mini-kit do teste real (REL-01)
 
@@ -58,8 +58,8 @@ Para o Rodrigo compartilhar com os 2 grupos reais (família e amigos) no teste d
 ```
 Oi! Vamos testar o Papelzinho, o app de amigo secreto que estou ajudando a lançar.
 
-Criei um grupo para a nossa troca: NOME DO GRUPO
-Data da troca: DATA
+Criei um grupo para o nosso amigo secreto: NOME DO GRUPO
+Data do encontro: DATA
 Valor máximo: VALOR
 
 Entre pelo convite com o seu nome (sem cadastro e sem senha):
@@ -70,7 +70,7 @@ Me conte o que achou: foi fácil criar? A entrada foi rápida? Ficou alguma dúv
 ```
 
 **Guia rápido para o organizador (teste real)**
-1. Acesse https://papelzinho.app e crie o grupo (nome, valor máximo, data da troca).
+1. Acesse https://papelzinho.app e crie o grupo (nome, valor máximo, data do encontro).
 2. Copie o link do convite e envie apenas ele para o grupo do WhatsApp.
 3. Não compartilhe o link de organizador.
 4. Quando todas as pessoas entrarem (mínimo 3), confira no painel do organizador se o sorteio já está disponível e, se estiver, faça o sorteio.

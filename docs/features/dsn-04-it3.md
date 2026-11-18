@@ -143,7 +143,7 @@ R1 — fechado                          R3 — revelado
 │ Seu amigo secreto            │     │ Seu amigo secreto            │
 │ O sorteio foi feito. Toque   │     │ Você tirou                   │  text-sm muted
 │ para ver quem você tirou.    │     │ Beatriz Lima                 │  serif 30/36, 700
-│ Confira se ninguém está      │     │ Troca em 24/12/2026 ·        │
+│ Confira se ninguém está      │     │ Encontro em 24/12/2026 ·     │
 │ olhando a sua tela.          │     │ até R$ 50,00                 │
 │ [ Revelar meu amigo secreto ]│     │ [ Esconder ]                 │  ghost
 └──────────────────────────────┘     ├──────────────────────────────┤

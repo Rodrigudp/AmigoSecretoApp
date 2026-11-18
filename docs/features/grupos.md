@@ -45,10 +45,10 @@ O formulário é mobile first (largura de toque mínima de 48 px, tipografia ≥
    - Valor monetário obrigatório em Reais (R$), maior que zero (`maxValueCents > 0`).
    - Interface com máscara em R$ e conversão para número inteiro de centavos.
    - Placeholder: *Ex.: 50,00*.
-3. **Data da troca de presentes** (`exchangeDate`):
+3. **Data do encontro** (`exchangeDate`):
    - Data de calendário no formato `YYYY-MM-DD` (date picker nativo).
    - Validação: deve ser posterior a hoje considerando o fuso horário oficial `America/Sao_Paulo`.
-4. **Local da troca / Observações** (`location`):
+4. **Local do encontro / Observações** (`location`):
    - Texto opcional, máximo de 120 caracteres. Normalizado para `null` se não preenchido.
    - Placeholder: *Ex.: Casa da Vó Maria às 20h / Churrascaria Boi Preto*.
 5. **Botão de Ação**:
@@ -113,9 +113,9 @@ O botão **"Compartilhar no WhatsApp"** aciona `https://wa.me/?text=<mensagem_co
 ```text
 Oi pessoal! Criei nosso amigo secreto no Papelzinho: *{groupName}*! 🎁🎄
 
-Data da troca: {dataFormatada}
+Data do encontro: {dataFormatada}
 Valor sugerido: até R$ {valorFormatado}
-Local: {localOuNaoInformado}
+Local do encontro: {localOuNaoInformado}
 
 Toque no link abaixo para entrar só com seu nome e montar sua lista de desejos:
 {inviteUrl}
@@ -148,7 +148,7 @@ Casos de uso: `get-admin-view` e `remove-participant` (definidos em `CONTRATOS.m
    - O servidor computa o hash SHA-256 do token recebido e consulta o grupo.
    - Token inválido ou inexistente retorna o erro genérico: `"Este link é inválido ou não está mais disponível."` (sem revelar existência do grupo).
 2. **Dados Exibidos (`AdminGroup`):**
-   - Nome do grupo, Data da troca (`exchangeDate`), Local e Valor máximo (`maxValueCents`).
+   - Nome do grupo, Data do encontro (`exchangeDate`), Local do encontro e Valor máximo (`maxValueCents`).
    - Badge de estado: `Aberto para inscrições` ou `Sorteio Realizado em <data>`.
    - `inviteUrl` para cópia rápida do convite no painel.
    - Contador de participantes: `X participantes (máximo 100)` (RN09).
@@ -184,8 +184,8 @@ Mensagens rigorosamente alinhadas com as especificações de [Participantes](par
 | Link admin ou convite inválido, expirado ou grupo inexistente | `"Este link é inválido ou não está mais disponível."` |
 | Nome do grupo fora de 1 a 60 caracteres | `"Informe um nome para o grupo entre 1 e 60 caracteres."` |
 | Valor do presente menor ou igual a zero | `"O valor do presente deve ser maior que zero."` |
-| Data da troca no passado ou hoje no fuso `America/Sao_Paulo` | `"A data da troca de presentes deve ser uma data futura."` |
-| Local com mais de 120 caracteres | `"O local da troca deve ter no máximo 120 caracteres."` |
+| Data do encontro no passado ou hoje no fuso `America/Sao_Paulo` | "Escolha uma data para o encontro a partir de amanhã." |
+| Local do encontro com mais de 120 caracteres | "Use até 120 letras no local do encontro." |
 | Grupo atingiu o limite de 100 participantes (RN09) | `"Este grupo já está completo (100 pessoas)."` |
 | Menos de 3 participantes para sortear (RN01) | `"São necessários pelo menos 3 participantes para sortear."` |
 | Tentativa de remover participante em grupo já sorteado (RN04) | `"Não é possível remover participantes após a realização do sorteio."` |

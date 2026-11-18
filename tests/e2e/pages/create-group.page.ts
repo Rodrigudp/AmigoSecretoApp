@@ -16,11 +16,11 @@ export class CreateGroupPage {
   }
 
   get exchangeDate() {
-    return this.page.getByLabel(/data da troca/i);
+    return this.page.getByLabel(/data do encontro/i);
   }
 
   get location() {
-    return this.page.getByLabel(/local da troca/i);
+    return this.page.getByLabel(/local do encontro/i);
   }
 
   get createButton() {

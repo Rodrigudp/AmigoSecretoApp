@@ -11,7 +11,7 @@ afterEach(cleanup);
 function fill() {
   fireEvent.change(screen.getByLabelText(/Nome do grupo/), { target: { value: "Família Silva" } });
   fireEvent.change(screen.getByLabelText(/Valor máximo/), { target: { value: "50" } });
-  fireEvent.change(screen.getByLabelText(/Data da troca/), { target: { value: "2099-12-24" } });
+  fireEvent.change(screen.getByLabelText(/Data do encontro/), { target: { value: "2099-12-24" } });
 }
 const submit = () => fireEvent.click(screen.getByRole("button", { name: /Criar grupo/ }));
 
@@ -19,9 +19,9 @@ describe("CreateGroupForm", () => {
   it("empty state: shows the fields and no errors", () => {
     render(<CreateGroupForm action={vi.fn()} />);
     expect(screen.getByLabelText(/Nome do grupo/)).toBeTruthy();
-    expect(screen.getByText("Ex.: 24/12/2026")).toBeTruthy();
-    const dateInput = screen.getByLabelText(/Data da troca/);
-    expect(dateInput.getAttribute("aria-describedby")).toContain(screen.getByText("Ex.: 24/12/2026").id);
+    expect(screen.getByText("dd/mm/yyyy")).toBeTruthy();
+    const dateInput = screen.getByLabelText(/Data do encontro/);
+    expect(dateInput.getAttribute("aria-describedby")).toContain(screen.getByText("dd/mm/yyyy").id);
     expect(screen.queryByRole("alert")).toBeNull();
   });
 
