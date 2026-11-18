@@ -1,48 +1,52 @@
-import { Card } from "../../../_components/Card";
-import { JOIN_MESSAGES } from "../../../_lib/join-messages";
-import { resolvePersonalAccessUseCase } from "../../../_lib/participant-stubs";
-import { readPersonalCookie } from "../../../_lib/personal-cookie";
+import { Suspense } from "react";
+import { cookies } from "next/headers";
+import { Card } from "@/app/_components/Card";
+import {
+  ParticipantAreaLoading,
+  ParticipantNeutralError,
+} from "@/app/_components/ParticipantHeader";
+import { ParticipantArea } from "@/app/_components/ParticipantArea";
+import { cookieNameFor, resolveParticipantByToken } from "@/app/_lib/participant-view-usecase";
 
-/** Cookie-authenticated area is request-time (ADR-004 + Cache Components). */
-export const instant = false;
+export const metadata = {
+  robots: { index: false, follow: false },
+};
 
-type PageProps = { params: Promise<{ groupId: string }> };
+type PageProps = {
+  params: Promise<{ groupId: string }>;
+};
 
-/** Canonical participant area authenticated by `ptk_<groupId>` (ADR-004). */
-export default async function ParticipantByCookiePage({ params }: PageProps) {
-  const { groupId } = await params;
-  const accessToken = await readPersonalCookie(groupId);
-
-  if (!accessToken) {
-    return <NeedLink />;
-  }
-
-  const resolved = await resolvePersonalAccessUseCase(accessToken);
-  if (!resolved.ok || resolved.value.groupId !== groupId) {
-    return <NeedLink />;
-  }
-
-  const { displayName, group } = resolved.value;
-
+/**
+ * Canonical participant area authenticated by the per-group cookie
+ * `ptk_<groupId>` (ADR-004). Without the cookie it shows a neutral state
+ * pointing to the personal link, without revealing any group data.
+ */
+export default function ParticipantGroupPage({ params }: PageProps) {
   return (
     <main className="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-8">
-      <header>
-        <h1 className="text-xl font-bold sm:text-2xl">Olá, {displayName}</h1>
-        <p className="mt-1 text-text-muted">{group.name}</p>
-      </header>
-      <Card title="Sua área">
-        <p>Lista de desejos e resultado do sorteio entram em breve.</p>
-      </Card>
+      <Suspense fallback={<ParticipantAreaLoading />}>
+        <ParticipantEntry paramsPromise={params} />
+      </Suspense>
     </main>
   );
 }
 
-function NeedLink() {
-  return (
-    <main className="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-8">
+async function ParticipantEntry({ paramsPromise }: { paramsPromise: PageProps["params"] }) {
+  const [{ groupId }, cookieStore] = await Promise.all([paramsPromise, cookies()]);
+  const cookieToken = cookieStore.get(cookieNameFor(groupId))?.value ?? null;
+
+  if (!cookieToken) {
+    return (
       <Card tone="warning" title="Link pessoal necessário">
-        <p role="status">{JOIN_MESSAGES.needPersonalLink}</p>
+        <p className="text-base">Abra seu link pessoal para ver esta área.</p>
       </Card>
-    </main>
-  );
+    );
+  }
+
+  const resolved = await resolveParticipantByToken(cookieToken);
+  if (!resolved.ok || resolved.value.groupId !== groupId) {
+    return <ParticipantNeutralError />;
+  }
+
+  return <ParticipantArea view={resolved.value.view} adsAllowed />;
 }

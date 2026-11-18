@@ -90,6 +90,8 @@ export interface ParticipantRepository {
     | (AccessScope & {
         groupId: GroupId;
         displayName: string;
+        /** Group expiration (RN08) used as the `ptk_<groupId>` cookie expiry (ADR-004). */
+        expiresAt: string;
       })
     | null
   >;

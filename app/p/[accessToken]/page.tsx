@@ -1,12 +1,17 @@
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
-import { Card } from "../../_components/Card";
-import { JOIN_MESSAGES } from "../../_lib/join-messages";
-import { resolvePersonalAccessUseCase } from "../../_lib/participant-stubs";
-import { accessTokensEqual } from "../../_lib/access-token";
-import { readPersonalCookie, setPersonalCookie } from "../../_lib/personal-cookie";
+import { cookies } from "next/headers";
+import {
+  ParticipantAreaLoading,
+  ParticipantNeutralError,
+} from "@/app/_components/ParticipantHeader";
+import { ParticipantArea } from "@/app/_components/ParticipantArea";
+import { decideParticipantAccess } from "@/app/_lib/participant-access";
+import { cookieNameFor, resolveParticipantByToken } from "@/app/_lib/participant-view-usecase";
 
-/** Cookie handshake is request-time (ADR-004 + Cache Components). */
-export const instant = false;
+export const metadata = {
+  robots: { index: false, follow: false },
+};
 
 type PageProps = {
   params: Promise<{ accessToken: string }>;
@@ -14,47 +19,53 @@ type PageProps = {
 };
 
 /**
- * ADR-004 handshake: token in the URL becomes `ptk_<groupId>`, then redirect
- * to the clean URL. Redirect only when the cookie matches this same link.
+ * ADR-004 handshake for GET /p/<accessToken>. Dynamic parts (params, search
+ * params, cookies) live inside the Suspense boundary (cacheComponents).
  */
-export default async function PersonalAccessPage({ params, searchParams }: PageProps) {
-  const { accessToken: raw } = await params;
-  const accessToken = decodeURIComponent(raw);
-  const { ck } = await searchParams;
-
-  const resolved = await resolvePersonalAccessUseCase(accessToken);
-  if (!resolved.ok) {
-    return (
-      <main className="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-8">
-        <Card tone="warning" title="Link indisponível">
-          <p role="status">{JOIN_MESSAGES.invalidPersonal}</p>
-        </Card>
-      </main>
-    );
-  }
-
-  const { groupId, displayName, expiresAt, group } = resolved.value;
-  const cookieValue = await readPersonalCookie(groupId);
-
-  if (cookieValue && accessTokensEqual(cookieValue, accessToken)) {
-    redirect(`/p/g/${groupId}`);
-  }
-
-  if (ck !== "1") {
-    await setPersonalCookie({ groupId, accessToken, expiresAt });
-    redirect(`/p/${encodeURIComponent(accessToken)}?ck=1`);
-  }
-
-  // Cookie blocked (WebView): stay on the token URL with ads off (PAR-04 fills the area).
+export default function ParticipantAccessTokenPage({ params, searchParams }: PageProps) {
   return (
     <main className="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-8">
-      <header>
-        <h1 className="text-xl font-bold sm:text-2xl">Olá, {displayName}</h1>
-        <p className="mt-1 text-text-muted">{group.name}</p>
-      </header>
-      <Card title="Sua área">
-        <p>Lista de desejos e resultado do sorteio entram em breve.</p>
-      </Card>
+      <Suspense fallback={<ParticipantAreaLoading />}>
+        <ParticipantEntry paramsPromise={params} searchParamsPromise={searchParams} />
+      </Suspense>
     </main>
   );
+}
+
+async function ParticipantEntry({
+  paramsPromise,
+  searchParamsPromise,
+}: {
+  paramsPromise: PageProps["params"];
+  searchParamsPromise: PageProps["searchParams"];
+}) {
+  const [{ accessToken }, query, cookieStore] = await Promise.all([
+    paramsPromise,
+    searchParamsPromise,
+    cookies(),
+  ]);
+
+  const resolvedResult = await resolveParticipantByToken(accessToken);
+  const decision = decideParticipantAccess({
+    accessToken,
+    ck: query.ck === "1",
+    cookieValue: resolvedResult.ok
+      ? (cookieStore.get(cookieNameFor(resolvedResult.value.groupId))?.value ?? null)
+      : null,
+    resolved: resolvedResult.ok ? resolvedResult.value : null,
+  });
+
+  switch (decision.kind) {
+    case "invalid":
+      return <ParticipantNeutralError />;
+    case "canonical":
+      redirect(`/p/g/${decision.groupId}`);
+    case "probe":
+      // Pages cannot set cookies; the route handler sets `ptk_<groupId>` and
+      // comes back to /p/<accessToken>?ck=1 (ADR-004 step 3).
+      redirect(`/api/p/hs/${decision.accessToken}`);
+    case "fallback":
+      // WebView without cookie support: render here, no ad slots (ADR-004).
+      return <ParticipantArea view={decision.access.view} adsAllowed={false} />;
+  }
 }
