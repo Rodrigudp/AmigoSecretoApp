@@ -165,7 +165,16 @@ O plano de capturas segue o visual nativo especificado em `docs/features/app-tel
 
 ## 5. Questionários de Privacidade das Lojas
 
-As respostas abaixo refletem fielmente a arquitetura sem cadastro do Papelzinho, a política publicada em `https://papelzinho.app/privacidade` e o contrato da API v1 (`docs/arquitetura/API-V1.md` §5). Avaliado e aprovado pela Segurança (15 Segurança & LGPD, commit `c1f3fd3`).
+As respostas abaixo refletem a arquitetura sem cadastro do Papelzinho, a política publicada em `https://papelzinho.app/privacidade` e o contrato da API v1 (`docs/arquitetura/API-V1.md` §5). Submetido para revisão e validação da Segurança (15 Segurança & LGPD).
+
+### Tratamento Técnico por Prestadores de Serviço (Service Providers)
+O aplicativo Papelzinho opera exclusivamente com parceiros de infraestrutura contratados como operadores técnicos e prestadores de serviço (Service Providers / Data Processors):
+- **Supabase:** armazenamento de dados em banco relacional criptografado e execução da API v1.
+- **Expo (EAS Push Notifications):** tráfego e entrega técnica de notificações push aos serviços oficiais da Apple (APNs) e Google (FCM).
+
+Conforme as diretrizes oficiais de ambas as lojas — [Apple App Store Privacy Details](https://developer.apple.com/app-store/app-privacy-details/) (seção *Service Providers*) e [Google Play Data Safety](https://support.google.com/googleplay/android-developer/answer/10787469) (seção *Data sharing: Service Providers*) —, o envio de dados a prestadores de serviços que atuam estritamente sob contrato e em nome do desenvolvedor **não é considerado compartilhamento de dados com terceiros (Data Sharing)**. Portanto, em ambas as fichas declara-se **NÃO** para compartilhamento ou venda externa de dados.
+
+---
 
 ### 5.1. Apple App Store — Rótulo de Privacidade (App Privacy Details)
 
@@ -173,51 +182,61 @@ As respostas abaixo refletem fielmente a arquitetura sem cadastro do Papelzinho,
 - **Resposta:** **NÃO**.
 - **Justificativa:** O aplicativo não utiliza identificador de publicidade (IDFA), não conecta dados do usuário com dados de terceiros para publicidade direcionada e não compartilha dados com corretores de dados (data brokers).
 
-#### B. Os dados coletados são vinculados à identidade do usuário (Data Linked to You)?
-- **Resposta:** **NÃO**.
-- **Justificativa:** O aplicativo não possui contas pessoais, autenticação federada (Google/Apple/Facebook), e-mail de login, CPF ou número de telefone. As credenciais locais são geradas aleatoriamente por grupo e mantidas no SecureStore do aparelho.
+#### B. Os dados coletados são vinculados à pessoa (Data Linked to You)?
+- **Resposta:** **SIM**.
+- **Justificativa:** Embora o Papelzinho não exija cadastro, senha ou dados civis (CPF, e-mail), perante a modelagem da Apple os dados operacionais coletados (token push, nome e lista de desejos) ficam vinculados ao mesmo registro do participante no grupo.
 
-#### C. Dados coletados pelo app (Data Not Linked to You):
+#### C. Detalhamento dos dados vinculados à pessoa (Data Linked to You):
 
 1. **Identificadores (Identifiers) — ID do Dispositivo (Device ID):**
-   - **Coletado?** **SIM**, condicionado ao consentimento do usuário.
-   - **Qual dado:** `ExpoPushToken` (token de notificação push do aparelho, emitido pelo serviço do Expo).
-   - **Finalidade:** **Funcionalidade do App (App Functionality)** — exclusivamente para enviar avisos do sorteio realizado e lembrete do encontro.
-   - **Vinculado à identidade?** **Não**.
-   - **Usado para rastreamento?** **Não**.
-   - **Observação:** O registro só ocorre se o usuário autorizar explicitamente a permissão de notificações do sistema operacional. A pessoa usa a opção "Desativar avisos" na área pessoal do app (`mobile/app/p/[...path].tsx`), o que apaga o cadastro deste aparelho no servidor. Além disso, todos os dados do grupo são apagados 60 dias após a data do encontro (a v1 do app não tem "remover grupo").
+   - **Coletado?** **SIM** (condicionado ao consentimento explícito do usuário nas notificações).
+   - **Qual dado:** `ExpoPushToken` (token de notificação push emitido pelo Expo para entrega via APNs).
+   - **Finalidade:** **Funcionalidade do App (App Functionality)** — enviar avisos de sorteio realizado e lembrete da data do encontro.
+   - **Vinculado à pessoa (Data Linked to You)?** **SIM**.
+   - **Usado para rastreamento (Tracking)?** **NÃO**.
+   - **Observação:** O registro só ocorre se o usuário autorizar explicitamente a permissão de notificações do sistema operacional. O participante pode a qualquer momento clicar em "Desativar avisos" na área pessoal do app (`mobile/app/p/[...path].tsx`), o que revoga e apaga imediatamente o cadastro deste aparelho no servidor.
 
-2. **Conteúdo do Usuário (User Content):**
+2. **Informações de Contato (Contact Info) — Nome (Name):**
    - **Coletado?** **SIM**.
-   - **Qual dado:**
-     - **Nome ou apelido:** informado informalmente pelo participante ao entrar no grupo.
-     - **Lista de desejos:** título do item, observação e link opcional informados voluntariamente pelo participante.
-   - **Finalidade:** **Funcionalidade do App (App Functionality)** — viabilizar o sorteio e permitir que o amigo secreto veja o nome e as preferências do sorteado.
-   - **Vinculado à identidade?** **Não** (não há verificação de identidade civil, nem associação com perfil).
-   - **Usado para rastreamento?** **Não**.
+   - **Qual dado:** Nome ou apelido informado informalmente pelo participante ao entrar no grupo.
+   - **Finalidade:** **Funcionalidade do App (App Functionality)** — identificar o participante no grupo e viabilizar o sorteio.
+   - **Vinculado à pessoa (Data Linked to You)?** **SIM**.
+   - **Usado para rastreamento (Tracking)?** **NÃO**.
 
-3. **Diagnóstico e Dados de Uso (Diagnostics / Usage Data):**
-   - **Coletado?** **SIM** (apenas dados técnicos de infraestrutura).
-   - **Qual dado:** Registros anônimos de requisições à API (status HTTP, contadores operacionais agregados de grupos criados e sorteios realizados).
+3. **Conteúdo do Usuário (User Content) — Outro Conteúdo do Usuário (Other User Content):**
+   - **Coletado?** **SIM** (opcional).
+   - **Qual dado:** Sugestões cadastradas na lista de desejos (título, observação e link opcional) fornecidas voluntariamente pelo participante.
+   - **Finalidade:** **Funcionalidade do App (App Functionality)** — orientar quem tirou a pessoa no amigo secreto.
+   - **Vinculado à pessoa (Data Linked to You)?** **SIM**.
+   - **Usado para rastreamento (Tracking)?** **NÃO**.
+
+#### D. Dados não vinculados à pessoa (Data Not Linked to You):
+
+1. **Diagnóstico e Dados de Uso (Diagnostics / Usage Data):**
+   - **Coletado?** **SIM** (apenas dados técnicos operacionais agregados).
+   - **Qual dado:** Registros de requisições anônimas à API (status HTTP, contadores operacionais agregados).
    - **Finalidade:** **Funcionalidade do App (App Functionality)** e manutenção da estabilidade do serviço.
-   - **Vinculado à identidade?** **Não**.
-   - **Usado para rastreamento?** **Não**.
+   - **Vinculado à pessoa?** **NÃO**.
+   - **Usado para rastreamento?** **NÃO**.
 
 ---
 
 ### 5.2. Google Play Store — Seção de Segurança de Dados (Data Safety Section)
 
 #### A. Coleta e Compartilhamento de Dados (Data Collection and Sharing)
-- **O app coleta ou compartilha algum dos tipos de dados de usuários necessários?** **SIM** (coleta apenas; não compartilha).
-- **Todos os dados coletados pelo app são criptografados em trânsito?** **SIM** (todas as comunicações com o servidor utilizam exclusivamente HTTPS/TLS).
-- **O app oferece aos usuários uma forma de solicitar a exclusão de seus dados?** **SIM** (a pessoa usa a opção "Desativar avisos" na área pessoal do app, o que apaga o cadastro deste aparelho no servidor; além disso, todos os dados do grupo são apagados 60 dias após a data do encontro. A v1 do app não tem "remover grupo").
+- **O app coleta ou compartilha algum dos tipos de dados de usuários necessários?** **SIM** (coleta apenas; não compartilha dados com terceiros).
+- **Todos os dados coletados pelo app são criptografados em trânsito?** **SIM** (todas as comunicações entre o app e os servidores utilizam exclusivamente HTTPS/TLS criptografado).
+- **O app oferece aos usuários uma forma de solicitar a exclusão de seus dados?** **SIM**, operacionalizado por três canais e mecanismos complementares:
+  1. **Revogação imediata do push no app:** A pessoa participante usa a opção "Desativar avisos" na área pessoal do app (`mobile/app/p/[...path].tsx`), o que revoga e apaga imediatamente o cadastro deste aparelho e seu token push no servidor.
+  2. **Canal de exclusão sob demanda:** A pessoa usuária pode solicitar a exclusão antecipada de seus dados a qualquer momento pelo canal oficial de suporte via e-mail: `suporte@papelzinho.app`.
+  3. **Exclusão automática por ciclo de vida:** Todos os dados do grupo (participantes, nomes, listas de desejos e metadados) são permanentemente expurgados do banco de dados 60 dias após a data do encontro (sem prometer prazo fixo contado da data de coleta, visto que os dados acompanham o ciclo de vida do evento; a v1 do app não possui recurso manual de "remover grupo").
 
 #### B. Detalhamento dos tipos de dados coletados (nenhum é compartilhado com terceiros):
 
 1. **Informações pessoais (Personal info):**
    - **Dado:** Nome (`Name`).
    - **Coletado:** Sim (nome informal ou apelido fornecido ao participar de um grupo).
-   - **Compartilhado:** Não. Provedores de nuvem (Supabase) atuam estritamente como operadores de processamento sob contrato.
+   - **Compartilhado:** Não. Provedores de nuvem (Supabase) atuam estritamente como prestadores de serviços de processamento sob contrato.
    - **Finalidade:** Funcionalidade do app (`App functionality`).
    - **Opcional ou Obrigatório:** Obrigatório para participar do sorteio no grupo.
 
@@ -229,11 +248,11 @@ As respostas abaixo refletem fielmente a arquitetura sem cadastro do Papelzinho,
    - **Opcional ou Obrigatório:** Opcional (o participante pode ou não cadastrar sugestões de presentes).
 
 3. **IDs do dispositivo ou outros (Device or other IDs):**
-   - **Dado:** ID do dispositivo (token de notificação push).
-   - **Coletado:** Sim (apenas com permissão de notificação concedida).
-   - **Compartilhado:** Não.
+   - **Dado:** ID do dispositivo (token de notificação push `ExpoPushToken`).
+   - **Coletado:** Sim (apenas com permissão explícita de notificação concedida no aparelho).
+   - **Compartilhado:** Não. O envio do token ao Expo atua exclusivamente como prestador de serviço técnico de infraestrutura para despacho de notificações aos serviços FCM/APNs, não constituindo compartilhamento com terceiros conforme as diretrizes do Google Play ([Google Play Data Safety Help](https://support.google.com/googleplay/android-developer/answer/10787469)).
    - **Finalidade:** Funcionalidade do app (`App functionality`).
-   - **Opcional ou Obrigatório:** Opcional (o usuário pode recusar notificações e continuar usando o app normalmente).
+   - **Opcional ou Obrigatório:** Opcional (o usuário pode recusar notificações e utilizar o app normalmente).
 
 #### C. Declaração do Programa para Famílias (Target Audience & Content):
 - **Faixa etária principal:** 18 anos ou mais / Público geral.
