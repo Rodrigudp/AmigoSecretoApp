@@ -34,6 +34,13 @@ Legenda da coluna **Final**: ✓ mantém o texto de hoje · ✎ muda (vira cart�
 | GLB-10 | Rodapé | (não existe) | **novo**: "Privacidade · Termos" (links dependem das páginas do 15 Segurança) |
 | GLB-11 | Copiou | ✓ Link copiado! | ✓ |
 | GLB-12 | Não conseguiu copiar | (falha em silêncio) | **novo**: "Não foi possível copiar. Toque no campo e copie o link." |
+| CKB-01 | Nome do aviso de cookies | — | Aviso de cookies |
+| CKB-02 | Texto do aviso | — | Se você aceitar, o Google poderá usar cookies para exibir e medir anúncios do AdSense. Você pode mudar sua escolha em Cookies, no rodapé. |
+| CKB-03 | Aceite | — | Aceitar |
+| CKB-04 | Recusa | — | Recusar |
+| CKB-05 | Link no aviso | — | Política de privacidade |
+| CKB-06 | Falha ao alterar a escolha | — | Não foi possível alterar a escolha neste navegador. Tente de novo. |
+| FTR-10 | Reabrir escolhas de cookies no rodapé | — | Cookies |
 
 ## 3. Início — criar grupo (`/`)
 

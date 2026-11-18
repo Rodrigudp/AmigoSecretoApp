@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { copy } from "./_lib/copy";
 import { APP_NAME } from "./_lib/brand";
 import { Footer } from "./_components/Footer";
+import { CookieBanner } from "./_components/CookieBanner";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,6 +14,8 @@ export const metadata: Metadata = {
   other: { "google-adsense-account": "ca-pub-2752974850416759" },
   description: copy.GLB_03,
 };
+
+const adsEnabled = process.env.ADS_ENABLED === "true";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -38,7 +42,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </div>
         </header>
         {children}
-        <Footer />
+        <Footer adsEnabled={adsEnabled} />
+        {adsEnabled && (
+          <Suspense fallback={null}>
+            <CookieBanner adsEnabled={adsEnabled} />
+          </Suspense>
+        )}
       </body>
     </html>
   );

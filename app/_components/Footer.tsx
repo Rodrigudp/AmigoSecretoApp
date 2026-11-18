@@ -1,7 +1,42 @@
-import Link from "next/link";
-import { copy } from "../_lib/copy";
+"use client";
 
-export function Footer() {
+import Link from "next/link";
+import { useState } from "react";
+import { copy } from "../_lib/copy";
+import { useAdConsent, setAdConsent } from "../_lib/consent";
+
+function CookiePreferences() {
+  const consent = useAdConsent();
+  const [failed, setFailed] = useState(false);
+  if (consent === "unknown") return null;
+
+  return (
+    <>
+      <li aria-hidden="true" className="select-none text-text-muted/60">
+        ·
+      </li>
+      <li>
+        <button
+          type="button"
+          onClick={() => {
+            if (!setAdConsent("unknown")) {
+              setFailed(true);
+              return;
+            }
+            // Unload any advertising code that already ran in this document.
+            if (consent === "granted") window.location.reload();
+          }}
+          className="inline-flex min-h-11 items-center px-1 underline hover:text-text"
+        >
+          {copy.FTR_10}
+        </button>
+        {failed && <p role="alert">{copy.CKB_06}</p>}
+      </li>
+    </>
+  );
+}
+
+export function Footer({ adsEnabled }: { adsEnabled?: boolean }) {
   return (
     <footer
       aria-label={copy.FTR_02}
@@ -52,6 +87,7 @@ export function Footer() {
                 {copy.FTR_01.contact}
               </Link>
             </li>
+            {adsEnabled && <CookiePreferences />}
           </ul>
         </nav>
       </div>

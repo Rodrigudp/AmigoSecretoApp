@@ -28,9 +28,9 @@ _(vazio)_
 ## 🔨 Em andamento
 - LST-03 · Adapters de afiliado + redirect `/r/[itemId]` · LST → SEC · 3 pts · 22/11 — responsável: 22 Lista
 - MON-02 · Slots AdSense lazy + chave `ADS_ENABLED` · MON → SEC + DSN · 2 pts · 24/11 — responsável: 24 Monetização; adiantado da It-4 em 18/11; funciona desligado até o PEN-03 (ID pub-); `ads.txt` 404 sem ID; nunca em rota com token (ADR-004)
-- SEC-04 · Aviso de cookies / consentimento para anúncios · SEC → MON + DSN · 2 pts · 24/11 — responsável: 15 Segurança; adiantado da It-4 em 18/11; nenhum cookie/script do Google antes do aceite; só aparece com `ADS_ENABLED=true`
 
 ## 👀 Em revisão
+- SEC-04 · Aviso de cookies / consentimento para anúncios · SEC → MON + DSN · 2 pts · 24/11 — responsável: 15 Segurança; adiantado da It-4 em 18/11; nenhum cookie/script do Google antes do aceite; só aparece com `ADS_ENABLED=true`
 - SRT-04 · `get-my-result` + cartão "Revelar" · SRT → SEC + DSN + QA · 3 pts · 23/11 — PRs empilhados #66 (`888095e`, `get-my-result` + `DrawRepository.getCurrentResult` + evento `result_revealed`, 373L) e #67 (`c09d64e`, `RevealCard` R0–R4 + `revealMyResultAction` sem token no cliente + E2E QA-04 + prints 360/1280, 397L); revisão pedida à 15 Segurança e ao 16 Designer
 - MKT-03 · Página Como funciona + SEO técnico · MKT → FE + SEC + DSN · 2 pts · 22/11 — PR #45; ✅ SEC (`3e7436d`); DSN pediu ajustes de texto (CF-05, CF-08, meta descriptions), com o 25
 
