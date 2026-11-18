@@ -167,6 +167,11 @@ isOneToOne: false
                            },
 "purge_expired_groups":
 { Args: Record<PropertyKey, never>; Returns: number
+                           },
+"run_draw":
+{ Args: { "p_admin_token_hash": string,"p_expected_version": number,"p_givers": (string)[],"p_group_id": string,"p_receivers": (string)[] }; Returns: {
+              "draw_version": number,"drawn_at": string,"status": string,"was_replay": boolean
+            }[]
                            }
           }
           Enums: {
