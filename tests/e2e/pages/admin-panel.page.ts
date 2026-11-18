@@ -1,10 +1,6 @@
 import type { Locator, Page } from "@playwright/test";
 
-/**
- * Painel do organizador (/admin/<token>). Rótulos vêm de docs/features/textos.md
- * (ADM-02/ADM-03/ADM-07/ADM-12/ADM-13/ADM-15); as regex aceitam as variantes
- * enquanto o DSN-04 não fecha o texto final.
- */
+/** Painel do organizador (/admin/<token>); rótulos de textos.md, sem texto de marca. */
 export class AdminPanelPage {
   constructor(private readonly page: Page) {}
 

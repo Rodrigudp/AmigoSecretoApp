@@ -1,10 +1,6 @@
 import type { Locator, Page } from "@playwright/test";
 
-/**
- * Área do participante (/p/g/<groupId>), aberta pelo link pessoal.
- * Cobre os blocos de HU03 (lista), HU04 (estado do sorteio) e HU05 (revelar).
- * Não usa seletor por texto de marca nem por CSS: tudo por papel ou rótulo.
- */
+/** Área do participante (/p/<token>): lista (HU03), estado do sorteio (HU04) e Revelar (HU05). */
 export class ParticipantAreaPage {
   constructor(private readonly page: Page) {}
 
