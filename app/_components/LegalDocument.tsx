@@ -17,23 +17,8 @@ type LegalDocumentProps = {
   children?: ReactNode;
 };
 
-const PENDING = copy.LEG.pending;
-
-/** Highlights the literal pending marker so it is visible during review. */
 function Text({ value }: { value: string }) {
-  const parts = value.split(PENDING);
-  return (
-    <>
-      {parts.map((part, index) => (
-        <span key={index}>
-          {part}
-          {index < parts.length - 1 ? (
-            <mark className="rounded bg-note px-1 font-semibold text-text">{PENDING}</mark>
-          ) : null}
-        </span>
-      ))}
-    </>
-  );
+  return <>{value}</>;
 }
 
 function Item({ item }: { item: LegalItem }) {
