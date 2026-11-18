@@ -87,7 +87,7 @@ test.describe("API v1 - regras de negócio nos endpoints (CT-38)", () => {
         data: { displayName },
       });
     expect((await (await join("Ana")).json()).displayName).toBe("Ana");
-    expect((await (await join("ana")).json()).displayName).toMatch(/^ana \(?2\)?$/);
+    expect((await (await join("ana")).json()).displayName).toBe("ana 2");
   });
 
   test("a 11ª criação de grupo por IP dá 429 (CT-63, create_group)", async ({ request }) => {
