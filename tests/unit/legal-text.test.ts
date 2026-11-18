@@ -15,6 +15,16 @@ describe("textos das paginas legais (MON-01-APP)", () => {
     expect(serialized).not.toContain("[DOMÍNIO]");
   });
 
+  it("exibe no Sobre a mesma declaração literal da Amazon usada na lista", () => {
+    const funding = copy.LEG.sobre.sections.find(
+      (section) => section.heading === "Como o site se mantém"
+    );
+    expect(funding?.blocks).toContainEqual({ p: copy.WSH_20 });
+    expect(copy.WSH_20).toBe(
+      "Como participante do Programa de Associados da Amazon, sou remunerado pelas compras qualificadas efetuadas"
+    );
+  });
+
   it("registra a retencao decidida: contadores anonimos sobrevivem ao expurgo", () => {
     const retencao = JSON.stringify(copy.LEG.privacidade.sections);
     expect(retencao).toContain("contadores anônimos");

@@ -1,3 +1,6 @@
+const amazonAssociateDisclosure =
+  "Como participante do Programa de Associados da Amazon, sou remunerado pelas compras qualificadas efetuadas";
+
 /** Textos aprovados em docs/features/textos.md; as chaves preservam os IDs do catálogo. */
 export const copy = {
   EXTRA: {
@@ -208,8 +211,7 @@ export const copy = {
     affiliate: (domain: string) => `Link de afiliado · ${domain}`,
     common: (domain: string) => domain,
   },
-  WSH_20:
-    "Como participante do Programa de Associados da Amazon, sou remunerado pelas compras qualificadas efetuadas",
+  WSH_20: amazonAssociateDisclosure,
   WSH_21:
     "O Papelzinho participa do Programa de Afiliados e Criadores do Mercado Livre e pode receber comissão por compras feitas pelos links.",
   WSH_22: {
@@ -349,6 +351,7 @@ export const copy = {
             {
               p: "Podemos exibir anúncios do Google AdSense e, em alguns links de produtos, usamos links de afiliado. Quando você compra por um desses links, a loja pode pagar uma comissão ao site, sem custo extra para você.",
             },
+            { p: amazonAssociateDisclosure },
           ],
         },
       ],
