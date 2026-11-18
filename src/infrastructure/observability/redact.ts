@@ -6,7 +6,8 @@
 const SENSITIVE_TEXT_REPLACEMENTS: Array<{ pattern: RegExp; replacement: string }> = [
   // 1. URLs de webhook com tokens/secrets (Discord, Slack, Telegram)
   {
-    pattern: /https:\/\/(?:discord(?:app)?\.com\/api\/webhooks\/|hooks\.slack\.com\/services\/|api\.telegram\.org\/bot)[^\s"'<>]+/gi,
+    pattern:
+      /https:\/\/(?:discord(?:app)?\.com\/api\/webhooks\/|hooks\.slack\.com\/services\/|api\.telegram\.org\/bot)[^\s"'<>]+/gi,
     replacement: "[REDACTED_WEBHOOK_URL]",
   },
   // 2. /api/p/hs/[token] ou /p/hs/[token] (healthshake / participant handshake)
@@ -25,6 +26,10 @@ const SENSITIVE_TEXT_REPLACEMENTS: Array<{ pattern: RegExp; replacement: string 
     pattern: /(Bearer\s+)[^\s"',;]+/gi,
     replacement: "$1[REDACTED]",
   },
+  {
+    pattern: /Expo(?:nent)?PushToken\[[^\]\r\n]+\]/gi,
+    replacement: "[REDACTED_EXPO_PUSH_TOKEN]",
+  },
   // 5. Cookies de participante: ptk_<groupId>=<token>
   {
     pattern: /(ptk_[a-zA-Z0-9_-]+=)[^\s"',;]+/gi,
@@ -32,7 +37,8 @@ const SENSITIVE_TEXT_REPLACEMENTS: Array<{ pattern: RegExp; replacement: string 
   },
   // 6. Query parameters sensíveis (?token=..., &accessToken=..., etc.)
   {
-    pattern: /([?&](?:token|adminToken|participantToken|accessToken|inviteToken|rawToken|ownerToken|key|secret|password|auth|apiKey)=)[^&#\s]+/gi,
+    pattern:
+      /([?&](?:token|adminToken|participantToken|accessToken|inviteToken|rawToken|ownerToken|key|secret|password|auth|apiKey)=)[^&#\s]+/gi,
     replacement: "$1[REDACTED]",
   },
 ];
@@ -116,7 +122,12 @@ export function maskSensitiveUrl(rawUrl: string): string {
 }
 
 function sanitizePrimitiveOrError(data: unknown): unknown | null {
-  if (data === null || data === undefined || typeof data === "number" || typeof data === "boolean") {
+  if (
+    data === null ||
+    data === undefined ||
+    typeof data === "number" ||
+    typeof data === "boolean"
+  ) {
     return data;
   }
   if (typeof data === "string") {

@@ -50,17 +50,31 @@ describe("Observability Redaction (OPS-01 / LGPD Art. 46)", () => {
     });
 
     it("masks Bearer tokens in headers or log lines", () => {
-      const logLine = "Failed request with header Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.secret";
-      expect(maskSensitiveUrl(logLine)).toBe("Failed request with header Authorization: Bearer [REDACTED]");
+      const logLine =
+        "Failed request with header Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.secret";
+      expect(maskSensitiveUrl(logLine)).toBe(
+        "Failed request with header Authorization: Bearer [REDACTED]"
+      );
+    });
+
+    it.each(["ExponentPushToken", "ExpoPushToken"])("masks %s in text and errors", (prefix) => {
+      const raw = prefix + "[example_token-123]";
+      expect(maskSensitiveUrl("Expo returned " + raw)).toBe(
+        "Expo returned [REDACTED_EXPO_PUSH_TOKEN]"
+      );
+      expect(JSON.stringify(sanitizeContext(new Error(raw)))).not.toContain(raw);
     });
 
     it("masks ptk_ participant cookies", () => {
       const cookieHeader = "Cookie: ptk_d8a2b5e1-8890=secret_cookie_token_999; session=active";
-      expect(maskSensitiveUrl(cookieHeader)).toBe("Cookie: ptk_d8a2b5e1-8890=[REDACTED]; session=active");
+      expect(maskSensitiveUrl(cookieHeader)).toBe(
+        "Cookie: ptk_d8a2b5e1-8890=[REDACTED]; session=active"
+      );
     });
 
     it("masks sensitive webhook URLs (Discord, Slack, Telegram)", () => {
-      const discord = "Alert sent to https://discord.com/api/webhooks/123456789/abcdef-secret-token successfully";
+      const discord =
+        "Alert sent to https://discord.com/api/webhooks/123456789/abcdef-secret-token successfully";
       expect(maskSensitiveUrl(discord)).toBe("Alert sent to [REDACTED_WEBHOOK_URL] successfully");
 
       const slack = "Hook: https://hooks.slack.com/services/T00/B00/X00 secret";
@@ -71,7 +85,8 @@ describe("Observability Redaction (OPS-01 / LGPD Art. 46)", () => {
     });
 
     it("masks sensitive query parameters in URLs", () => {
-      const url = "https://papelzinho.app/api?token=secret123&other=safe&adminToken=abc&accessToken=xyz&inviteToken=inv123";
+      const url =
+        "https://papelzinho.app/api?token=secret123&other=safe&adminToken=abc&accessToken=xyz&inviteToken=inv123";
       const masked = maskSensitiveUrl(url);
       expect(masked).toContain("token=[REDACTED]");
       expect(masked).toContain("adminToken=[REDACTED]");
