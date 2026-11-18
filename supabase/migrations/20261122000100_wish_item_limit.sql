@@ -5,7 +5,7 @@ create or replace function public.enforce_wish_item_limit()
 returns trigger
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, pg_temp
 as $$
 begin
   -- Serialize inserts for the same participant (CONTRATOS.md: concurrent addOwn).
@@ -26,6 +26,8 @@ create trigger wish_items_limit_trg
   before insert on public.wish_items
   for each row
   execute function public.enforce_wish_item_limit();
+
+revoke execute on function public.enforce_wish_item_limit() from public, anon, authenticated;
 
 comment on function public.enforce_wish_item_limit() is
   'LST-02 / RN-LST-01: at most 20 wish_items per participant, safe under concurrent inserts.';
