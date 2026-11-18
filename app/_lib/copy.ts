@@ -140,6 +140,37 @@ export const copy = {
     action: "Criar um novo grupo",
   },
   ADM_17: "Painel do organizador — Papelzinho",
+  DRW_01: {
+    title: "Sorteio",
+    text: "Quando todos tiverem entrado, faça o sorteio. Cada pessoa vê só quem tirou.",
+  },
+  DRW_02: "Fazer o sorteio",
+  DRW_03: "Para sortear, precisa de pelo menos 3 pessoas.",
+  DRW_04: {
+    title: "Fazer o sorteio agora?",
+    text: (n: number) =>
+      `${n} pessoas vão participar. Depois do sorteio, ninguém mais entra pelo convite e não dá para desfazer.`,
+    cancel: "Cancelar",
+    accept: "Sim, fazer o sorteio",
+  },
+  DRW_05: "Sorteando…",
+  DRW_06: {
+    done: (date: string) => `✓ Sorteio feito em ${date}.`,
+    text: "Cada pessoa já pode ver quem tirou pelo seu link pessoal. Por segurança, este painel não mostra os pares.",
+    self: "Você também participa? Abra o seu link pessoal para ver quem você tirou.",
+    action: "Avisar o grupo no WhatsApp",
+  },
+  DRW_07: "Não foi possível concluir o sorteio. Tente de novo.",
+  DRW_08: {
+    text: "O número de pessoas mudou. Atualize a página e confira antes de sortear.",
+    action: "Atualizar a página",
+  },
+  DRW_09: {
+    title: "Link indisponível",
+    text: "Este link é inválido ou não está mais disponível.",
+    help: "Confira se copiou o endereço completo. Se perdeu o link, crie um novo grupo.",
+    action: "Criar um novo grupo",
+  },
   WPP_01: {
     intro: (name: string) => `Oi! Criei um amigo secreto no Papelzinho: *${name}* 🎁`,
     date: "Troca de presentes",

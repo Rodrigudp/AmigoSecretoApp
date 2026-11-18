@@ -23,7 +23,7 @@ describe("AdminPanel UI (GRP-05)", () => {
     render(<AdminPanel initialData={sampleData} adminToken="adm-123" />);
     expect(screen.getByText("Natal da Família")).toBeTruthy();
     expect(screen.getByText("Entradas abertas")).toBeTruthy();
-    expect(screen.getByText("Em breve")).toBeTruthy();
+    expect(screen.queryByText("Em breve")).toBeNull();
     expect(screen.getByText("25/12/2026")).toBeTruthy();
     expect(screen.getByText("Valor máximo")).toBeTruthy();
     expect(screen.getByText("Envie o convite para quem vai participar.")).toBeTruthy();
@@ -33,12 +33,13 @@ describe("AdminPanel UI (GRP-05)", () => {
       )
     ).toBeTruthy();
     expect(screen.getByText(/Ninguém entrou ainda/)).toBeTruthy();
+    expect(screen.getByText("Para sortear, precisa de pelo menos 3 pessoas.")).toBeTruthy();
     expect(
       (screen.getByRole("button", { name: "Fazer o sorteio" }) as HTMLButtonElement).disabled
     ).toBe(true);
   });
 
-  it("renders active participants list and keeps draw disabled until it is implemented", () => {
+  it("enables draw with 3+ participants (S2), confirms inline focusing Cancelar (S3), and completes draw (S5)", async () => {
     const dataWithParticipants: AdminGroup = {
       ...sampleData,
       participantCount: 3,
@@ -48,12 +49,64 @@ describe("AdminPanel UI (GRP-05)", () => {
         { id: "p-3", displayName: "Carla", joinedAt: "2026-11-17T12:00:00Z" },
       ],
     };
-    render(<AdminPanel initialData={dataWithParticipants} adminToken="adm-123" />);
+    const drawAction = vi.fn().mockResolvedValue({ ok: true, drawnAt: "2026-11-18T15:00:00Z" });
+    const { container } = render(
+      <AdminPanel initialData={dataWithParticipants} adminToken="adm-123" drawAction={drawAction} />
+    );
     expect(screen.getByText("Participantes (3 de 100)")).toBeTruthy();
     expect(screen.getByText("Ana")).toBeTruthy();
-    expect(
-      (screen.getByRole("button", { name: "Fazer o sorteio" }) as HTMLButtonElement).disabled
-    ).toBe(true);
+    const drawBtn = screen.getByRole("button", { name: "Fazer o sorteio" }) as HTMLButtonElement;
+    expect(drawBtn.disabled).toBe(false);
+
+    fireEvent.click(drawBtn);
+    expect(screen.getByText("Fazer o sorteio agora?")).toBeTruthy();
+    expect(screen.getByText(/3 pessoas vão participar\./)).toBeTruthy();
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Cancelar" }));
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Sim, fazer o sorteio" }));
+    });
+    expect(drawAction).toHaveBeenCalledWith("adm-123", 3);
+    expect(screen.getByText(/✓ Sorteio feito em/)).toBeTruthy();
+    expect(screen.getByRole("link", { name: "Avisar o grupo no WhatsApp" })).toBeTruthy();
+    expect(container.innerHTML).not.toMatch(/giverId|receiverId/);
+  });
+
+  it("handles S6 draw error and S7 DRAW_MEMBERS_CHANGED reload prompt", async () => {
+    const dataWithParticipants: AdminGroup = {
+      ...sampleData,
+      participantCount: 3,
+      participants: [
+        { id: "p-1", displayName: "Ana", joinedAt: "2026-11-17T10:00:00Z" },
+        { id: "p-2", displayName: "Bruno", joinedAt: "2026-11-17T11:00:00Z" },
+        { id: "p-3", displayName: "Carla", joinedAt: "2026-11-17T12:00:00Z" },
+      ],
+    };
+    const onReload = vi.fn();
+    const drawAction = vi
+      .fn()
+      .mockResolvedValueOnce({ ok: false, message: "Não foi possível concluir o sorteio." })
+      .mockResolvedValueOnce({ ok: false, code: "DRAW_MEMBERS_CHANGED" });
+    render(
+      <AdminPanel
+        initialData={dataWithParticipants}
+        adminToken="adm-123"
+        drawAction={drawAction}
+        onReload={onReload}
+      />
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Fazer o sorteio" }));
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Sim, fazer o sorteio" }));
+    });
+    expect(screen.getByText(/Não foi possível concluir o sorteio\./)).toBeTruthy();
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Sim, fazer o sorteio" }));
+    });
+    expect(screen.getByText(/O número de pessoas mudou\./)).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Atualizar a página" }));
+    expect(onReload).toHaveBeenCalledTimes(1);
   });
 
   it("asks for confirmation before removing a participant and cancels properly", () => {
@@ -96,9 +149,9 @@ describe("AdminPanel UI (GRP-05)", () => {
       participants: [{ id: "p-1", displayName: "Ana", joinedAt: "2026-11-17T10:00:00Z" }],
     };
     render(<AdminPanel initialData={drawnData} adminToken="adm-123" />);
-    expect(screen.getByText(/Sorteio feito em/)).toBeTruthy();
+    expect(screen.getByText(/^Sorteio feito em/)).toBeTruthy();
     expect(screen.queryByRole("button", { name: /Remover/ })).toBeNull();
     expect(screen.queryByRole("button", { name: "Fazer o sorteio" })).toBeNull();
-    expect(screen.getByText(/Sorteio feito!/)).toBeTruthy();
+    expect(screen.getByText(/✓ Sorteio feito em/)).toBeTruthy();
   });
 });
