@@ -50,7 +50,6 @@ Todas as respostas de erro retornam o envelope JSON único:
 | `NOT_ENOUGH_PARTICIPANTS` | `409` | Tentativa de sortear com menos de 3 participantes ativos (RN01) | `copy.DRW_03` (`"Para sortear, precisa de pelo menos 3 pessoas."`) |
 | `DRAW_NOT_READY` | `409` | Tentativa de revelar resultado antes da realização do sorteio | `copy.ARE_02` (`"O sorteio ainda não foi realizado."`) |
 | `DRAW_MEMBERS_CHANGED` | `409` | `expectedParticipantCount` diverge do total ativo no sorteio | `copy.DRW_08.text` (`"O número de pessoas mudou. Atualize a página e confira antes de sortear."`) |
-| `PUSH_DEVICE_LIMIT` | `409` | Tentativa de registrar um sexto aparelho para a mesma credencial | Texto a validar com Design de Produto |
 | `RATE_LIMITED` | `429` | Limite de requisições por IP excedido (SEC-03) | `copy.GLB_09` (`"Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo."`) |
 | `INTERNAL_ERROR` | `500` | Falha inesperada de infraestrutura | `copy.GLB_08` (`"Sem conexão no momento. Verifique a internet e tente de novo."`) |
 
@@ -274,7 +273,7 @@ O identificador de push do aparelho (`ExponentPushToken[...]`) é um **dado pess
 ### 5.2. Endpoints de Push Tokens — `POST` e `DELETE /api/v1/push-tokens`
 
 - **Autenticação:** `Authorization: Bearer <accessToken | adminToken>` (obrigatório; o servidor calcula `credential_hash = sha256(token)` e valida que pertence a um participante ativo ou organizador de um grupo não expirado).
-- **Limite de aparelhos:** até cinco tokens distintos por credencial. Repetir o registro do mesmo token não consome vaga. O banco verifica o limite e grava na mesma operação atômica, inclusive com registros concorrentes.
+- **Limite de aparelhos:** o banco mantém até cinco tokens distintos por credencial. Repetir o registro do mesmo token atualiza a data sem consumir vaga. Ao registrar um sexto aparelho, a mesma operação atômica remove o registro menos recente, inclusive quando há registros concorrentes.
 - **`POST /api/v1/push-tokens` (Registrar/atualizar token do Expo):**
   - **Request (`application/json`):**
     ```json
@@ -285,7 +284,7 @@ O identificador de push do aparelho (`ExponentPushToken[...]`) é um **dado pess
     ```
     Validações Zod: `expoPushToken` (`^Expo(nent)?PushToken\[[A-Za-z0-9_-]+\]$`, máx. 200 chars), `platform` (`"ios" | "android"`).
   - **Response `200 OK`:** `{ "registered": true, "role": "participant" }`
-  - **Erros:** `400 INVALID_INPUT`, `401 INVALID_LINK`, `409 PUSH_DEVICE_LIMIT`, `429 RATE_LIMITED`.
+  - **Erros:** `400 INVALID_INPUT`, `401 INVALID_LINK`, `429 RATE_LIMITED`.
 - **`DELETE /api/v1/push-tokens` (Remover token do Expo para a credencial):**
   - **Request (`application/json`):**
     ```json

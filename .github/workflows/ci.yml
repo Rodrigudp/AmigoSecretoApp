@@ -116,6 +116,7 @@ jobs:
 
       - name: Test rollbacks and re-apply migrations
         run: |
+          PGPASSWORD=postgres psql -h 127.0.0.1 -p 54322 -U postgres -d postgres -v ON_ERROR_STOP=1 -f supabase/rollback/20261123000100_push_notifications.down.sql
           PGPASSWORD=postgres psql -h 127.0.0.1 -p 54322 -U postgres -d postgres -v ON_ERROR_STOP=1 -f supabase/rollback/20261122000200_run_draw.down.sql
           PGPASSWORD=postgres psql -h 127.0.0.1 -p 54322 -U postgres -d postgres -v ON_ERROR_STOP=1 -f supabase/rollback/20261122000100_wish_item_limit.down.sql
           PGPASSWORD=postgres psql -h 127.0.0.1 -p 54322 -U postgres -d postgres -v ON_ERROR_STOP=1 -f supabase/rollback/20261121000100_service_role_grants.down.sql
