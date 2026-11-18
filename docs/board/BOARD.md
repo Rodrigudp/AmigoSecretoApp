@@ -21,13 +21,12 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar (It-2)
-- DSN-01 · Guia de voz + inventário de textos (`docs/features/textos.md`) · DSN → ORQ · 3 pts · 20/11 — responsável: 16 Designer
-- DSN-02 · Auditoria visual Estilo Notion das telas prontas + correções · DSN → FE · 2 pts · 20/11 — responsável: 16 Designer
-- MKT-01 · Plano de lançamento e do primeiro Natal (`docs/marketing/PLANO_LANCAMENTO.md`) com recomendação de domínio (custo e prazo, PEN-09) · MKT → ORQ · 3 pts · 20/11 — responsável: 25 Marketing
-- MKT-02 · Palavras-chave e plano de SEO (`docs/marketing/SEO.md`) · MKT → DSN · 2 pts · 21/11 — responsável: 25 Marketing
+- FE-DSN-1 · Correções de componentes A-01 (CopyField), A-02 (principal do link pessoal), A-04 (regra de botões) · FE → DSN · 2 pts · 20/11 — responsável: 11 Front-end; detalhes em `docs/features/dsn-02-auditoria.md`
 
 ## ⏳ Aguardando dependência (It-2)
-_(vazio)_
+- FE-DSN-2 · Painel e área: A-03 (sorteio ativo sem ação, selo "Aberto"), A-08, A-09 · FE → DSN · 2 pts · 21/11 — após FE-DSN-1 (WIP do FE)
+- DSN-03 + FE-DSN-3 · Centralizar textos (DSN-01) + A-05 e A-07 · FE → DSN + QA · 3 pts · 21/11 — após FE-DSN-1; revisão do 13 QA por mudar strings dos E2E; tira a promessa da lista de desejos do WhatsApp/OG até a LST-04
+- FE-DSN-4 · A-06, A-10 + rodapé "Privacidade · Termos" (LGPD, obrigatório antes do lançamento) · FE → DSN · 1 pt · 22/11 — após MON-01 (páginas) e textos GLB do 16
 
 ## 🔨 Em andamento
 
@@ -38,6 +37,10 @@ _(vazio)_
 _(vazio)_
 
 ## 🏁 Pronto
+- DSN-01 · Guia de voz + inventário de textos · DSN → ORQ · 3 pts · 20/11 — ✅ ORQ; mergeado PR #38 (`1f15e34`)
+- DSN-02 · Auditoria visual Estilo Notion · DSN → FE · 2 pts · 20/11 — ✅ ORQ; mergeado PR #38 (`1f15e34`); 10 correções em 4 cartões FE-DSN
+- MKT-01 · Plano de lançamento e primeiro Natal · MKT → ORQ · 3 pts · 20/11 — ✅ ORQ; mergeado PR #37 (`b36512f`); recomenda papelzinho.app (PEN-09); divulgação só com HTTPS (PEN-10)
+- MKT-02 · Palavras-chave e SEO · MKT → DSN · 2 pts · 21/11 — ✅ DSN+ORQ; mergeado PR #36 (`e4ad013`)
 - QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — ✅ ORQ; mergeado PR #19 (`fd960e5`) após atualizar com a main (SEC-03 + UX-LOGO), CI 44296421548 verde; criar 1.390 ms, entrar 2.582 ms; fixme só em grupo sorteado (SRT-03) e grupo cheio (coberto no SQL)
 - SEC-03 · Rate limit (criar e entrar) + headers de segurança · SEC → OPS · 2 pts · 20/11 — ✅ OPS+ORQ; mergeado PR #33 (`d012793`); limite em memória (10/10 min criar, 30/10 min entrar), exige pm2 fork com 1 instância; headers no next.config.ts; CI 44294412070
 - UX-LOGO · Logo oficial do Papelzinho + redesign Estilo Notion · FE → ORQ · 2 pts · 19/11 — ✅ ORQ; mergeado PR #34 (`7644a71`); recortes conferidos contra o PNG original; capturas 1280 e 360 px no PR; CI 44294057818
@@ -172,3 +175,4 @@ _(vazio)_
 - 2026-11-18 · Orquestrador · QA-03 mergeado (#19, `fd960e5`) após rodar o CI de novo com a main atual; OPS-VPS em revisão no #35 · nenhum
 - 2026-11-18 · Orquestrador · Entraram 16 Designer e 25 Marketing. DSN-01/02 e MKT-01/02 liberados. Visual e textos passam ao 16; ORQ só aprova. PEN-09 (domínio) registrado como decisão de gasto do PO · nenhum
 - 2026-11-18 · Orquestrador · Decisão HTTPS×RNF03: IP:8090 em HTTP só para homologação interna; lançamento só com HTTPS. Endereço provisório papelzinho.smartsolutionsbr.com.br (PEN-10, sem custo) com certbot; domínio próprio papelzinho.app em PEN-09 · nenhum
+- 2026-11-18 · Orquestrador · Mergeados #38 (DSN-01/02), #37 (MKT-01) e #36 (MKT-02). FE-DSN-1 liberado ao 11; FE-DSN-2/3/4 e DSN-03 na fila. Decisões: rodapé LGPD obrigatório antes do lançamento; promessa da lista sai até a LST-04; DSN-03 com revisão do QA · nenhum
