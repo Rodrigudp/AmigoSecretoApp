@@ -31,9 +31,35 @@ Legenda da coluna **Final**: ✓ mantém o texto de hoje · ✎ muda (vira cart�
 | GLB-07 | Carregando | Carregando sua área... / Carregando painel… | ✎ "Carregando…" (com o caractere …) em todas |
 | GLB-08 | Sem conexão | Sem conexão no momento. Verifique a internet e tente de novo. | ✓ (usar também no painel) |
 | GLB-09 | Muitas tentativas | Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo. | ✓ |
-| GLB-10 | Rodapé | (não existe) | **novo**: "Privacidade · Termos" (links dependem das páginas do 15 Segurança) |
+| GLB-10 | Rodapé | (não existe) | **novo**, ver §2.1 (FTR-01 a FTR-10) |
 | GLB-11 | Copiou | ✓ Link copiado! | ✓ |
 | GLB-12 | Não conseguiu copiar | (falha em silêncio) | **novo**: "Não foi possível copiar. Toque no campo e copie o link." |
+
+### 2.1 Rodapé, páginas legais e aviso de cookies (FTR-01 a FTR-10)
+
+Rodapé em todas as páginas, abaixo do conteúdo, em `text-sm` (16 px), links com alvo ≥ 44 px e sublinhado. Nas páginas com link pessoal ou de organizador recém-exibido não leva anúncio acima dele (design-system §4).
+
+| ID | Onde | Texto final |
+| --- | --- | --- |
+| FTR-01 | Links do rodapé | Sobre · Privacidade · Termos (nesta ordem; o `·` é só visual, cada item é um link) |
+| FTR-02 | Região do rodapé (aria-label) | Informações do Papelzinho |
+| FTR-03 | Linha de apoio do rodapé | Papelzinho: amigo secreto sem cadastro e sem senha. |
+| FTR-04 | Título da aba `/privacidade` | Política de privacidade — Papelzinho |
+| FTR-05 | Título da aba `/termos` | Termos de uso — Papelzinho |
+| FTR-06 | Título da aba `/sobre` | Sobre o Papelzinho |
+| FTR-07 | Aviso de cookies (título / texto) | Cookies / Usamos cookies para o site funcionar e, se você aceitar, para mostrar anúncios. Veja a Política de privacidade. |
+| FTR-08 | Aviso de cookies (botões, mesmo destaque) | Aceitar · Recusar |
+| FTR-09 | Aviso de cookies (depois de escolher) | Escolha salva. Você pode mudar em "Cookies", no rodapé. |
+| FTR-10 | Rodapé: reabrir a escolha | Cookies |
+
+Marcador para dados ainda não definidos: `A PREENCHER PELO RODRIGO` (PEN-01/02; nunca inventar e-mail, nome ou ID). Nas páginas legais, "responsável pelos dados" no texto corrido; "controlador" só no campo formal. A regra de consentimento do AdSense é do 15 Segurança e do 24 Monetização; os textos acima são proposta de voz.
+
+**Para o MON-01 ajustar** (`monetizacao-paginas.md`, revisão de voz):
+
+- O produto se chama **Papelzinho**; o texto ainda usa "Amigo Secreto" como nome do site.
+- "site gratuito": o 25 Marketing pede não prometer "grátis" sem validação; usar "sem cadastro e sem senha".
+- "descobre com sigilo quem tirou": simplificar para "vê, só ela, quem tirou".
+- Usar os termos fixos do guia (§1, regra 10): "link pessoal", "lista de desejos", "organizador".
 
 ## 3. Início — criar grupo (`/`)
 
@@ -172,4 +198,4 @@ Páginas com token são `noindex` (regra do 15 Segurança, não muda). Imagem do
 - Os textos "✎" viram o cartão DSN-03 (centralizar em um módulo e aplicar); testes E2E que citam textos precisam acompanhar.
 - Textos finais de lista de desejos e "Revelar": DSN-04.
 - Título/descrição de "Como funciona" e FAQ: com o 25 Marketing (MKT-02/03).
-- Footer "Privacidade · Termos" (GLB-10): depende das páginas do 15 Segurança e LGPD.
+- Rodapé (§2.1): decisão do Orquestrador em 18/11: obrigatório antes do lançamento; entra no FE-DSN-4. As páginas são do MON-01.
