@@ -83,24 +83,15 @@ describe("AdminPanel UI (GRP-05)", () => {
     expect(screen.queryByRole("button", { name: "Realizar Sorteio" })).toBeNull();
     expect(screen.getByText(/Sorteio realizado!/)).toBeTruthy();
   });
-});
 
-describe("Admin use case stub resolution (ADR-002, RNF03)", () => {
-  it("resolves registered demo admin token and returns admin view", async () => {
+  it("resolves demo admin token and refuses unknown tokens with INVALID_LINK (ADR-002, RNF03)", async () => {
     const res = await getAdminViewUseCase(DEMO_ADMIN_TOKEN);
     expect(res.ok).toBe(true);
     if (!res.ok) return;
     expect(res.value.group.name).toBe("Amigo Secreto da Galera");
     expect(res.value.participantCount).toBe(3);
-  });
 
-  it("refuses unknown admin token with INVALID_LINK without revealing existence", async () => {
-    const res = await getAdminViewUseCase("unknown-token-12345");
-    expect(res).toEqual({ ok: false, error: { code: "INVALID_LINK" } });
-  });
-
-  it("refuses remove participant on unknown admin token with INVALID_LINK", async () => {
-    const res = await removeParticipantUseCase("unknown-token-12345", "p-1");
-    expect(res).toEqual({ ok: false, error: { code: "INVALID_LINK" } });
+    expect(await getAdminViewUseCase("unknown-token-12345")).toEqual({ ok: false, error: { code: "INVALID_LINK" } });
+    expect(await removeParticipantUseCase("unknown-token-12345", "p-1")).toEqual({ ok: false, error: { code: "INVALID_LINK" } });
   });
 });
