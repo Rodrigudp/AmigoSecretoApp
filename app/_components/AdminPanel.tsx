@@ -58,7 +58,7 @@ export function AdminPanel({
   };
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[1fr_1.3fr] lg:items-start">
+    <div className="grid gap-5 lg:grid-cols-[1.2fr_1.3fr] lg:items-start">
       <header className="grid gap-3 rounded-xl bg-primary-soft p-5 sm:p-7 lg:col-span-2">
         <p className="text-sm font-semibold text-primary-soft-text">Painel do Organizador</p>
         <div className="flex min-w-0 flex-wrap items-center justify-between gap-3">
@@ -94,15 +94,16 @@ export function AdminPanel({
 
       <Card title="Link do Convite">
         <p className="mb-3 text-sm">Compartilhe o convite com os amigos que vão participar:</p>
-        <CopyField label="Link do convite" value={inviteUrl} copyLabel="Copiar convite" />
-        <a
-          className={buttonClass("secondary", "mt-3")}
-          href={whatsappUrl(buildInviteMessage(shareDetails, inviteUrl))}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Compartilhar no WhatsApp
-        </a>
+        <CopyField label="Link do convite" value={inviteUrl} copyLabel="Copiar convite">
+          <a
+            className={buttonClass("secondary")}
+            href={whatsappUrl(buildInviteMessage(shareDetails, inviteUrl))}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Compartilhar no WhatsApp
+          </a>
+        </CopyField>
       </Card>
 
       <Card title={`Participantes (${participantCount} de 100)`} className="lg:row-span-2">

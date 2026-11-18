@@ -1,4 +1,4 @@
-﻿import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { CopyField } from "@/app/_components/CopyField";
 import { PersonalLink } from "@/app/_components/PersonalLink";
@@ -18,6 +18,7 @@ describe("link actions", () => {
         "✓ Link copiado!"
       )
     );
+    expect(screen.getByRole("status").textContent).toBe("✓ Link copiado!");
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith("https://example.com/p");
   });
   it("selects the link when copying fails", async () => {
