@@ -21,22 +21,23 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar (It-2)
-- FE-DSN-1 · Correções de componentes A-01 (CopyField), A-02 (principal do link pessoal), A-04 (regra de botões) · FE → DSN · 2 pts · 20/11 — responsável: 11 Front-end; detalhes em `docs/features/dsn-02-auditoria.md`
+- FE-DSN-2 · Painel e área: A-03 (sorteio ativo sem ação, selo "Aberto"), A-08, A-09 · FE → DSN · 2 pts · 21/11 — responsável: 11 Front-end
 
 ## ⏳ Aguardando dependência (It-2)
-- FE-DSN-2 · Painel e área: A-03 (sorteio ativo sem ação, selo "Aberto"), A-08, A-09 · FE → DSN · 2 pts · 21/11 — após FE-DSN-1 (WIP do FE)
 - DSN-03 + FE-DSN-3 · Centralizar textos (DSN-01) + A-05 e A-07 · FE → DSN + QA · 3 pts · 21/11 — após FE-DSN-1; revisão do 13 QA por mudar strings dos E2E; tira a promessa da lista de desejos do WhatsApp/OG até a LST-04
 - FE-DSN-4 · A-06, A-10 + rodapé "Privacidade · Termos" (LGPD, obrigatório antes do lançamento) · FE → DSN · 1 pt · 22/11 — após MON-01 (páginas) e textos GLB do 16
 
 ## 🔨 Em andamento
 
 ## 👀 Em revisão
-- OPS-VPS · Hospedagem na VPS própria · OPS → SEC · 3 pts · 19/11 — PR #35 aberto, CI verde; aguarda parecer do 15 Segurança; instalação na VPS pelo ORQ após merge
+_(vazio)_
 
 ## 🧪 Em teste (QA)
 _(vazio)_
 
 ## 🏁 Pronto
+- OPS-VPS · Hospedagem na VPS própria · OPS → SEC · 3 pts · 19/11 — ✅ SEC+ORQ; mergeado PR #35 (`6bb4090`); no ar em https://papelzinho.smartsolutionsbr.com.br (Let's Encrypt, pm2 fork 1 instância com boot automático, deploy da main pelo GitHub Actions); Vercel sem deploy automático
+- FE-DSN-1 · Correções de componentes A-01, A-02, A-04 · FE → DSN · 2 pts · 20/11 — ✅ DSN+ORQ; mergeado PR #40 (`1992495`)
 - DSN-01 · Guia de voz + inventário de textos · DSN → ORQ · 3 pts · 20/11 — ✅ ORQ; mergeado PR #38 (`1f15e34`)
 - DSN-02 · Auditoria visual Estilo Notion · DSN → FE · 2 pts · 20/11 — ✅ ORQ; mergeado PR #38 (`1f15e34`); 10 correções em 4 cartões FE-DSN
 - MKT-01 · Plano de lançamento e primeiro Natal · MKT → ORQ · 3 pts · 20/11 — ✅ ORQ; mergeado PR #37 (`b36512f`); recomenda papelzinho.app (PEN-09); divulgação só com HTTPS (PEN-10)
@@ -176,3 +177,4 @@ _(vazio)_
 - 2026-11-18 · Orquestrador · Entraram 16 Designer e 25 Marketing. DSN-01/02 e MKT-01/02 liberados. Visual e textos passam ao 16; ORQ só aprova. PEN-09 (domínio) registrado como decisão de gasto do PO · nenhum
 - 2026-11-18 · Orquestrador · Decisão HTTPS×RNF03: IP:8090 em HTTP só para homologação interna; lançamento só com HTTPS. Endereço provisório papelzinho.smartsolutionsbr.com.br (PEN-10, sem custo) com certbot; domínio próprio papelzinho.app em PEN-09 · nenhum
 - 2026-11-18 · Orquestrador · Mergeados #38 (DSN-01/02), #37 (MKT-01) e #36 (MKT-02). FE-DSN-1 liberado ao 11; FE-DSN-2/3/4 e DSN-03 na fila. Decisões: rodapé LGPD obrigatório antes do lançamento; promessa da lista sai até a LST-04; DSN-03 com revisão do QA · nenhum
+- 2026-11-18 · Orquestrador · OPS-VPS no ar em https://papelzinho.smartsolutionsbr.com.br (certificado, nginx testado antes do reload, pm2 no boot, outros sites conferidos). FE-DSN-1 mergeado (#40); FE-DSN-2 liberado. Bloqueio do SSH do PO: regra LIMIT do ufw renovada por conexões em sequência e espera em loop; regra registrada em docs/ops/vps.md §9 · nenhum

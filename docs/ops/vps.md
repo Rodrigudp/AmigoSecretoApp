@@ -305,3 +305,15 @@ O template completo com o bloco para `papelzinho.app` já consta comentado ao fi
    ```bash
    sudo nginx -t && sudo systemctl reload nginx
    ```
+
+---
+
+## 9. Acesso SSH sem bloqueio (regra obrigatória)
+
+O firewall da VPS tem `ufw limit 22/tcp`: 6 conexões novas em 30 s bloqueiam o IP, e cada nova tentativa durante o bloqueio renova o prazo. O fail2ban (`sshd`, maxretry 6, findtime 600, bantime 3600) também está ativo. Em 18/11 o IP do PO ficou bloqueado depois de várias conexões curtas seguidas, um `ssh-keyscan` (3 conexões ao mesmo tempo) e uma espera que testava a porta a cada 20 s.
+
+- Deploy e manutenção de rotina só pelo GitHub Actions (`deploy-vps`), que entra de outro IP com a chave `papelzinho_ci`.
+- Acesso manual: uma única sessão SSH por tarefa, com todos os comandos dentro dela. Nada de abrir uma conexão por comando.
+- Não rodar `ssh-keyscan` nem testar a porta 22 em loop. A chave do host já está no segredo `VPS_SSH_KNOWN_HOSTS`.
+- Se o SSH cair, esperar pelo menos 2 minutos sem nenhuma tentativa antes de tentar de novo.
+- Não colocar IPs em `ignoreip` (IP residencial muda).
