@@ -1,16 +1,16 @@
 import { z } from "zod";
+import { copy } from "./copy";
 
 // Shared by the client form (fast feedback) and the server action (authoritative check).
 // Messages come from docs/features/grupos.md §5.
 export const GROUP_MESSAGES = {
-  name: "Informe um nome para o grupo entre 1 e 60 caracteres.",
-  maxValue: "O valor do presente deve ser maior que zero.",
-  exchangeDate: "A data da troca de presentes deve ser uma data futura.",
-  location: "O local da troca deve ter no máximo 120 caracteres.",
-  conflict:
-    "Os dados enviados conflitam com uma criação anterior. Recarregue a página para criar um novo grupo.",
-  rateLimited: "Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo.",
-  generic: "Não foi possível criar o grupo agora. Confira os dados e tente de novo.",
+  name: copy.HOM_11,
+  maxValue: copy.HOM_12,
+  exchangeDate: copy.HOM_13,
+  location: copy.HOM_14,
+  conflict: copy.HOM_15,
+  rateLimited: copy.GLB_09,
+  generic: copy.HOM_16,
 } as const;
 
 /** "50", "50,5", "R$ 1.250,50" -> cents; null when it is not a number. */

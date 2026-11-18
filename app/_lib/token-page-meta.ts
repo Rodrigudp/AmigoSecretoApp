@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { APP_NAME } from "./brand";
+import { copy } from "./copy";
 import { getAppUrl } from "./site-url";
 
 /** Meta robots for any URL that carries a capability token (grupos.md §6.2). */
@@ -27,9 +28,9 @@ export function inviteOpenGraphMetadata(input: {
   origin?: string;
 }): Metadata {
   const origin = input.origin ?? getAppUrl();
-  const title = `${input.groupName} — ${APP_NAME}`;
-  const inviteDescription = `Você foi convidado para o amigo secreto '${input.groupName}'.`;
-  const description = `${inviteDescription} Toque para entrar e montar sua lista de presentes!`;
+  const title = copy.OG_01.title(input.groupName);
+  const inviteDescription = copy.OG_02(input.groupName);
+  const description = copy.OG_01.description(input.groupName);
   const url = `${origin}/g/${encodeURIComponent(input.inviteToken)}`;
   const image = inviteOgImageUrl(origin);
 
@@ -58,7 +59,7 @@ export function inviteOpenGraphMetadata(input: {
 export function invalidInviteMetadata(): Metadata {
   return {
     title: APP_NAME,
-    description: "Este link é inválido ou não está mais disponível.",
+    description: copy.OG_03,
     robots: TOKEN_ROBOTS,
   };
 }

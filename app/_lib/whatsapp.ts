@@ -1,4 +1,4 @@
-import { APP_NAME } from "./brand";
+import { copy } from "./copy";
 
 export type ShareDetails = {
   name: string;
@@ -23,13 +23,13 @@ export function formatBrl(cents: number): string {
 /** Message template from docs/features/grupos.md §3.1. */
 export function buildInviteMessage(details: ShareDetails, inviteUrl: string): string {
   return [
-    `Oi pessoal! Criei nosso amigo secreto no ${APP_NAME}: *${details.name}*! 🎁🎄`,
+    copy.WPP_01.intro(details.name),
     "",
-    `Data da troca: ${formatDateBr(details.exchangeDate)}`,
-    `Valor sugerido: até R$ ${formatBrl(details.maxValueCents)}`,
-    `Local: ${details.location ?? "Não informado"}`,
+    `${copy.WPP_01.date}: ${formatDateBr(details.exchangeDate)}`,
+    `${copy.WPP_01.value}: R$ ${formatBrl(details.maxValueCents)}`,
+    ...(details.location ? [`${copy.WPP_01.location}: ${details.location}`] : []),
     "",
-    "Toque no link abaixo para entrar só com seu nome e montar sua lista de desejos:",
+    copy.WPP_01.action,
     inviteUrl,
   ].join("\n");
 }
@@ -39,10 +39,10 @@ export function whatsappUrl(text: string): string {
 }
 
 export function buildAdminMessage(adminUrl: string): string {
-  return `Meu link de organizador do ${APP_NAME} (guarde, não compartilhe):\n${adminUrl}`;
+  return `${copy.WPP_03}\n${adminUrl}`;
 }
 
 /** Message for saving the personal link (docs/features/participantes.md §2). */
 export function buildPersonalLinkMessage(personalUrl: string): string {
-  return `Meu link pessoal do ${APP_NAME} (guarde, não compartilhe):\n${personalUrl}`;
+  return `${copy.WPP_02}\n${personalUrl}`;
 }

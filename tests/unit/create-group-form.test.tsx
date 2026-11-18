@@ -27,7 +27,8 @@ describe("CreateGroupForm", () => {
     render(<CreateGroupForm action={action} />);
     submit();
     expect(action).not.toHaveBeenCalled();
-    expect(screen.getByText(new RegExp(GROUP_MESSAGES.name))).toBeTruthy();
+    expect(screen.getByText(GROUP_MESSAGES.name)).toBeTruthy();
+    expect(document.activeElement).toBe(screen.getByLabelText(/Nome do grupo/));
     expect(screen.getByLabelText(/Nome do grupo/).getAttribute("aria-invalid")).toBe("true");
   });
 
@@ -63,11 +64,11 @@ describe("CreateGroupForm", () => {
     const share = screen.getByRole("link", { name: "Compartilhar no WhatsApp" });
     expect(share.getAttribute("href")).toContain("https://wa.me/?text=");
     expect(decodeURIComponent(share.getAttribute("href")!)).toContain("https://x.test/g/invite");
-    expect(
-      screen.getByRole("link", { name: /Entrar no grupo como participante/ }).getAttribute("href")
-    ).toBe("https://x.test/g/invite");
-    expect(screen.getByText(/Atenção: seu link de organizador/)).toBeTruthy();
-    expect(screen.getByRole("button", { name: "Copiar convite" })).toBeTruthy();
+    expect(screen.getByRole("link", { name: /^Entrar no grupo$/ }).getAttribute("href")).toBe(
+      "https://x.test/g/invite"
+    );
+    expect(screen.getByText(/Guarde o seu link de organizador/)).toBeTruthy();
+    expect(screen.getAllByRole("button", { name: "Copiar link" })[0]).toBeTruthy();
     expect(screen.getByRole("link", { name: "Salvar no meu WhatsApp" })).toBeTruthy();
   });
 
@@ -76,7 +77,7 @@ describe("CreateGroupForm", () => {
     render(<CreateGroupForm action={action} />);
     fill();
     submit();
-    await waitFor(() => expect(screen.getByRole("alert").textContent).toContain("conflitam"));
+    await waitFor(() => expect(screen.getByRole("alert").textContent).toContain("já foi criado"));
     expect(window.sessionStorage.getItem(KEY)).toBeTruthy();
   });
 });

@@ -25,6 +25,10 @@ describe("token-page-meta (GRP-04, RNF09)", () => {
     expect(meta.title).toBe("Família Silva — Papelzinho");
     expect(meta.openGraph?.siteName).toBe("Papelzinho");
     expect(meta.description).toContain("Família Silva");
+    expect(meta.description).toBe(
+      "Você foi convidado para o amigo secreto 'Família Silva'. Toque para entrar e dizer o seu nome."
+    );
+    expect(meta.description).not.toContain("lista de presentes");
     expect(meta.robots).toEqual(TOKEN_ROBOTS);
     expect(meta.openGraph?.url).toBe(`${origin}/g/tok%2Fabc`);
     expect(meta.openGraph?.images).toEqual([
