@@ -49,7 +49,10 @@ test.describe("HU02 - Entrar no grupo", () => {
     expect(personalCookies[0]?.httpOnly).toBe(true);
     expect(personalCookies[0]?.sameSite).toBe("Lax");
     expect(personalCookies[0]?.path).toBe("/");
-    expect(Date.now() - startTime).toBeLessThan(30_000);
+    const joinElapsedMs = Date.now() - startTime;
+    expect(joinElapsedMs).toBeLessThan(30_000);
+    test.info().annotations.push({ type: "rnf01-entrar-ms", description: String(joinElapsedMs) });
+    console.log(`RNF01 entrar no grupo: ${joinElapsedMs} ms (limite 30000 ms)`);
   });
 
   test("CT-02 / RN07: participante com nome repetido vira Ana 2", async ({

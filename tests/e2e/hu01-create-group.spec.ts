@@ -37,5 +37,6 @@ test.describe("HU01 - Criar grupo de amigo secreto", () => {
     const elapsedMs = Date.now() - startTime;
     expect(elapsedMs).toBeLessThan(120_000);
     test.info().annotations.push({ type: "rnf01-criar-grupo-ms", description: String(elapsedMs) });
+    console.log(`RNF01 criar grupo: ${elapsedMs} ms (limite 120000 ms)`);
   });
 });
