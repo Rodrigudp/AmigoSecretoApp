@@ -1,0 +1,52 @@
+name: App Web E2E
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["test/APP-QA-03-**"]
+  pull_request:
+    branches: [main]
+    paths: ["mobile/**", "tests/e2e-app/**", "playwright.app.config.ts", ".github/workflows/app-web-e2e.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  app-web:
+    name: App Web (Expo Web live x Next x Supabase local)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      APP_URL: http://localhost:3000
+      ADS_ENABLED: "false"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: supabase/setup-cli@v3
+        with:
+          version: 3.2.0
+      - name: Start Supabase local stack
+        run: |
+          if [ ! -f supabase/config.toml ]; then supabase init; fi
+          supabase start
+      - run: npm ci
+      - run: npm ci
+        working-directory: mobile
+      - run: npx playwright install --with-deps chromium
+      - name: Run Expo Web live test
+        run: |
+          eval $(supabase status -o env)
+          SUPABASE_URL="$API_URL" SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY" npx playwright test -c playwright.app.config.ts
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: app-web-prints
+          path: |
+            docs/qa/prints-app-web/
+            test-results-app/
+          retention-days: 14
+          if-no-files-found: ignore
