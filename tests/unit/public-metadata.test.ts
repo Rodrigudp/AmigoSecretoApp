@@ -43,7 +43,14 @@ describe("sitemap", () => {
   it("lists only the public pages on the APP_URL origin", () => {
     const origin = getAppUrl();
 
-    expect(sitemap().map((entry) => entry.url)).toEqual([`${origin}/`, `${origin}/como-funciona`]);
+    expect(sitemap().map((entry) => entry.url)).toEqual([
+      `${origin}/`,
+      `${origin}/como-funciona`,
+      `${origin}/sobre`,
+      `${origin}/privacidade`,
+      `${origin}/termos`,
+      `${origin}/contato`,
+    ]);
   });
 
   it("never lists token routes", () => {
