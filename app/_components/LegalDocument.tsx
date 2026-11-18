@@ -5,6 +5,7 @@ export type LegalItem = string | { readonly label: string; readonly text: string
 
 export type LegalBlock =
   | { readonly p: string }
+  | { readonly link: { readonly href: string; readonly label: string } }
   | { readonly ul: readonly LegalItem[] }
   | { readonly ol: readonly LegalItem[] };
 
@@ -41,6 +42,20 @@ function Block({ block }: { block: LegalBlock }) {
     return (
       <p className="leading-7">
         <Text value={block.p} />
+      </p>
+    );
+  }
+  if ("link" in block) {
+    return (
+      <p>
+        <a
+          href={block.link.href}
+          className="underline text-primary"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {block.link.label}
+        </a>
       </p>
     );
   }
