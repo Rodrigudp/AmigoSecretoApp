@@ -15,6 +15,6 @@ Nenhum deles bloqueia o time: os agentes usam o marcador `A PREENCHER PELO RODRI
 | PEN-08 | Criar no GitHub (Settings > Secrets and variables > Actions) os secrets `SUPABASE_ACCESS_TOKEN` (Supabase > Account > Access Tokens) e `SUPABASE_DB_PASSWORD` (senha do banco do projeto amigo-secreto) | Aplicar as migrations no banco de produção (OPS-04) | OPS-04 | A PREENCHER PELO RODRIGO — o DevOps confirma os nomes no PR |
 
 ## Decisões já tomadas (17/11/2026)
-- Domínio provisório em tudo (prévia, política de privacidade, links): `https://amigo-secreto-app.vercel.app`. Domínio próprio fica para depois.
+- Domínio provisório em tudo (prévia, política de privacidade, links): `https://amigo-secreto-app-five.vercel.app`. Domínio próprio fica para depois.
 - RF11/RN05 (refazer sorteio), RF12 e RF13: depois do lançamento, conforme BACKLOG.md (SRT-05, LST-05, MON-04).
 - Supabase: projeto `amigo-secreto`, ref `ulthbrfwsvmazgdvrcyw`, região us-east-1. Desenvolvimento usa o Supabase local.

@@ -34,14 +34,14 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 - QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — estrutura mobile 360px, page objects e fixtures entregues no draft PR #19; cenários fixme aguardando GRP-03 e PAR-03
 
 ## 👀 Em revisão
-- DB-05 · GRANT de tabelas/sequences para service_role (decisão ORQ: opção A) · DB → SEC · 1 pt · 19/11 — PR #22; sem isso a Data API dá 42501 no CI e em produção
-- BE-01 · Cliente Supabase do servidor + harness de testes de integração · BE → DB · 1 pt · 18/11 — PR #20; INTEGRATION_REQUIRED=1 no job db; aguarda merge do DB-05 e "1 passed, 0 skipped"
-- OPS-02 · Expurgo automático 60 dias após a troca (pg_cron) · OPS → DB · 1 pt · 20/11 — PR #21, revisão do DB
+- BE-01 · Cliente Supabase do servidor + harness de testes de integração · BE → DB · 1 pt · 18/11 — PR #20 rebaseado na main (DB-05 incluso); CI do job db em andamento; merge só com "1 passed, 0 skipped"
+- OPS-02 · Expurgo automático 60 dias após a troca (pg_cron) · OPS → DB · 1 pt · 20/11 — ✅ DB; PR #21 conflita com a main no ci.yml; DevOps atualiza a branch
 
 ## 🧪 Em teste (QA)
 _(vazio)_
 
 ## 🏁 Pronto
+- DB-05 · GRANT de tabelas/sequences para service_role (decisão ORQ: opção A) · DB → SEC · 1 pt · 19/11 — ✅ SEC+ORQ; mergeado PR #22 (6aab68e); anon/authenticated sem privilégio
 - GRP-03 · Tela criar grupo (`/`) + tela de sucesso · FE → GRP · 3 pts · 20/11 — ✅ GRP+ORQ; mergeado PRs #15 (4eade29) e #16 (e9e2baa); ação ainda é stub até o adapter
 - GRP-02 · Caso de uso `create-group` · GRP → BE · 2 pts · 19/11 — ✅ BE+ORQ; mergeado PR #18 (d37c4b3); testado junto com o #13 sobre a main
 - PAR-02 · Caso de uso `join-group` · PAR → BE · 2 pts · 19/11 — ✅ BE+ORQ; mergeado PR #13 (7d00806); evento só na RPC
@@ -66,10 +66,10 @@ _(vazio)_
 - SRT-01 · Especificação do sorteio · SRT → ORQ · 1 pt · 19/11 — ✅ aprovado ORQ 17/11 (`docs/features/sorteio.md`); commit pendente até existir o repositório (SETUP-01)
 - SEC-02 · Modelo de ameaças STRIDE inicial · SEC → ORQ · 1 pt · 18/11 — ✅ aprovado ORQ 17/11 (`docs/arquitetura/AMEACAS.md`); follow-up ADR-004 no It-2; commit pendente até SETUP-01
 - QA-01 · Plano de testes com rastreabilidade · QA → ORQ · 2 pts · 18/11 — ✅ aprovado ORQ 17/11 (`docs/processo/PLANO_DE_TESTES.md`); 6 adições não bloqueantes incluídas; commit pendente até SETUP-01
-- MON-01 · Páginas para aprovação do AdSense · MON → SEC · 2 pts · 19/11 — ✅ Segurança aprovou revisão 2 (condicionada aos marcadores); ✅ ORQ liberou para Pronto 17/11; mergeado PR #1 (9ebc5d1); domínio será corrigido para amigo-secreto-app-five.vercel.app; marcadores `A PREENCHER PELO RODRIGO` em PEN-01..03
+- MON-01 · Páginas para aprovação do AdSense · MON → SEC · 2 pts · 19/11 — ✅ Segurança aprovou revisão 2 (condicionada aos marcadores); ✅ ORQ; PR #1 (`9ebc5d1`) e domínio real no PR #23 (`ebc1e8a`, https://amigo-secreto-app-five.vercel.app); marcadores `A PREENCHER PELO RODRIGO` em PEN-01..03
 
 ## 🚀 Em produção
-- Site em https://amigo-secreto-app-five.vercel.app (main e9e2baa): página inicial com o formulário do GRP-03; criar grupo ainda não grava (stub até BE-01 + adapter; banco de produção sem migrations até OPS-04/PEN-08)
+- Site em https://amigo-secreto-app-five.vercel.app (main ebc1e8a): página inicial com o formulário do GRP-03; criar grupo ainda não grava (stub até BE-01 + adapter; banco de produção sem migrations até OPS-04/PEN-08)
 
 ---
 
@@ -124,3 +124,5 @@ _(vazio)_
 - 2026-11-17 · Segurança & LGPD · SEC-02 aprovado; revisões de DB-01/DB-02 e SETUP-04 (PR #3) aprovadas · SEC-01 implementado em `feat/SEC-01-tokens` (PR #7 aberto, 38 testes/lint/typecheck/build verdes, revisão pedida ao Back-end) · nenhum
 - 2026-11-17 · Segurança & LGPD · SEC-01 mergeado (PR #7); LST-01 aprovado · OPS-00 (PR #11) revisado e aprovado com recomendação; SEC-06 (ADR-004) entregue no PR #12 (`docs/SEC-06-adr-004`) e movido p/ Em revisão · nenhum
 - 2026-11-17 · Orquestrador · Merges #13, #18, #1, #15, #16; Vercel configurada (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY e APP_URL em Production e Preview) e produção no ar · Decisões: DB-05 = GRANT explícito para service_role (opção A, sem auto_expose); APP_URL = domínio real amigo-secreto-app-five.vercel.app; migrations de produção pelo CI (OPS-04) · impedimento: PEN-08
+- 2026-11-17 · Monetização · PR #1 mergeado · PR #23 com `https://amigo-secreto-app-five.vercel.app`; CI verde (Quality, Database, E2E) · nenhum
+- 2026-11-17 · Orquestrador · PR #23 mergeado (`ebc1e8a`); DB-05 já na main (`6aab68e`) · OPS-02 (#21) em conflito no ci.yml; BE-01 (#20) espera o smoke do job db · impedimento: PEN-08
