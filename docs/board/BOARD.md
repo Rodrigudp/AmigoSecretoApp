@@ -21,7 +21,6 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar (It-2)
-- PAR-03 · Tela de convite + tela do link pessoal · FE → PAR · 3 pts · 21/11 — dependências ok (PAR-02, GRP-03); enviado ao FE 17/11
 - PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — dependências ok (PAR-02, SEC-06); enviado ao PAR 17/11
 - GRP-05 · Painel admin: lista, contador, remover antes do sorteio · GRP → QA · 3 pts · 21/11 — dependência ok (PAR-02); enviado ao GRP 17/11
 - GRP-04 · Open Graph do convite + noindex/headers nas páginas com token · FE → SEC · 1 pt · 20/11 — dependência ok (GRP-03); FE começa após PAR-03
@@ -34,7 +33,8 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 - QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — estrutura mobile 360px, page objects e fixtures entregues no draft PR #19; cenários fixme aguardando GRP-03 e PAR-03
 
 ## 👀 Em revisão
-- BE-01 · Cliente Supabase do servidor + harness de testes de integração · BE → DB · 1 pt · 18/11 — PR #20 rebaseado na main (DB-05 incluso); CI do job db em andamento; merge só com "1 passed, 0 skipped"
+- PAR-03 · Tela de convite + tela do link pessoal · FE → PAR · 3 pts · 21/11 — PRs empilhados #24 (lógica) e #25 (telas); lint/typecheck/test 107/build verdes; stub tipado com TODO(BE-01); ADR-004 handshake; prints em docs/features/par-03-prints/
+- BE-01 · Cliente Supabase do servidor + harness de testes de integração · BE → DB · 1 pt · 18/11 — ✅ DB (comentário); PR #20 (`0d483d6`); CI 44209620112 smoke 1 passed / 0 skipped; aguarda merge ORQ
 - OPS-02 · Expurgo automático 60 dias após a troca (pg_cron) · OPS → DB · 1 pt · 20/11 — ✅ DB; PR #21 conflita com a main no ci.yml; DevOps atualiza a branch
 
 ## 🧪 Em teste (QA)
@@ -113,6 +113,7 @@ _(vazio)_
 - 2026-11-17 · Front-end · — · UX-01: spec do design system escrita (tokens com contraste AA, componentes, wireframes das 6 telas); componentes após SETUP-01 · impedimento: SETUP-01
 - 2026-11-17 · Front-end · UX-01 spec · UX-01 implementado (Button, Input, Card, tokens) e PR #2 aberto; pedir revisão ao ORQ · nenhum
 - 2026-11-17 · Front-end · UX-01 mergeado · GRP-03 implementado (PRs #15 e #16), revisão do 20 Grupos · nenhum (stub do GRP-02 no lugar do caso de uso)
+- 2026-11-17 · Front-end · GRP-03 mergeado · PAR-03: PRs #24 (lógica) e #25 (telas) abertos; revisão pedida ao 21 Participantes; QA avisado p/ HU02 · nenhum (stub tipado até BE-01/adapter)
 - 2026-11-17 · Sorteio · SRT-01 aprovado pelo ORQ · DOM-01 entregue no PR #8 e aprovado pelo QA e pela SEC · aguarda merge do ORQ
 - 2026-11-17 · Lista de desejos · — · LST-01: spec aprovada pela Monetização (✅ 17/11) e pela Segurança (✅ 17/11; notas de canRedirect e IPs reservados incorporadas); decisões do ORQ aplicadas; pronto p/ validação final do Orquestrador · impedimento: Rodrigo cadastrar o domínio como mídia no Programa de Afiliados do ML (D1)
 
@@ -126,3 +127,5 @@ _(vazio)_
 - 2026-11-17 · Orquestrador · Merges #13, #18, #1, #15, #16; Vercel configurada (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY e APP_URL em Production e Preview) e produção no ar · Decisões: DB-05 = GRANT explícito para service_role (opção A, sem auto_expose); APP_URL = domínio real amigo-secreto-app-five.vercel.app; migrations de produção pelo CI (OPS-04) · impedimento: PEN-08
 - 2026-11-17 · Monetização · PR #1 mergeado · PR #23 com `https://amigo-secreto-app-five.vercel.app`; CI verde (Quality, Database, E2E) · nenhum
 - 2026-11-17 · Orquestrador · PR #23 mergeado (`ebc1e8a`); DB-05 já na main (`6aab68e`) · OPS-02 (#21) em conflito no ci.yml; BE-01 (#20) espera o smoke do job db · impedimento: PEN-08
+- 2026-11-17 · Back-end · BE-01: rebase #20 após DB-05 (`0d483d6`); CI 44209620112 smoke 1 passed / 0 skipped; reaprovação pedida ao 12 · nenhum
+- 2026-11-17 · Back-end · BE-01: 12 Banco aprovou PR #20 (`0d483d6`); Orquestrador avisado para merge · nenhum
