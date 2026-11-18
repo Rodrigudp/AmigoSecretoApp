@@ -79,9 +79,12 @@ test.describe("Expo Web live contra Next e Supabase locais (APP-FE-03, APP-QA-02
       await joinAs(tab, inviteToken, name);
       if (name === "Ana") await shot(tab, "06-entrou-no-grupo");
       await tab.getByRole("button", { name: "Ir para a minha área" }).click();
-      await expect(tab.getByRole("button", { name: "Revelar meu amigo secreto" })).toBeVisible({
+      // Antes do sorteio a área explica a espera e ainda não oferece o botão de revelar.
+      await expect(tab.getByRole("button", { name: "Adicionar presente" })).toBeVisible({
         timeout: 30_000,
       });
+      await expect(tab.getByText(/Quando o organizador fizer o sorteio/)).toBeVisible();
+      await expect(tab.getByRole("button", { name: "Revelar meu amigo secreto" })).toHaveCount(0);
     }
     await shot(tabs.Ana, "07-area-do-participante");
 
