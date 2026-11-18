@@ -101,6 +101,12 @@ test.describe("Expo Web live contra Next e Supabase locais (APP-FE-03, APP-QA-02
 
     // 4. Lista de desejos (Ana)
     const ana = tabs.Ana;
+    const consoleErrors: string[] = [];
+    ana.on("console", (m) => {
+      if (m.type() === "error" && !m.text().startsWith("Unexpected text node"))
+        consoleErrors.push(m.text().slice(0, 300));
+    });
+    ana.on("pageerror", (e) => consoleErrors.push("pageerror: " + String(e).slice(0, 300)));
     await ana.getByRole("button", { name: "Adicionar presente" }).click();
     await ana.getByLabel("Nome do presente").fill("Livro de receitas");
     await ana.getByLabel("Observação (opcional)").fill("Capa dura");
