@@ -171,3 +171,4 @@ _(vazio)_
 - 2026-11-18 · QA · QA-03 rebase na main e HU01/HU02 reais em 360 px · PR #19 fora de draft com CI 44295573056 verde; criar 1.390 ms, entrar 2.582 ms, "Ana 2" no adapter real; fixme só em grupo sorteado e grupo cheio · nenhum
 - 2026-11-18 · Orquestrador · QA-03 mergeado (#19, `fd960e5`) após rodar o CI de novo com a main atual; OPS-VPS em revisão no #35 · nenhum
 - 2026-11-18 · Orquestrador · Entraram 16 Designer e 25 Marketing. DSN-01/02 e MKT-01/02 liberados. Visual e textos passam ao 16; ORQ só aprova. PEN-09 (domínio) registrado como decisão de gasto do PO · nenhum
+- 2026-11-18 · Orquestrador · Decisão HTTPS×RNF03: IP:8090 em HTTP só para homologação interna; lançamento só com HTTPS. Endereço provisório papelzinho.smartsolutionsbr.com.br (PEN-10, sem custo) com certbot; domínio próprio papelzinho.app em PEN-09 · nenhum
