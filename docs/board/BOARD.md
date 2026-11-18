@@ -31,7 +31,6 @@ _(vazio)_
 - QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — draft PR #19; CT-01 conferido no GRP-03 (661 ms, stub); CT-02 conferido no PAR-03 (742 ms, cookie ptk_, stub) e armado: no CI vira fixme enquanto a rota /g não existe; "Ana 2" segue fixme (RN07 não está no stub)
 
 ## 👀 Em revisão
-- OPS-04 · Aplicar migrations no Supabase de produção pelo CI (`supabase db push`) + APP_URL com o domínio real · OPS → SEC · 1 pt · 20/11 — PR #28 (`e2f42af`); CI 44211747871 verde; job de produção só na main e pula sem os secrets; ambiente `production` criado; revisão na Segurança; falta PEN-08
 - BE-02 · Adapter Supabase de criar grupo e entrar (no lugar dos stubs) · BE → DB · 2 pts · 19/11 — ✅ DB (comentário); PR #31 (`c4b7cb1`); CI 44212657904 2 passed / 0 skipped; aguarda merge ORQ
 - PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — PR #27 (`267cb2e`) conflita com a main (add/add em /p/[accessToken] e /p/g/[groupId]); PAR-03 já na main; rebase pedido ao PAR 17/11; CI antigo 44210288249 verde
 
@@ -39,6 +38,7 @@ _(vazio)_
 _(vazio)_
 
 ## 🏁 Pronto
+- OPS-04 · Aplicar migrations no Supabase de produção pelo CI (`supabase db push`) + APP_URL com o domínio real · OPS → SEC · 1 pt · 20/11 — ✅ SEC+ORQ; mergeado PR #28 (`5a0a4da`); CI 44217000044; o job pulou porque PEN-08 ainda está vazio
 - GRP-04 · Open Graph do convite + noindex/headers nas páginas com token · FE → SEC · 1 pt · 20/11 — ✅ SEC+ORQ; mergeado PR #30 (`b376f90`); CI da main 44216261190; a Vercel não publicou (limite diário do plano gratuito)
 - GRP-05 · Painel admin: lista, contador, remover antes do sorteio · GRP → QA · 3 pts · 21/11 — ✅ QA+ORQ; casos de uso no #26 (`8296d6`); tela no #32 (`322f094`); token desconhecido devolve INVALID_LINK; ainda é stub (token demo) até o adapter; CI da main 44215037513
 - OPS-02 · Expurgo automático 60 dias após a troca (pg_cron) · OPS → DB · 1 pt · 20/11 — ✅ DB+ORQ; mergeado PR #21 (`3d35962`); job diário 06:00 UTC; CI do PR 44209815039
@@ -72,7 +72,7 @@ _(vazio)_
 - MON-01 · Páginas para aprovação do AdSense · MON → SEC · 2 pts · 19/11 — ✅ Segurança aprovou revisão 2 (condicionada aos marcadores); ✅ ORQ; PR #1 (`9ebc5d1`) e domínio real no PR #23 (`ebc1e8a`, https://amigo-secreto-app-five.vercel.app); marcadores `A PREENCHER PELO RODRIGO` em PEN-01..03
 
 ## 🚀 Em produção
-- Site em https://amigo-secreto-app-five.vercel.app: a Vercel não publicou o `b376f90` (limite de 100 deploys/dia). O código na main tem o Open Graph do convite e os cabeçalhos de noindex. Criar grupo ainda não grava.
+- Site em https://amigo-secreto-app-five.vercel.app: a Vercel não publicou o `5a0a4da` (limite de 100 deploys/dia). O job de migrations está na main e pulou: faltam os secrets do PEN-08. Criar grupo ainda não grava.
 
 ---
 
@@ -144,4 +144,5 @@ _(vazio)_
 - 2026-11-17 · Orquestrador · GRP-05 mergeado: casos de uso #26 (`8296d6`) e tela #32 (`322f094`); o #29 fechou com a branch base · impedimento: PEN-08
 - 2026-11-17 · Orquestrador · PAR-04 (#27) conflita com a main nas duas páginas /p; rebase pedido ao Participantes · nenhum
 - 2026-11-17 · Orquestrador · OPS-04 no PR #28, CI verde, ambiente production criado · falta PEN-08 e a revisão da Segurança · impedimento: PEN-08
+- 2026-11-17 · Orquestrador · OPS-04 mergeado (#28, `5a0a4da`); CI 44217000044; deploy de migrations pulou sem os secrets · impedimento: PEN-08
 - 2026-11-17 · Orquestrador · GRP-04 mergeado (#30, `b376f90`); CI 44216261190 verde; deploy da Vercel barrado pelo limite diário · nenhum
