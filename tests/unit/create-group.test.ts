@@ -15,7 +15,7 @@ import type {
 } from "../../src/application/ports";
 import { err, ok } from "../../src/shared/result";
 
-const APP_URL = "https://amigo-secreto-app.vercel.app";
+const APP_URL = "https://amigo-secreto-app-five.vercel.app";
 const VALID_REQUEST_ID = "c9bf9e57-1685-4c89-bafb-ff5af830be8a";
 
 type FakeConfig = {
@@ -94,13 +94,13 @@ describe("create-group use case (RF01, RF02, GRP-02)", () => {
 
   it("strips trailing slash from appUrl when mounting URLs", async () => {
     const { deps } = makeDeps();
-    deps.appUrl = "https://amigo-secreto-app.vercel.app/";
+    deps.appUrl = "https://amigo-secreto-app-five.vercel.app/";
 
     const result = await createGroup(validPayload, deps);
     expect(result).toEqual(
       ok({
-        inviteUrl: "https://amigo-secreto-app.vercel.app/g/token-1",
-        adminUrl: "https://amigo-secreto-app.vercel.app/admin/token-2",
+        inviteUrl: "https://amigo-secreto-app-five.vercel.app/g/token-1",
+        adminUrl: "https://amigo-secreto-app-five.vercel.app/admin/token-2",
       })
     );
   });

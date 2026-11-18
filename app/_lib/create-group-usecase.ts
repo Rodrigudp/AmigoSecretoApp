@@ -12,7 +12,7 @@ export async function createGroupUseCase(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _input: CreateGroupData
 ): Promise<Result<CreateGroupOutput, DomainError>> {
-  const origin = process.env.APP_URL ?? "https://amigo-secreto-app.vercel.app";
+  const origin = process.env.APP_URL ?? "https://amigo-secreto-app-five.vercel.app";
   const token = () => randomBytes(32).toString("base64url");
   return ok({ inviteUrl: `${origin}/g/${token()}`, adminUrl: `${origin}/admin/${token()}` });
 }
