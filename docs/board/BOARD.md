@@ -27,7 +27,6 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 _(vazio)_
 
 ## 🔨 Em andamento
-- SEC-03 · Rate limit (criar e entrar) + headers de segurança · SEC → OPS · 2 pts · 20/11 — desenho e headers já; rate limit após GRP-02
 - QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — draft PR #19; CT-01 conferido no GRP-03 (661 ms, stub); CT-02 conferido no PAR-03 (742 ms, cookie ptk_, stub) e armado: no CI vira fixme enquanto a rota /g não existe; "Ana 2" segue fixme (RN07 não está no stub)
 
 ## 👀 Em revisão
@@ -37,6 +36,7 @@ _(vazio)_
 _(vazio)_
 
 ## 🏁 Pronto
+- SEC-03 · Rate limit (criar e entrar) + headers de segurança · SEC → OPS · 2 pts · 20/11 — ✅ OPS+ORQ; mergeado PR #33 (`d012793`); limite em memória (10/10 min criar, 30/10 min entrar), exige pm2 fork com 1 instância; headers no next.config.ts; CI 44294412070
 - UX-LOGO · Logo oficial do Papelzinho + redesign Estilo Notion · FE → ORQ · 2 pts · 19/11 — ✅ ORQ; mergeado PR #34 (`7644a71`); recortes conferidos contra o PNG original; capturas 1280 e 360 px no PR; CI 44294057818
 - PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — ✅ FE+ORQ; mergeado PR #27 (`6d27d0a`); cookie só no route handler; no ?ck=1 só segue se o cookie for o token da URL; link inválido pede um novo ao organizador; a área ainda lê o stub; CI 44219272617
 - BE-02 · Adapter Supabase de criar grupo e entrar (no lugar dos stubs) · BE → DB · 2 pts · 19/11 — ✅ DB+ORQ; mergeado PR #31 (`f14a5e7`); prévia não grava invite_opened, a página grava 1×; CI 44219365288, integração 2 passed / 0 skipped; a área do participante segue stub
@@ -163,3 +163,5 @@ _(vazio)_
 - 2026-11-18 · Orquestrador · UX-01: o PO trocou a referência visual para Estilo Notion do Profitize. Componentes, telas públicas e painel usam papel quente, superfícies brancas, azul para ações e fontes locais.
 - 2026-11-18 · Orquestrador · Redesign Estilo Notion publicado na branch `feat/UX-papelzinho-notion` (`cc40f14`). UX-LOGO criado e atribuído ao 11 Front-end: o PO enviou a logo com mascote 3D · nenhum
 - 2026-11-18 · Orquestrador · UX-LOGO mergeado (#34, `7644a71`). PO decidiu sair da Vercel por causa do limite de deploys; OPS-VPS criado para o 14 DevOps (pm2 + nginx em porta própria, sem domínio). SEC-03 e QA-03 cobrados para continuar · nenhum
+- 2026-11-18 · Segurança & LGPD · Revisões de DB-04, DB-05, GRP-04 e OPS-04 concluídas · SEC-03 implementado (`rate-limit.ts`, `security-headers.ts`, `actions.ts`, `next.config.ts`) e PR #33 aberto com CI 44294412070 verde; revisão pedida ao 14 DevOps · nenhum
+- 2026-11-18 · Orquestrador · SEC-03 mergeado (#33, `d012793`) após aprovação do 14 DevOps · nenhum
