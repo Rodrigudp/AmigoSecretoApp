@@ -28,6 +28,7 @@ describe("AdminPanel UI (GRP-05)", () => {
     render(<AdminPanel initialData={sampleData} adminToken="adm-123" />);
     expect(screen.getByText("Natal da Família")).toBeTruthy();
     expect(screen.getByText("Aberto para inscrições")).toBeTruthy();
+    expect(screen.getByText("Em breve")).toBeTruthy();
     expect(screen.getByText("25/12/2026")).toBeTruthy();
     expect(screen.getByText(/Nenhum participante entrou ainda/)).toBeTruthy();
     expect(

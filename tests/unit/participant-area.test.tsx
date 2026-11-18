@@ -21,6 +21,10 @@ describe("participant group details", () => {
     expect(screen.getByText("24/12/2026")).toBeTruthy();
     expect(screen.getByText("até R$ 50,00")).toBeTruthy();
     expect(screen.getByText("Casa da avó")).toBeTruthy();
+    expect(
+      (screen.getByRole("button", { name: "Adicionar presente — em breve" }) as HTMLButtonElement)
+        .disabled
+    ).toBe(true);
   });
   it("omits a location when absent and keeps ads disabled in fallback", () => {
     const { container } = render(

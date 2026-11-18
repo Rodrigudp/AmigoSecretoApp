@@ -60,7 +60,7 @@ export function AdminPanel({
   return (
     <div className="grid gap-5 lg:grid-cols-[1.2fr_1.3fr] lg:items-start">
       <header className="grid gap-3 rounded-xl bg-primary-soft p-5 sm:p-7 lg:col-span-2">
-        <p className="text-sm font-semibold text-primary-soft-text">Painel do Organizador</p>
+        <p className="text-sm font-semibold text-primary-soft-text">Painel do organizador</p>
         <div className="flex min-w-0 flex-col items-start gap-3">
           <h1 className="page-title min-w-0">{group.name}</h1>
           {isDrawn ? (
@@ -75,7 +75,7 @@ export function AdminPanel({
         </div>
       </header>
 
-      <Card title="Detalhes do Grupo" className="lg:col-span-2">
+      <Card title="Detalhes do grupo" className="lg:col-span-2">
         <dl className="grid grid-cols-1 gap-3 sm:grid-cols-3 text-sm">
           <div>
             <dt className="text-text-muted">Data da troca</dt>
@@ -92,7 +92,7 @@ export function AdminPanel({
         </dl>
       </Card>
 
-      <Card title="Link do Convite">
+      <Card title="Link do convite">
         <p className="mb-3 text-sm">Compartilhe o convite com os amigos que vão participar:</p>
         <CopyField label="Link do convite" value={inviteUrl} copyLabel="Copiar convite">
           <a
@@ -177,7 +177,7 @@ export function AdminPanel({
         )}
       </Card>
 
-      <Card title="Sorteio dos Pares">
+      <Card title="Sorteio">
         {isDrawn ? (
           <div className="text-sm text-text">
             <p className="font-medium text-success">✓ Sorteio realizado!</p>
@@ -191,16 +191,19 @@ export function AdminPanel({
             <p className="text-sm text-text-muted">
               Quando todos tiverem entrado, dispare o sorteio para definir quem tira quem.
             </p>
-            {participantCount < 3 ? (
-              <div className="flex flex-col gap-2">
-                <Button disabled>Realizar Sorteio</Button>
+            <div className="flex flex-col items-start gap-2">
+              <Button disabled aria-describedby="draw-unavailable">
+                Realizar Sorteio
+              </Button>
+              <p id="draw-unavailable" className="text-sm text-text-muted">
+                Em breve
+              </p>
+              {participantCount < 3 ? (
                 <p className="text-xs text-text-muted">
                   São necessários pelo menos 3 participantes para sortear.
                 </p>
-              </div>
-            ) : (
-              <Button disabled>Realizar Sorteio</Button>
-            )}
+              ) : null}
+            </div>
           </div>
         )}
       </Card>
