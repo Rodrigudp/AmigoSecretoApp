@@ -11,6 +11,10 @@ import { WishList } from "../../../src/v1/wish-list";
 
 export default function ParticipantGroup() {
   const { groupId } = useLocalSearchParams<{ groupId: string }>();
+  return <Flow key={groupId} groupId={groupId} />;
+}
+
+function Flow({ groupId }: { groupId?: string }) {
   const [credential, setCredential] = useState("");
   const [participant, setParticipant] = useState<Participant | null>(null);
   const [cache, setCache] = useState<WishCache | null>(null);

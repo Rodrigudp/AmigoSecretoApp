@@ -1,10 +1,10 @@
 import { useFocusEffect } from "expo-router";
 import { useCallback, useRef, useState, type ComponentRef } from "react";
-import { AccessibilityInfo, AppState, Platform, View } from "react-native";
+import { AppState, View } from "react-native";
 import { api } from "./api";
 import { ApiError } from "./client";
 import type { GroupDetails, Reveal, Status } from "./contract";
-import { Action, Body, Card, errorText, formatDate, formatValue } from "./ui";
+import { Action, Body, Card, errorText, focusTarget, formatDate, formatValue } from "./ui";
 import { OpenWishLink } from "./wish-list";
 
 export function RevealCard({ credential, group }: { credential: string; group: GroupDetails & { status: Status } }) {
@@ -17,11 +17,6 @@ export function RevealCard({ credential, group }: { credential: string; group: G
   const recipient = useRef<ComponentRef<typeof View>>(null);
   const trigger = useRef<ComponentRef<typeof View>>(null);
 
-  const focus = (element: ComponentRef<typeof View> | null) => {
-    if (!element) return;
-    if (Platform.OS === "web") element.focus();
-    else AccessibilityInfo.sendAccessibilityEvent(element, "focus");
-  };
 
   const close = useCallback(() => {
     version.current++;
@@ -54,7 +49,7 @@ export function RevealCard({ credential, group }: { credential: string; group: G
       const response = await api.reveal(credential);
       if (request !== version.current || !foreground.current) return;
       setResult(response);
-      requestAnimationFrame(() => focus(recipient.current));
+      requestAnimationFrame(() => focusTarget(recipient.current));
     } catch (failure) {
       if (request !== version.current) return;
       setError(failure instanceof ApiError && failure.code === "INVALID_LINK"
@@ -79,16 +74,14 @@ export function RevealCard({ credential, group }: { credential: string; group: G
       <Body>Guarde segredo até o encontro.</Body>
       <Action secondary label="Esconder" run={() => {
         close();
-        requestAnimationFrame(() => focus(trigger.current));
+        requestAnimationFrame(() => focusTarget(trigger.current));
       }} />
       <Body>Lista de desejos de {result.recipientName}</Body>
       {!result.wishItems.length && <Body>Ainda não há presentes na lista.</Body>}
       {result.wishItems.map((item) => <Card key={item.id}><Body>{item.title}</Body>
         {item.note && <Body>{item.note}</Body>}<OpenWishLink item={item} onError={setError} /></Card>)}
     </> : <>
-      <View ref={trigger} accessible tabIndex={-1} accessibilityLabel="Seu amigo secreto">
-        <Action label={busy ? "Revelando…" : "Revelar meu amigo secreto"} disabled={busy} run={() => void reveal()} />
-      </View>
+      <Action controlRef={trigger} label={busy ? "Revelando…" : "Revelar meu amigo secreto"} disabled={busy} run={() => void reveal()} />
       {error && <Action secondary label="Tentar de novo" disabled={busy} run={() => void reveal()} />}
     </>}
     {error && <Body alert>{error}</Body>}

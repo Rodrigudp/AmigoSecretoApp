@@ -27,6 +27,7 @@ export default function Create() {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [created, setCreated] = useState<{ groupId: string; inviteUrl: string } | null>(null);
+  const inFlight = useRef(false);
   const request = useRef<{ data: string; id: string }>(null);
   const nameField = useRef<ComponentRef<typeof TextInput>>(null);
   const valueField = useRef<ComponentRef<typeof TextInput>>(null);
@@ -36,10 +37,12 @@ export default function Create() {
   const validName = name.trim() && !/[<>]/.test(name);
 
   async function submit() {
+    if (inFlight.current) return;
     setSubmitted(true);
     if (!validName) return nameField.current?.focus();
     if (!maxValueCents) return valueField.current?.focus();
     if (!exchangeDate) return dateField.current?.focus();
+    inFlight.current = true;
     setPending(true);
     setError("");
     const input = { name: name.trim(), maxValueCents, exchangeDate, location: location.trim() || null };
@@ -53,6 +56,7 @@ export default function Create() {
       setError(errorText(failure));
     } finally {
       setPending(false);
+      inFlight.current = false;
     }
   }
 

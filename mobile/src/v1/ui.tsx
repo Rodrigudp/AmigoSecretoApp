@@ -1,11 +1,19 @@
 import { Link, useFocusEffect } from "expo-router";
-import { useCallback, useRef, type ComponentPropsWithRef, type ComponentRef, type ReactNode } from "react";
+import { useCallback, useRef, type ComponentPropsWithRef, type ComponentRef, type ReactNode, type Ref } from "react";
 import {
   AccessibilityInfo, Image, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View,
   
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { fonts, palette } from "../theme";
+
+export type FocusTarget = ComponentRef<typeof View>;
+
+export function focusTarget(target: FocusTarget | null | undefined) {
+  if (!target) return;
+  if (Platform.OS === "web") target.focus();
+  else AccessibilityInfo.sendAccessibilityEvent(target, "focus");
+}
 
 export function Page({ title, home, children }: { title: string; home?: boolean; children: ReactNode }) {
   const heading = useRef<ComponentRef<typeof View>>(null);
@@ -16,7 +24,7 @@ export function Page({ title, home, children }: { title: string; home?: boolean;
       else AccessibilityInfo.sendAccessibilityEvent(heading.current, "focus");
     });
     return () => cancelAnimationFrame(frame);
-  }, []));
+  }, [title]));
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -42,11 +50,11 @@ export function Body({ children, alert }: { children: ReactNode; alert?: boolean
   return <Text accessibilityRole={alert ? "alert" : undefined} accessibilityLiveRegion={alert ? "polite" : "none"} style={styles.body}>{children}</Text>;
 }
 
-export function Action({ label, run, disabled, secondary }: {
-  label: string; run: () => void; disabled?: boolean; secondary?: boolean;
+export function Action({ label, run, disabled, secondary, controlRef }: {
+  label: string; run: () => void; disabled?: boolean; secondary?: boolean; controlRef?: Ref<FocusTarget>;
 }) {
   return (
-    <Pressable accessibilityRole="button" accessibilityState={{ disabled }} disabled={disabled} onPress={run}
+    <Pressable ref={controlRef} accessibilityRole="button" accessibilityState={{ disabled }} disabled={disabled} onPress={run}
       style={({ pressed }) => [styles.button, secondary && styles.secondary, disabled && styles.disabled, pressed && styles.pressed]}>
       <Text style={[styles.buttonLabel, (disabled || secondary) && styles.secondaryLabel]}>{label}</Text>
     </Pressable>

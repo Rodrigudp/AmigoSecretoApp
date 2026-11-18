@@ -12,6 +12,10 @@ type Confirmation = { type: "remove"; id: string; name: string } | { type: "draw
 
 export default function AdminGroup() {
   const { groupId } = useLocalSearchParams<{ groupId: string }>();
+  return <Flow key={groupId} groupId={groupId} />;
+}
+
+function Flow({ groupId }: { groupId?: string }) {
   const [token, setToken] = useState("");
   const [data, setData] = useState<Admin | null>(null);
   const [error, setError] = useState("");

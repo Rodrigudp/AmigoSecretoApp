@@ -26,7 +26,7 @@ function itemId(id: string): string {
   return id;
 }
 
-export function createHttpApi(fetcher: typeof fetch = fetch): ApiV1 {
+export function createHttpApi(fetcher: (url: string, options: RequestInit) => Promise<Response> = fetch): ApiV1 {
   async function request<Result>(path: string, options: RequestOptions = {}): Promise<Result> {
     const { method = "GET", credential, resume, body } = options;
     const headers = new Headers({ Accept: "application/json" });
