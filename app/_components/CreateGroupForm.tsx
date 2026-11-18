@@ -76,13 +76,43 @@ export function CreateGroupForm({ action }: Props) {
   if (created) return <GroupCreated {...created} />;
 
   return (
-    <div className="flex flex-col gap-6">
-      <header>
-        <p className="text-lg font-semibold">🎁 Amigo Secreto</p>
-        <h1 className="mt-2 text-xl font-bold sm:text-2xl">Faça seu amigo secreto em 2 minutos.</h1>
-        <p className="mt-1 text-text-muted">Sem cadastro e sem senha.</p>
-      </header>
-      <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
+    <div className="grid gap-9 lg:grid-cols-[1.12fr_1fr] lg:items-start lg:gap-14 xl:gap-20">
+      <div className="flex min-w-0 flex-col gap-6 lg:pt-4">
+        <header className="flex flex-col gap-4">
+          <h1 className="text-[clamp(2.125rem,5.8vw,4.375rem)] leading-[1.08] font-bold tracking-[-0.06em]">
+            <span className="inline-block rounded-xl bg-peach px-2 pb-1">Amigo secreto</span>{" "}
+            <span className="mt-1 block">começa aqui.</span>
+          </h1>
+          <p className="max-w-md font-accent text-xl leading-snug text-text-muted sm:text-2xl">
+            Organize a troca em dois minutos. Cada pessoa entra pelo convite, só com o nome.
+          </p>
+        </header>
+        <ol
+          aria-label="Como funciona"
+          className="flex flex-wrap gap-x-4 gap-y-2 text-sm font-medium lg:mt-2"
+        >
+          {["Crie o grupo", "Envie o convite", "Faça o sorteio"].map((step, index) => (
+            <li key={step} className="flex items-center gap-2">
+              <span className="grid size-7 shrink-0 place-items-center rounded-md bg-note font-semibold">
+                {index + 1}
+              </span>
+              {step}
+            </li>
+          ))}
+        </ol>
+      </div>
+      <form
+        onSubmit={onSubmit}
+        noValidate
+        aria-labelledby="create-group-title"
+        className="paper-panel flex min-w-0 flex-col gap-4"
+      >
+        <div className="border-b border-line pb-4">
+          <h2 id="create-group-title" className="text-2xl font-bold tracking-tight">
+            Criar grupo
+          </h2>
+          <p className="mt-1 text-sm text-text-muted">Os dados abaixo vão no convite.</p>
+        </div>
         {message ? (
           <Card tone="danger" title="Não foi possível criar o grupo">
             <p role="alert">{message}</p>
@@ -92,7 +122,7 @@ export function CreateGroupForm({ action }: Props) {
           label="Nome do grupo"
           required
           maxLength={60}
-          placeholder="Ex.: Família Silva, Turma da Firma"
+          placeholder="Ex.: Família Silva"
           value={values.name}
           onChange={set("name")}
           error={errors.name}
@@ -118,13 +148,14 @@ export function CreateGroupForm({ action }: Props) {
         <Input
           label="Local da troca (opcional)"
           maxLength={120}
-          placeholder="Ex.: Casa da Vó Maria às 20h"
+          placeholder="Ex.: Casa da Vó Maria"
           value={values.location}
           onChange={set("location")}
           error={errors.location}
         />
-        <Button type="submit" loading={loading}>
-          {loading ? "Criando…" : "Criar grupo de amigo secreto"}
+        <Button type="submit" loading={loading} className="mt-2 self-start">
+          {loading ? "Criando…" : "Criar grupo"}
+          {loading ? null : <span aria-hidden="true">→</span>}
         </Button>
       </form>
     </div>

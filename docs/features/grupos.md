@@ -111,7 +111,7 @@ O botão **"Compartilhar no WhatsApp"** aciona `https://wa.me/?text=<mensagem_co
 
 **Template da Mensagem:**
 ```text
-Oi pessoal! Criei nosso grupo de Amigo Secreto: *{groupName}*! 🎁🎄
+Oi pessoal! Criei nosso amigo secreto no Papelzinho: *{groupName}*! 🎁🎄
 
 Data da troca: {dataFormatada}
 Valor sugerido: até R$ {valorFormatado}
@@ -204,15 +204,16 @@ Metatags estáticas e dinâmicas geradas pelo Next.js App Router (o domínio `am
 
 ```html
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Amigo Secreto: {group.name}" />
-<meta property="og:description" content="Você foi convidado para o Amigo Secreto '{group.name}'. Toque para entrar e montar sua lista de presentes!" />
+<meta property="og:site_name" content="Papelzinho" />
+<meta property="og:title" content="{group.name} — Papelzinho" />
+<meta property="og:description" content="Você foi convidado para o amigo secreto '{group.name}'. Toque para entrar e montar sua lista de presentes!" />
 <meta property="og:image" content="https://<dominio-exemplo>/images/og-invite-preview.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:url" content="https://<dominio-exemplo>/g/{inviteToken}" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Amigo Secreto: {group.name}" />
-<meta name="twitter:description" content="Você foi convidado para o Amigo Secreto '{group.name}'." />
+<meta name="twitter:title" content="{group.name} — Papelzinho" />
+<meta name="twitter:description" content="Você foi convidado para o amigo secreto '{group.name}'." />
 ```
 
 ### 6.2 Headers de Segurança nas Páginas com Token

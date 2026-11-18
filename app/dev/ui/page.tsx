@@ -7,8 +7,8 @@ import { Input } from "../../_components/Input";
 export default function UiGallery() {
   if (process.env.NODE_ENV === "production") notFound();
   return (
-    <main className="mx-auto flex max-w-md flex-col gap-6 p-4">
-      <h1 className="text-xl font-bold sm:text-2xl">Design system</h1>
+    <main id="conteudo" tabIndex={-1} className="page-shell">
+      <h1 className="page-title">Design system</h1>
       <Card title="Botões">
         <div className="flex flex-col gap-3">
           <Button>Criar grupo</Button>

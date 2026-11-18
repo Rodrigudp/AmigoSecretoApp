@@ -22,7 +22,8 @@ describe("token-page-meta (GRP-04, RNF09)", () => {
       origin,
     });
 
-    expect(meta.title).toBe("Amigo Secreto: Família Silva");
+    expect(meta.title).toBe("Família Silva — Papelzinho");
+    expect(meta.openGraph?.siteName).toBe("Papelzinho");
     expect(meta.description).toContain("Família Silva");
     expect(meta.robots).toEqual(TOKEN_ROBOTS);
     expect(meta.openGraph?.url).toBe(`${origin}/g/tok%2Fabc`);

@@ -21,7 +21,7 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar (It-2)
-_(vazio)_
+- UX-LOGO · Logo oficial do Papelzinho (cabeçalho, favicon, imagem do convite) · FE → ORQ · 2 pts · 19/11 — responsável: 11 Front-end; partir da branch `feat/UX-papelzinho-notion` (`cc40f14`); arquivo da logo no pedido do ORQ (Shared/Transfers, papelzinho-logo-mascote-3d.png); manter a paleta do Estilo Notion; PR para a main com capturas desktop e 360 px
 
 ## ⏳ Aguardando dependência (It-2)
 _(vazio)_
@@ -157,3 +157,7 @@ _(vazio)_
 - 2026-11-17 · Orquestrador · BE-02 mergeado (#31, `f14a5e7`); CI 44219365288 · impedimento: PEN-08 e o limite da Vercel
 - 2026-11-17 · Orquestrador · PAR-04 mergeado (#27, `6d27d0a`); CI 44219272617 · a área ainda é stub · impedimento: PEN-08 e o limite da Vercel
 - 2026-11-17 · Orquestrador · GRP-04 mergeado (#30, `b376f90`); CI 44216261190 verde; deploy da Vercel barrado pelo limite diário · nenhum
+- 2026-11-17 · Orquestrador · UX-01: referência Fermento confirmada pelo PO. Textura do pacote no fundo, formulário em superfície sólida, vermelho escuro para rótulos e ações de texto, e seta animada no botão de criar grupo.
+- 2026-11-17 · Orquestrador · UX-01: Papelzinho aprovado pelo PO como nome público do app. Marca aplicada à interface, aos títulos das páginas e ao compartilhamento.
+- 2026-11-18 · Orquestrador · UX-01: o PO trocou a referência visual para Estilo Notion do Profitize. Componentes, telas públicas e painel usam papel quente, superfícies brancas, azul para ações e fontes locais.
+- 2026-11-18 · Orquestrador · Redesign Estilo Notion publicado na branch `feat/UX-papelzinho-notion` (`cc40f14`). UX-LOGO criado e atribuído ao 11 Front-end: o PO enviou a logo com mascote 3D · nenhum

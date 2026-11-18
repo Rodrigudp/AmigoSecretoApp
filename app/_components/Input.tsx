@@ -21,8 +21,8 @@ export function Input({ label, hint, error, id, className = "", required, ...res
   const describedBy = describe(inputId, hint, error);
 
   return (
-    <div className="flex flex-col gap-1">
-      <label htmlFor={inputId} className="text-lg font-semibold">
+    <div className="flex min-w-0 flex-col gap-1.5">
+      <label htmlFor={inputId} className="text-sm font-semibold">
         {label}
         {required ? <span aria-hidden="true"> *</span> : null}
       </label>
@@ -37,7 +37,8 @@ export function Input({ label, hint, error, id, className = "", required, ...res
         aria-invalid={error ? true : undefined}
         aria-describedby={describedBy}
         className={
-          "min-h-12 w-full rounded-xl border-2 bg-surface px-4 text-base " +
+          "min-h-12 w-full min-w-0 rounded-lg border bg-surface px-3 text-base text-text " +
+          "placeholder:text-text-muted " +
           "focus-visible:border-focus focus-visible:outline-3 focus-visible:outline-offset-0 focus-visible:outline-focus " +
           "disabled:cursor-not-allowed disabled:bg-disabled-bg disabled:text-disabled " +
           (error ? "border-danger " : "border-border ") +

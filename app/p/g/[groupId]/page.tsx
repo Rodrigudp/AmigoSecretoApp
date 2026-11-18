@@ -23,7 +23,7 @@ type PageProps = {
  */
 export default function ParticipantGroupPage({ params }: PageProps) {
   return (
-    <main className="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-8">
+    <main id="conteudo" tabIndex={-1} className="page-shell">
       <Suspense fallback={<ParticipantAreaLoading />}>
         <ParticipantEntry paramsPromise={params} />
       </Suspense>
@@ -37,7 +37,7 @@ async function ParticipantEntry({ paramsPromise }: { paramsPromise: PageProps["p
 
   if (!cookieToken) {
     return (
-      <Card tone="warning" title="Link pessoal necessário">
+      <Card tone="warning" title="Link pessoal necessário" heading="h1">
         <p className="text-base">Abra seu link pessoal para ver esta área.</p>
       </Card>
     );

@@ -54,7 +54,7 @@ describe("CreateGroupForm", () => {
     render(<CreateGroupForm action={action} />);
     fill();
     submit();
-    await screen.findByText(/Grupo criado com sucesso/);
+    await screen.findByText(/Grupo criado/);
 
     const sent = action.mock.calls[0][0];
     expect(sent.requestId).toMatch(/^[0-9a-f-]{36}$/);
