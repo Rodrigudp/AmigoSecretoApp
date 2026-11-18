@@ -100,6 +100,8 @@ jobs:
         run: npm ci
 
       - name: Run integration tests
+        env:
+          INTEGRATION_REQUIRED: "1"
         run: |
           eval $(supabase status -o env)
           SUPABASE_URL="$API_URL" SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY" npm run test:integration
