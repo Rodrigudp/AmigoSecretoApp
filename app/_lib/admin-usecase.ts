@@ -1,6 +1,7 @@
-import type { AdminGroup } from "@/src/application/ports";
+import type { AdminGroup, DrawReceipt } from "@/src/application/ports";
 import { getAdminView } from "@/src/application/get-admin-view";
 import { removeParticipant } from "@/src/application/remove-participant";
+import { runDraw } from "@/src/application/run-draw";
 import type { Result } from "@/src/shared/result";
 import type { DomainError } from "@/src/domain/errors";
 
@@ -19,4 +20,13 @@ export async function removeParticipantUseCase(
 ): Promise<Result<{ participantCount: number }, DomainError>> {
   const { buildAdminDeps } = await import("@/src/infrastructure/supabase/deps");
   return removeParticipant({ adminToken, participantId }, buildAdminDeps());
+}
+
+/** RF08: perform the group draw transactionally via Supabase DrawRepository (service role). */
+export async function runDrawUseCase(
+  adminToken: string,
+  expectedParticipantCount?: number
+): Promise<Result<DrawReceipt, DomainError>> {
+  const { buildAdminDeps } = await import("@/src/infrastructure/supabase/deps");
+  return runDraw({ adminToken, expectedParticipantCount }, buildAdminDeps());
 }

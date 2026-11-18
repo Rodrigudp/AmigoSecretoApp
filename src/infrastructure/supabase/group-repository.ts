@@ -156,7 +156,10 @@ export function createGroupRepository(client: ServerSupabaseClient): GroupReposi
         .eq("id", participantId)
         .eq("group_id", admin.groupId)
         .is("removed_at", null);
-      if (updateError) return err({ code: "INVALID_LINK" });
+      if (updateError) {
+        const mapped = mapRpcError(updateError);
+        return err({ code: mapped.code === "GROUP_CLOSED" ? "GROUP_CLOSED" : "INVALID_LINK" });
+      }
 
       const count = await countActiveParticipants(client, admin.groupId);
       return ok({ participantCount: count });

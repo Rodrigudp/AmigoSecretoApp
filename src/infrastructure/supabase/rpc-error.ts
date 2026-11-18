@@ -5,6 +5,9 @@ const RPC_CODES: readonly DomainErrorCode[] = [
   "INVALID_LINK",
   "GROUP_CLOSED",
   "GROUP_FULL",
+  "NOT_ENOUGH_PARTICIPANTS",
+  "DRAW_MEMBERS_CHANGED",
+  "DRAW_NOT_READY",
   "INVALID_INPUT",
 ];
 
