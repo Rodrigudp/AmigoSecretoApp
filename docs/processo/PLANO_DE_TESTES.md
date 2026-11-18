@@ -60,3 +60,7 @@ Em Android e iPhone, abrir o convite recebido no navegador interno do WhatsApp; 
 ## Execução e aceite
 
 Unitários: Vitest; integração: Vitest com Supabase local; E2E: Playwright em viewport mobile de 360 px. Registrar comando, revisão testada, ambiente e resultado no cartão correspondente. Metas: domínio ≥ 90% e total ≥ 70%; lint, typecheck, testes e build no CI. Nenhum caso pendente conta como aprovado. A decisão informada pelo Orquestrador em 17/11 mantém o fechamento de entrada (RN04) no MVP e adia RF11/RN05 para SRT-05; REQUISITOS.md ainda precisa ser alinhado pelo responsável, pois lista essas funções no MVP.
+
+## App nativo
+
+O plano do app (contrato da API v1, testes do app e roteiro em aparelho) está em [docs/qa/PLANO_APP.md](../qa/PLANO_APP.md), com os casos CT-35 a CT-63.
