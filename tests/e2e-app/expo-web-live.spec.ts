@@ -57,8 +57,11 @@ test.describe("Expo Web live contra Next e Supabase locais (APP-FE-03, APP-QA-02
     expect(organizer.url()).not.toMatch(/[A-Za-z0-9_-]{43}/);
 
     // 2. Recarregar a mesma aba e reabrir o painel por Meus grupos
+    // A URL continua em /create: recarregar volta ao formulário vazio, mas o acesso fica salvo.
     await organizer.reload();
-    await expect(heading(organizer, "Meus grupos")).toBeVisible({ timeout: 90_000 });
+    await expect(heading(organizer, "Criar grupo")).toBeVisible({ timeout: 90_000 });
+    await shot(organizer, "03b-recarregou-em-create");
+    await organizer.getByRole("link", { name: /Meus grupos/ }).click();
     await expect(organizer.getByText(groupName)).toBeVisible({ timeout: 30_000 });
     await expect(organizer.getByText(/Organizador · Entradas abertas/)).toBeVisible();
     await shot(organizer, "04-meus-grupos-apos-recarregar");
@@ -95,8 +98,6 @@ test.describe("Expo Web live contra Next e Supabase locais (APP-FE-03, APP-QA-02
 
     // 5. Sortear pelo painel (aba do organizador, recarregada para ler os 3 participantes)
     await organizer.reload();
-    await expect(heading(organizer, "Meus grupos")).toBeVisible({ timeout: 90_000 });
-    await organizer.getByRole("button", { name: "Abrir o painel" }).click();
     await expect(organizer.getByText("Participantes (3 de 100)")).toBeVisible({ timeout: 30_000 });
     await shot(organizer, "10-painel-com-3-participantes");
     await organizer.getByRole("button", { name: "Fazer o sorteio" }).click();
