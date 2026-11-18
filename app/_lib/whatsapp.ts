@@ -39,3 +39,8 @@ export function whatsappUrl(text: string): string {
 export function buildAdminMessage(adminUrl: string): string {
   return `Meu link de organizador do Amigo Secreto (guarde, não compartilhe):\n${adminUrl}`;
 }
+
+/** Message for saving the personal link (docs/features/participantes.md §2). */
+export function buildPersonalLinkMessage(personalUrl: string): string {
+  return `Meu link pessoal do Amigo Secreto (guarde, não compartilhe):\n${personalUrl}`;
+}
