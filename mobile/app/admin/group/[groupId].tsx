@@ -1,17 +1,22 @@
 import * as Clipboard from "expo-clipboard";
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useRef, useState } from "react";
-import { Alert, Platform, Share } from "react-native";
+import { Alert, Platform, Share, View } from "react-native";
 import { readAccess } from "../../../src/v1/access";
 import { api } from "../../../src/v1/api";
+import { drawMessage, invitationMessage } from "../../../src/v1/share-copy";
 import { ApiError } from "../../../src/v1/client";
 import type { Admin } from "../../../src/v1/contract";
-import { Action, Body, Card, errorText, formatDate, formatValue, Page } from "../../../src/v1/ui";
+import { Action, Body, Card, errorText, focusTarget, formatDate, formatValue, Page, type FocusTarget } from "../../../src/v1/ui";
 
 type Confirmation = { type: "remove"; id: string; name: string } | { type: "draw"; count: number };
 
 export default function AdminGroup() {
   const { groupId } = useLocalSearchParams<{ groupId: string }>();
+  return <Flow key={groupId} groupId={groupId} />;
+}
+
+function Flow({ groupId }: { groupId?: string }) {
   const [token, setToken] = useState("");
   const [data, setData] = useState<Admin | null>(null);
   const [error, setError] = useState("");
@@ -21,6 +26,15 @@ export default function AdminGroup() {
   const [stale, setStale] = useState(false);
   const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
   const pending = useRef(false);
+  const [drawnAt, setDrawnAt] = useState("");
+  const dialogTitle = useRef<FocusTarget>(null);
+  const listTitle = useRef<FocusTarget>(null);
+  const drawTrigger = useRef<FocusTarget>(null);
+  const removeTriggers = useRef(new Map<string, FocusTarget>());
+  const focusLater = (target: () => FocusTarget | null | undefined) =>
+    requestAnimationFrame(() => focusTarget(target()));
+  const restore = (change: Confirmation) => focusLater(() => change.type === "draw"
+    ? drawTrigger.current : removeTriggers.current.get(change.id));
 
   useFocusEffect(useCallback(() => {
     let active = true;
@@ -49,8 +63,11 @@ export default function AdminGroup() {
         const { participantCount } = await api.removeParticipant(token, change.id);
         setData({ ...data, participantCount, participants: data.participants.filter(({ id }) => id !== change.id) });
         setNotice(`${change.name} saiu do grupo.`);
+        const next = data.participants[data.participants.findIndex(({ id }) => id === change.id) + 1];
+        focusLater(() => next ? removeTriggers.current.get(next.id) : listTitle.current);
       } else {
-        await api.draw(token, change.count);
+        const result = await api.draw(token, change.count);
+        setDrawnAt(result.drawnAt);
         setData({ ...data, draw: { status: "drawn" } });
         setNotice("Sorteio feito!");
       }
@@ -64,11 +81,11 @@ export default function AdminGroup() {
   }
 
   function ask(change: Confirmation) {
-    if (Platform.OS === "web") { setConfirmation(change); return; }
+    if (Platform.OS === "web") { setConfirmation(change); focusLater(() => dialogTitle.current); return; }
     Alert.alert(confirmTitle(change), confirmText(change), [
-      { text: "Cancelar", style: "cancel" },
-      { text: change.type === "draw" ? "Fazer o sorteio" : "Remover", style: "destructive", onPress: () => void mutate(change) },
-    ], { cancelable: true });
+      { text: "Cancelar", style: "cancel", onPress: () => restore(change) },
+      { text: change.type === "draw" ? "Sim, fazer o sorteio" : "Sim, remover", style: "destructive", onPress: () => void mutate(change) },
+    ], { cancelable: true, onDismiss: () => restore(change) });
   }
 
   async function copy(url: string) {
@@ -98,35 +115,40 @@ export default function AdminGroup() {
       <Card>
         <Body>Link do convite</Body>
         {drawn ? <Body>As entradas estão encerradas.</Body> : <>
-          <Action label="Compartilhar convite" run={() => void share(data.inviteUrl)} />
+          <Action label="Compartilhar convite" run={() => void share(invitationMessage(group, data.inviteUrl))} />
           <Action secondary label="Copiar link" run={() => void copy(data.inviteUrl)} />
         </>}
       </Card>
       <Card>
-        <Body>Participantes ({data.participantCount} de 100)</Body>
-        {!data.participants.length && <Body>Ainda não há participantes no grupo.</Body>}
+        <View ref={listTitle} accessible tabIndex={-1}><Body>Participantes ({data.participantCount} de 100)</Body></View>
+        {!data.participants.length && <Body>Ninguém entrou ainda. Envie o convite acima.</Body>}
         {data.participants.map((participant) => <Card key={participant.id}>
           <Body>{participant.displayName}</Body><Body>Entrou em {formatDate(participant.joinedAt.slice(0, 10))}</Body>
-          {!drawn && !stale && <Action secondary disabled={busy} label={`Remover ${participant.displayName}`}
+          {!drawn && !stale && <Action secondary controlRef={(node) => {
+            if (node) removeTriggers.current.set(participant.id, node);
+            else removeTriggers.current.delete(participant.id);
+          }} disabled={busy} label={`Remover ${participant.displayName}`}
             run={() => ask({ type: "remove", id: participant.id, name: participant.displayName })} />}
         </Card>)}
       </Card>
       <Card>
         <Body>Sorteio</Body>
         {drawn ? <>
-          <Body>Cada pessoa pode abrir o próprio link para ver quem tirou.</Body>
-          <Action label="Avisar o grupo" run={() => void share("O sorteio do Papelzinho foi feito! Abra seu link pessoal para ver quem você tirou.")} />
+          {drawnAt && <Body>Sorteio feito em {new Date(drawnAt).toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" })}.</Body>}
+          <Body>Cada pessoa já pode ver quem tirou pelo seu link pessoal. Por segurança, este painel não mostra os pares.</Body>
+          <Body>Você também participa? Abra o seu link pessoal para ver quem você tirou.</Body>
+          <Action label="Avisar o grupo" run={() => void share(drawMessage(group))} />
         </> : <>
           {data.participantCount < 3 && <Body>Para sortear, precisa de pelo menos 3 pessoas.</Body>}
-          <Action label={busy ? "Aguarde…" : "Fazer o sorteio"} disabled={busy || stale || data.participantCount < 3}
+          <Action controlRef={drawTrigger} label={busy ? "Sorteando…" : "Fazer o sorteio"} disabled={busy || stale || data.participantCount < 3}
             run={() => ask({ type: "draw", count: data.participantCount })} />
         </>}
       </Card>
     </>}
     {!data && !error && <Body>Carregando…</Body>}
-    {confirmation && <Card><Body alert>{confirmTitle(confirmation)}</Body><Body>{confirmText(confirmation)}</Body>
-      <Action secondary label="Cancelar" run={() => setConfirmation(null)} />
-      <Action label={confirmation.type === "draw" ? "Confirmar sorteio" : "Confirmar remoção"}
+    {confirmation && <Card><View ref={dialogTitle} tabIndex={-1} accessible accessibilityRole="header"><Body>{confirmTitle(confirmation)}</Body></View><Body>{confirmText(confirmation)}</Body>
+      <Action secondary label="Cancelar" run={() => { setConfirmation(null); restore(confirmation); }} />
+      <Action label={confirmation.type === "draw" ? "Sim, fazer o sorteio" : "Sim, remover"}
         disabled={busy} run={() => void mutate(confirmation)} />
     </Card>}
     {notice && <Body alert>{notice}</Body>}
@@ -137,10 +159,10 @@ export default function AdminGroup() {
 }
 
 function confirmTitle(change: Confirmation) {
-  return change.type === "remove" ? `Remover ${change.name}?` : "Fazer o sorteio?";
+  return change.type === "remove" ? `Remover ${change.name}?` : "Fazer o sorteio agora?";
 }
 
 function confirmText(change: Confirmation) {
-  return change.type === "remove" ? "Essa pessoa perderá o acesso a este grupo." :
-    `O sorteio será feito com ${change.count} pessoas. As entradas serão encerradas e não será possível desfazer.`;
+  return change.type === "remove" ? "Essa pessoa não entrará no sorteio." :
+    `${change.count} pessoas vão participar. Depois do sorteio, ninguém mais entra pelo convite e não dá para desfazer.`;
 }

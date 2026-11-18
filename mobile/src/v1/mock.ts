@@ -10,7 +10,7 @@ const example: GroupDetails = {
   location: "Casa da vó",
 };
 
-export function createMockApi(): ApiV1 {
+function createDemoGroup(): ApiV1 {
   let group = example;
   let groupId = "demo";
   let status: Status = "open";
@@ -91,7 +91,7 @@ export function createMockApi(): ApiV1 {
       invite(token);
       if (status === "drawn") throw new ApiError("GROUP_CLOSED", "As entradas estão encerradas.");
       const id = String(next++);
-      const accessToken = `demo-participant-${id}`;
+      const accessToken = `demo-participant-${groupId}-${id}`;
       members.set(accessToken, { id, displayName });
       return {
         displayName,
@@ -194,8 +194,56 @@ export function createMockApi(): ApiV1 {
       status = "drawn";
       return { status, drawnAt: new Date().toISOString() };
     },
+    async revokePush(token) { return { removed: true, role: role(token) }; },
     async registerPush(token) {
       return { registered: true, role: role(token) };
     },
+  };
+}
+
+export function createMockApi(): ApiV1 {
+  const seed = createDemoGroup();
+  const byToken = new Map(["demo-invite", "demo-admin", "demo-participant", "demo-bruno", "demo-carla"].map((token) => [token, seed]));
+  const requests = new Map<string, { payload: string; result: Awaited<ReturnType<ApiV1["create"]>> }>();
+  async function group(token: string) {
+    const current = byToken.get(token);
+    if (!current) throw new ApiError("INVALID_LINK", "Este link não está disponível.");
+    return current;
+  }
+
+  return {
+    async create(input) {
+      const previous = requests.get(input.requestId);
+      const payload = JSON.stringify(input);
+      if (previous) {
+        if (payload !== previous.payload) throw new ApiError("IDEMPOTENCY_CONFLICT", "Este grupo já foi criado antes.");
+        return previous.result;
+      }
+      const current = createDemoGroup();
+      const result = await current.create(input);
+      requests.set(input.requestId, { payload, result });
+      byToken.set(result.inviteToken, current);
+      byToken.set(result.adminToken, current);
+      return result;
+    },
+    summary: async (token) => (await group(token)).summary(token),
+    invitation: async (token, resume) => (await group(token)).invitation(token, resume),
+    async join(token, name) {
+      const current = await group(token);
+      const result = await current.join(token, name);
+      byToken.set(result.accessToken, current);
+      return result;
+    },
+    participant: async (token) => (await group(token)).participant(token),
+    wishes: async (token) => (await group(token)).wishes(token),
+    addWish: async (token, draft) => (await group(token)).addWish(token, draft),
+    updateWish: async (token, id, draft) => (await group(token)).updateWish(token, id, draft),
+    removeWish: async (token, id) => (await group(token)).removeWish(token, id),
+    reveal: async (token) => (await group(token)).reveal(token),
+    admin: async (token) => (await group(token)).admin(token),
+    removeParticipant: async (token, id) => (await group(token)).removeParticipant(token, id),
+    draw: async (token, count) => (await group(token)).draw(token, count),
+    revokePush: async (token, device) => (await group(token)).revokePush(token, device),
+    registerPush: async (token, draft) => (await group(token)).registerPush(token, draft),
   };
 }

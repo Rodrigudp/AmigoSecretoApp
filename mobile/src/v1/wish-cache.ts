@@ -60,9 +60,15 @@ export async function syncWishes(credential: string, initialItems?: Wish[]) {
   while (pending.length) {
     const change = pending[0];
     if (change.kind === "add") {
-      const match = items.some((item) => !change.existingIds.includes(item.id) &&
+      const match = items.find((item) => !change.existingIds.includes(item.id) &&
         item.title === change.draft.title && item.note === change.draft.note && item.url === change.draft.url);
-      if (!match) items = [...items, (await api.addWish(credential, change.draft)).item];
+      const saved = match ?? (await api.addWish(credential, change.draft)).item;
+      if (!match) items = [...items, saved];
+      for (const [index, queued] of pending.entries()) {
+        if (index > 0 && queued.kind === "add") {
+          pending[index] = { ...queued, existingIds: [...queued.existingIds, saved.id] };
+        }
+      }
     } else if (change.kind === "update") {
       const { item } = await api.updateWish(credential, change.id, change.draft);
       items = items.map((prior) => prior.id === item.id ? item : prior);
