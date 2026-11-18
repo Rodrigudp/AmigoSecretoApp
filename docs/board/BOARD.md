@@ -32,9 +32,9 @@ _(vazio)_
 _(vazio)_
 
 ## 🧪 Em teste (QA)
-- E2E-PO · Teste ponta a ponta com os dois grupos do PO (criar → entrar → lista → sortear → Revelar) · PO → ORQ · 23/11 — fluxo completo no ar desde a0a6995
 
 ## 🏁 Pronto
+- REL-01 · Teste com grupos reais do PO · ORQ → QA · 2 pts · 18/11 — ✅ PO testou o fluxo completo em produção (criar → entrar → lista → sortear → Revelar): "tá ok"
 - SRT-04 · `get-my-result` + cartão "Revelar" · SRT → SEC + DSN + QA · 3 pts · 23/11 — ✅ SEC+DSN+ORQ; mergeados #66 e #67 (`a0a6995`), E2E hu04/hu05/result-isolation ativos
 - MON-02 · Slots AdSense lazy + chave `ADS_ENABLED` · MON → SEC + DSN · 2 pts · 24/11 — ✅ SEC+DSN+ORQ; mergeado #62 (`8032481`); anúncios DESLIGADOS até aprovação do Google; links de saída da área monetizada são âncoras nativas
 - MON-02a · Verificação do site no AdSense (meta tag + /ads.txt) · MON → SEC · 1 pt · 18/11 — ✅ SEC+ORQ; mergeado #65; site verificado no AdSense
@@ -213,3 +213,4 @@ _(vazio)_
 - 2026-11-18 · Orquestrador · Mergeados #59 (LST-04), #61 (MON-03) e #46 (MKT-04); deploy da main verde e /api/health ok. SRT-04 liberado ao 23. AdSense adiantado: MON-02 (24) e SEC-04 (15) começam já, com `ADS_ENABLED=false` até o Rodrigo criar a conta e mandar o ID pub- (PEN-03); pedir aprovação ao Google depende também de PEN-01/02 nas páginas legais. 11 e 15 trocados para Opus via contas do Gemini (Cursor/OpenCode sem crédito) · aguardando Rodrigo: PEN-01, PEN-02, PEN-03
 - 2026-11-18 · Orquestrador · AdSense: conta criada pelo PO, ID pub-2752974850416759 (PEN-03). MON-02a (24): meta tag `google-adsense-account` + /ads.txt, sem script, para verificar o site. Decisão sobre a recomendação do 15 (dois root layouts): adiada para depois do lançamento como dívida; agora vale a correção do token pelo 11 + páginas monetizadas sem next/link para rotas com token (teste no #62). Anúncios só ligam após a correção do 11 e o SEC-04 real · aguardando Rodrigo: PEN-01, PEN-02 antes de pedir revisão ao Google
 - 2026-11-18 · Orquestrador · Repositório público (decisão do PO, minutos do Actions); secret scanning e push protection ligados; gitleaks sem segredo real. Mergeados #63, #64, #45, #62 (anúncios desligados), #65 (site verificado no AdSense), #68, #66 e #67 (rebaseado pelo ORQ, conflito só de imports). SSH da VPS aceita senha; PO decidiu manter (porta 8090 fechada por fora) · aguardando Rodrigo: PEN-01, PEN-02 e teste ponta a ponta com os dois grupos
+- 2026-11-18 · Orquestrador · REL-01 ok pelo PO. PEN-11: webhook do Discord salvo no .env.production da VPS (600) e no secret production do GitHub; alerta de teste entregue (204). Cron do watchdog ausente: pedido ao 14. Mergeados #69 (PEN-01/02) e #70 ("encontro" no lugar de "troca"). QA-05/QA-06 liberados ao 13 · aguardando Rodrigo: caixa suporte@ confirmada, IDs de afiliado (Amazon, ML)
