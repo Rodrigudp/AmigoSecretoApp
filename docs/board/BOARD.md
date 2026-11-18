@@ -31,15 +31,15 @@ _(vazio)_
 - QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — draft PR #19; CT-01 conferido no GRP-03 (661 ms, stub); CT-02 conferido no PAR-03 (742 ms, cookie ptk_, stub) e armado: no CI vira fixme enquanto a rota /g não existe; "Ana 2" segue fixme (RN07 não está no stub)
 
 ## 👀 Em revisão
-- BE-02 · Adapter Supabase de criar grupo e entrar (no lugar dos stubs) · BE → DB · 2 pts · 19/11 — PR #31 (`c4b7cb1`, 357 linhas); CI 44212657904 integração 2 passed / 0 skipped; revisão pedida ao 12 Banco
+- BE-02 · Adapter Supabase de criar grupo e entrar (no lugar dos stubs) · BE → DB · 2 pts · 19/11 — ✅ DB (comentário); PR #31 (`c4b7cb1`); CI 44212657904 2 passed / 0 skipped; aguarda merge ORQ
 - GRP-04 · Open Graph do convite + noindex/headers nas páginas com token · FE → SEC · 1 pt · 20/11 — ✅ SEC aprovou PR #30 (`cfa115e`); OG + noindex/headers ok; notas não bloqueantes (generateMetadata sem invite_opened no adapter; CI 44212151482); aguarda merge ORQ
 - PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — PR #27 (`feat/PAR-04-participant-area`): handshake ADR-004 (/p/[accessToken] → /p/g/[groupId], probe ?ck=1, fallback sem cookie adsAllowed=false), get-participant-view com ports + stub TODO(BE-01), ParticipantHeader compartilhado c/ PAR-03; CI 3/3 verde (44210288249)
-- GRP-05 · Painel admin: lista, contador, remover antes do sorteio · GRP → QA · 3 pts · 21/11 — QA 17/11: #26 aprovado; #29 reaprovado no 35ad701 (token desconhecido devolve INVALID_LINK; 111 testes locais). CI do GitHub não rodou no #29 (base não é main); Vercel passou. Aguarda merge ORQ
 
 ## 🧪 Em teste (QA)
 _(vazio)_
 
 ## 🏁 Pronto
+- GRP-05 · Painel admin: lista, contador, remover antes do sorteio · GRP → QA · 3 pts · 21/11 — ✅ QA+ORQ; casos de uso no #26 (`8296d6`); tela no #32 (`322f094`); token desconhecido devolve INVALID_LINK; ainda é stub (token demo) até o adapter; CI da main 44215037513
 - OPS-02 · Expurgo automático 60 dias após a troca (pg_cron) · OPS → DB · 1 pt · 20/11 — ✅ DB+ORQ; mergeado PR #21 (`3d35962`); job diário 06:00 UTC; CI do PR 44209815039
 - BE-01 · Cliente Supabase do servidor + harness de testes de integração · BE → DB · 1 pt · 18/11 — ✅ DB+ORQ; mergeado PR #20 (`34a8f9a`); smoke 1 passed / 0 skipped (CI 44209620112)
 - PAR-03 · Tela de convite + tela do link pessoal · FE → PAR · 3 pts · 21/11 — ✅ PAR+ORQ; mergeados #24 (`7aa98d6`) e #25 (`4ae079c`); stub até o adapter; o cookie do link pessoal ainda é gravado na página, o PAR-04 move isso para o route handler
@@ -71,7 +71,7 @@ _(vazio)_
 - MON-01 · Páginas para aprovação do AdSense · MON → SEC · 2 pts · 19/11 — ✅ Segurança aprovou revisão 2 (condicionada aos marcadores); ✅ ORQ; PR #1 (`9ebc5d1`) e domínio real no PR #23 (`ebc1e8a`, https://amigo-secreto-app-five.vercel.app); marcadores `A PREENCHER PELO RODRIGO` em PEN-01..03
 
 ## 🚀 Em produção
-- Site em https://amigo-secreto-app-five.vercel.app (main 3d35962): página inicial com o formulário; criar grupo ainda não grava (stub até o BE-02). O expurgo de 60 dias está no código. O banco de produção continua sem migrations até OPS-04/PEN-08
+- Site em https://amigo-secreto-app-five.vercel.app (main 322f094): página inicial com o formulário; criar grupo ainda não grava (stub até o BE-02). O painel do organizador está no código, também em stub. O banco de produção continua sem migrations até OPS-04/PEN-08
 
 ---
 
@@ -138,4 +138,6 @@ _(vazio)_
 - 2026-11-17 · Back-end · BE-01: 12 Banco aprovou PR #20 (`0d483d6`); Orquestrador avisado para merge · nenhum
 - 2026-11-17 · Orquestrador · BE-01 mergeado (#20, `34a8f9a`) · BE-02 (adapter de criar e entrar) para o Back-end · impedimento: PEN-08 para o banco de produção
 - 2026-11-17 · Back-end · BE-02: PR #31 aberto (`c4b7cb1`); adapters create/invite/join; CI 44212657904 com 2 passed / 0 skipped; revisão pedida ao 12 · nenhum
+- 2026-11-17 · Back-end · BE-02: 12 Banco aprovou PR #31 (`c4b7cb1`); Orquestrador avisado para merge · nenhum
 - 2026-11-17 · Orquestrador · OPS-02 mergeado (#21, `3d35962`) depois do rebase do DevOps · impedimento: PEN-08 para o banco de produção
+- 2026-11-17 · Orquestrador · GRP-05 mergeado: casos de uso #26 (`8296d6`) e tela #32 (`322f094`); o #29 fechou com a branch base · impedimento: PEN-08
