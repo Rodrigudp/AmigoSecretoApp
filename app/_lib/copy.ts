@@ -169,14 +169,14 @@ export const copy = {
     updatedLabel: "Última atualização:",
     pending: "A PREENCHER PELO RODRIGO",
     sobre: {
-      title: "Sobre o Amigo Secreto",
+      title: "Sobre o Papelzinho",
       description: "Como o Papelzinho funciona e como o site se mantém.",
       sections: [
         {
           heading: "O que é",
           blocks: [
             {
-              p: "O Amigo Secreto é um site gratuito para organizar a troca de presentes entre amigos e família.",
+              p: "O Papelzinho é um site gratuito para organizar a troca de presentes entre amigos e família.",
             },
             {
               p: "O organizador cria um grupo, compartilha o link no WhatsApp, cada pessoa entra só com o nome, monta a própria lista de desejos e, no dia marcado, descobre com sigilo quem tirou.",
@@ -190,14 +190,14 @@ export const copy = {
           heading: "Como o site se mantém",
           blocks: [
             {
-              p: "Exibimos anúncios do Google AdSense e, em alguns links de produtos, usamos links de afiliado. Quando você compra por um desses links, a loja pode pagar uma comissão ao site, sem custo extra para você.",
+              p: "Podemos exibir anúncios do Google AdSense e, em alguns links de produtos, usamos links de afiliado. Quando você compra por um desses links, a loja pode pagar uma comissão ao site, sem custo extra para você.",
             },
           ],
         },
       ],
     },
     privacidade: {
-      title: "Política de privacidade do Amigo Secreto",
+      title: "Política de privacidade do Papelzinho",
       description:
         "Quais dados o Papelzinho coleta, para quê, por quanto tempo e como você exerce seus direitos.",
       sections: [
@@ -238,7 +238,7 @@ export const copy = {
                 "Fazer o sorteio e mostrar o resultado somente para quem tem o link pessoal.",
                 "Mostrar a lista de desejos aos colegas do grupo.",
                 "Medir, de forma agregada, quantos grupos e participantes usam o site.",
-                "Exibir anúncios, com a sua escolha de consentimento.",
+                "Exibir anúncios. Quando houver anúncios, pediremos o seu consentimento antes.",
               ],
             },
           ],
@@ -249,17 +249,13 @@ export const copy = {
             {
               ul: [
                 {
-                  label: "Cookies estritamente necessários:",
-                  text: "mantêm você conectado ao seu grupo durante a sessão e guardam a sua escolha sobre cookies. Sem eles o site não funciona, por isso não pedimos consentimento para eles.",
-                },
-                {
-                  label: "Cookies do Google AdSense:",
-                  text: "usados para mostrar anúncios. O Google pode usar esses cookies para mostrar anúncios com base em visitas anteriores a este e a outros sites. Só usamos anúncios personalizados se você consentir. Se você recusar, o site continua funcionando e os anúncios aparecem sem personalização, ou não aparecem.",
+                  label: "Cookie estritamente necessário:",
+                  text: "o cookie do seu link pessoal (ptk_). Ele mantém você conectado ao seu grupo durante a sessão. Sem ele o site não funciona, por isso não pedimos consentimento para ele.",
                 },
               ],
             },
             {
-              p: "Você pode mudar sua escolha a qualquer momento, no aviso de cookies do próprio site. Para configurar os anúncios do Google diretamente, use: https://www.google.com/settings/ads",
+              p: "Hoje o site não usa cookies de anúncio nem de medição de terceiros. Quando houver anúncios, vamos pedir o seu consentimento antes de usar qualquer cookie desse tipo.",
             },
           ],
         },
@@ -270,12 +266,16 @@ export const copy = {
             {
               ul: [
                 {
-                  label: "Hospedagem do site e Supabase (banco de dados):",
-                  text: "podem processar dados fora do Brasil.",
+                  label: "Hostinger (servidor do site, VPS):",
+                  text: "pode processar dados fora do Brasil.",
                 },
                 {
-                  label: "Google AdSense:",
-                  text: "recebe dados técnicos para exibir anúncios, conforme a escolha de cookies. Pode haver transferência internacional.",
+                  label: "Supabase (banco de dados):",
+                  text: "pode processar dados fora do Brasil.",
+                },
+                {
+                  label: "Google AdSense (quando houver anúncios):",
+                  text: "poderá receber dados técnicos para exibir anúncios, somente após o seu consentimento. Pode haver transferência internacional.",
                 },
                 {
                   label: "Lojas afiliadas:",
@@ -327,7 +327,7 @@ export const copy = {
       ],
     },
     termos: {
-      title: "Termos de uso do Amigo Secreto",
+      title: "Termos de uso do Papelzinho",
       description: "Regras de uso do Papelzinho.",
       sections: [
         {
