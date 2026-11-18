@@ -19,7 +19,7 @@ export function GroupCreated({ group, inviteUrl, adminUrl }: GroupCreatedProps) 
         <p className="mb-3">{copy.CRI_02.text}</p>
         <CopyField label={copy.CRI_02.title} value={inviteUrl} copyLabel={copy.CRI_03.copy}>
           <a
-            className={buttonClass("secondary")}
+            className={buttonClass("primary")}
             href={whatsappUrl(buildInviteMessage(group, inviteUrl))}
             target="_blank"
             rel="noopener noreferrer"
@@ -47,7 +47,7 @@ export function GroupCreated({ group, inviteUrl, adminUrl }: GroupCreatedProps) 
           >
             {copy.CRI_07.save}
           </a>
-          <a className={buttonClass("primary")} href={adminUrl}>
+          <a className={buttonClass("secondary")} href={adminUrl}>
             {copy.CRI_07.open}
           </a>
         </CopyField>

@@ -62,6 +62,10 @@ describe("CreateGroupForm", () => {
     expect(window.sessionStorage.getItem(KEY)).toBeNull();
 
     const share = screen.getByRole("link", { name: "Compartilhar no WhatsApp" });
+    expect(share.className.split(" ")).toContain("bg-primary");
+    expect(screen.getByRole("link", { name: "Abrir o painel" }).className.split(" ")).toContain(
+      "bg-primary-soft"
+    );
     expect(share.getAttribute("href")).toContain("https://wa.me/?text=");
     expect(decodeURIComponent(share.getAttribute("href")!)).toContain("https://x.test/g/invite");
     expect(screen.getByRole("link", { name: /^Entrar no grupo$/ }).getAttribute("href")).toBe(
