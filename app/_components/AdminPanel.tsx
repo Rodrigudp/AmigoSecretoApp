@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { AdminGroup, ParticipantId } from "@/src/application/ports";
-import { removeParticipantAction } from "../actions";
+import { removeParticipantAction } from "../admin-actions";
 import { buildInviteMessage, formatBrl, formatDateBr, whatsappUrl } from "../_lib/whatsapp";
 import { Button, buttonClass } from "./Button";
 import { Card } from "./Card";
