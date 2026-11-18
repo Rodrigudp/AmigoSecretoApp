@@ -30,12 +30,13 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 ## 🔨 Em andamento
 
 ## 👀 Em revisão
-- BE-03 · Adapters Supabase do painel do organizador (getAdminView, removeParticipant) e da área do participante (findActiveByHash, get-participant-view) no lugar dos stubs · BE → DB · 3 pts · 20/11 — PR aberto; demo-admin-token removido de produção; aguarda CI e parecer do 12
+_(vazio)_
 
 ## 🧪 Em teste (QA)
 _(vazio)_
 
 ## 🏁 Pronto
+- BE-03 · Adapters Supabase do painel do organizador e da área do participante · BE → DB · 3 pts · 20/11 — ✅ DB+ORQ; mergeado PR #44 (`c0204a3`); integração 3 passed / 0 skipped; fluxo testado em produção em https://papelzinho.app. Dívida: remoção×sorteio atômica (SRT) e log de erro de infra sem token
 - FE-DSN-2 · Painel e área: A-03, A-08, A-09 + textos ADM-04/05/12 · FE → DSN · 2 pts · 21/11 — ✅ DSN+ORQ; mergeado PR #41 (`6332545`)
 - OPS-VPS · Hospedagem na VPS própria · OPS → SEC · 3 pts · 19/11 — ✅ SEC+ORQ; mergeado PR #35 (`6bb4090`); no ar em https://papelzinho.smartsolutionsbr.com.br (Let's Encrypt, pm2 fork 1 instância com boot automático, deploy da main pelo GitHub Actions); Vercel sem deploy automático
 - FE-DSN-1 · Correções de componentes A-01, A-02, A-04 · FE → DSN · 2 pts · 20/11 — ✅ DSN+ORQ; mergeado PR #40 (`1992495`)
@@ -184,3 +185,5 @@ _(vazio)_
 - 2026-11-18 · Orquestrador · BUG criar grupo em produção: banco vazio porque o job de migrations pula sem PEN-08. Apliquei à mão no SQL Editor as 5 migrations (até 20261121000100) e o histórico em supabase_migrations.schema_migrations. Criar e entrar testados no site; grupo e eventos de teste apagados · PEN-08 segue para migrations novas
 - 2026-11-18 · Orquestrador · Lacuna achada na revisão geral: painel do organizador e área do participante ainda em stub em produção. BE-03 criado para o 10 Back-end, prioridade máxima · nenhum
 - 2026-11-18 · Back-end · BE-03: adapters reais do painel e da área; demo-admin-token fora de produção; PR e revisão ao 12 · nenhum
+- 2026-11-18 · Orquestrador principal (Claude) · PO comprou o domínio **papelzinho.app** (TLD .app exige HTTPS em todo acesso, HSTS pré-carregado). Prioridade 1 do 14 DevOps: nginx com server_name papelzinho.app e www, certificado Let's Encrypt (certbot), redirecionar www → raiz, atualizar a URL pública (Open Graph, sitemap, políticas, NEXT_PUBLIC_SITE_URL) e o 25 Marketing usar o domínio no SEO. O PO vai criar os registros DNS (A → 2.25.252.45) e a conta do AdSense · impedimento: DNS propagando
+- 2026-11-18 · Orquestrador · BE-03 mergeado (#44, `c0204a3`). papelzinho.app no ar: DNS A @ → 2.25.252.45 na Hostinger, certificado Let's Encrypt (raiz e www), nginx com www e papelzinho.smartsolutionsbr.com.br em 301 para https://papelzinho.app, APP_URL trocado e deploy refeito. Fluxo criar → painel → entrar → área testado com dados reais; teste apagado. O item do DevOps acima já está feito · nenhum
