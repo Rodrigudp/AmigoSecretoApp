@@ -21,7 +21,7 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar (It-2)
-- UX-LOGO · Logo oficial do Papelzinho (cabeçalho, favicon, imagem do convite) · FE → ORQ · 2 pts · 19/11 — responsável: 11 Front-end; partir da branch `feat/UX-papelzinho-notion` (`cc40f14`); arquivo da logo no pedido do ORQ (Shared/Transfers, papelzinho-logo-mascote-3d.png); manter a paleta do Estilo Notion; PR para a main com capturas desktop e 360 px
+- OPS-VPS · Hospedagem na VPS própria (sai da Vercel) · OPS → SEC · 3 pts · 19/11 — responsável: 14 DevOps; pm2 + nginx em porta pública própria, sem domínio por ora; deploy da main via GitHub Actions por SSH; não alterar os sites e apps que já rodam na VPS; segredos ficam com o ORQ
 
 ## ⏳ Aguardando dependência (It-2)
 _(vazio)_
@@ -37,6 +37,7 @@ _(vazio)_
 _(vazio)_
 
 ## 🏁 Pronto
+- UX-LOGO · Logo oficial do Papelzinho + redesign Estilo Notion · FE → ORQ · 2 pts · 19/11 — ✅ ORQ; mergeado PR #34 (`7644a71`); recortes conferidos contra o PNG original; capturas 1280 e 360 px no PR; CI 44294057818
 - PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — ✅ FE+ORQ; mergeado PR #27 (`6d27d0a`); cookie só no route handler; no ?ck=1 só segue se o cookie for o token da URL; link inválido pede um novo ao organizador; a área ainda lê o stub; CI 44219272617
 - BE-02 · Adapter Supabase de criar grupo e entrar (no lugar dos stubs) · BE → DB · 2 pts · 19/11 — ✅ DB+ORQ; mergeado PR #31 (`f14a5e7`); prévia não grava invite_opened, a página grava 1×; CI 44219365288, integração 2 passed / 0 skipped; a área do participante segue stub
 - OPS-04 · Aplicar migrations no Supabase de produção pelo CI (`supabase db push`) + APP_URL com o domínio real · OPS → SEC · 1 pt · 20/11 — ✅ SEC+ORQ; mergeado PR #28 (`5a0a4da`); CI 44217000044; o job pulou porque PEN-08 ainda está vazio
@@ -161,3 +162,4 @@ _(vazio)_
 - 2026-11-17 · Orquestrador · UX-01: Papelzinho aprovado pelo PO como nome público do app. Marca aplicada à interface, aos títulos das páginas e ao compartilhamento.
 - 2026-11-18 · Orquestrador · UX-01: o PO trocou a referência visual para Estilo Notion do Profitize. Componentes, telas públicas e painel usam papel quente, superfícies brancas, azul para ações e fontes locais.
 - 2026-11-18 · Orquestrador · Redesign Estilo Notion publicado na branch `feat/UX-papelzinho-notion` (`cc40f14`). UX-LOGO criado e atribuído ao 11 Front-end: o PO enviou a logo com mascote 3D · nenhum
+- 2026-11-18 · Orquestrador · UX-LOGO mergeado (#34, `7644a71`). PO decidiu sair da Vercel por causa do limite de deploys; OPS-VPS criado para o 14 DevOps (pm2 + nginx em porta própria, sem domínio). SEC-03 e QA-03 cobrados para continuar · nenhum
