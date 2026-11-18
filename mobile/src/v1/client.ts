@@ -82,5 +82,7 @@ export function createHttpApi(fetcher: (url: string, options: RequestInit) => Pr
       request("/admin/draw", { method: "POST", credential, body: { expectedParticipantCount } }),
     registerPush: (credential, body) =>
       request("/push-tokens", { method: "POST", credential, body }),
+    revokePush: (credential, expoPushToken) =>
+      request("/push-tokens", { method: "DELETE", credential, body: { expoPushToken } }),
   };
 }

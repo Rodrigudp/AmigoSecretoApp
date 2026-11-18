@@ -7,6 +7,7 @@ import type { Participant } from "../../../src/v1/contract";
 import { Action, Body, Card, errorText, formatDate, Page } from "../../../src/v1/ui";
 import { cachedWishes, forgetWishes, syncWishes, type WishCache } from "../../../src/v1/wish-cache";
 import { RevealCard } from "../../../src/v1/reveal";
+import { PushOffer } from "../../../src/v1/push";
 import { WishList } from "../../../src/v1/wish-list";
 
 export default function ParticipantGroup() {
@@ -50,5 +51,6 @@ function Flow({ groupId }: { groupId?: string }) {
       <Action secondary label="Tentar de novo" run={() => { setError(""); setRetry(retry + 1); }} /></Card>}
     {cache && credential ? <WishList key={groupId} credential={credential} cache={cache} onCache={setCache}/>
       : !error && <Body>Carregando…</Body>}
+    {credential && <PushOffer key={groupId} credential={credential} manage />}
   </Page>;
 }

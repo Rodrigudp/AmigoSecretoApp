@@ -194,6 +194,7 @@ function createDemoGroup(): ApiV1 {
       status = "drawn";
       return { status, drawnAt: new Date().toISOString() };
     },
+    async revokePush(token) { return { removed: true, role: role(token) }; },
     async registerPush(token) {
       return { registered: true, role: role(token) };
     },
@@ -242,6 +243,7 @@ export function createMockApi(): ApiV1 {
     admin: async (token) => (await group(token)).admin(token),
     removeParticipant: async (token, id) => (await group(token)).removeParticipant(token, id),
     draw: async (token, count) => (await group(token)).draw(token, count),
+    revokePush: async (token, device) => (await group(token)).revokePush(token, device),
     registerPush: async (token, draft) => (await group(token)).registerPush(token, draft),
   };
 }
