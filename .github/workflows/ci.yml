@@ -33,6 +33,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
       - name: Run linter (complexity <= 10)
         run: npm run lint
 
@@ -86,6 +89,20 @@ jobs:
 
       - name: Compare generated types with committed types.ts
         run: diff -u src/infrastructure/supabase/types.ts src/infrastructure/supabase/types.generated.ts
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run integration tests
+        run: |
+          eval $(supabase status -o env)
+          SUPABASE_URL="$API_URL" SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY" npm run test:integration
 
       - name: Test rollbacks and re-apply migrations
         run: |
