@@ -46,3 +46,15 @@ export function buildAdminMessage(adminUrl: string): string {
 export function buildPersonalLinkMessage(personalUrl: string): string {
   return `${copy.WPP_02}\n${personalUrl}`;
 }
+/** Message template for announcing the completed draw (docs/features/textos.md §8, WPP-04). */
+export function buildDrawNoticeMessage(
+  details: Pick<ShareDetails, "name" | "exchangeDate">
+): string {
+  return [
+    copy.WPP_04.title(details.name),
+    "",
+    copy.WPP_04.text,
+    "",
+    `${copy.WPP_04.date}: ${formatDateBr(details.exchangeDate)}`,
+  ].join("\n");
+}
