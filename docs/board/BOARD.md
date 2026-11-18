@@ -16,7 +16,7 @@ Atualizado em: 2026-11-18 · Iteração atual: **It-3 · Lista e sorteio (aberta
 ---
 
 ## 🗂️ Backlog (próximas iterações)
-- QA-05..06, SEC-05 — It-4 (24–25/11)
+- QA-05..06 — It-4 (24–25/11)
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar
@@ -28,7 +28,7 @@ _(vazio)_
 ## 🔨 Em andamento
 
 ## 👀 Em revisão
-_(vazio)_
+- SEC-05 · Revisão final de segurança (OWASP Top 10, RNF03–05) · SEC → ORQ · 18/11 — `docs/seguranca/SEC-05.md` (0 Críticos, 0 Altos, 2 Médios, 2 Baixos)
 
 ## 🧪 Em teste (QA)
 
