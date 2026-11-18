@@ -67,7 +67,7 @@
 
 @layer components {
   .page-shell {
-    @apply mx-auto flex w-full max-w-2xl flex-col gap-6 px-5 py-8 sm:px-8 sm:py-12;
+    @apply mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-5 py-8 sm:px-8 sm:py-12;
   }
 
   .page-shell--wide {

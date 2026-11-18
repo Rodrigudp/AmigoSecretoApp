@@ -19,6 +19,9 @@ describe("CreateGroupForm", () => {
   it("empty state: shows the fields and no errors", () => {
     render(<CreateGroupForm action={vi.fn()} />);
     expect(screen.getByLabelText(/Nome do grupo/)).toBeTruthy();
+    expect(screen.getByText("Ex.: 24/12/2026")).toBeTruthy();
+    const dateInput = screen.getByLabelText(/Data da troca/);
+    expect(dateInput.getAttribute("aria-describedby")).toContain(screen.getByText("Ex.: 24/12/2026").id);
     expect(screen.queryByRole("alert")).toBeNull();
   });
 
