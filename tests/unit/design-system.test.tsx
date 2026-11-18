@@ -121,6 +121,12 @@ describe("Card", () => {
     const h = screen.getByRole("heading", { name: /Confira os campos destacados/ });
     expect(h.className.split(" ")).not.toContain("mb-3");
   });
+  it("uses border-line token on success tone card", () => {
+    render(<Card tone="success" title="Sorteio feito" />);
+    const section = screen.getByRole("heading", { name: /Sorteio feito/ }).closest("section");
+    expect(section?.className).toContain("border-line");
+    expect(section?.className).not.toContain("border-[#bfdbc9]");
+  });
 });
 
 describe("Footer", () => {

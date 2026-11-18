@@ -141,7 +141,33 @@ describe("AdminPanel UI (GRP-05)", () => {
     expect(screen.getByText("Participantes (0 de 100)")).toBeTruthy();
   });
 
-  it("renders drawn state without remove button and with drawn badge", () => {
+  it("closes open draw confirmation when a participant is removed (key={participantCount})", async () => {
+    const fourParticipants: AdminGroup = {
+      ...sampleData,
+      participantCount: 4,
+      participants: [
+        { id: "p-1", displayName: "Ana", joinedAt: "2026-11-17T10:00:00Z" },
+        { id: "p-2", displayName: "Bruno", joinedAt: "2026-11-17T11:00:00Z" },
+        { id: "p-3", displayName: "Carla", joinedAt: "2026-11-17T12:00:00Z" },
+        { id: "p-4", displayName: "Diego", joinedAt: "2026-11-17T13:00:00Z" },
+      ],
+    };
+    const actionMock = vi.fn().mockResolvedValue({ ok: true, participantCount: 3 });
+    render(<AdminPanel initialData={fourParticipants} adminToken="adm-123" action={actionMock} />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Fazer o sorteio" }));
+    expect(screen.getByText("Fazer o sorteio agora?")).toBeTruthy();
+
+    fireEvent.click(screen.getByRole("button", { name: "Remover Ana" }));
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Sim, remover" }));
+    });
+
+    expect(screen.queryByText("Fazer o sorteio agora?")).toBeNull();
+    expect(screen.getByRole("button", { name: "Fazer o sorteio" })).toBeTruthy();
+  });
+
+  it("renders drawn state without remove button and with surface/border-line drawn badge", () => {
     const drawnData: AdminGroup = {
       ...sampleData,
       draw: { status: "drawn", drawnAt: "2026-11-17T18:00:00Z" },
@@ -149,7 +175,10 @@ describe("AdminPanel UI (GRP-05)", () => {
       participants: [{ id: "p-1", displayName: "Ana", joinedAt: "2026-11-17T10:00:00Z" }],
     };
     render(<AdminPanel initialData={drawnData} adminToken="adm-123" />);
-    expect(screen.getByText(/^Sorteio feito em/)).toBeTruthy();
+    const badge = screen.getByText(/^Sorteio feito em/);
+    expect(badge.className).toContain("border-line");
+    expect(badge.className).toContain("bg-surface");
+    expect(badge.className).toContain("text-success");
     expect(screen.queryByRole("button", { name: /Remover/ })).toBeNull();
     expect(screen.queryByRole("button", { name: "Fazer o sorteio" })).toBeNull();
     expect(screen.getByText(/✓ Sorteio feito em/)).toBeTruthy();
