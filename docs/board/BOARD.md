@@ -20,6 +20,8 @@ Atualizado em: 2026-11-18 · Iteração atual: **It-3 · Lista e sorteio (aberta
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar
+- APP-FE-03 · PRIORIDADE BUG-008 (cliente ignora EXPO_PUBLIC_API_URL; Expo Web em modo live não persiste credenciais) + config de produção por perfil no eas.json (API https://papelzinho.app, MOBILE_API=live, versão 1.0.0/1) + docs/ops/app-release.md · FE → SEC + QA · 3 pts — responsável: 11 Front-end
+- APP-DSN-03 · 5 capturas das lojas (1080×1920; 1290×2796; 1242×2208) a partir do app real com dados fictícios, em docs/marketing/capturas/ · DSN → MKT · 2 pts — responsável: 16 Designer
 - APP-LEG-01 · /privacidade e /termos cobrindo o app (SecureStore, push opcional, push_tokens, v1 sem anúncio) · MON → SEC + DSN · 1 pt — responsável: 24 Monetização
 - APP-MKT-01 · Fichas das lojas em pt-BR + questionário de privacidade · MKT → DSN + SEC · 2 pts — responsável: 25 Marketing
 
