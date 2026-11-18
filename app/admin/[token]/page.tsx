@@ -8,7 +8,7 @@ import { Card } from "../../_components/Card";
 import { buttonClass } from "../../_components/Button";
 
 export const metadata: Metadata = {
-  title: `Painel do Organizador — ${APP_NAME}`,
+  title: `Painel do organizador — ${APP_NAME}`,
   robots: { index: false, follow: false, nocache: true },
   referrer: "no-referrer",
 };

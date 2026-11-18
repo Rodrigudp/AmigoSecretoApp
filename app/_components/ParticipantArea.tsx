@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Card } from "@/app/_components/Card";
+import { Button } from "@/app/_components/Button";
 import { ParticipantHeader } from "@/app/_components/ParticipantHeader";
 import type { ParticipantView } from "@/src/application/ports";
 
@@ -25,18 +26,23 @@ export function ParticipantArea({
         groupName={view.group.name}
         participantName={view.displayName}
         drawStatus={view.group.status}
+        exchangeDate={view.group.exchangeDate}
+        maxValueCents={view.group.maxValueCents}
+        location={view.group.location}
       />
-      {view.group.status === "open" ? (
-        <Card title="Lista de desejos">
-          <p className="text-base">Em breve você poderá montar aqui a sua lista de desejos.</p>
-        </Card>
-      ) : (
+      <Card title="Lista de desejos">
+        <p className="text-base">Em breve você poderá montar aqui a sua lista de desejos.</p>
+        <Button disabled className="mt-3">
+          Adicionar presente — em breve
+        </Button>
+      </Card>
+      {view.group.status === "drawn" ? (
         <Card title="Meu amigo secreto">
           <p className="text-base">
             Em breve o resultado aparecerá aqui, escondido até você tocar em revelar.
           </p>
         </Card>
-      )}
+      ) : null}
       {children}
     </div>
   );
