@@ -1,5 +1,6 @@
 "use server";
 
+import { headers } from "next/headers";
 import { GROUP_MESSAGES, validateCreateGroup } from "./_lib/create-group-schema";
 import type { CreateGroupInput, FieldErrors } from "./_lib/create-group-schema";
 import { createGroupUseCase } from "./_lib/create-group-usecase";
@@ -8,6 +9,17 @@ import { validateJoinGroup } from "./_lib/join-group-schema";
 import type { JoinFieldErrors } from "./_lib/join-group-schema";
 import { joinGroupUseCase } from "./_lib/participant-stubs";
 import { setPersonalCookie } from "./_lib/personal-cookie";
+import { extractClientIp, getSharedRateLimiter } from "../src/infrastructure/rate-limit";
+import type { RateLimitAction } from "../src/infrastructure/rate-limit";
+
+async function allowActionRequest(action: RateLimitAction): Promise<boolean> {
+  try {
+    const requestHeaders = await headers();
+    return getSharedRateLimiter().check(action, extractClientIp(requestHeaders)).ok;
+  } catch {
+    return true;
+  }
+}
 
 export type CreateGroupActionResult =
   | { ok: true; inviteUrl: string; adminUrl: string }
@@ -19,6 +31,10 @@ const CREATE_ERROR_MESSAGES: Record<string, string> = {
 };
 
 export async function createGroupAction(input: CreateGroupInput): Promise<CreateGroupActionResult> {
+  if (!(await allowActionRequest("create_group"))) {
+    return { ok: false, message: GROUP_MESSAGES.rateLimited };
+  }
+
   const validated = validateCreateGroup(input);
   if (!validated.ok)
     return { ok: false, errors: validated.errors, message: GROUP_MESSAGES.generic };
@@ -48,6 +64,10 @@ export async function joinGroupAction(input: {
   inviteToken: string;
   displayName: string;
 }): Promise<JoinGroupActionResult> {
+  if (!(await allowActionRequest("join_group"))) {
+    return { ok: false, message: JOIN_MESSAGES.rateLimited, code: "RATE_LIMITED" };
+  }
+
   const validated = validateJoinGroup(input);
   if (!validated.ok) {
     return { ok: false, errors: validated.errors, message: JOIN_MESSAGES.generic };
