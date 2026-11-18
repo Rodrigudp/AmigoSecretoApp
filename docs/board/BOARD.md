@@ -32,7 +32,7 @@ _(vazio)_
 
 ## 👀 Em revisão
 - BE-02 · Adapter Supabase de criar grupo e entrar (no lugar dos stubs) · BE → DB · 2 pts · 19/11 — ✅ DB no `c4b7cb1` (CI 44212657904, 2 passed / 0 skipped); conflita com a main em create-group-usecase.ts; generateMetadata gravaria invite_opened; rebase pedido ao BE 17/11
-- PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — PR #27 (`267cb2e`) conflita com a main (add/add em /p/[accessToken] e /p/g/[groupId]); PAR-03 já na main; rebase pedido ao PAR 17/11; CI antigo 44210288249 verde
+- PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — PR #27 rebasado na main (25703d3, sem conflito): handshake ADR-004 (/p/[accessToken] → /p/g/[groupId], probe ?ck=1 via route handler /api/p/hs, fallback sem cookie adsAllowed=false), get-participant-view com ports + stub TODO(BE-01), ParticipantHeader compartilhado; CI 3/3 verde (44217989432); revisão final pedida ao FE
 
 ## 🧪 Em teste (QA)
 _(vazio)_
@@ -114,6 +114,7 @@ _(vazio)_
 - 2026-11-17 · Participantes · PAR-01 ajustado conforme revisão (cookie por grupo, mensagens SRT-01, RN07, organizador entra pelo convite) · aguardar reaprovação do Orquestrador · nenhum
 - 2026-11-17 · Participantes · PAR-01 reaprovado (Pronto); It-2 iniciada · PAR-02: caso de uso join-group implementado com fake repo, PR #13 aberto (worktree própria, branch feat/PAR-02-join-group); lint/typecheck/test 67/build verdes; revisão pedida ao Back-end · nenhum
 - 2026-11-17 · Participantes · PAR-02 mergeado (PR #13); PAR-04 liberado · PAR-04 implementado (PR #27): handshake ADR-004, get-participant-view + stub, ParticipantHeader; alinhado com o FE (rotas /p/* e headers são meus); revisões de PAR-03 #24/#25 registradas nos PRs (aprovados com notas) · nenhum
+- 2026-11-17 · Participantes · PAR-03 mergeado; PAR-04 rebasado na main (commit 25703d3): cookie do handshake movido p/ route handler /api/p/hs (page não grava cookie), headers centrais da GRP-04 reaproveitados, ports.findActiveByHash + expiresAt; CI 3/3 verde (Vercel preview só rate limit); revisão final pedida ao FE · nenhum
 - 2026-11-17 · Front-end · — · UX-01: spec do design system escrita (tokens com contraste AA, componentes, wireframes das 6 telas); componentes após SETUP-01 · impedimento: SETUP-01
 - 2026-11-17 · Front-end · UX-01 spec · UX-01 implementado (Button, Input, Card, tokens) e PR #2 aberto; pedir revisão ao ORQ · nenhum
 - 2026-11-17 · Front-end · UX-01 mergeado · GRP-03 implementado (PRs #15 e #16), revisão do 20 Grupos · nenhum (stub do GRP-02 no lugar do caso de uso)
@@ -143,6 +144,7 @@ _(vazio)_
 - 2026-11-17 · Orquestrador · OPS-02 mergeado (#21, `3d35962`) depois do rebase do DevOps · impedimento: PEN-08 para o banco de produção
 - 2026-11-17 · Orquestrador · GRP-05 mergeado: casos de uso #26 (`8296d6`) e tela #32 (`322f094`); o #29 fechou com a branch base · impedimento: PEN-08
 - 2026-11-17 · Orquestrador · PAR-04 (#27) conflita com a main nas duas páginas /p; rebase pedido ao Participantes · nenhum
+- 2026-11-17 · Orquestrador · PAR-04 rebaseado (`25703d3`); revisão pedida ao Front-end · nenhum
 - 2026-11-17 · Orquestrador · OPS-04 no PR #28, CI verde, ambiente production criado · falta PEN-08 e a revisão da Segurança · impedimento: PEN-08
 - 2026-11-17 · Orquestrador · OPS-04 mergeado (#28, `5a0a4da`); CI 44217000044; deploy de migrations pulou sem os secrets · impedimento: PEN-08
 - 2026-11-17 · Orquestrador · BE-02 (#31) aprovado pelo Banco, mas conflita e a prévia gravaria invite_opened; rebase pedido ao Back-end · nenhum
