@@ -21,7 +21,7 @@ describe("server environment", () => {
   it("loads the default app URL and keeps ads disabled", async () => {
     const { env } = await import("../../src/shared/env");
 
-    expect(env.APP_URL).toBe("https://amigo-secreto-app.vercel.app");
+    expect(env.APP_URL).toBe("https://amigo-secreto-app-five.vercel.app");
     expect(env.ADS_ENABLED).toBe(false);
     expect(env.SUPABASE_URL).toBe("http://127.0.0.1:54321");
   });

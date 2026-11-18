@@ -3,7 +3,7 @@ import { z } from "zod";
 const httpUrl = z.url({ protocol: /^https?$/ });
 
 const envSchema = z.object({
-  APP_URL: httpUrl.default("https://amigo-secreto-app.vercel.app"),
+  APP_URL: httpUrl.default("https://amigo-secreto-app-five.vercel.app"),
   SUPABASE_URL: httpUrl,
   SUPABASE_SERVICE_ROLE_KEY: z.string().trim().min(1),
   ADS_ENABLED: z
