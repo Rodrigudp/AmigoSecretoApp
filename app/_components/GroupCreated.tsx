@@ -8,10 +8,10 @@ type GroupCreatedProps = { group: ShareDetails; inviteUrl: string; adminUrl: str
 
 export function GroupCreated({ group, inviteUrl, adminUrl }: GroupCreatedProps) {
   return (
-    <div className="flex flex-col gap-6">
-      <header>
-        <h1 className="text-xl font-bold sm:text-2xl">✓ Grupo criado com sucesso!</h1>
-        <p className="mt-1 text-text-muted">{group.name}</p>
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-5">
+      <header className="rounded-xl bg-success-bg p-5 sm:p-7">
+        <h1 className="page-title">Grupo criado.</h1>
+        <p className="mt-2 wrap-break-word text-text-muted">{group.name}</p>
       </header>
 
       <Card title="Link do convite">
@@ -52,7 +52,7 @@ export function GroupCreated({ group, inviteUrl, adminUrl }: GroupCreatedProps) 
           >
             Salvar no meu WhatsApp
           </a>
-          <a className={buttonClass("primary")} href={adminUrl}>
+          <a className={buttonClass("secondary")} href={adminUrl}>
             Ir para o painel do organizador
           </a>
         </div>

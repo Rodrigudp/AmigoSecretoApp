@@ -157,3 +157,6 @@ _(vazio)_
 - 2026-11-17 · Orquestrador · BE-02 mergeado (#31, `f14a5e7`); CI 44219365288 · impedimento: PEN-08 e o limite da Vercel
 - 2026-11-17 · Orquestrador · PAR-04 mergeado (#27, `6d27d0a`); CI 44219272617 · a área ainda é stub · impedimento: PEN-08 e o limite da Vercel
 - 2026-11-17 · Orquestrador · GRP-04 mergeado (#30, `b376f90`); CI 44216261190 verde; deploy da Vercel barrado pelo limite diário · nenhum
+- 2026-11-17 · Orquestrador · UX-01: referência Fermento confirmada pelo PO. Textura do pacote no fundo, formulário em superfície sólida, vermelho escuro para rótulos e ações de texto, e seta animada no botão de criar grupo.
+- 2026-11-17 · Orquestrador · UX-01: Papelzinho aprovado pelo PO como nome público do app. Marca aplicada à interface, aos títulos das páginas e ao compartilhamento.
+- 2026-11-18 · Orquestrador · UX-01: o PO trocou a referência visual para Estilo Notion do Profitize. Componentes, telas públicas e painel usam papel quente, superfícies brancas, azul para ações e fontes locais.

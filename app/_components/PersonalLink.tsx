@@ -13,9 +13,9 @@ type PersonalLinkProps = {
 export function PersonalLink({ displayName, personalUrl, groupId }: PersonalLinkProps) {
   return (
     <div className="flex flex-col gap-6">
-      <header>
-        <h1 className="text-xl font-bold sm:text-2xl">Você entrou, {displayName}!</h1>
-        <p className="mt-1 text-text-muted">{JOIN_MESSAGES.personalHint}</p>
+      <header className="rounded-xl bg-success-bg p-5 sm:p-7">
+        <h1 className="page-title">Você entrou, {displayName}.</h1>
+        <p className="mt-2 text-text-muted">{JOIN_MESSAGES.personalHint}</p>
       </header>
 
       <Card title="Seu link pessoal">

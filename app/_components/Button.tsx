@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from "react";
 
-export type ButtonVariant = "primary" | "secondary" | "ghost";
+export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
@@ -8,14 +8,17 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const base =
-  "inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-6 py-2 text-base font-semibold " +
-  "transition-colors focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus " +
+  "inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-center text-base font-semibold " +
+  "transition-colors duration-200 " +
+  "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus " +
   "disabled:cursor-not-allowed disabled:bg-disabled-bg disabled:text-disabled sm:w-auto";
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-primary text-white hover:bg-primary-hover active:bg-primary-hover",
+  primary: "bg-primary text-white hover:bg-primary-hover",
   secondary: "bg-primary-soft text-primary-soft-text hover:bg-primary-soft-hover",
-  ghost: "bg-transparent text-primary underline hover:text-primary-hover",
+  ghost:
+    "bg-transparent text-primary-soft-text underline decoration-2 underline-offset-4 hover:text-primary-hover",
+  danger: "bg-danger-bg text-danger hover:bg-[#ffe1dc]",
 };
 
 /** Same look for `<a>` elements that act as buttons. */

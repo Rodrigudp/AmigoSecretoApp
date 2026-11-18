@@ -62,12 +62,14 @@ export function JoinGroupForm({ inviteToken, groupName, resumeName, resumeHref, 
     return (
       <div className="flex flex-col gap-6">
         <InviteHeader groupName={groupName} />
-        <a className={buttonClass("primary")} href={resumeHref}>
-          {JOIN_MESSAGES.continueAs(resumeName)}
-        </a>
-        <button type="button" className={buttonClass("ghost")} onClick={() => setShowForm(true)}>
-          {JOIN_MESSAGES.enterOther}
-        </button>
+        <div className="paper-panel flex flex-wrap gap-3">
+          <a className={buttonClass("primary")} href={resumeHref}>
+            {JOIN_MESSAGES.continueAs(resumeName)}
+          </a>
+          <button type="button" className={buttonClass("ghost")} onClick={() => setShowForm(true)}>
+            {JOIN_MESSAGES.enterOther}
+          </button>
+        </div>
       </div>
     );
   }
@@ -75,7 +77,7 @@ export function JoinGroupForm({ inviteToken, groupName, resumeName, resumeHref, 
   return (
     <div className="flex flex-col gap-6">
       <InviteHeader groupName={groupName} />
-      <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
+      <form onSubmit={onSubmit} noValidate className="paper-panel flex flex-col gap-4">
         {message ? (
           <Card tone="danger" title="Não foi possível entrar">
             <p role="alert">{message}</p>
@@ -91,7 +93,7 @@ export function JoinGroupForm({ inviteToken, groupName, resumeName, resumeHref, 
           onChange={(e) => setDisplayName(e.target.value)}
           error={errors.displayName}
         />
-        <Button type="submit" loading={loading}>
+        <Button type="submit" loading={loading} className="self-start">
           {loading ? "Entrando…" : "Entrar"}
         </Button>
       </form>
@@ -101,10 +103,10 @@ export function JoinGroupForm({ inviteToken, groupName, resumeName, resumeHref, 
 
 function InviteHeader({ groupName }: { groupName: string }) {
   return (
-    <header>
-      <p className="text-lg font-semibold">🎁 Amigo Secreto</p>
-      <h1 className="mt-2 text-xl font-bold sm:text-2xl">{groupName}</h1>
-      <p className="mt-1 text-text-muted">Entre só com o seu nome. Sem cadastro e sem senha.</p>
+    <header className="grid gap-3 rounded-xl bg-note p-5 sm:p-7">
+      <p className="text-sm font-semibold">Você foi convidado</p>
+      <h1 className="page-title">{groupName}</h1>
+      <p className="font-accent text-lg">Entre só com o seu nome. Sem cadastro e sem senha.</p>
     </header>
   );
 }

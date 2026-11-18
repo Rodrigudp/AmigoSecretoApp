@@ -79,7 +79,7 @@ describe("JoinGroupForm", () => {
     );
     fireEvent.change(screen.getByLabelText(/Como você se chama/), { target: { value: "Ana" } });
     submit();
-    await screen.findByText(/Você entrou, Ana/);
+    await screen.findByText(/Você entrou, Ana\./);
     expect(screen.getByText(JOIN_MESSAGES.personalHint)).toBeTruthy();
     expect(screen.getByRole("button", { name: "Copiar" })).toBeTruthy();
     const wa = screen.getByRole("link", { name: "Salvar no WhatsApp" });

@@ -54,7 +54,7 @@ export default async function InvitePage({ params }: PageProps) {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-8">
+    <main id="conteudo" tabIndex={-1} className="page-shell">
       <JoinGroupForm
         inviteToken={inviteToken}
         groupName={group.name}
@@ -68,8 +68,8 @@ export default async function InvitePage({ params }: PageProps) {
 
 function Blocked({ title, body }: { title: string; body: string }) {
   return (
-    <main className="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-8">
-      <Card tone="warning" title={title}>
+    <main id="conteudo" tabIndex={-1} className="page-shell">
+      <Card tone="warning" title={title} heading="h1">
         <p role="status">{body}</p>
       </Card>
     </main>

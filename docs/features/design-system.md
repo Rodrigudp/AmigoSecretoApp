@@ -3,7 +3,7 @@
 Dono: Front-end · Revisor: Orquestrador · Requisitos: RNF01 (mobile first), RNF02 (desempenho), RNF10 (WCAG AA, legível para idosos).
 
 ## 1. Princípios
-1. **Mobile first**: projetar em 360 px; 1280 px só centraliza e limita a largura (coluna única, `max-w-md` em formulários, `max-w-3xl` no painel).
+1. **Mobile first**: uma coluna em telas estreitas. A criação e o painel usam duas colunas em telas largas.
 2. **Legível para idosos**: texto base 18 px, nunca menor que 16 px; um objetivo por tela; um botão primário por tela.
 3. **Sem bibliotecas de UI**: só Tailwind + componentes próprios (bundle < 100 KB gzip por rota, RNF02).
 4. **Server Components por padrão**; `"use client"` apenas em componentes com interação (copiar link, revelar).
@@ -12,51 +12,45 @@ Dono: Front-end · Revisor: Orquestrador · Requisitos: RNF01 (mobile first), RN
 
 ## 2. Tokens
 
-### 2.1 Cores (contraste calculado pela fórmula WCAG 2.x)
+### 2.1 Cores
+
+A referência aprovada é o [Estilo Notion do Profitize](https://profitize.com.br/build/design-systems/estilo-notion). O Papelzinho usa fundo quente, cartões brancos com borda fina e superfícies de destaque chapadas.
+
 | Token | Hex | Uso |
 | --- | --- | --- |
-| `bg` | `#FFF7ED` | fundo da página |
-| `surface` | `#FFFFFF` | cartões, inputs |
-| `text` | `#1F2937` | texto principal |
-| `text-muted` | `#4B5563` | texto de apoio, rótulos secundários |
-| `primary` | `#B91C1C` | botão primário, links |
-| `primary-hover` | `#991B1B` | hover/pressionado |
-| `primary-soft` | `#FEE2E2` | botão secundário (fundo) |
-| `primary-soft-text` | `#7F1D1D` | texto do botão secundário |
-| `border` | `#6B7280` | borda de input (componente de UI) |
-| `focus` | `#1D4ED8` | anel de foco |
-| `danger-bg` / `danger` | `#FEF2F2` / `#B91C1C` | erro |
-| `success-bg` / `success` | `#F0FDF4` / `#166534` | sucesso |
-| `warning-bg` / `warning` | `#FEF3C7` / `#78350F` | avisos (ex.: "não compartilhe o link admin") |
-| `disabled-bg` / `disabled-text` | `#E5E7EB` / `#4B5563` | desabilitado |
+| `bg` | `#F6F5F4` | papel quente |
+| `surface` / `line` | `#FFFFFF` / `#DEDBD7` | cartões e divisórias |
+| `text` / `text-muted` | `#211F1D` / `#615D59` | texto e apoio |
+| `primary` / `primary-hover` | `#0066C3` / `#0054A0` | ação principal |
+| `primary-soft` / `primary-soft-text` | `#E6F3FE` / `#004E96` | ação secundária e destaque do painel |
+| `peach` / `note` | `#F6D5B8` / `#FFF0BB` | destaque da abertura e do convite |
+| `border` / `focus` | `#8A8580` / `#0066C3` | campos e foco |
+| `danger` / `danger-bg` | `#A32921` / `#FFF1EF` | erro |
+| `success` / `success-bg` | `#1F5C38` / `#E8F5EE` | sucesso |
+| `warning` / `warning-bg` | `#694714` / `#FFF6DC` | avisos |
+| `disabled` / `disabled-bg` | `#615D59` / `#EEECE9` | controle desabilitado |
 
-### 2.2 Contraste verificado
-Mínimos: texto normal ≥ 4,5:1; texto grande (≥ 24 px ou ≥ 18,66 px negrito) ≥ 3:1; componentes de UI e foco ≥ 3:1.
+### 2.2 Contraste
 
-| Par (frente sobre fundo) | Razão | Critério | OK |
-| --- | --- | --- | --- |
-| `text` sobre `surface` | 14,68 | 4,5 | ✓ |
-| `text` sobre `bg` | 13,83 | 4,5 | ✓ |
-| `text-muted` sobre `surface` | 7,56 | 4,5 | ✓ |
-| `text-muted` sobre `bg` | 7,12 | 4,5 | ✓ |
-| branco sobre `primary` | 6,47 | 4,5 | ✓ |
-| branco sobre `primary-hover` | 8,31 | 4,5 | ✓ |
-| `primary` (link) sobre `surface` | 6,47 | 4,5 | ✓ |
-| `primary` (link) sobre `bg` | 6,09 | 4,5 | ✓ |
-| `primary-soft-text` sobre `primary-soft` | 8,20 | 4,5 | ✓ |
-| `danger` sobre `danger-bg` | 5,91 | 4,5 | ✓ |
-| `success` sobre `success-bg` | 6,81 | 4,5 | ✓ |
-| `warning` sobre `warning-bg` | 8,15 | 4,5 | ✓ |
-| `disabled-text` sobre `disabled-bg` | 6,10 | 4,5 | ✓ |
-| `border` sobre `surface` | 4,83 | 3 (UI) | ✓ |
-| `border` sobre `bg` | 4,55 | 3 (UI) | ✓ |
-| `focus` sobre `surface` | 6,70 | 3 (UI) | ✓ |
-| `focus` sobre `bg` | 6,31 | 3 (UI) | ✓ |
-
-Os valores serão reconferidos por script no teste de tokens quando os componentes forem implementados.
+| Par | Razão | Mínimo |
+| --- | --- | --- |
+| Texto principal sobre papel quente | 15,09 | 4,5 |
+| Texto de apoio sobre papel quente | 5,99 | 4,5 |
+| Texto de apoio sobre cartão branco | 6,53 | 4,5 |
+| Branco sobre botão azul | 5,69 | 4,5 |
+| Branco sobre botão azul em hover | 7,57 | 4,5 |
+| Texto de botão secundário | 7,36 | 4,5 |
+| Texto principal sobre pêssego | 11,83 | 4,5 |
+| Texto principal sobre amarelo | 14,42 | 4,5 |
+| Aviso | 7,75 | 4,5 |
+| Erro | 6,59 | 4,5 |
+| Sucesso | 7,08 | 4,5 |
+| Texto de controle desabilitado | 5,53 | 4,5 |
+| Borda dos campos sobre branco | 3,65 | 3 |
+| Anel de foco sobre papel quente | 5,23 | 3 |
 
 ### 2.3 Tipografia
-Fonte: pilha do sistema (`system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`) — zero download, ajuda o LCP.
+**Inter** na interface e **Source Serif 4** nos textos de abertura. As fontes são servidas pelo próprio app.
 
 | Token | Tamanho / entrelinha | Peso | Uso |
 | --- | --- | --- | --- |
@@ -64,16 +58,16 @@ Fonte: pilha do sistema (`system-ui, -apple-system, "Segoe UI", Roboto, sans-ser
 | `text-sm` | 16 / 24 px | 400 | apoio, mensagens de erro (**mínimo permitido**) |
 | `text-lg` | 20 / 28 px | 600 | rótulos, títulos de cartão |
 | `text-xl` | 24 / 32 px | 700 | título de tela (h1) em 360 px |
-| `text-2xl` | 30 / 36 px | 700 | h1 a partir de 640 px |
+| `text-2xl` / `text-3xl` / `text-4xl` | 30–44 px | 700 | marca e títulos |
 
-Proibido `text-xs` e tamanhos < 16 px. Sem texto em caixa-alta contínua.
+Proibido `text-xs` e tamanhos < 16 px. Caixa-alta só em rótulos curtos de marca (tracking amplo).
 
 ### 2.4 Espaçamento, forma e movimento
 - Escala de 4 px: 4, 8, 12, 16, 24, 32, 48. Margem lateral da página: 16 px (360 px). Espaço entre campos: 16 px; entre seções: 24–32 px.
-- Raio: 12 px (controles), 16 px (cartões). Sombra de cartão: `0 1px 3px rgb(0 0 0 / .12)`.
+- Raio de 8 px nos controles e 12 px nos cartões. Os cartões usam borda fina, sem sombra.
 - Alvo de toque mínimo **44 × 44 px** (botão e input: altura 48 px); espaço mínimo de 8 px entre alvos adjacentes.
 - Foco visível: anel de 3 px `focus` + offset 2 px, em todo elemento interativo. Nunca `outline: none` sem substituto.
-- Movimento: transições ≤ 150 ms; respeitar `prefers-reduced-motion` (sem animação).
+- Movimento: transições de cor em 200 ms, com `prefers-reduced-motion` respeitado.
 
 ## 3. Componentes (`app/_components/`)
 
@@ -93,7 +87,7 @@ Props: `label` (obrigatório, visível acima do campo), `hint`, `error`, `requir
 
 | Estado | Aparência | Acessibilidade |
 | --- | --- | --- |
-| padrão | borda 2 px `border`, fundo `surface`, 18 px, altura 48 px | `autocomplete`/`inputmode` adequados |
+| padrão | borda 1 px `border`, fundo `surface`, 18 px, altura 48 px | `autocomplete`/`inputmode` adequados |
 | foco | borda `focus` + anel 3 px | — |
 | erro | borda e ícone `danger`, mensagem 16 px abaixo ("⚠ Escreva o nome do grupo") | `aria-invalid="true"`, `aria-describedby` → mensagem, `role="alert"` ao aparecer |
 | desabilitado | `disabled-bg`, texto `disabled-text` | `disabled` nativo |
@@ -102,7 +96,7 @@ Props: `label` (obrigatório, visível acima do campo), `hint`, `error`, `requir
 Hint: 16 px `text-muted` entre rótulo e campo. Contador opcional ("12/60").
 
 ### 3.3 Card
-Props: `tone: "default" | "warning" | "success" | "danger"`, `as` (`section`/`article`), título opcional (`h2`/`h3`). Fundo `surface` (ou `*-bg` do tom), borda 1 px, raio 16 px, padding 16 px (360 px) / 24 px (≥ 640 px). Tons de aviso levam ícone + título em texto, nunca só cor. Card clicável: vira `<a>`/`<button>` com área inteira ≥ 44 px e os mesmos estados de foco/hover do Button.
+Props: `tone: "default" | "warning" | "success" | "danger"`, `as` (`section`/`article`), título opcional (`h2`/`h3`). Fundo `surface` (ou `*-bg` do tom), borda 1 px, raio 12 px, padding 20 px (360 px) / 28 px (≥ 640 px). Tons de aviso levam ícone + título em texto, nunca só cor. Card clicável: vira `<a>`/`<button>` com área inteira ≥ 44 px e os mesmos estados de foco/hover do Button.
 
 ### 3.4 Mensagens e estados de tela (padrão obrigatório, AGENTS/11-frontend)
 - **Carregando**: esqueleto neutro (sem animação com reduced-motion) + texto "Carregando…" para leitores de tela (`aria-live="polite"`).
@@ -118,12 +112,12 @@ Props: `tone: "default" | "warning" | "success" | "danger"`, `as` (`section`/`ar
 - Link "Pular para o conteúdo" como primeiro foco. Um único `h1` por página.
 - Slot de anúncio só abaixo do conteúdo principal, com altura reservada (evita CLS) e nunca em telas com link pessoal/admin recém-exibidos.
 
-## 5. Wireframes em texto (360 px; em 1280 px o mesmo conteúdo, centralizado)
+## 5. Wireframes em texto (360 px)
 
 ### 5.1 Criar grupo — `/` (RF01, HU01)
 ```
 ┌──────────────────────────┐
-│ 🎁 Amigo Secreto          │
+│ Papelzinho               │
 ├──────────────────────────┤
 │ Faça seu amigo secreto    │  h1
 │ em 2 minutos.             │
@@ -261,5 +255,4 @@ Em 1280 px o painel usa `max-w-3xl`, com Convite e Sorteio lado a lado (grade de
 
 ## 7. Pendências / decisões
 - Implementação em `app/_components/` depende do **SETUP-01** (repositório Next.js ainda não existe).
-- Paleta vermelha/laranja (clima de festa) é proposta minha; sem identidade visual definida nos requisitos — o Orquestrador pode trocar os hex mantendo a tabela §2.2 (reexecutar a conferência).
 - `/dev/ui` precisa ficar fora do build de produção (decidir com DevOps no SETUP-03).

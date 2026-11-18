@@ -24,7 +24,7 @@ type PageProps = {
  */
 export default function ParticipantAccessTokenPage({ params, searchParams }: PageProps) {
   return (
-    <main className="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-8">
+    <main id="conteudo" tabIndex={-1} className="page-shell">
       <Suspense fallback={<ParticipantAreaLoading />}>
         <ParticipantEntry paramsPromise={params} searchParamsPromise={searchParams} />
       </Suspense>

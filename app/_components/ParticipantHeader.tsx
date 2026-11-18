@@ -20,13 +20,15 @@ export function ParticipantHeader({
   actions,
 }: ParticipantHeaderProps) {
   return (
-    <header className="flex flex-col gap-2">
-      <p className="text-sm text-neutral-600">Grupo {groupName}</p>
-      <h1 className="text-2xl font-bold">Olá, {participantName}!</h1>
+    <header className="flex flex-col gap-3 rounded-xl bg-primary-soft p-5 sm:p-7">
+      <p className="text-sm font-semibold wrap-break-word text-primary-soft-text">
+        Grupo {groupName}
+      </p>
+      <h1 className="page-title">Olá, {participantName}.</h1>
       {drawStatus === "open" ? (
-        <p className="text-base text-neutral-700">O sorteio ainda não foi realizado.</p>
+        <p className="text-base text-text-muted">O sorteio ainda não foi realizado.</p>
       ) : (
-        <p className="text-base text-neutral-700">
+        <p className="text-base text-text-muted">
           O sorteio já foi realizado. Veja abaixo quem você tirou.
         </p>
       )}
@@ -40,7 +42,7 @@ export function ParticipantHeader({
  */
 export function ParticipantNeutralError({ hint }: { hint?: string }) {
   return (
-    <Card tone="warning" title="Link inválido">
+    <Card tone="warning" title="Link inválido" heading="h1">
       <p className="text-base">
         Este link é inválido ou não está mais disponível.
         {hint ? ` ${hint}` : ""}
@@ -52,7 +54,9 @@ export function ParticipantNeutralError({ hint }: { hint?: string }) {
 export function ParticipantAreaLoading() {
   return (
     <Card as="div">
-      <p className="text-base text-neutral-600">Carregando sua área...</p>
+      <p role="status" className="text-base text-text-muted">
+        Carregando sua área...
+      </p>
     </Card>
   );
 }

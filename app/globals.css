@@ -1,48 +1,86 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
-/* Design system tokens — see docs/features/design-system.md (contrast verified, AA). */
+@font-face {
+  font-family: Inter;
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("/fonts/source-serif-4-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 @theme {
-  --color-bg: #fff7ed;
+  --color-bg: #f6f5f4;
   --color-surface: #ffffff;
-  --color-text: #1f2937;
-  --color-text-muted: #4b5563;
-  --color-primary: #b91c1c;
-  --color-primary-hover: #991b1b;
-  --color-primary-soft: #fee2e2;
-  --color-primary-soft-hover: #fecaca;
-  --color-primary-soft-text: #7f1d1d;
-  --color-border: #6b7280;
-  --color-focus: #1d4ed8;
-  --color-danger: #b91c1c;
-  --color-danger-bg: #fef2f2;
-  --color-success: #166534;
-  --color-success-bg: #f0fdf4;
-  --color-warning: #78350f;
-  --color-warning-bg: #fef3c7;
-  --color-disabled: #4b5563;
-  --color-disabled-bg: #e5e7eb;
+  --color-surface-muted: #eeece9;
+  --color-text: #211f1d;
+  --color-text-muted: #615d59;
+  --color-primary: #0066c3;
+  --color-primary-hover: #0054a0;
+  --color-primary-soft: #e6f3fe;
+  --color-primary-soft-hover: #d6ebfd;
+  --color-primary-soft-text: #004e96;
+  --color-peach: #f6d5b8;
+  --color-note: #fff0bb;
+  --color-line: #dedbd7;
+  --color-border: #8a8580;
+  --color-focus: #0066c3;
+  --color-danger: #a32921;
+  --color-danger-bg: #fff1ef;
+  --color-success: #1f5c38;
+  --color-success-bg: #e8f5ee;
+  --color-warning: #694714;
+  --color-warning-bg: #fff6dc;
+  --color-disabled: #615d59;
+  --color-disabled-bg: #eeece9;
 
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: Inter, system-ui, "Segoe UI", sans-serif;
+  --font-accent: "Source Serif 4", Georgia, serif;
 
-  /* Minimum font size is 16px (RNF10); base is 18px. */
+  --text-xs: 1rem;
+  --text-xs--line-height: 1.5rem;
   --text-sm: 1rem;
   --text-sm--line-height: 1.5rem;
   --text-base: 1.125rem;
   --text-base--line-height: 1.75rem;
   --text-lg: 1.25rem;
   --text-lg--line-height: 1.75rem;
-  --text-xl: 1.5rem;
-  --text-xl--line-height: 2rem;
-  --text-2xl: 1.875rem;
-  --text-2xl--line-height: 2.25rem;
 }
 
-body {
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-sans);
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+@layer base {
+  body {
+    @apply bg-bg font-sans text-base text-text;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .page-shell {
+    @apply mx-auto flex w-full max-w-2xl flex-col gap-6 px-5 py-8 sm:px-8 sm:py-12;
+  }
+
+  .page-shell--wide {
+    @apply max-w-6xl;
+  }
+
+  .paper-panel {
+    @apply rounded-xl border border-line bg-surface p-5 sm:p-7;
+  }
+
+  .page-title {
+    @apply text-3xl leading-tight font-bold tracking-[-0.045em] wrap-break-word sm:text-4xl;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
