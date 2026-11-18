@@ -32,22 +32,14 @@ comment on function public.purge_expired_groups() is
 revoke execute on function public.purge_expired_groups() from public, anon, authenticated;
 grant execute on function public.purge_expired_groups() to service_role;
 
--- Schedule daily at 03:00 America/Sao_Paulo (06:00 UTC) via pg_cron if available
-do $$
-begin
-  if exists (select 1 from pg_available_extensions where name = 'pg_cron') then
-    create extension if not exists pg_cron with schema extensions;
-    if exists (select 1 from information_schema.tables where table_schema = 'cron' and table_name = 'job') then
-      perform cron.unschedule('purge-expired-groups')
-      where exists (select 1 from cron.job where jobname = 'purge-expired-groups');
-    end if;
-    perform cron.schedule(
-      'purge-expired-groups',
-      '0 6 * * *',
-      'select public.purge_expired_groups();'
-    );
-  end if;
-exception
-  when others then
-    raise notice 'pg_cron could not be configured: %', sqlerrm;
-end $$;
+-- Enable pg_cron with schema pg_catalog (relocatable = false) and grant permissions to postgres
+create extension if not exists pg_cron with schema pg_catalog;
+grant usage on schema cron to postgres;
+grant all privileges on all tables in schema cron to postgres;
+
+-- Schedule daily purge at 03:00 America/Sao_Paulo (06:00 UTC)
+select cron.schedule(
+  'purge-expired-groups',
+  '0 6 * * *',
+  'select public.purge_expired_groups();'
+);
