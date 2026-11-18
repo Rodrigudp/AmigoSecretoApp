@@ -129,6 +129,46 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"push_reminders_sent": {
+                  Row: {
+                    "group_id": string,"reminder_date": string,"sent_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "group_id": string,"reminder_date": string,"sent_at"?: string
+                  }
+                  Update: {
+                    "group_id"?: string,"reminder_date"?: string,"sent_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "push_reminders_sent_group_id_fkey"
+      columns: ["group_id"]
+isOneToOne: false
+      referencedRelation: "groups"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"push_tokens": {
+                  Row: {
+                    "created_at": string,"credential_hash": string,"expo_push_token": string,"group_id": string,"id": string,"platform": string,"role": string,"updated_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"credential_hash": string,"expo_push_token": string,"group_id": string,"id"?: string,"platform": string,"role": string,"updated_at"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"credential_hash"?: string,"expo_push_token"?: string,"group_id"?: string,"id"?: string,"platform"?: string,"role"?: string,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "push_tokens_group_id_fkey"
+      columns: ["group_id"]
+isOneToOne: false
+      referencedRelation: "groups"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"wish_items": {
                   Row: {
                     "affiliate_url": string | null,"created_at": string,"id": string,"note": string | null,"participant_id": string,"store": string | null,"title": string,"url": string | null
@@ -168,10 +208,16 @@ isOneToOne: false
 "purge_expired_groups":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
+"register_push_token":
+{ Args: { "p_credential_hash": string,"p_expo_push_token": string,"p_group_id": string,"p_platform": string,"p_role": string }; Returns: boolean
+                           },
 "run_draw":
 { Args: { "p_admin_token_hash": string,"p_expected_version": number,"p_givers": (string)[],"p_group_id": string,"p_receivers": (string)[] }; Returns: {
               "draw_version": number,"drawn_at": string,"status": string,"was_replay": boolean
             }[]
+                           },
+"unregister_push_tokens":
+{ Args: { "p_credential_hash": string,"p_expo_push_token"?: string }; Returns: number
                            }
           }
           Enums: {
