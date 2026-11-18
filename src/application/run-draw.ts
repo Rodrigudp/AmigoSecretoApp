@@ -17,18 +17,24 @@ export type RunDrawDeps = {
   draws: DrawRepository;
   tokens: TokenService;
   rng: (maxExclusive: number) => number;
+  /** Optional post-draw hook (used by PR C to trigger "Sorteio feito" push notifications). */
+  onDrawCompleted?: (event: { groupId: string }) => Promise<void> | void;
 };
 
 const MAX_DRAW_ATTEMPTS = 3;
+
+type AttemptOutcome = { receipt: DrawReceipt; transitioned: boolean };
 
 async function attemptFirstDraw(
   adminScope: AdminScope,
   expectedParticipantCount: number | undefined,
   deps: Pick<RunDrawDeps, "draws" | "rng">
-): Promise<Result<DrawReceipt, DomainError>> {
+): Promise<Result<AttemptOutcome, DomainError>> {
   const stateResult = await deps.draws.readForFirstDraw(adminScope);
   if (!stateResult.ok) return stateResult;
-  if (stateResult.value.status === "drawn") return ok(stateResult.value);
+  if (stateResult.value.status === "drawn") {
+    return ok({ receipt: stateResult.value, transitioned: false });
+  }
 
   const { participantIds } = stateResult.value;
   const pairsResult = drawPairs(participantIds, deps.rng);
@@ -41,7 +47,9 @@ async function attemptFirstDraw(
     return err({ code: "DRAW_MEMBERS_CHANGED" });
   }
 
-  return deps.draws.commitFirstDraw(adminScope, participantIds, pairsResult.value);
+  const committed = await deps.draws.commitFirstDraw(adminScope, participantIds, pairsResult.value);
+  if (!committed.ok) return committed;
+  return ok({ receipt: committed.value, transitioned: true });
 }
 
 /**
@@ -63,10 +71,20 @@ export async function runDraw(
     return err({ code: "INVALID_LINK" });
   }
 
-  let lastResult: Result<DrawReceipt, DomainError> = err({ code: "DRAW_MEMBERS_CHANGED" });
+  let lastResult: Result<AttemptOutcome, DomainError> = err({ code: "DRAW_MEMBERS_CHANGED" });
   for (let attempt = 0; attempt < MAX_DRAW_ATTEMPTS; attempt++) {
     lastResult = await attemptFirstDraw(adminScope, parsed.data.expectedParticipantCount, deps);
-    if (lastResult.ok || lastResult.error.code !== "DRAW_MEMBERS_CHANGED") {
+    if (lastResult.ok) {
+      if (lastResult.value.transitioned && deps.onDrawCompleted) {
+        try {
+          await deps.onDrawCompleted({ groupId: adminScope.groupId });
+        } catch {
+          // Push notification failures must never block or revert a completed draw.
+        }
+      }
+      return ok(lastResult.value.receipt);
+    }
+    if (lastResult.error.code !== "DRAW_MEMBERS_CHANGED") {
       return lastResult;
     }
     if (parsed.data.expectedParticipantCount !== undefined) {

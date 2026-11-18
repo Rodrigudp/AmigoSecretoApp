@@ -89,7 +89,7 @@ function isActivePair(pair: SnapshotPairRow): pair is {
   return Boolean(pair.receiver && pair.receiver.removed_at === null);
 }
 
-function mapSnapshotToResult(giver: SnapshotGiverRow | null) {
+function mapSnapshotToResult(giver: SnapshotGiverRow | null, includeOriginalUrl = false) {
   if (!giver || giver.removed_at !== null || !giver.group) {
     return err({ code: "INVALID_LINK" as const });
   }
@@ -114,6 +114,7 @@ function mapSnapshotToResult(giver: SnapshotGiverRow | null) {
     wishItems: wishes.map((row) => ({
       id: row.id,
       title: row.title,
+      ...(includeOriginalUrl ? { url: row.url } : {}),
       note: row.note,
       productLink: toProductLink(row),
     })),
@@ -182,7 +183,7 @@ export function createDrawRepository(client: ServerSupabaseClient): DrawReposito
       return ok({ status: "drawn", drawnAt: row.drawn_at });
     },
 
-    async getCurrentResult(access: AccessScope) {
+    async getCurrentResult(access: AccessScope, options?: { includeOriginalUrl?: boolean }) {
       const { data, error } = await client
         .from("participants")
         .select(SINGLE_SNAPSHOT_RESULT_SELECT)
@@ -191,7 +192,10 @@ export function createDrawRepository(client: ServerSupabaseClient): DrawReposito
         .is("removed_at", null)
         .maybeSingle();
       if (error) return err({ code: "INVALID_LINK" });
-      return mapSnapshotToResult(data as unknown as SnapshotGiverRow | null);
+      return mapSnapshotToResult(
+        data as unknown as SnapshotGiverRow | null,
+        options?.includeOriginalUrl
+      );
     },
   };
 }

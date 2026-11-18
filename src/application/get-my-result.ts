@@ -12,6 +12,7 @@ import type {
 export const getMyResultInputSchema = z.object({
   accessToken: z.string().trim().min(1, "INVALID_LINK").max(200),
   expectedGroupId: z.string().trim().min(1, "INVALID_LINK").max(100).optional(),
+  includeOriginalUrl: z.boolean().optional(),
 });
 
 export type GetMyResultInput = z.infer<typeof getMyResultInputSchema>;
@@ -44,10 +45,13 @@ export async function getMyResult(
     return err({ code: "INVALID_LINK" });
   }
 
-  const result = await deps.draws.getCurrentResult({
+  const accessScope = {
     participantId: active.participantId,
     accessTokenHash: active.accessTokenHash,
-  });
+  };
+  const result = parsed.data.includeOriginalUrl
+    ? await deps.draws.getCurrentResult(accessScope, { includeOriginalUrl: true })
+    : await deps.draws.getCurrentResult(accessScope);
   if (!result.ok) {
     return result;
   }
