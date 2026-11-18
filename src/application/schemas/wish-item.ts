@@ -30,9 +30,15 @@ function isIpv6Reserved(cleanHost: string): boolean {
   return prefixes.some((p) => cleanHost.startsWith(p)) || true;
 }
 
+function stripHostDotsAndBrackets(host: string): string {
+  const unbracketed = host.startsWith("[") && host.endsWith("]") ? host.slice(1, -1) : host;
+  return unbracketed.replace(/^\.+|\.+$/g, "");
+}
+
 function isReservedOrPrivateHost(host: string): boolean {
-  const cleanHost = host.startsWith("[") && host.endsWith("]") ? host.slice(1, -1) : host;
-  if (cleanHost === "localhost" || cleanHost === "0.0.0.0" || cleanHost === "::1") {
+  const cleanHost = stripHostDotsAndBrackets(host);
+
+  if (cleanHost === "localhost" || cleanHost === "0.0.0.0" || cleanHost === "::1" || cleanHost === "") {
     return true;
   }
   if (cleanHost.includes(":")) {
@@ -46,7 +52,8 @@ function isReservedOrPrivateHost(host: string): boolean {
 }
 
 function validateHostname(hostname: string): boolean {
-  if (!hostname.includes(".")) return false;
+  const trimmedDotHost = hostname.replace(/^\.+|\.+$/g, "");
+  if (!trimmedDotHost.includes(".")) return false;
   if (hostname.includes("xn--") || /[^\x20-\x7E]/.test(hostname)) return false;
   return !isReservedOrPrivateHost(hostname);
 }
@@ -60,12 +67,14 @@ function validateUrlComponents(parsed: URL): boolean {
 
 /**
  * URL normalization and security validation (LST-01 §5 / AMEACAS AM-05).
+ * Enforces:
+ * - Scheme: strictly https:
+ * - Trailing/leading dot bypass defense (.localhost, 127.0.0.1.)
+ * - Length check: checked AFTER URL resolution and percent-encoding
+ * - Disallow userinfo, non-443 ports, punycode (xn--), IP literals, reserved/private ranges
  */
 export function normalizeUrl(rawUrl: string): NormalizeUrlResult {
   const trimmed = rawUrl.trim();
-  if (trimmed.length > 2048) {
-    return { ok: false, code: "url_too_long" };
-  }
 
   const basicFailure = checkBasicScheme(trimmed);
   if (basicFailure) {
@@ -84,7 +93,14 @@ export function normalizeUrl(rawUrl: string): NormalizeUrlResult {
   }
 
   parsed.hash = "";
-  return { ok: true, url: parsed.toString() };
+  const finalUrl = parsed.toString();
+
+  // Check 2048 length limit AFTER URL normalization and percent-encoding (SEC review)
+  if (finalUrl.length > 2048) {
+    return { ok: false, code: "url_too_long" };
+  }
+
+  return { ok: true, url: finalUrl };
 }
 
 export const wishFieldsSchema = z.object({

@@ -67,16 +67,32 @@ describe("normalizeUrl (LST-01 §5 / AMEACAS AM-05)", () => {
     expect(normalizeUrl("https://[fe80::1]/item").ok).toBe(false);
   });
 
+  it("rejeita bypass com ponto final ou inicial no host (127.0.0.1., .localhost, localhost.)", () => {
+    expect(normalizeUrl("https://127.0.0.1./item").ok).toBe(false);
+    expect(normalizeUrl("https://10.0.0.1./item").ok).toBe(false);
+    expect(normalizeUrl("https://localhost./item").ok).toBe(false);
+    expect(normalizeUrl("https://0.0.0.0./item").ok).toBe(false);
+  });
+
   it("rejeita host sem ponto", () => {
     expect(normalizeUrl("https://promo/item").ok).toBe(false);
   });
 
-  it("rejeita punycode e caracteres homógrafos não-ASCII", () => {
+  it("rejeita punycode e caracteres homógrafos não-ASCII no host", () => {
     expect(normalizeUrl("https://xn--amazn-7qa.com/item").ok).toBe(false);
     expect(normalizeUrl("https://аmazon.com/item").ok).toBe(false); // cirílico
   });
 
-  it("rejeita URL acima de 2048 caracteres", () => {
+  it("rejeita URL acima de 2048 caracteres após percent-encoding", () => {
+    // String bruta menor que 2048 chars (ex: 700 chars 'á' = 728 chars totais), mas após percent-encoding vira %C3%A1 (6 chars cada -> 4200+ chars)
+    const baseUrl = "https://loja.com.br/busca?q=";
+    const nonAsciiPayload = "á".repeat(700);
+    const resEncoded = normalizeUrl(baseUrl + nonAsciiPayload);
+    expect(resEncoded.ok).toBe(false);
+    if (!resEncoded.ok) {
+      expect(resEncoded.code).toBe("url_too_long");
+    }
+
     const longUrl = "https://loja.com/" + "a".repeat(2040);
     const res = normalizeUrl(longUrl);
     expect(res.ok).toBe(false);
