@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendTestAlert } from "@/src/infrastructure/observability/alerts";
 
-export const dynamic = "force-dynamic";
-
 export async function POST(request: NextRequest) {
   // Verificação de autenticação para evitar abuso do endpoint
   const authHeader = request.headers.get("authorization") || "";
