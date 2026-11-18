@@ -42,7 +42,7 @@ export function ParticipantHeader({
           <dd>até R$ {formatBrl(maxValueCents)}</dd>
         </div>
         {location ? (
-          <div>
+          <div className="min-w-0 max-w-full">
             <dt className="font-semibold">Local</dt>
             <dd className="wrap-break-word">{location}</dd>
           </div>
