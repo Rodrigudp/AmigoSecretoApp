@@ -48,7 +48,12 @@ export default function Home() {
             run={() => router.push(group.role === "organizer" ? `/admin/group/${group.groupId}` : `/p/g/${group.groupId}`)} />
         </Card>
       ))}
-      {useDemo && <Action secondary label="Abrir convite de demonstração" run={() => router.push("/g/demo-invite")} />}
+      {useDemo && <Card>
+        <Body>Demonstração</Body>
+        <Action secondary label="Abrir convite de demonstração" run={() => router.push("/g/demo-invite")} />
+        <Action secondary label="Abrir área de demonstração" run={() => router.push("/p/demo-participant")} />
+        <Action secondary label="Abrir painel de demonstração" run={() => router.push("/admin/demo-admin")} />
+      </Card>}
     </Page>
   );
 }
