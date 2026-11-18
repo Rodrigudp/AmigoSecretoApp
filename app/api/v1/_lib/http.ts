@@ -4,6 +4,9 @@ import { TOKEN_HTTP_HEADERS } from "@/app/_lib/token-page-meta";
 import { logger } from "@/src/infrastructure/observability/logger";
 import { extractClientIp, getSharedRateLimiter } from "@/src/infrastructure/rate-limit";
 
+import type { DomainError } from "@/src/domain/errors";
+import type { Result } from "@/src/shared/result";
+
 const errors = {
   INVALID_INPUT: [400, copy.HOM_16],
   INVALID_LINK: [401, copy.CNV_10.text],
@@ -18,7 +21,6 @@ const errors = {
   NOT_ENOUGH_PARTICIPANTS: [409, copy.DRW_03],
   DRAW_NOT_READY: [409, copy.ARE_02],
   DRAW_MEMBERS_CHANGED: [409, copy.DRW_08.text],
-  PUSH_DEVICE_LIMIT: [409, "Remova um aparelho para ativar notificações neste."],
   RATE_LIMITED: [429, copy.GLB_09],
   INTERNAL_ERROR: [500, copy.GLB_08],
 } as const;
@@ -56,6 +58,15 @@ export function apiJson(body: unknown, status = 200): Response {
 export function apiError(code: ApiErrorCode, message?: string): Response {
   const [status, defaultMessage] = errors[code];
   return apiJson({ error: { code, message: message ?? defaultMessage } }, status);
+}
+
+export function fromResult<T>(result: Result<T, DomainError>, successStatus = 200): Response {
+  if (result.ok) return apiJson(result.value, successStatus);
+  const { code } = result.error;
+  if (code === "PRODUCT_LINK_UNAVAILABLE" || code === "OWNER_ACCESS_DENIED") {
+    return apiError("INTERNAL_ERROR");
+  }
+  return apiError(code);
 }
 
 function hasForbiddenUrlCredential(url: URL): boolean {
