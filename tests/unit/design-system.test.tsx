@@ -33,6 +33,7 @@ describe("tokens: WCAG AA contrast", () => {
     ["primary", "surface"],
     ["primary", "bg"],
     ["primary-soft-text", "primary-soft"],
+    ["primary-soft-text", "primary-soft-hover"],
     ["danger", "danger-bg"],
     ["success", "success-bg"],
     ["warning", "warning-bg"],
