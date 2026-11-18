@@ -15,7 +15,8 @@ type PageProps = { params: Promise<{ inviteToken: string }> };
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { inviteToken: rawToken } = await params;
   const inviteToken = decodeURIComponent(rawToken);
-  const view = await getInviteViewUseCase({ inviteToken });
+  // Preview crawlers must not inflate invite_opened (GRP-04 / SEC note).
+  const view = await getInviteViewUseCase({ inviteToken, recordOpened: false });
   if (!view.ok) return invalidInviteMetadata();
   return inviteOpenGraphMetadata({
     groupName: view.value.group.name,
@@ -27,15 +28,18 @@ export default async function InvitePage({ params }: PageProps) {
   const { inviteToken: rawToken } = await params;
   const inviteToken = decodeURIComponent(rawToken);
 
-  const base = await getInviteViewUseCase({ inviteToken });
+  // Peek without recording so a resume cookie reload still records once below.
+  const base = await getInviteViewUseCase({ inviteToken, recordOpened: false });
   if (!base.ok) {
     return <Blocked title="Link indisponível" body={JOIN_MESSAGES.invalidLink} />;
   }
 
   const resumeAccessToken = await readPersonalCookie(base.value.groupId);
-  const view = resumeAccessToken
-    ? await getInviteViewUseCase({ inviteToken, resumeAccessToken })
-    : base;
+  const view = await getInviteViewUseCase({
+    inviteToken,
+    resumeAccessToken: resumeAccessToken ?? undefined,
+    recordOpened: true,
+  });
   if (!view.ok) {
     return <Blocked title="Link indisponível" body={JOIN_MESSAGES.invalidLink} />;
   }
