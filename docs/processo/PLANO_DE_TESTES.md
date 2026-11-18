@@ -51,6 +51,7 @@ Todos estão planejados e pendentes; os identificadores são propostas, não tes
 | RF10, LST-03 | CT-31 O redirect `/r/[itemId]` não permite open redirect para destino arbitrário manipulado. | Integração | `affiliate-redirect-rejects-arbitrary-destination` — pendente |
 | RF04, PAR-03 | CT-32 Cookie de acesso possui HttpOnly, Secure e SameSite=Lax. | Integração | `participant-cookie-attributes` — pendente |
 | RNF03, RNF04, ADR-002 | CT-33 Páginas com token enviam `noindex` e `Referrer-Policy: no-referrer`; resposta do resultado envia `Cache-Control: no-store`. | Integração | `token-page-and-result-headers` — pendente |
+| REL-02 | CT-34 Nenhum fonte em `app/` e nenhuma página pública serve "A PREENCHER PELO RODRIGO" antes do go-live. | E2E | QA-04: `release-placeholders` — fixme até o REL-02 |
 
 ## Exploração em aparelhos reais
 
