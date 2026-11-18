@@ -388,6 +388,10 @@ export const copy = {
                   text: "por exemplo, que um grupo foi criado ou que um sorteio foi feito. Esses registros usam apenas números internos do sistema. Não guardamos e-mail, telefone, CPF, endereço ou localização.",
                 },
                 "Cookies (detalhados abaixo).",
+                {
+                  label: "Identificador de notificação no aplicativo móvel:",
+                  text: "caso você dê permissão para notificações no celular, guardamos o identificador técnico de push, grupo, papel (participante ou organizador), plataforma e dados operacionais de entrega, sem dados pessoais no aviso.",
+                },
               ],
             },
             { p: "Não pedimos e-mail, telefone, documentos ou dados de pagamento." },
@@ -401,7 +405,8 @@ export const copy = {
                 "Fazer o sorteio e mostrar o resultado somente para quem tem o link pessoal.",
                 "Mostrar a lista de desejos somente para quem tirou você.",
                 "Medir, de forma agregada, quantos grupos e participantes usam o site.",
-                "Exibir anúncios. Quando houver anúncios, pediremos o seu consentimento antes.",
+                "Exibir anúncios exclusivamente no site. Quando houver anúncios, pediremos o seu consentimento antes.",
+                "Enviar notificações push no aplicativo móvel (se autorizado no aparelho) para avisar sobre o sorteio e lembrar a data do encontro.",
               ],
             },
           ],
@@ -418,10 +423,10 @@ export const copy = {
               ],
             },
             {
-              p: "Cookies de anúncio e de medição de terceiros só são usados após o seu consentimento.",
+              p: "Cookies de anúncio e de medição de terceiros são exclusivos do site e só são usados após o seu consentimento.",
             },
             {
-              p: "Quando houver anúncios e você aceitar, o Google e fornecedores terceiros certificados pelo Google AdSense poderão usar cookies para exibi-los, inclusive com base em suas visitas anteriores a este e a outros sites. Para coletar dados, podem usar cookies, endereço IP e web beacons (pequenos recursos que registram o acesso a uma página).",
+              p: "Quando houver anúncios no site e você aceitar, o Google e fornecedores terceiros certificados pelo Google AdSense poderão usar cookies para exibi-los, inclusive com base em suas visitas anteriores a este e a outros sites. Para coletar dados, podem usar cookies, endereço IP e web beacons (pequenos recursos que registram o acesso a uma página).",
             },
             {
               p: "Você pode revogar sua escolha a qualquer momento pelo link Cookies no rodapé. Para recusar publicidade personalizada, acesse as opções abaixo:",
@@ -441,10 +446,42 @@ export const copy = {
           ],
         },
         {
+          heading: "Aplicativo móvel",
+          blocks: [
+            {
+              p: "O aplicativo móvel do Papelzinho funciona integrado ao mesmo serviço, com regras específicas de armazenamento no aparelho, notificações e privacidade:",
+            },
+            {
+              ul: [
+                {
+                  label: "Armazenamento no aparelho:",
+                  text: "o app guarda os links de acesso dos seus grupos no armazenamento seguro do sistema operacional (SecureStore). Ele também mantém uma cópia local da sua própria lista de desejos para consulta rápida e uso sem internet.",
+                },
+                {
+                  label: "Notificações push opcionais:",
+                  text: "o envio de notificações push depende de permissão explícita no sistema operacional do aparelho. Ao permitir, o servidor guarda o identificador de notificação do Expo (ExpoPushToken), o grupo, o seu papel (participante ou organizador), a plataforma (iOS ou Android) e dados operacionais de entrega. O texto exibido não inclui nomes, local nem resultado do sorteio.",
+                },
+                {
+                  label: "Base legal (LGPD):",
+                  text: "o envio de notificações tem base legal no consentimento e na execução do serviço solicitado pelo titular (art. 7º, incisos I e V da LGPD).",
+                },
+                {
+                  label: "Exclusão dos dados de notificação:",
+                  text: "silenciar avisos nos ajustes do aparelho apenas interrompe a exibição na tela sem apagar nada no servidor. Para excluir os dados de notificação no servidor, use a opção 'Desativar avisos' na área pessoal. Além disso, os dados são apagados se você for removido do grupo e quando apagamos os dados do grupo 60 dias após o encontro.",
+                },
+                {
+                  label: "Versão 1 sem anúncios nem afiliados:",
+                  text: "a primeira versão (v1) do aplicativo móvel não exibe anúncios publicitários e não utiliza links de afiliado. Links de presentes abrem a loja no navegador externo do aparelho com o endereço original.",
+                },
+              ],
+            },
+          ],
+        },
+        {
           heading: "Compartilhamento e transferência internacional",
           blocks: [
             {
-              p: "Compartilhamos dados com os prestadores abaixo. O Google AdSense é nosso único fornecedor de anúncios; não usamos outras redes de anúncios.",
+              p: "Compartilhamos dados com os prestadores abaixo. O Google AdSense é nosso único fornecedor de anúncios e opera exclusivamente no site; não usamos outras redes de anúncios.",
             },
             {
               ul: [
@@ -459,6 +496,10 @@ export const copy = {
                 {
                   label: "Google AdSense (quando houver anúncios):",
                   text: "poderá receber dados técnicos para exibir anúncios, somente após o seu consentimento. Pode haver transferência internacional.",
+                },
+                {
+                  label: "Expo (notificações push do aplicativo móvel):",
+                  text: "recebe o identificador técnico de notificação e dados técnicos de entrega (como identificador interno do grupo e tipo de aviso) para enviar as mensagens aos aparelhos com permissão ativa. O texto exibido não inclui nomes, local nem resultado do sorteio. Pode haver transferência internacional.",
                 },
                 {
                   label: "Lojas afiliadas:",
@@ -482,6 +523,7 @@ export const copy = {
             {
               ul: [
                 "Os dados do grupo, incluindo nomes e listas de desejos, são apagados 60 dias após a data do encontro.",
+                "Os identificadores de notificação push do aplicativo móvel são excluídos do servidor quando você escolhe 'Desativar avisos' na área pessoal, quando você é removido do grupo, ou quando apagamos os dados do grupo 60 dias após o encontro. Silenciar avisos nos ajustes do aparelho apenas interrompe a exibição na tela sem apagar nada no servidor.",
                 'Depois disso, ficam apenas contadores anônimos do histórico (por grupo e tipo de ação, como "grupo criado" ou "sorteio feito"). Esses contadores não contêm nome, lista de desejos nem qualquer identificador de pessoa, por isso não são apagados junto com o grupo.',
               ],
             },
@@ -537,6 +579,10 @@ export const copy = {
                 {
                   label: "Afiliados e anúncios.",
                   text: "O site pode exibir anúncios e links de afiliado. A compra é feita diretamente na loja, que responde pelo produto, pela entrega e pela troca do produto.",
+                },
+                {
+                  label: "Aplicativo móvel.",
+                  text: "O serviço também pode ser acessado por aplicativo móvel. A versão 1 do aplicativo não exibe anúncios nem links de afiliado. Notificações no aplicativo são opcionais e dependem da sua permissão no sistema do aparelho.",
                 },
                 {
                   label: "Disponibilidade.",

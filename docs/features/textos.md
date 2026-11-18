@@ -274,10 +274,10 @@ Proposto pelo 25 Marketing em 18/11/2026; sujeito à aprovação do 16. Página 
 | ID | Onde | Texto |
 | --- | --- | --- |
 | LEG-ADS-01 | Responsável pelos dados | O controlador é pessoa física e agente de tratamento de pequeno porte, conforme a Resolução CD/ANPD nº 2/2022, e está dispensado de indicar encarregado. Para exercer seus direitos, escreva para suporte@papelzinho.app. |
-| LEG-ADS-02 | Cookies | Quando houver anúncios e você aceitar, o Google e fornecedores terceiros certificados pelo Google AdSense poderão usar cookies para exibi-los, inclusive com base em suas visitas anteriores a este e a outros sites. Para coletar dados, podem usar cookies, endereço IP e web beacons (pequenos recursos que registram o acesso a uma página). |
+| LEG-ADS-02 | Cookies | Quando houver anúncios no site e você aceitar, o Google e fornecedores terceiros certificados pelo Google AdSense poderão usar cookies para exibi-los, inclusive com base em suas visitas anteriores a este e a outros sites. Para coletar dados, podem usar cookies, endereço IP e web beacons (pequenos recursos que registram o acesso a uma página). |
 | LEG-ADS-03 | Cookies | Você pode revogar sua escolha a qualquer momento pelo link Cookies no rodapé. Para recusar publicidade personalizada, acesse as opções abaixo: |
 | LEG-ADS-04 | Links de escolha | Configurações de anúncios do Google — https://adssettings.google.com; Opções de publicidade da AboutAds — https://www.aboutads.info |
-| LEG-ADS-05 | Compartilhamento | Compartilhamos dados com os prestadores abaixo. O Google AdSense é nosso único fornecedor de anúncios; não usamos outras redes de anúncios. |
+| LEG-ADS-05 | Compartilhamento | Compartilhamos dados com os prestadores abaixo. O Google AdSense é nosso único fornecedor de anúncios e opera exclusivamente no site; não usamos outras redes de anúncios. |
 
 ## 15. App nativo (APP-DSN-01)
 
@@ -315,3 +315,15 @@ Os fluxos e wireframes estão em [app-telas.md](app-telas.md). Os IDs anteriores
 | APP-28 | Erro ao consultar push | Não foi possível consultar os avisos. Tente de novo. |
 | APP-29 | Ativação de push sem confirmação | Não foi possível confirmar a ativação dos avisos. Você pode desativar ou tentar de novo. |
 | APP-30 | Ação, nova tentativa de ativar push | Tentar ativar de novo |
+
+### APP-LEG-01 — Política de privacidade e termos do app móvel
+
+| ID | Onde | Texto |
+| --- | --- | --- |
+| LEG-APP-01 | /privacidade (Aplicativo móvel) | O app guarda os links de acesso dos seus grupos no armazenamento seguro do sistema operacional (SecureStore). Ele também mantém uma cópia local da sua própria lista de desejos para consulta rápida e uso sem internet. |
+| LEG-APP-02 | /privacidade (Aplicativo móvel) | O envio de notificações push depende de permissão explícita no sistema operacional do aparelho. Ao permitir, o servidor guarda o identificador de notificação do Expo (ExpoPushToken), o grupo, o seu papel (participante ou organizador), a plataforma (iOS ou Android) e dados operacionais de entrega. O texto exibido não inclui nomes, local nem resultado do sorteio. |
+| LEG-APP-03 | /privacidade (Aplicativo móvel) | O envio de notificações tem base legal no consentimento e na execução do serviço solicitado pelo titular (art. 7º, incisos I e V da LGPD). |
+| LEG-APP-04 | /privacidade (Aplicativo móvel) | Silenciar avisos nos ajustes do aparelho apenas interrompe a exibição na tela sem apagar nada no servidor. Para excluir os dados de notificação no servidor, use a opção 'Desativar avisos' na área pessoal. Além disso, os dados são apagados se você for removido do grupo e quando apagamos os dados do grupo 60 dias após o encontro. |
+| LEG-APP-05 | /privacidade (Aplicativo móvel) | A primeira versão (v1) do aplicativo móvel não exibe anúncios publicitários e não utiliza links de afiliado. Links de presentes abrem a loja no navegador externo do aparelho com o endereço original. |
+| LEG-APP-06 | /termos (Regras gerais) | O serviço também pode ser acessado por aplicativo móvel. A versão 1 do aplicativo não exibe anúncios nem links de afiliado. Notificações no aplicativo são opcionais e dependem da sua permissão no sistema do aparelho. |
+| LEG-APP-07 | /privacidade (Compartilhamento) | Expo (notificações push do aplicativo móvel): recebe o identificador técnico de notificação e dados técnicos de entrega (como identificador interno do grupo e tipo de aviso) para enviar as mensagens aos aparelhos com permissão ativa. O texto exibido não inclui nomes, local nem resultado do sorteio. Pode haver transferência internacional. |
