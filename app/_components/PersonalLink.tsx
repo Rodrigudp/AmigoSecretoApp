@@ -11,16 +11,12 @@ type PersonalLinkProps = {
   groupId: string;
 };
 
-function hasPersonalCookie(groupId: string): boolean {
-  if (typeof document === "undefined") return false;
-  return document.cookie.split(";").some((entry) => entry.trim().startsWith(`ptk_${groupId}=`));
-}
-
-export function PersonalLink({ displayName, personalUrl, groupId }: PersonalLinkProps) {
-  // BUG-007: in WebViews that block/drop cookies, /p/g/[groupId] would leave the
-  // person locked out. Fall back to the personal link (/p/[accessToken]), whose
-  // handshake already handles the cookie-blocked case with adsAllowed=false.
-  const areaHref = hasPersonalCookie(groupId) ? `/p/g/${groupId}` : personalUrl;
+export function PersonalLink({ displayName, personalUrl }: PersonalLinkProps) {
+  // BUG-007: ptk_<groupId> is HttpOnly (ADR-004), so the client can't read it.
+  // Always point "Ir para a minha área" at the personal link (/p/[accessToken]);
+  // its handshake decides: cookie present -> clean route, blocked -> area with
+  // adsAllowed=false. No extra token exposure (personalUrl is already shown).
+  const areaHref = personalUrl;
   return (
     <div className="flex flex-col gap-6">
       <header className="rounded-xl bg-success-bg p-5 sm:p-7">

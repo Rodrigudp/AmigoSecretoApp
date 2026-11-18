@@ -63,7 +63,6 @@ describe("JoinGroupForm", () => {
   });
 
   it("success state: shows the personal link with copy and WhatsApp", async () => {
-    document.cookie = "ptk_group-1=token-abc; path=/";
     const action = vi.fn().mockResolvedValue({
       ok: true,
       displayName: "Ana",
@@ -87,31 +86,7 @@ describe("JoinGroupForm", () => {
     const wa = screen.getByRole("link", { name: "Salvar no WhatsApp" });
     expect(wa.getAttribute("href")).toContain("https://wa.me/?text=");
     expect(decodeURIComponent(wa.getAttribute("href")!)).toContain("https://x.test/p/token-abc");
-    expect(screen.getByRole("link", { name: "Ir para a minha área" }).getAttribute("href")).toBe(
-      "/p/g/group-1"
-    );
-  });
-
-  it("success state: with blocked cookies, area link uses the personal link", async () => {
-    document.cookie = "ptk_group-1=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-    const action = vi.fn().mockResolvedValue({
-      ok: true,
-      displayName: "Ana",
-      personalUrl: "https://x.test/p/token-abc",
-      groupId: "group-1",
-    });
-    render(
-      <JoinGroupForm
-        inviteToken="invite-abc"
-        groupName="Família"
-        resumeName={null}
-        resumeHref={null}
-        action={action}
-      />
-    );
-    fireEvent.change(screen.getByLabelText(/Como você se chama/), { target: { value: "Ana" } });
-    submit();
-    await screen.findByText(/Você entrou, Ana\./);
+    // BUG-007: area link always uses the personal link (cookie is HttpOnly).
     expect(screen.getByRole("link", { name: "Ir para a minha área" }).getAttribute("href")).toBe(
       "https://x.test/p/token-abc"
     );
