@@ -22,6 +22,7 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 
 ## ✅ Pronto p/ iniciar (It-2)
 - DSN-03 + FE-DSN-3 · Centralizar textos (DSN-01) + A-05 e A-07 · FE → DSN + QA · 3 pts · 21/11 — responsável: 11 Front-end; revisão do 16 e do 13 QA (strings dos E2E); inclui texto do WhatsApp/OG sem a promessa da lista até a LST-04 e o aviso GLB-12
+- MKT-03 · Página "Como funciona"/FAQ + SEO técnico (sitemap.xml, robots.txt, metadados, schema.org) · MKT → FE + SEC + DSN · 3 pts · 24/11 — responsável: 25 Marketing; URLs pelo APP_URL (domínio vai mudar para papelzinho.app); páginas com token seguem noindex; Lighthouse SEO ≥ 90. Depois: MKT-04
 
 ## ⏳ Aguardando dependência (It-2)
 - FE-DSN-4 · A-06, A-10 + rodapé "Privacidade · Termos" (LGPD, obrigatório antes do lançamento) · FE → DSN · 1 pt · 22/11 — após MON-01 (páginas) e textos GLB do 16
@@ -179,3 +180,4 @@ _(vazio)_
 - 2026-11-18 · Orquestrador · Mergeados #38 (DSN-01/02), #37 (MKT-01) e #36 (MKT-02). FE-DSN-1 liberado ao 11; FE-DSN-2/3/4 e DSN-03 na fila. Decisões: rodapé LGPD obrigatório antes do lançamento; promessa da lista sai até a LST-04; DSN-03 com revisão do QA · nenhum
 - 2026-11-18 · Orquestrador · OPS-VPS no ar em https://papelzinho.smartsolutionsbr.com.br (certificado, nginx testado antes do reload, pm2 no boot, outros sites conferidos). FE-DSN-1 mergeado (#40); FE-DSN-2 liberado. Bloqueio do SSH do PO: regra LIMIT do ufw renovada por conexões em sequência e espera em loop; regra registrada em docs/ops/vps.md §9 · nenhum
 - 2026-11-18 · Orquestrador · FE-DSN-2 mergeado (#41, `6332545`) e publicado na VPS pelo CI; DSN-03 + FE-DSN-3 liberado ao 11 · nenhum
+- 2026-11-18 · Orquestrador · MKT-03 liberado ao 25 (caminho crítico do lançamento); MKT-04 em seguida, MKT-05 depois · nenhum
