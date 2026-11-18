@@ -17,7 +17,7 @@ Atualizado em: 2026-11-17 · Iteração atual: **It-2 · Grupo e entrada (inicia
 
 ## 🗂️ Backlog (próximas iterações)
 - LST-02..04, SRT-02..04, QA-04 — It-3 (22–23/11)
-- MON-02..03, SEC-04, OPS-01..02, QA-05..06, SEC-05 — It-4 (24–25/11)
+- MON-02..03, SEC-04, OPS-01, QA-05..06, SEC-05 — It-4 (24–25/11)
 - REL-01..02 — Release (26–28/11)
 
 ## ✅ Pronto p/ iniciar (It-2)
@@ -30,6 +30,7 @@ _(vazio)_
 - PAR-04 · Área do participante (esqueleto) · PAR → FE · 2 pts · 21/11 — depende de PAR-02 e SEC-06
 
 ## 🔨 Em andamento
+- OPS-02 · Expurgo automático 60 dias após a troca (pg_cron) · OPS → DB · 1 pt · 20/11 — adiantado do It-4 (ORQ 17/11)
 - SEC-03 · Rate limit (criar e entrar) + headers de segurança · SEC → OPS · 2 pts · 20/11 — desenho e headers já; rate limit após GRP-02
 - BE-01 · Cliente Supabase do servidor + harness de testes de integração · BE → DB · 1 pt · 18/11
 - QA-03 · E2E HU01 e HU02 (360 px) · QA → ORQ · 2 pts · 21/11 — estrutura mobile 360px, page objects e fixtures entregues no draft PR #19; cenários fixme aguardando GRP-03 e PAR-03
