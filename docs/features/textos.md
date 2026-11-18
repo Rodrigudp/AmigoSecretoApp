@@ -278,3 +278,28 @@ Proposto pelo 25 Marketing em 18/11/2026; sujeito à aprovação do 16. Página 
 | LEG-ADS-03 | Cookies | Você pode revogar sua escolha a qualquer momento pelo link Cookies no rodapé. Para recusar publicidade personalizada, acesse as opções abaixo: |
 | LEG-ADS-04 | Links de escolha | Configurações de anúncios do Google — https://adssettings.google.com; Opções de publicidade da AboutAds — https://www.aboutads.info |
 | LEG-ADS-05 | Compartilhamento | Compartilhamos dados com os prestadores abaixo. O Google AdSense é nosso único fornecedor de anúncios; não usamos outras redes de anúncios. |
+
+## 15. App nativo (APP-DSN-01)
+
+Os fluxos e wireframes estão em [app-telas.md](app-telas.md). Os IDs anteriores servem ao app quando o texto se aplica.
+
+| ID | Onde | Texto |
+| --- | --- | --- |
+| APP-01 | Abertura e retorno | Meus grupos |
+| APP-02 | Meus grupos, vazio | Você ainda não tem grupos neste aparelho. Crie um grupo ou abra um convite que recebeu. |
+| APP-03 | Papel em Meus grupos | Organizador · Participante |
+| APP-04 | Menu nativo, convite | Compartilhar convite |
+| APP-05 | Confirmação de entrada | Sua área ficou salva em Meus grupos neste aparelho. |
+| APP-06 | Lista própria, cópia local | Sem conexão. Você está vendo a lista salva neste aparelho. |
+| APP-07 | Lista própria, alteração local | Alteração salva neste aparelho. Vamos enviar quando a conexão voltar. |
+| APP-08 | Remoção confirmada | {nome} saiu do grupo. |
+| APP-09 | Painel, atualização | Atualizar grupo |
+| APP-10 | Painel, convite encerrado | As entradas estão encerradas. |
+| APP-11 | Menu nativo, aviso após sorteio | Avisar o grupo |
+| APP-12 | Antes da permissão do sistema | Quer receber avisos? · Podemos avisar quando o sorteio sair e lembrar você do encontro. · Ativar avisos · Agora não |
+| APP-13 | Push, sorteio feito, título | Sorteio feito! |
+| APP-14 | Push, sorteio feito, corpo | Abra o Papelzinho para ver quem você tirou. |
+| APP-15 | Push, lembrete, título | Encontro de amigo secreto |
+| APP-16 | Push, lembrete, corpo, plural | Faltam {dias} dias para o encontro. |
+| APP-17 | Push, lembrete, corpo, singular | Seu encontro é amanhã. |
+| APP-18 | Notificação sem acesso válido | Este grupo não está disponível neste aparelho. Abra seu link pessoal ou peça ajuda ao organizador. |
