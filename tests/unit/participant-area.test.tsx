@@ -23,9 +23,8 @@ describe("participant group details", () => {
     expect(screen.getByText("até R$ 50,00")).toBeTruthy();
     expect(screen.getByText("Casa da avó")).toBeTruthy();
     expect(
-      (screen.getByRole("button", { name: "Adicionar presente — em breve" }) as HTMLButtonElement)
-        .disabled
-    ).toBe(true);
+      (screen.getByRole("button", { name: "Adicionar presente" }) as HTMLButtonElement).disabled
+    ).toBe(false);
   });
   it("omits a location when absent and keeps ads disabled in fallback", () => {
     const { container } = render(
@@ -47,8 +46,7 @@ describe("participant group details", () => {
     expect(screen.getByRole("heading", { name: "Lista de desejos" })).toBeTruthy();
     expect(screen.getByRole("heading", { name: "Meu amigo secreto" })).toBeTruthy();
     expect(
-      (screen.getByRole("button", { name: "Adicionar presente — em breve" }) as HTMLButtonElement)
-        .disabled
-    ).toBe(true);
+      (screen.getByRole("button", { name: "Adicionar presente" }) as HTMLButtonElement).disabled
+    ).toBe(false);
   });
 });

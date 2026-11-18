@@ -1,24 +1,26 @@
 import { copy } from "../_lib/copy";
 import type { ReactNode } from "react";
 import { Card } from "@/app/_components/Card";
-import { Button } from "@/app/_components/Button";
 import { ParticipantHeader } from "@/app/_components/ParticipantHeader";
+import { WishList } from "@/app/_components/WishList";
 import type { ParticipantView } from "@/src/application/ports";
 
 /**
- * Skeleton of the participant area (PAR-04): header, list-of-wishes placeholder
- * (LST-04) and result placeholder (SRT-04). Renders the area only with data
+ * Skeleton of the participant area (PAR-04): header, secret santa result
+ * placeholder (SRT-04), wishlist (LST-04). Renders the area only with data
  * belonging to the token owner (RN03); no ads slots are rendered in
  * `/p/[accessToken]?ck=1` fallback (adsAllowed = false, ADR-004).
  */
 export function ParticipantArea({
   view,
   adsAllowed,
+  accessToken,
   children,
 }: {
   view: ParticipantView;
   /** ADR-004: false in the cookie fallback; MON-02 gates ad slots on this. */
   adsAllowed: boolean;
+  accessToken?: string;
   children?: ReactNode;
 }) {
   return (
@@ -31,17 +33,17 @@ export function ParticipantArea({
         maxValueCents={view.group.maxValueCents}
         location={view.group.location}
       />
-      <Card title={copy.ARE_04.title}>
-        <p className="text-base">{copy.ARE_04.text}</p>
-        <Button disabled className="mt-3">
-          {copy.ARE_04.action}
-        </Button>
-      </Card>
       {view.group.status === "drawn" ? (
         <Card title={copy.ARE_05.title}>
           <p className="text-base">{copy.ARE_05.text}</p>
         </Card>
       ) : null}
+      <WishList
+        mode="owner"
+        initialItems={view.ownWishItems}
+        drawStatus={view.group.status}
+        accessToken={accessToken}
+      />
       {children}
     </div>
   );
