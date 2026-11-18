@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { useAdConsent } from "@/app/_lib/consent";
@@ -40,7 +40,7 @@ export function AdSlot({ enabled, adsAllowed, client, slot }: AdSlotProps) {
   }, [allowed, visible, client]);
   if (!allowed) return null;
   return (
-    <div ref={ref} aria-label="Publicidade">
+    <div ref={ref} aria-label="Publicidade" style={{ minHeight: 100 }}>
       {visible && (
         <ins
           className="adsbygoogle"
