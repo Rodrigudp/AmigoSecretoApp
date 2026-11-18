@@ -1,4 +1,3 @@
-import { createHash, randomBytes } from "node:crypto";
 import { err, ok, type Result } from "@/src/shared/result";
 import type { DomainError } from "@/src/domain/errors";
 import type { GroupId, PublicGroup } from "@/src/application/ports";
@@ -34,103 +33,93 @@ type StoredJoin = {
   group: PublicGroup;
 };
 
-/** Process-local store so the stub can resolve personal links and "Continuar como". */
+/** Process-local store for PAR-04 personal-area stubs only. */
 const joinsByAccessToken = new Map<string, StoredJoin>();
 
-function appOrigin(): string {
-  return process.env.APP_URL ?? "https://amigo-secreto-app-five.vercel.app";
-}
+const MAX_PARTICIPANTS = 100;
 
-function groupIdForInvite(inviteToken: string): GroupId {
-  return createHash("sha256").update(`invite:${inviteToken}`).digest("hex").slice(0, 32);
-}
-
-function expiresAtIso(): string {
-  const date = new Date();
-  date.setUTCDate(date.getUTCDate() + 60);
-  return date.toISOString();
-}
-
-function demoGroup(status: PublicGroup["status"]): PublicGroup {
-  return {
-    name: "Amigo Secreto da Família",
-    maxValueCents: 5000,
-    exchangeDate: "2099-12-24",
-    location: "Casa da Vó",
-    status,
-  };
-}
-
-function inviteKind(inviteToken: string): "invalid" | "closed" | "full" | "open" {
-  if (!inviteToken || inviteToken.endsWith("__invalid")) return "invalid";
-  if (inviteToken.endsWith("__closed")) return "closed";
-  if (inviteToken.endsWith("__full")) return "full";
-  return "open";
-}
-
-// TODO(BE-01): replace with the real get-invite-view use case + Supabase adapter (one-line swap).
+/** RF02/RF03: invite view from groups + invite_opened (no in-memory map). */
 export async function getInviteViewUseCase(input: {
   inviteToken: string;
   resumeAccessToken?: string;
 }): Promise<Result<InviteView, DomainError>> {
-  const kind = inviteKind(input.inviteToken);
-  if (kind === "invalid") return err({ code: "INVALID_LINK" });
+  const { buildInviteClient } = await import("@/src/infrastructure/supabase/deps");
+  const {
+    createGroupRepository,
+    countActiveParticipants,
+    recordInviteOpened,
+    findReturningDisplayName,
+    readGroupExpiresAt,
+  } = await import("@/src/infrastructure/supabase/group-repository");
+  const { tokenService } = await import("@/src/infrastructure/tokens");
 
-  const groupId = groupIdForInvite(input.inviteToken);
-  const group = demoGroup(kind === "closed" ? "drawn" : "open");
-  const expiresAt = expiresAtIso();
+  const client = buildInviteClient();
+  const groups = createGroupRepository(client);
+  const found = await groups.findByInvite(input.inviteToken);
+  if (!found) {
+    return err({ code: "INVALID_LINK" });
+  }
+
+  await recordInviteOpened(client, found.groupId);
+
+  const [activeCount, expiresAt] = await Promise.all([
+    countActiveParticipants(client, found.groupId),
+    readGroupExpiresAt(client, found.groupId),
+  ]);
+  if (!expiresAt) {
+    return err({ code: "INVALID_LINK" });
+  }
+
   let returningParticipant: InviteView["returningParticipant"] = null;
-
   if (input.resumeAccessToken) {
-    const stored = joinsByAccessToken.get(input.resumeAccessToken);
-    if (stored && stored.groupId === groupId) {
-      returningParticipant = { displayName: stored.displayName };
+    const displayName = await findReturningDisplayName(
+      client,
+      found.groupId,
+      tokenService.hash(input.resumeAccessToken)
+    );
+    if (displayName) {
+      returningParticipant = { displayName };
     }
   }
 
   return ok({
-    groupId,
-    group,
-    isFull: kind === "full",
+    groupId: found.groupId,
+    group: found.view,
+    isFull: activeCount >= MAX_PARTICIPANTS,
     returningParticipant,
     expiresAt,
   });
 }
 
-// TODO(BE-01): replace with joinGroup() + Supabase adapter (one-line swap).
+/** RF03/RF04: join via join_group RPC; returns personal link + raw token for the cookie. */
 export async function joinGroupUseCase(input: {
   inviteToken: string;
   displayName: string;
 }): Promise<Result<JoinStubOutput, DomainError>> {
-  const kind = inviteKind(input.inviteToken);
-  if (kind === "invalid") return err({ code: "INVALID_LINK" });
-  if (kind === "closed") return err({ code: "GROUP_CLOSED" });
-  if (kind === "full") return err({ code: "GROUP_FULL" });
+  const { joinGroup } = await import("@/src/application/join-group");
+  const { buildJoinGroupDeps } = await import("@/src/infrastructure/supabase/deps");
 
-  const accessToken = randomBytes(32).toString("base64url");
-  const groupId = groupIdForInvite(input.inviteToken);
-  const group = demoGroup("open");
-  const expiresAt = expiresAtIso();
-  const displayName = input.displayName.trim();
+  const deps = buildJoinGroupDeps();
+  const result = await joinGroup(input, deps);
+  if (!result.ok) {
+    return result;
+  }
 
-  joinsByAccessToken.set(accessToken, {
-    inviteToken: input.inviteToken,
-    groupId,
-    displayName,
-    expiresAt,
-    group,
-  });
+  const prefix = `${deps.appUrl.replace(/\/+$/, "")}/p/`;
+  const accessToken = result.value.personalUrl.startsWith(prefix)
+    ? result.value.personalUrl.slice(prefix.length)
+    : (result.value.personalUrl.split("/").pop() ?? "");
 
   return ok({
-    displayName,
-    personalUrl: `${appOrigin()}/p/${accessToken}`,
-    groupId,
-    expiresAt,
+    displayName: result.value.displayName,
+    personalUrl: result.value.personalUrl,
+    groupId: result.value.groupId,
+    expiresAt: result.value.expiresAt,
     accessToken,
   });
 }
 
-// TODO(BE-01): replace with findActiveByHash / get-participant-view adapter.
+// TODO(PAR-04): replace with findActiveByHash / get-participant-view adapter.
 export async function resolvePersonalAccessUseCase(
   accessToken: string
 ): Promise<Result<PersonalAccess, DomainError>> {
