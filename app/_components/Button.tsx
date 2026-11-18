@@ -11,7 +11,7 @@ const base =
   "inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-center text-base font-semibold " +
   "transition-colors duration-200 " +
   "focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus " +
-  "disabled:cursor-not-allowed disabled:bg-disabled-bg disabled:text-disabled sm:w-auto";
+  "disabled:cursor-not-allowed disabled:bg-disabled-bg disabled:text-disabled min-[641px]:w-fit";
 
 const variants: Record<ButtonVariant, string> = {
   primary: "bg-primary text-white hover:bg-primary-hover",

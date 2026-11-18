@@ -1,11 +1,12 @@
 import { useId } from "react";
-import type { InputHTMLAttributes } from "react";
+import type { InputHTMLAttributes, Ref } from "react";
 
 type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "id"> & {
   label: string;
   hint?: string;
   error?: string;
   id?: string;
+  ref?: Ref<HTMLInputElement>;
 };
 
 function describe(inputId: string, hint?: string, error?: string) {

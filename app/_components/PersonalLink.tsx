@@ -21,7 +21,7 @@ export function PersonalLink({ displayName, personalUrl, groupId }: PersonalLink
       <Card title="Seu link pessoal">
         <CopyField label="Link pessoal" value={personalUrl} copyLabel="Copiar" />
         <a
-          className={buttonClass("primary", "mt-2")}
+          className={buttonClass("secondary", "mt-2")}
           href={whatsappUrl(buildPersonalLinkMessage(personalUrl))}
           target="_blank"
           rel="noopener noreferrer"
@@ -30,7 +30,7 @@ export function PersonalLink({ displayName, personalUrl, groupId }: PersonalLink
         </a>
       </Card>
 
-      <a className={buttonClass("secondary")} href={`/p/g/${groupId}`}>
+      <a className={buttonClass("primary")} href={`/p/g/${groupId}`}>
         Ir para a minha área
       </a>
     </div>
