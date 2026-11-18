@@ -1,6 +1,7 @@
 import "server-only";
 import type { CreateGroupDeps } from "../../application/create-group";
 import type { GetAdminViewDeps } from "../../application/get-admin-view";
+import type { GetMyResultDeps } from "../../application/get-my-result";
 import type { GetParticipantViewDeps } from "../../application/get-participant-view";
 import type { JoinGroupDeps } from "../../application/join-group";
 import type { WishItemRepository } from "../../application/ports";
@@ -51,6 +52,20 @@ export function buildParticipantViewDeps(): GetParticipantViewDeps {
   return {
     participants: createParticipantRepository(client),
     tokens: tokenService,
+  };
+}
+
+export function buildGetMyResultDeps(): GetMyResultDeps {
+  const client = createServerClient();
+  return {
+    participants: createParticipantRepository(client),
+    draws: createDrawRepository(client),
+    tokens: tokenService,
+    events: {
+      async append(event) {
+        await client.from("events").insert({ group_id: event.groupId, type: event.type });
+      },
+    },
   };
 }
 
