@@ -18,7 +18,6 @@ Atualizado em: 2026-11-18 · Iteração atual: **It-3 · Lista e sorteio (aberta
 ## 🗂️ Backlog (próximas iterações)
 - QA-05..06, SEC-05 — It-4 (24–25/11)
 - REL-01..02 — Release (26–28/11)
-- MKT-05 · Página "Ideias de presente" com links especiais do Mercado Livre gerados à mão pelo PO (gerador do painel de afiliados, sem API) · MKT → DSN + MON · pós-lançamento
 
 ## ✅ Pronto p/ iniciar
 _(vazio)_
@@ -216,3 +215,4 @@ _(vazio)_
 - 2026-11-18 · Orquestrador · Repositório público (decisão do PO, minutos do Actions); secret scanning e push protection ligados; gitleaks sem segredo real. Mergeados #63, #64, #45, #62 (anúncios desligados), #65 (site verificado no AdSense), #68, #66 e #67 (rebaseado pelo ORQ, conflito só de imports). SSH da VPS aceita senha; PO decidiu manter (porta 8090 fechada por fora) · aguardando Rodrigo: PEN-01, PEN-02 e teste ponta a ponta com os dois grupos
 - 2026-11-18 · Orquestrador · REL-01 ok pelo PO. PEN-11: webhook do Discord salvo no .env.production da VPS (600) e no secret production do GitHub; alerta de teste entregue (204). Cron do watchdog ausente: pedido ao 14. Mergeados #69 (PEN-01/02) e #70 ("encontro" no lugar de "troca"). QA-05/QA-06 liberados ao 13 · aguardando Rodrigo: caixa suporte@ confirmada, IDs de afiliado (Amazon, ML)
 - 2026-11-18 · Orquestrador · Mercado Livre: conta de afiliado aprovada, mas o gerador de links é só manual (sem API) e os termos proíbem alterar links. Decisão: no lançamento ML fica sem comissão nas listas (passthrough do LST-03); pós-lançamento MKT-05 com links gerados à mão. AdSense: revisão do site pedida (status "Preparando"). Mergeados #71 (MON-01b), #75 (BUG-007), #76 (divulgação Amazon) · aguardando Rodrigo: cadastro do papelzinho.app como mídia no ML, confirmação da caixa suporte@
+- 2026-11-18 · Orquestrador · PO decidiu REMOVER o Mercado Livre do programa de afiliados (sem API, listas privadas não contam como mídia, cadastro de site indisponível). Só Amazon (papelzinho20-20). Remoção de código, textos e docs no #77 (22), com revisão do 15 e do 16. MKT-05 cancelado · nenhum
