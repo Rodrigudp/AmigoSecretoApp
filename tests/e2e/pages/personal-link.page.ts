@@ -3,6 +3,10 @@
 export class PersonalLinkPage {
   constructor(private readonly page: Page) {}
 
+  heading(name: string) {
+    return this.page.getByRole("heading", { name: `Você entrou, ${name}!` });
+  }
+
   get personalLink() {
     return this.page.getByLabel(/link pessoal/i);
   }

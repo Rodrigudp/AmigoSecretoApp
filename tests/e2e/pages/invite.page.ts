@@ -4,7 +4,7 @@ export class InvitePage {
   constructor(private readonly page: Page) {}
 
   async open(inviteUrl: string) {
-    await this.page.goto(inviteUrl);
+    return this.page.goto(inviteUrl);
   }
 
   get participantName() {
