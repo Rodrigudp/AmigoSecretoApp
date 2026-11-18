@@ -42,10 +42,10 @@ describe("mobile app privacy disclosures (APP-LEG-01)", () => {
     const deletionLabel = screen.getByText(/exclusão dos dados de notificação:/i);
     const deletionLi = deletionLabel.closest("li");
     expect(deletionLi?.textContent).toContain(
-      "silenciar avisos nos ajustes do aparelho apenas interrompe a exibição na tela"
+      "silenciar avisos nos ajustes do aparelho apenas interrompe a exibição na tela sem apagar nada no servidor"
     );
     expect(deletionLi?.textContent).toContain(
-      "desative os avisos ou remova o grupo dentro do aplicativo"
+      "use a opção 'Desativar avisos' na área pessoal"
     );
     expect(deletionLi?.textContent).toContain(
       "quando apagamos os dados do grupo 60 dias após o encontro"

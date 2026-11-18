@@ -467,7 +467,7 @@ export const copy = {
                 },
                 {
                   label: "Exclusão dos dados de notificação:",
-                  text: "silenciar avisos nos ajustes do aparelho apenas interrompe a exibição na tela. Para excluir os dados de notificação no servidor, desative os avisos ou remova o grupo dentro do aplicativo. Além disso, os dados são apagados se você for removido do grupo e quando apagamos os dados do grupo 60 dias após o encontro.",
+                  text: "silenciar avisos nos ajustes do aparelho apenas interrompe a exibição na tela sem apagar nada no servidor. Para excluir os dados de notificação no servidor, use a opção 'Desativar avisos' na área pessoal. Além disso, os dados são apagados se você for removido do grupo e quando apagamos os dados do grupo 60 dias após o encontro.",
                 },
                 {
                   label: "Versão 1 sem anúncios nem afiliados:",
@@ -523,7 +523,7 @@ export const copy = {
             {
               ul: [
                 "Os dados do grupo, incluindo nomes e listas de desejos, são apagados 60 dias após a data do encontro.",
-                "Os identificadores de notificação push do aplicativo móvel são excluídos do servidor quando você desativa os avisos ou remove o grupo dentro do aplicativo, quando você é removido do grupo, ou quando apagamos os dados do grupo 60 dias após o encontro. Silenciar avisos nos ajustes do aparelho apenas interrompe a exibição na tela.",
+                "Os identificadores de notificação push do aplicativo móvel são excluídos do servidor quando você escolhe 'Desativar avisos' na área pessoal, quando você é removido do grupo, ou quando apagamos os dados do grupo 60 dias após o encontro. Silenciar avisos nos ajustes do aparelho apenas interrompe a exibição na tela sem apagar nada no servidor.",
                 'Depois disso, ficam apenas contadores anônimos do histórico (por grupo e tipo de ação, como "grupo criado" ou "sorteio feito"). Esses contadores não contêm nome, lista de desejos nem qualquer identificador de pessoa, por isso não são apagados junto com o grupo.',
               ],
             },
