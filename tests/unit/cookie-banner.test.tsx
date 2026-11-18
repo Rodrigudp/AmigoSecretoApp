@@ -1,12 +1,8 @@
-/**
- * @vitest-environment jsdom
- */
 import { cleanup, render, screen, fireEvent } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CookieBanner } from "../../app/_components/CookieBanner";
 import { Footer } from "../../app/_components/Footer";
 
-// Mock next/navigation
 vi.mock("next/navigation", () => ({
   usePathname: vi.fn(() => "/"),
 }));
@@ -36,31 +32,16 @@ describe("CookieBanner", () => {
     expect(dialog).toBeTruthy();
   });
 
-  it("does not render on /g/ route (token route)", () => {
-    mockUsePathname.mockReturnValue("/g/abc123");
-    render(<CookieBanner adsEnabled={true} />);
-    expect(screen.queryByRole("dialog")).toBeNull();
-  });
-
-  it("does not render on /p/ route (token route)", () => {
-    mockUsePathname.mockReturnValue("/p/abc123");
-    render(<CookieBanner adsEnabled={true} />);
-    expect(screen.queryByRole("dialog")).toBeNull();
-  });
-
-  it("does not render on /admin route (token route)", () => {
-    mockUsePathname.mockReturnValue("/admin/abc123");
-    render(<CookieBanner adsEnabled={true} />);
-    expect(screen.queryByRole("dialog")).toBeNull();
-  });
-
-  it("does not render on /owner route", () => {
-    mockUsePathname.mockReturnValue("/owner");
-    render(<CookieBanner adsEnabled={true} />);
-    expect(screen.queryByRole("dialog")).toBeNull();
-  });
-
-  it.each(["/g", "/p", "/p/g/group-id", "/r/item-id"])("does not render on %s", (path) => {
+  it.each([
+    "/g",
+    "/g/invite",
+    "/p",
+    "/p/personal",
+    "/p/g/group-id",
+    "/admin/token",
+    "/owner",
+    "/r/item-id",
+  ])("does not render on %s", (path) => {
     mockUsePathname.mockReturnValue(path);
     render(<CookieBanner adsEnabled />);
     expect(screen.queryByRole("dialog")).toBeNull();
@@ -131,5 +112,17 @@ describe("CookieBanner", () => {
     localStorage.setItem("pz_ad_consent", "granted");
     render(<Footer adsEnabled={false} />);
     expect(screen.queryByRole("button", { name: "Cookies" })).toBeNull();
+  });
+
+  it("reports a failure when the browser refuses to save the revocation", () => {
+    localStorage.setItem("pz_ad_consent", "granted");
+    const blocked = () => {
+      throw new DOMException("Storage blocked", "SecurityError");
+    };
+    vi.spyOn(Storage.prototype, "removeItem").mockImplementation(blocked);
+    vi.spyOn(Storage.prototype, "setItem").mockImplementation(blocked);
+    render(<Footer adsEnabled />);
+    fireEvent.click(screen.getByRole("button", { name: "Cookies" }));
+    expect(screen.getByRole("alert")).toBeTruthy();
   });
 });

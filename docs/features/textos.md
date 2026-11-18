@@ -39,6 +39,7 @@ Legenda da coluna **Final**: ✓ mantém o texto de hoje · ✎ muda (vira cart�
 | CKB-03 | Aceite | — | Aceitar |
 | CKB-04 | Recusa | — | Recusar |
 | CKB-05 | Link no aviso | — | Política de privacidade |
+| CKB-06 | Falha ao alterar a escolha | — | Não foi possível alterar a escolha neste navegador. Tente de novo. |
 | FTR-10 | Reabrir escolhas de cookies no rodapé | — | Cookies |
 
 ## 3. Início — criar grupo (`/`)

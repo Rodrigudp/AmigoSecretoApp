@@ -42,6 +42,7 @@ export const copy = {
   CKB_03: "Aceitar",
   CKB_04: "Recusar",
   CKB_05: "Política de privacidade",
+  CKB_06: "Não foi possível alterar a escolha neste navegador. Tente de novo.",
   HOM_01: { start: "Amigo secreto", end: "começa aqui." },
   HOM_02: "Organize a troca em dois minutos. Cada pessoa entra pelo convite, só com o nome.",
   HOM_03: ["Crie o grupo", "Envie o convite", "Faça o sorteio"],

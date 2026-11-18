@@ -40,4 +40,13 @@ describe("ad consent storage", () => {
     expect(() => setAdConsent("granted")).not.toThrow();
     expect(consentGiven()).toBe(false);
   });
+
+  it("overwrites a prior grant if removing it is blocked", () => {
+    setAdConsent("granted");
+    vi.spyOn(Storage.prototype, "removeItem").mockImplementation(() => {
+      throw new DOMException("Removal blocked", "SecurityError");
+    });
+    expect(setAdConsent("unknown")).toBe(true);
+    expect(consentGiven()).toBe(false);
+  });
 });

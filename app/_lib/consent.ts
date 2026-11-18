@@ -51,42 +51,35 @@ function getServerSnapshot(): AdConsent {
   return "unknown";
 }
 
-/**
- * React hook that tracks the user's ad-consent choice reactively.
- *
- * Returns `'granted'`, `'denied'`, or `'unknown'` (no choice yet).
- * SSR always returns `'unknown'`.
- */
 export function useAdConsent(): AdConsent {
   return useSyncExternalStore(subscribe, readFromStorage, getServerSnapshot);
 }
 
-/**
- * Persist the user's consent choice and notify all subscribers.
- *
- * Passing `'unknown'` removes the stored value (revoke).
- */
-export function setAdConsent(value: AdConsent): void {
-  if (typeof window === "undefined") return;
+function clearConsent() {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    localStorage.setItem(STORAGE_KEY, "unknown");
+  }
+}
 
+/** Returns whether the new choice is effective in storage. */
+export function setAdConsent(value: AdConsent): boolean {
+  if (typeof window === "undefined") return false;
   try {
     if (value === "unknown") {
-      localStorage.removeItem(STORAGE_KEY);
+      clearConsent();
     } else {
       localStorage.setItem(STORAGE_KEY, value);
     }
   } catch {
-    return;
+    // Read back below in case storage became inaccessible and ads are now blocked.
   }
 
   emitChange();
+  return lastNotifiedConsent === value;
 }
 
-/**
- * Non-reactive read for use outside React (e.g. ad-slot guard).
- *
- * Returns `true` only if the user explicitly granted consent.
- */
 export function consentGiven(): boolean {
   return readFromStorage() === "granted";
 }

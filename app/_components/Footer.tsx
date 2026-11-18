@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { copy } from "../_lib/copy";
 import { useAdConsent, setAdConsent } from "../_lib/consent";
 
 function CookiePreferences() {
   const consent = useAdConsent();
+  const [failed, setFailed] = useState(false);
   if (consent === "unknown") return null;
 
   return (
@@ -17,7 +19,10 @@ function CookiePreferences() {
         <button
           type="button"
           onClick={() => {
-            setAdConsent("unknown");
+            if (!setAdConsent("unknown")) {
+              setFailed(true);
+              return;
+            }
             // Unload any advertising code that already ran in this document.
             if (consent === "granted") window.location.reload();
           }}
@@ -25,6 +30,7 @@ function CookiePreferences() {
         >
           {copy.FTR_10}
         </button>
+        {failed && <p role="alert">{copy.CKB_06}</p>}
       </li>
     </>
   );
