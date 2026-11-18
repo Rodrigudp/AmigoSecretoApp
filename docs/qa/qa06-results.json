@@ -1,0 +1,125 @@
+{
+  "checks": [],
+  "cookies": {
+    "lucas": [
+      {
+        "name": "ptk_2dbb4840-5e3b-4a67-a421-474130dfb721",
+        "value": "dpz_LpsO1sNQxQDXG-j3ae1AYcy3JFJiWKJ5UtlBiWA",
+        "domain": "papelzinho.app",
+        "path": "/",
+        "expires": 1803340799.371377,
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "Lax"
+      }
+    ],
+    "mariana": [
+      {
+        "name": "ptk_2dbb4840-5e3b-4a67-a421-474130dfb721",
+        "value": "8qdIOmTTSyhvuOkd6p-hfIpXzWdvAb1_x54gkDLFMYE",
+        "domain": "papelzinho.app",
+        "path": "/",
+        "expires": 1803340800.202747,
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "Lax"
+      }
+    ],
+    "rodrigo": [
+      {
+        "name": "ptk_2dbb4840-5e3b-4a67-a421-474130dfb721",
+        "value": "ueTEHRZUzKbjNqw-DPOnL_OhMTriz4YLeDY6Hb4OZ84",
+        "domain": "papelzinho.app",
+        "path": "/",
+        "expires": 1803340799.492992,
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "Lax"
+      }
+    ]
+  },
+  "fontChecks": {
+    "home": {
+      "all": [
+        {
+          "tag": "INPUT",
+          "name": "name",
+          "fontSize": "18px",
+          "fontSizePx": 18
+        },
+        {
+          "tag": "INPUT",
+          "name": "maxValue",
+          "fontSize": "18px",
+          "fontSizePx": 18
+        },
+        {
+          "tag": "INPUT",
+          "name": "exchangeDate",
+          "fontSize": "18px",
+          "fontSizePx": 18
+        },
+        {
+          "tag": "INPUT",
+          "name": "location",
+          "fontSize": "18px",
+          "fontSizePx": 18
+        }
+      ],
+      "small": []
+    },
+    "invite": {
+      "all": [
+        {
+          "tag": "INPUT",
+          "name": "_R_klubsnnb_",
+          "fontSize": "18px",
+          "fontSizePx": 18
+        }
+      ],
+      "small": []
+    },
+    "participantArea": {
+      "all": [],
+      "small": []
+    },
+    "wishForm": {
+      "all": [
+        {
+          "tag": "INPUT",
+          "name": "title",
+          "fontSize": "18px",
+          "fontSizePx": 18
+        },
+        {
+          "tag": "INPUT",
+          "name": "url",
+          "fontSize": "18px",
+          "fontSizePx": 18
+        },
+        {
+          "tag": "TEXTAREA",
+          "name": "note",
+          "fontSize": "18px",
+          "fontSizePx": 18
+        }
+      ],
+      "small": []
+    },
+    "adminPanel": {
+      "all": [
+        {
+          "tag": "INPUT",
+          "name": "_R_d6lubsnnb_",
+          "fontSize": "18px",
+          "fontSizePx": 18
+        }
+      ],
+      "small": []
+    }
+  },
+  "waShareUrls": {
+    "groupCreated": "https://wa.me/?text=Oi!%20Criei%20um%20amigo%20secreto%20no%20Papelzinho%3A%20*Amigo%20Secreto%20WhatsApp%20QA*%20%F0%9F%8E%81%0A%0AData%20do%20encontro%3A%2024%2F12%2F2026%0AValor%20m%C3%A1ximo%3A%20R%24%2060%2C00%0ALocal%20do%20encontro%3A%20Restaurante%20Central%0A%0AEntre%20pelo%20link%2C%20s%C3%B3%20com%20o%20seu%20nome%3A%0Ahttps%3A%2F%2Fpapelzinho.app%2Fg%2FP0IHVEwYWPci0HF0n9pn-XV_limChMVKx-aOmc2bFKs"
+  },
+  "drawResult": null
+}
