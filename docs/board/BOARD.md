@@ -29,12 +29,12 @@ _(vazio)_
 
 
 ## 👀 Em revisão
-- SEC-05 · Revisão final de segurança (OWASP Top 10, RNF03–05) · SEC → ORQ · 18/11 — `docs/seguranca/SEC-05.md` (0 Críticos, 0 Altos, 2 Médios, 2 Baixos)
-- APP-OPS-01 · EAS Build/Submit no CI, assetlinks.json e apple-app-site-association no site, checklist das contas das lojas · OPS → SEC · 3 pts — `docs/ops/app-lojas.md`, PR aberto
 
 ## 🧪 Em teste (QA)
 
 ## 🏁 Pronto
+- SEC-05 · Revisão final de segurança (OWASP Top 10, RNF03–05) · SEC → ORQ · 18/11 — `docs/seguranca/SEC-05.md` (0 Críticos, 0 Altos, 2 Médios, 2 Baixos) — ✅ mergeado
+- APP-OPS-01 · EAS Build/Submit no CI, assetlinks.json e apple-app-site-association no site, checklist das contas das lojas · OPS → SEC · 3 pts — `docs/ops/app-lojas.md`, PR aberto — ✅ mergeado
 - BUG-010 · S2 · App: "Salvar presente" fica em "Salvando…" com POST 201 e chave duplicada do item no React (Expo Web live; lógica igual no nativo) · FE → QA · responsável: 11 Front-end (apoio 22) — ✅ mergeado
 - BUG-011 · S4 · App: aviso "Unexpected text node: ." em /g, /p e /admin; e recarregar após "Grupo criado" volta ao formulário · FE → QA · responsável: 11 Front-end — ✅ mergeado
 - APP-QA-02 · Aceite do app com API real: contrato v1 (feito no #110) + interface no Expo Web em modo live contra Next/Supabase locais após o BUG-008 (#113), prints e bugs · QA → ORQ · 2 pts — responsável: 13 QA — ✅ mergeado
